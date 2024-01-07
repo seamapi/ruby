@@ -25,14 +25,22 @@ module Seam
         )
       end
 
-      def create(device_id: nil, name: nil, code: nil, starts_at: nil, ends_at: nil, use_backup_access_code_pool: nil, allow_external_modification: nil)
+      def create(device_id: nil, name: nil, code: nil, common_code_key: nil, starts_at: nil, ends_at: nil, use_backup_access_code_pool: nil, allow_external_modification: nil)
         action_attempt = request_seam_object(
           :post,
           "/access_codes/create",
           Seam::ActionAttempt,
           "action_attempt",
-          body: {device_id: device_id, code: code, starts_at: starts_at, ends_at: ends_at, name: name,
-                 use_backup_access_code_pool: use_backup_access_code_pool, allow_external_modification: allow_external_modification}.compact
+          body: {
+            device_id: device_id,
+            code: code,
+            common_code_key: common_code_key,
+            starts_at: starts_at,
+            ends_at: ends_at,
+            name: name,
+            use_backup_access_code_pool: use_backup_access_code_pool,
+            allow_external_modification: allow_external_modification
+          }.compact
         )
         action_attempt.wait_until_finished
         # TODO: check if failed

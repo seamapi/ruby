@@ -75,7 +75,7 @@ RSpec.describe Seam::Clients::AccessCodes do
   end
 
   describe "#create" do
-    let(:access_code_hash) { {device_id: "1234", name: "A C", code: 1234} }
+    let(:access_code_hash) { {device_id: "1234", name: "A C", code: 1234, common_code_key: "abc-123"} }
     let(:action_attempt_hash) { {action_attempt_id: "1234", status: "pending"} }
 
     before do
