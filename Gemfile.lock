@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    seam (3.1.1)
+    seam (2.0.0a1)
 
 GEM
   remote: https://rubygems.org/
@@ -93,10 +93,10 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 2.0)
   gem-release (~> 2.2)
-  seam!
   parse_gemspec-cli (~> 1.0)
   rake (~> 13.0)
   rspec (~> 3.0)
+  seam!
   simplecov (~> 0.21)
   simplecov-console (~> 0.9)
   standard (~> 1.3)
