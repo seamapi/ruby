@@ -64,13 +64,14 @@ $ git clone git@github.com:seamapi/ruby-next.git
 
 ### Requirements
 
-You will need [Ruby] with [Bundler].
+You will need [Ruby] with [Bundler] and [Node.js] with [npm].
 
 Be sure that all commands run under the correct Ruby version, e.g.,
 if using [rbenv], install the correct version with
 
 ```
 $ rbenv install
+$ npm install
 ```
 
 Install the development dependencies with
@@ -80,6 +81,8 @@ $ bundle install
 ```
 
 [bundler]: https://bundler.io/
+[Node.js]: https://nodejs.org/
+[npm]: https://www.npmjs.com/
 [ruby]: https://www.ruby-lang.org/
 [rbenv]: https://github.com/rbenv/rbenv
 
