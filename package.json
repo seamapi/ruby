@@ -1,0 +1,11 @@
+{
+  "name": "@seamapi/ruby",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write --ignore-path .gitignore ."
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
