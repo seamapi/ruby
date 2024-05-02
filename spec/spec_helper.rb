@@ -3,7 +3,6 @@
 require "simplecov"
 require "simplecov-console"
 
-
 SimpleCov.start
 
 require "seam"
