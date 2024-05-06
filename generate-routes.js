@@ -1,4 +1,4 @@
-import { dirname, posix, resolve } from 'node:path'
+import { dirname, posix } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import {
@@ -8,22 +8,33 @@ import {
 import { openapi } from '@seamapi/types/connect'
 import { deleteAsync } from 'del'
 
-const libNameParts = ['lib', 'seam']
-const libPrefix = posix.join(...libNameParts)
-const libVersionPath = posix.join(libPrefix, 'version.rb')
-
 const rootPath = dirname(fileURLToPath(import.meta.url))
+const libName = 'lib'
+const libPath = posix.join(rootPath, libName)
+const seamName = 'seam'
+const seamPath = posix.join(libPath, seamName)
+const libVersionPath = posix.join(seamPath, 'version.rb')
+const libVersionRelativePath = posix.join(libName, seamName, 'version.rb')
 
-// TODO: Enable later
-// await deleteAsync([`${libPrefix}/**`, `!${libVersionPath}`])
+const pathsToDelete = [
+  `${libPath}/**/*`,
+  `!${libPath}/seam/`,
+  `!${libVersionPath}`,
+]
+
+await deleteAsync(pathsToDelete)
 
 const fileSystem = await generateSdk({
   openApiSpecObject: openapi,
 })
 
 const files = Object.entries(fileSystem)
-  .filter(([fileName]) => fileName.startsWith(`${libPrefix}/`))
-  .filter(([fileName]) => !fileName.startsWith(`${libPrefix}/version.rb`))
+  .filter(([fileName]) => fileName.startsWith(`${libName}/`))
+  .filter(([fileName]) => !fileName.startsWith(libVersionRelativePath))
+  .map(([fileName, fileContent]) =>
+    fileName.startsWith('lib/seamapi.rb')
+      ? ['lib/seam.rb', fileContent]
+      : [fileName, fileContent],
+  )
 
-// TODO: Enable later
-// writeFs(rootPath, Object.fromEntries(files))
+writeFs(rootPath, Object.fromEntries(files))

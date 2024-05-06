@@ -5,7 +5,7 @@ require "rspec/core/rake_task"
 require "standard/rake"
 
 RSpec::Core::RakeTask.new(:spec) do |t|
-  t.rspec_opts = "--pattern {spec,lib}/**/*_spec.rb"
+  t.rspec_opts = "--pattern spec/**/*_spec.rb"
 end
 
 task default: %i[lint test]

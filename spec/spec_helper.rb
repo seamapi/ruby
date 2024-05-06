@@ -6,6 +6,9 @@ require "simplecov-console"
 SimpleCov.start
 
 require "seam"
+require "webmock/rspec"
+
+require "support/helpers"
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
@@ -20,4 +23,6 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.include Helpers
 end
