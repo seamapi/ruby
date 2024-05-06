@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    seam (2.0.0.prerelease.1)
+    seam (2.0.0a2)
       http (~> 5.2)
 
 GEM
