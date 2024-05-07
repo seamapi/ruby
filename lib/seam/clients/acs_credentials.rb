@@ -63,11 +63,11 @@ module Seam
         nil
       end
 
-      def update(acs_credential_id:, code:)
+      def update(acs_credential_id:, code: nil, ends_at: nil)
         request_seam(
           :post,
           "/acs/credentials/update",
-          body: {acs_credential_id: acs_credential_id, code: code}.compact
+          body: {acs_credential_id: acs_credential_id, code: code, ends_at: ends_at}.compact
         )
 
         nil
