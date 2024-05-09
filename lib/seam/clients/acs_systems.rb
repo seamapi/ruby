@@ -22,6 +22,16 @@ module Seam
           body: {connected_account_id: connected_account_id}.compact
         )
       end
+
+      def list_compatible_credential_manager_acs_systems(acs_system_id:)
+        request_seam_object(
+          :post,
+          "/acs/systems/list_compatible_credential_manager_acs_systems",
+          Seam::AcsSystem,
+          "acs_systems",
+          body: {acs_system_id: acs_system_id}.compact
+        )
+      end
     end
   end
 end
