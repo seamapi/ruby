@@ -53,6 +53,16 @@ module Seam
         )
       end
 
+      def list_accessible_entrances(acs_credential_id:)
+        request_seam_object(
+          :post,
+          "/acs/credentials/list_accessible_entrances",
+          Seam::AcsEntrance,
+          "acs_entrances",
+          body: {acs_credential_id: acs_credential_id}.compact
+        )
+      end
+
       def unassign(acs_credential_id:, acs_user_id:)
         request_seam(
           :post,
