@@ -33,13 +33,13 @@ module Seam
         )
       end
 
-      def list(custom_metadata_has: nil, user_identifier_key: nil)
+      def list(custom_metadata_has: nil, limit: nil, user_identifier_key: nil)
         request_seam_object(
           :post,
           "/connect_webviews/list",
           Seam::ConnectWebview,
           "connect_webviews",
-          body: {custom_metadata_has: custom_metadata_has, user_identifier_key: user_identifier_key}.compact
+          body: {custom_metadata_has: custom_metadata_has, limit: limit, user_identifier_key: user_identifier_key}.compact
         )
       end
     end
