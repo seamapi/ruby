@@ -12,7 +12,7 @@ require_relative "seam/routes/resources/resource_errors_support"
 require_relative "seam/routes/resources/resource_warnings_support"
 
 Dir["#{__dir__}/seam/routes/resources/*.rb"].each do |file|
-  next if file.end_with?('resource_errors_support.rb', 'resource_warnings_support.rb')
+  next if file.end_with?("resource_errors_support.rb", "resource_warnings_support.rb")
 
   require_relative file
 end
