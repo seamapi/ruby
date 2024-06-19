@@ -10,7 +10,7 @@ module Seam
 
     def initialize(api_key: nil, base_uri: nil, wait_for_action_attempt: false, debug: false)
       @api_key = api_key || ENV["SEAM_API_KEY"]
-      @base_uri = base_uri || ENV["SEAM_API_URL"] || ENV["SEAM_ENDPOINT"] || "https://connect.getseam.com"
+      @base_uri = base_uri || ENV["SEAM_API_URL"] || ENV["SEAM_ENDPOINT"] || Seam::DEFAULT_ENDPOINT
       @debug = debug
       @wait_for_action_attempt = wait_for_action_attempt
 
