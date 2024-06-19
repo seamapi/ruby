@@ -33,7 +33,7 @@ module Seam
 
     if personal_access_token
       raise SeamHttpInvalidOptionsError.new(
-        'The personal_access_token option cannot be used with the api_key option'
+        "The personal_access_token option cannot be used with the api_key option"
       )
     end
 
@@ -45,13 +45,13 @@ module Seam
 
     if api_key
       raise SeamHttpInvalidOptionsError.new(
-        'The api_key option cannot be used with the personal_access_token option'
+        "The api_key option cannot be used with the personal_access_token option"
       )
     end
 
     if workspace_id.nil?
       raise SeamHttpInvalidOptionsError.new(
-        'Must pass a workspace_id when using a personal_access_token'
+        "Must pass a workspace_id when using a personal_access_token"
       )
     end
 
