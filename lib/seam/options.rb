@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dotenv/load"
-
 module Seam
   def get_endpoint(endpoint = nil)
     endpoint || get_endpoint_from_env || Seam::DEFAULT_ENDPOINT
