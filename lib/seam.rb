@@ -2,6 +2,7 @@
 
 require_relative "seam/version"
 require_relative "seam/lts_version"
+require_relative "seam/default_endpoint"
 require_relative "seam/request"
 require_relative "seam/logger"
 require_relative "seam/client"
