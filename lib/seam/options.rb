@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-module Seam
-  def get_endpoint(endpoint = nil)
+module SeamOptions
+  def self.get_endpoint(endpoint = nil)
     endpoint || get_endpoint_from_env || Seam::DEFAULT_ENDPOINT
   end
 
-  def get_endpoint_from_env
+  def self.get_endpoint_from_env
     seam_api_url = ENV["SEAM_API_URL"]
     seam_endpoint = ENV["SEAM_ENDPOINT"]
 
@@ -21,12 +21,12 @@ module Seam
   end
 
   class SeamHttpInvalidOptionsError < StandardError
-    def initialize(message)
+    def self.initialize(message)
       super("SeamHttp received invalid options: #{message}")
     end
   end
 
-  def seam_http_options_with_api_key?(api_key: nil, personal_access_token: nil)
+  def self.seam_http_options_with_api_key?(api_key: nil, personal_access_token: nil)
     return false if api_key.nil?
 
     if personal_access_token
@@ -38,7 +38,7 @@ module Seam
     true
   end
 
-  def seam_http_options_with_personal_access_token?(personal_access_token: nil, api_key: nil, workspace_id: nil)
+  def self.seam_http_options_with_personal_access_token?(personal_access_token: nil, api_key: nil, workspace_id: nil)
     return false if personal_access_token.nil?
 
     if api_key

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::Clients::ConnectWebviews do
-  let(:client) { Seam::Client.new(api_key: "some_api_key") }
+  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
 
   describe "#list" do
     let(:connect_webview_hash) { {connect_webview_id: "123"} }

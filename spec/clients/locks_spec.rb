@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::Clients::Locks do
-  let(:client) { Seam::Client.new(api_key: "some_api_key") }
+  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
 
   describe "#list" do
     let(:locks_hash) { {device_id: "123"} }
@@ -24,7 +24,9 @@ RSpec.describe Seam::Clients::Locks do
     let(:locks_hash) { {device_id: device_id} }
 
     before do
-      stub_seam_request(:post, "/locks/get", {device: locks_hash}).with { |req| req.body.source == {device_id: device_id}.to_json }
+      stub_seam_request(:post, "/locks/get", {device: locks_hash}).with do |req|
+        req.body.source == {device_id: device_id}.to_json
+      end
     end
 
     let(:lock) { client.locks.get(device_id: device_id) }
