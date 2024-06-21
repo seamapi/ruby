@@ -53,7 +53,7 @@ module SeamAuth
     {"authorization" => "Bearer #{api_key}"}
   end
 
-  def get_auth_headers_for_personal_access_token(personal_access_token, workspace_id)
+  def self.get_auth_headers_for_personal_access_token(personal_access_token, workspace_id)
     if SeamAuth.jwt?(personal_access_token)
       raise SeamHttpInvalidTokenError.new(
         "A JWT cannot be used as a personal_access_token"
@@ -84,7 +84,7 @@ module SeamAuth
     }
   end
 
-  def get_auth_headers_for_multi_workspace_personal_access_token(personal_access_token)
+  def self.get_auth_headers_for_multi_workspace_personal_access_token(personal_access_token)
     if SeamAuth.jwt?(personal_access_token)
       raise SeamHttpInvalidTokenError.new(
         "A JWT cannot be used as a personal_access_token"

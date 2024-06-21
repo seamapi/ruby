@@ -21,7 +21,7 @@ module SeamOptions
   end
 
   class SeamHttpInvalidOptionsError < StandardError
-    def self.initialize(message)
+    def initialize(message)
       super("SeamHttp received invalid options: #{message}")
     end
   end
