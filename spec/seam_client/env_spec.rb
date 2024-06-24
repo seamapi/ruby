@@ -15,7 +15,7 @@ RSpec.describe Seam::Client do
     ENV.delete("SEAM_API_URL")
   end
 
-  let(:server) { ["endpoint_url", { "seam_apikey1_token" => "valid_api_key", "seam_at1_token" => "valid_at_key", "seed_workspace_1" => "workspace_id" }] }
+  let(:server) { ["endpoint_url", {"seam_apikey1_token" => "valid_api_key", "seam_at1_token" => "valid_at_key", "seed_workspace_1" => "workspace_id"}] }
   let(:seed) { server[1] }
   let(:device_hash) { {device_id: "123"} }
 
@@ -24,7 +24,7 @@ RSpec.describe Seam::Client do
       ENV["SEAM_API_KEY"] = "seam_some_api_key"
       seam = Seam::Client.new
 
-      stub_seam_request(:post, "/devices/list", { devices: [device_hash] })
+      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
       expect(devices.length).to be > 0
     end
@@ -33,7 +33,7 @@ RSpec.describe Seam::Client do
       ENV["SEAM_API_KEY"] = "some-invalid-api-key-1"
       seam = Seam::Client.new(api_key: "seam_some_api_key")
 
-      stub_seam_request(:post, "/devices/list", { devices: [device_hash] })
+      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
       expect(devices.length).to be > 0
     end
@@ -49,7 +49,7 @@ RSpec.describe Seam::Client do
       ENV["SEAM_ENDPOINT"] = Seam::DEFAULT_ENDPOINT
       seam = Seam::Client.new(api_key: "seam_some_api_key")
 
-      stub_seam_request(:post, "/devices/list", { devices: [device_hash] })
+      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
       expect(devices.length).to be > 0
     end
@@ -58,7 +58,7 @@ RSpec.describe Seam::Client do
       ENV["SEAM_API_URL"] = Seam::DEFAULT_ENDPOINT
       seam = Seam::Client.new(api_key: "seam_some_api_key")
 
-      stub_seam_request(:post, "/devices/list", { devices: [device_hash] })
+      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
       expect(devices.length).to be > 0
     end
@@ -68,7 +68,7 @@ RSpec.describe Seam::Client do
       ENV["SEAM_ENDPOINT"] = "https://example.com"
       seam = Seam::Client.new(api_key: "seam_some_api_key", endpoint: Seam::DEFAULT_ENDPOINT)
 
-      stub_seam_request(:post, "/devices/list", { devices: [device_hash] })
+      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
       expect(devices.length).to be > 0
     end
@@ -78,7 +78,7 @@ RSpec.describe Seam::Client do
       ENV["SEAM_ENDPOINT"] = Seam::DEFAULT_ENDPOINT
       seam = Seam::Client.from_api_key("seam_some_api_key")
 
-      stub_seam_request(:post, "/devices/list", { devices: [device_hash] })
+      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
       expect(devices.length).to be > 0
     end
@@ -91,7 +91,7 @@ RSpec.describe Seam::Client do
         "workspace_123"
       )
 
-      stub_seam_request(:post, "/devices/list", { devices: [device_hash] })
+      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
       expect(devices.length).to be > 0
     end
