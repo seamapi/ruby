@@ -15,7 +15,7 @@ module SeamAuth
       return get_auth_headers_for_api_key(api_key)
     end
 
-    if SeamOptions.seam_http_options_with_personal_SeamAuth.access_token?(personal_access_token: personal_access_token, api_key: api_key,
+    if SeamOptions.seam_http_options_with_personal_access_token?(personal_access_token: personal_access_token, api_key: api_key,
       workspace_id: workspace_id)
       return get_auth_headers_for_personal_access_token(personal_access_token, workspace_id)
     end
@@ -74,7 +74,7 @@ module SeamAuth
 
     unless SeamAuth.access_token?(personal_access_token)
       raise SeamHttpInvalidTokenError.new(
-        "Unknown or invalid personal_access_token format, expected token to start with #{SeamAuth.ACCESS_TOKEN_PREFIX}"
+        "Unknown or invalid personal_access_token format, expected token to start with #{SeamAuth::ACCESS_TOKEN_PREFIX}"
       )
     end
 
@@ -105,7 +105,7 @@ module SeamAuth
 
     unless SeamAuth.access_token?(personal_access_token)
       raise SeamHttpInvalidTokenError.new(
-        "Unknown or invalid personal_access_token format, expected token to start with #{SeamAuth.ACCESS_TOKEN_PREFIX}"
+        "Unknown or invalid personal_access_token format, expected token to start with #{SeamAuth::ACCESS_TOKEN_PREFIX}"
       )
     end
 
