@@ -15,8 +15,6 @@ RSpec.describe Seam::Client do
     ENV.delete("SEAM_API_URL")
   end
 
-  let(:server) { ["endpoint_url", {"seam_apikey1_token" => "valid_api_key", "seam_at1_token" => "valid_at_key", "seed_workspace_1" => "workspace_id"}] }
-  let(:seed) { server[1] }
   let(:device_hash) { {device_id: "123"} }
 
   describe "#initialize" do
