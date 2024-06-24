@@ -6,6 +6,8 @@ require "simplecov-console"
 SimpleCov.start
 
 require "seam"
+require "seam/auth"
+require "seam/options"
 require "webmock/rspec"
 
 require "support/helpers"
