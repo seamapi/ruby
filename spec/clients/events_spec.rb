@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::Clients::Events do
-  let(:client) { Seam::Client.new(api_key: "some_api_key") }
+  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
 
   describe "#list" do
     let(:event_hash) { {event_id: "1234"} }
 
     before do
-      stub_seam_request(:post, "/events/list", {events: [event_hash]}).with { |req| req.body.source == {since: "asd"}.to_json }
+      stub_seam_request(:post, "/events/list", {events: [event_hash]}).with do |req|
+        req.body.source == {since: "asd"}.to_json
+      end
     end
 
     let(:events) { client.events.list(since: "asd") }
@@ -24,7 +26,9 @@ RSpec.describe Seam::Clients::Events do
     let(:event_hash) { {event_id: event_id} }
 
     before do
-      stub_seam_request(:post, "/events/get", {event: event_hash}).with { |req| req.body.source == {event_id: event_id}.to_json }
+      stub_seam_request(:post, "/events/get", {event: event_hash}).with do |req|
+        req.body.source == {event_id: event_id}.to_json
+      end
     end
 
     let(:result) { client.events.get(event_id: event_id) }

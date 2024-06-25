@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::Clients::Devices do
-  let(:client) { Seam::Client.new(api_key: "some_api_key") }
+  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
 
   describe "#list" do
     let(:device_hash) { {device_id: "123"} }
@@ -25,7 +25,9 @@ RSpec.describe Seam::Clients::Devices do
       let(:device_hash) { {device_id: device_id} }
 
       before do
-        stub_seam_request(:post, "/devices/get", {device: device_hash}).with { |req| req.body.source == {device_id: device_id}.to_json }
+        stub_seam_request(:post, "/devices/get", {device: device_hash}).with do |req|
+          req.body.source == {device_id: device_id}.to_json
+        end
       end
 
       let(:result) { client.devices.get(device_id: device_id) }
@@ -40,7 +42,9 @@ RSpec.describe Seam::Clients::Devices do
       let(:device_hash) { {name: name} }
 
       before do
-        stub_seam_request(:post, "/devices/get", {device: device_hash}).with { |req| req.body.source == {name: name}.to_json }
+        stub_seam_request(:post, "/devices/get", {device: device_hash}).with do |req|
+          req.body.source == {name: name}.to_json
+        end
       end
 
       let(:result) { client.devices.get(name: name) }
@@ -81,20 +85,20 @@ RSpec.describe Seam::Clients::Devices do
     end
   end
 
-  let(:device_provider_hash) {
+  let(:device_provider_hash) do
     {
       device_provider_name: "august",
       display_name: "August",
       provider_categories: ["stable"]
     }
-  }
-  let(:stable_device_provider_hash) {
+  end
+  let(:stable_device_provider_hash) do
     {
       device_provider_name: "akuvox",
       display_name: "Akuvox",
       provider_categories: []
     }
-  }
+  end
 
   describe "#list_device_providers" do
     before do

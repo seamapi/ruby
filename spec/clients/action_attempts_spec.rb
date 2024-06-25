@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::Clients::AccessCodes do
-  let(:client) { Seam::Client.new(api_key: "some_api_key") }
+  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
 
   describe "#get" do
     let(:action_attempt_id) { "action_attempt_id_1234" }

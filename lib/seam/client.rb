@@ -1,25 +1,31 @@
 # frozen_string_literal: true
 
+require_relative "parse_options"
+
 module Seam
   class Client
-    attr_accessor :api_key, :base_uri, :debug, :wait_for_action_attempt
+    attr_accessor :wait_for_action_attempt, :defaults
+
+    def initialize(api_key: nil, personal_access_token: nil, workspace_id: nil, endpoint: nil,
+      wait_for_action_attempt: false, debug: false)
+      options = SeamOptions.parse_options(api_key: api_key, personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint)
+      @endpoint = options[:endpoint]
+      @auth_headers = options[:auth_headers]
+      @debug = debug
+      @wait_for_action_attempt = wait_for_action_attempt
+      @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
+    end
+
+    def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, debug: false)
+      new(api_key: api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
+    end
+
+    def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: false, debug: false)
+      new(personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
+    end
 
     def self.lts_version
       Seam::LTS_VERSION
-    end
-
-    def initialize(api_key: nil, base_uri: nil, wait_for_action_attempt: false, debug: false)
-      @api_key = api_key || ENV["SEAM_API_KEY"]
-      @base_uri = base_uri || ENV["SEAM_API_URL"] || ENV["SEAM_ENDPOINT"] || "https://connect.getseam.com"
-      @debug = debug
-      @wait_for_action_attempt = wait_for_action_attempt
-
-      raise ArgumentError, "SEAM_API_KEY not found in environment, and api_key not provided" if @api_key.to_s.empty?
-
-      if ENV["SEAM_API_URL"]
-        warn "Using the SEAM_API_URL environment variable is deprecated. " \
-             "Support will be removed in a later major version. Use SEAM_ENDPOINT instead."
-      end
     end
 
     def lts_version
@@ -118,9 +124,9 @@ module Seam
 
     def request_seam(method, path, config = {})
       Seam::Request.new(
-        api_key: api_key,
-        base_uri: base_uri,
-        debug: debug
+        auth_headers: @auth_headers,
+        endpoint: @endpoint,
+        debug: @debug
       ).perform(
         method, path, config
       )

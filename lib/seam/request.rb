@@ -4,7 +4,7 @@ require "http"
 
 module Seam
   class Request
-    attr_reader :base_uri, :api_key, :debug
+    attr_reader :endpoint, :debug
 
     class Error < StandardError
       attr_reader :status, :response
@@ -16,9 +16,9 @@ module Seam
       end
     end
 
-    def initialize(api_key:, base_uri:, debug: false)
-      @api_key = api_key
-      @base_uri = base_uri
+    def initialize(auth_headers:, endpoint:, debug: false)
+      @auth_headers = auth_headers
+      @endpoint = endpoint
       @debug = debug
     end
 
@@ -52,18 +52,17 @@ module Seam
     end
 
     def build_url(uri)
-      "#{base_uri}#{uri}"
+      "#{endpoint}#{uri}"
     end
 
     def headers
       {
         "User-Agent" => user_agent,
         "Content-Type" => "application/json",
-        "Authorization" => "Bearer #{api_key}",
         :"seam-sdk-name" => "seamapi/ruby",
         :"seam-sdk-version" => Seam::VERSION,
         :"seam-lts-version" => Seam::LTS_VERSION
-      }
+      }.merge(@auth_headers)
     end
 
     def user_agent

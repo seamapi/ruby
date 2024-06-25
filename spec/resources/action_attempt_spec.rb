@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::ActionAttempt do
-  let(:client) { Seam::Client.new(api_key: "some_api_key") }
+  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
   let(:action_attempt_id) { "action_attempt_id_1234" }
   let(:finished_status) { "finished" }
   let(:action_attempt_hash) do
@@ -52,9 +52,9 @@ RSpec.describe Seam::ActionAttempt do
     end
 
     it "returns a list of Devices" do
-      expect {
+      expect do
         action_attempt.update!
-      }.to change {
+      end.to change {
         action_attempt.status
       }.from("pending").to "finished"
     end
