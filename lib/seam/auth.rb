@@ -6,7 +6,7 @@ require_relative "token"
 module SeamAuth
   class SeamInvalidTokenError < StandardError
     def initialize(message)
-      super("SeamHttp received an invalid token: #{message}")
+      super("Seam received an invalid token: #{message}")
     end
   end
 
@@ -20,7 +20,7 @@ module SeamAuth
       return get_auth_headers_for_personal_access_token(personal_access_token, workspace_id)
     end
 
-    raise SeamOptions::SeamHttpInvalidOptionsError.new(
+    raise SeamOptions::SeamInvalidOptionsError.new(
       "Must specify an api_key or personal_access_token. " \
       "Attempted reading configuration from the environment, " \
       "but the environment variable SEAM_API_KEY is not set."

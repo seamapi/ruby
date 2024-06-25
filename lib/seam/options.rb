@@ -20,9 +20,9 @@ module SeamOptions
     seam_endpoint || seam_api_url
   end
 
-  class SeamHttpInvalidOptionsError < StandardError
+  class SeamInvalidOptionsError < StandardError
     def initialize(message)
-      super("SeamHttp received invalid options: #{message}")
+      super("Seam received invalid options: #{message}")
     end
   end
 
@@ -30,7 +30,7 @@ module SeamOptions
     return false if api_key.nil?
 
     if personal_access_token
-      raise SeamHttpInvalidOptionsError.new(
+      raise SeamInvalidOptionsError.new(
         "The personal_access_token option cannot be used with the api_key option"
       )
     end
@@ -42,13 +42,13 @@ module SeamOptions
     return false if personal_access_token.nil?
 
     if api_key
-      raise SeamHttpInvalidOptionsError.new(
+      raise SeamInvalidOptionsError.new(
         "The api_key option cannot be used with the personal_access_token option"
       )
     end
 
     if workspace_id.nil?
-      raise SeamHttpInvalidOptionsError.new(
+      raise SeamInvalidOptionsError.new(
         "Must pass a workspace_id when using a personal_access_token"
       )
     end
