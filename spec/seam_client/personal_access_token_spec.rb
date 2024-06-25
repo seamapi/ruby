@@ -5,21 +5,21 @@ RSpec.describe Seam::Client do
 
   describe "#from_personal_access_token" do
     it "raises error for invalid personal access token formats" do
-      expect {
+      expect do
         Seam::Client.from_personal_access_token("some-invalid-key-format", workspace_id)
-      }.to raise_error(SeamAuth::SeamHttpInvalidTokenError, /Unknown/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
 
-      expect {
+      expect do
         Seam::Client.from_personal_access_token("seam_apikey_token", workspace_id)
-      }.to raise_error(SeamAuth::SeamHttpInvalidTokenError, /Unknown/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
 
-      expect {
+      expect do
         Seam::Client.from_personal_access_token("seam_cst", workspace_id)
-      }.to raise_error(SeamAuth::SeamHttpInvalidTokenError, /Client Session Token/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /Client Session Token/)
 
-      expect {
+      expect do
         Seam::Client.from_personal_access_token("ey", workspace_id)
-      }.to raise_error(SeamAuth::SeamHttpInvalidTokenError, /JWT/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /JWT/)
     end
   end
 end
