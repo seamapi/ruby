@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "seam/utils/action_attempt_utils"
-
 module Seam
   module Utils
     module ActionAttemptUtils
