@@ -43,13 +43,13 @@ module Seam
         )
       end
 
-      def list(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil, is_multi_phone_sync_credential: nil)
+      def list(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil, created_before: nil, is_multi_phone_sync_credential: nil, limit: nil)
         request_seam_object(
           :post,
           "/acs/credentials/list",
           Seam::AcsCredential,
           "acs_credentials",
-          body: {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, is_multi_phone_sync_credential: is_multi_phone_sync_credential}.compact
+          body: {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit}.compact
         )
       end
 
