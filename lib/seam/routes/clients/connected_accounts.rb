@@ -23,13 +23,13 @@ module Seam
         )
       end
 
-      def list(custom_metadata_has: nil)
+      def list(custom_metadata_has: nil, user_identifier_key: nil)
         request_seam_object(
           :post,
           "/connected_accounts/list",
           Seam::ConnectedAccount,
           "connected_accounts",
-          body: {custom_metadata_has: custom_metadata_has}.compact
+          body: {custom_metadata_has: custom_metadata_has, user_identifier_key: user_identifier_key}.compact
         )
       end
 
