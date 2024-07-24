@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require_relative "parse_options"
+require_relative "routes/routes"
 
 module Seam
   class Client
+    include Seam::Routes
+
     attr_accessor :wait_for_action_attempt, :defaults
 
     def initialize(api_key: nil, personal_access_token: nil, workspace_id: nil, endpoint: nil,
