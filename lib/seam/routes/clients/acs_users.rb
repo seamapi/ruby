@@ -43,13 +43,13 @@ module Seam
         )
       end
 
-      def list(acs_system_id: nil, user_identity_email_address: nil, user_identity_id: nil, user_identity_phone_number: nil)
+      def list(acs_system_id: nil, created_before: nil, limit: nil, user_identity_email_address: nil, user_identity_id: nil, user_identity_phone_number: nil)
         request_seam_object(
           :post,
           "/acs/users/list",
           Seam::AcsUser,
           "acs_users",
-          body: {acs_system_id: acs_system_id, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact
+          body: {acs_system_id: acs_system_id, created_before: created_before, limit: limit, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact
         )
       end
 
