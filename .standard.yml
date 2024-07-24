@@ -1,0 +1,2 @@
+ignore:
+  - 'lib/seam/utils/workspaces_proxy.rb'

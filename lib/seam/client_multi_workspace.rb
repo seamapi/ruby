@@ -3,6 +3,7 @@
 require_relative "parse_options"
 require_relative "lts_version"
 require_relative "auth"
+require_relative "utils/workspaces_proxy"
 
 module Seam
   class ClientMultiWorkspace
@@ -51,19 +52,5 @@ module Seam
         method, path, config
       )
     end
-  end
-end
-
-class WorkspacesProxy
-  def initialize(workspaces)
-    @workspaces = workspaces
-  end
-
-  def list(**)
-    @workspaces.list(**)
-  end
-
-  def create(**)
-    @workspaces.create(**)
   end
 end
