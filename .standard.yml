@@ -1,2 +1,1 @@
-ignore:
-  - 'lib/seam/utils/workspaces_proxy.rb'
+ruby_version: 3.1
