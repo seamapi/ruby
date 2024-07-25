@@ -25,7 +25,7 @@ module Seam
 
           action_attempt = update_action_attempt(action_attempt, client)
 
-          raise Errors::SeamActionAttemptFailedError.new(action_attempt) if action_attempt.status == "failed"
+          raise Errors::SeamActionAttemptFailedError.new(action_attempt) if action_attempt.status == "error"
         end
 
         action_attempt
