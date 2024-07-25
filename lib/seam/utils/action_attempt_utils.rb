@@ -27,9 +27,9 @@ module Seam
           raise Errors::SeamActionAttemptTimeoutError.new(action_attempt, timeout) if time_waiting > timeout
 
           action_attempt = update_action_attempt(action_attempt, client)
-
-          raise Errors::SeamActionAttemptFailedError.new(action_attempt) if action_attempt.status == "error"
         end
+
+        raise Errors::SeamActionAttemptFailedError.new(action_attempt) if action_attempt.status == "error"
 
         action_attempt
       end
