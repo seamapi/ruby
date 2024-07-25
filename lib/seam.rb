@@ -8,6 +8,7 @@ require_relative "seam/logger"
 require_relative "seam/client"
 require_relative "seam/base_client"
 require_relative "seam/base_resource"
+require_relative "seam/errors"
 
 require_relative "seam/routes/resources/index"
 require_relative "seam/routes/clients/index"

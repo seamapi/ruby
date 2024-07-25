@@ -6,16 +6,6 @@ module Seam
   class Request
     attr_reader :endpoint, :debug
 
-    class Error < StandardError
-      attr_reader :status, :response
-
-      def initialize(message, status, response)
-        super(message)
-        @status = status
-        @response = response
-      end
-    end
-
     def initialize(auth_headers:, endpoint:, debug: false)
       @auth_headers = auth_headers
       @endpoint = endpoint
@@ -44,7 +34,7 @@ module Seam
       status_code = response.status.code
       request_id = response.headers["seam-request-id"]
 
-      raise SeamHttpUnauthorizedError.new(request_id) if status_code == 401
+      raise Errors::SeamHttpUnauthorizedError.new(request_id) if status_code == 401
 
       error = response.parse["error"] || {}
       error_type = error["type"] || "unknown_error"
@@ -54,9 +44,9 @@ module Seam
         data: error["data"]
       }
 
-      raise SeamHttpInvalidInputError.new(error_details, status_code, request_id) if error_type == "invalid_input"
+      raise Errors::SeamHttpInvalidInputError.new(error_details, status_code, request_id) if error_type == "invalid_input"
 
-      raise SeamHttpApiError.new(error_details, status_code, request_id)
+      raise Errors::SeamHttpApiError.new(error_details, status_code, request_id)
     end
 
     def build_url(uri)
@@ -75,31 +65,6 @@ module Seam
 
     def user_agent
       "seam-ruby/#{Seam::VERSION}"
-    end
-  end
-
-  class SeamHttpApiError < StandardError
-    attr_reader :code, :status_code, :request_id, :data
-
-    def initialize(error, status_code, request_id)
-      super(error[:message])
-      @code = error[:type]
-      @status_code = status_code
-      @request_id = request_id
-      @data = error[:data]
-    end
-  end
-
-  class SeamHttpUnauthorizedError < SeamHttpApiError
-    def initialize(request_id)
-      super({type: "unauthorized", message: "Unauthorized"}, 401, request_id)
-    end
-  end
-
-  class SeamHttpInvalidInputError < SeamHttpApiError
-    def initialize(error, status_code, request_id)
-      super(error, status_code, request_id)
-      @code = "invalid_input"
     end
   end
 end
