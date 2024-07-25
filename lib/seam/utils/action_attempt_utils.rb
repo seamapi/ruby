@@ -14,7 +14,10 @@ module Seam
         end
       end
 
-      def self.wait_until_finished(action_attempt, client, timeout: 5.0, polling_interval: 0.5)
+      def self.wait_until_finished(action_attempt, client, timeout: nil, polling_interval: nil)
+        timeout = timeout.nil? ? 5.0 : timeout
+        polling_interval = polling_interval.nil? ? 0.5 : polling_interval
+
         time_waiting = 0.0
 
         while action_attempt.status == "pending"
