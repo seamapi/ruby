@@ -21,11 +21,11 @@ module Seam
           sleep(polling_interval)
           time_waiting += polling_interval
 
-          raise "Timed out waiting for action attempt to be finished" if time_waiting > timeout
+          raise Errors::SeamActionAttemptTimeoutError.new(action_attempt, timeout) if time_waiting > timeout
 
           action_attempt = update_action_attempt(action_attempt, client)
 
-          raise "Action Attempt failed: #{action_attempt.error["message"]}" if action_attempt.status == "failed"
+          raise Errors::SeamActionAttemptFailedError.new(action_attempt) if action_attempt.status == "failed"
         end
 
         action_attempt
