@@ -8,6 +8,7 @@ SimpleCov.start
 require "seam"
 require "seam/auth"
 require "seam/options"
+require "seam/client_multi_workspace"
 require "webmock/rspec"
 
 require "support/helpers"
