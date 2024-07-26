@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "utils/deep_hash_accessor"
+require_relative "./deep_hash_accessor"
 
 module Seam
   class BaseResource

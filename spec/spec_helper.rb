@@ -9,7 +9,7 @@ require "seam"
 require "seam/auth"
 require "seam/options"
 require "seam/client_multi_workspace"
-require "seam/utils/deep_hash_accessor"
+require "seam/deep_hash_accessor"
 require "webmock/rspec"
 
 require "support/helpers"
