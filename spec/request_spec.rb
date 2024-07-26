@@ -8,21 +8,24 @@ RSpec.describe Seam::Client do
       let(:request_id) { "request_id_1234" }
       let(:message) { "Some Error Message" }
       let(:type) { "Some Error Type" }
-      let(:error) { {type: type, request_id: request_id, message: message} }
+      let(:error) { {type: type, message: message} }
 
       before do
         stub_seam_request(
           :get,
           "/health",
           {error: error},
-          status: 400
+          status: 400,
+          headers: {"seam-request-id" => request_id}
         )
       end
 
       it "parses the error" do
         expect { client.health }.to raise_error do |error|
-          expect(error).to be_a(Seam::Request::Error)
-          expect(error.message).to include(message).and include(type).and include(request_id)
+          expect(error).to be_a(Seam::SeamHttpApiError)
+          expect(error.message).to eq(message)
+          expect(error.code).to eq(type)
+          expect(error.request_id).to eq(request_id)
         end
       end
     end
@@ -31,21 +34,24 @@ RSpec.describe Seam::Client do
       let(:request_id) { "request_id_1234" }
       let(:message) { "Some Error Message" }
       let(:type) { "Some Error Type" }
-      let(:error) { {type: type, request_id: request_id, message: message} }
+      let(:error) { {type: type, message: message} }
 
       before do
         stub_seam_request(
           :get,
           "/health",
           {error: error},
-          status: 409
+          status: 409,
+          headers: {"seam-request-id" => request_id}
         )
       end
 
       it "parses the error" do
         expect { client.health }.to raise_error do |error|
-          expect(error).to be_a(Seam::Request::Error)
-          expect(error.message).to include(message).and include(type).and include(request_id)
+          expect(error).to be_a(Seam::SeamHttpApiError)
+          expect(error.message).to eq(message)
+          expect(error.code).to eq(type)
+          expect(error.request_id).to eq(request_id)
         end
       end
     end
