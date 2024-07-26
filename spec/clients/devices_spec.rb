@@ -22,7 +22,7 @@ RSpec.describe Seam::Clients::Devices do
   describe "#get" do
     context "'device_id' param'" do
       let(:device_id) { "device_id_1234" }
-      let(:device_hash) { {device_id: device_id} }
+      let(:device_hash) { {device_id: device_id, properties: {manufacturer: "august"}} }
 
       before do
         stub_seam_request(:post, "/devices/get", {device: device_hash}).with do |req|
@@ -34,6 +34,7 @@ RSpec.describe Seam::Clients::Devices do
 
       it "returns a Device" do
         expect(result).to be_a(Seam::Device)
+        expect(result.properties.manufacturer).to eq("august")
       end
     end
 
