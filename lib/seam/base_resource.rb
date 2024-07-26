@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "deep_hash_accessor"
+
 module Seam
   class BaseResource
     attr_accessor :data, :client
@@ -9,6 +11,7 @@ module Seam
       @client = client
 
       @data.each do |key, value|
+        value = Seam::DeepHashAccessor.new(value) if value.is_a?(Hash)
         instance_variable_set(:"@#{key}", value)
       end
     end
