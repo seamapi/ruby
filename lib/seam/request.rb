@@ -44,7 +44,13 @@ module Seam
         data: error["data"]
       }
 
-      raise Errors::SeamHttpInvalidInputError.new(error_details, status_code, request_id) if error_type == "invalid_input"
+      if error_type == "invalid_input"
+        error_details["validation_errors"] = error["validation_errors"]
+
+        raise Errors::SeamHttpInvalidInputError.new(
+          error_details, status_code, request_id
+        )
+      end
 
       raise Errors::SeamHttpApiError.new(error_details, status_code, request_id)
     end

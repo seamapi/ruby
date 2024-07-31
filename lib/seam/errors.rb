@@ -22,9 +22,16 @@ module Seam
     end
 
     class SeamHttpInvalidInputError < SeamHttpApiError
+      attr_reader :validation_errors
+
       def initialize(error, status_code, request_id)
         super(error, status_code, request_id)
         @code = "invalid_input"
+        @validation_errors = error["validation_errors"] || {}
+      end
+
+      def get_validation_error_messages(param_name)
+        @validation_errors.dig(param_name, "_errors") || []
       end
     end
 
