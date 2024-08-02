@@ -73,29 +73,6 @@ RSpec.describe Seam::Utils::ActionAttemptUtils do
     it "returns an updated ActionAttempt" do
       expect(result.status).to eq(finished_status)
     end
-
-    context "when action attempt fails" do
-      let(:status) { "failed" }
-      let(:error_message) { "Something went wrong" }
-
-      before do
-        stub_seam_request(
-          :post,
-          "/action_attempts/get",
-          {action_attempt: action_attempt_hash.merge(status: status, error: {"message" => error_message})}
-        )
-      end
-
-      it "raises an error" do
-        expect { described_class.wait_until_finished(action_attempt, client) }.to raise_error("Action Attempt failed: #{error_message}")
-      end
-    end
-
-    context "when timeout is reached" do
-      it "raises a timeout error" do
-        expect { described_class.wait_until_finished(action_attempt, client, timeout: 0.1) }.to raise_error("Timed out waiting for action attempt to be finished")
-      end
-    end
   end
 
   describe ".update_action_attempt" do

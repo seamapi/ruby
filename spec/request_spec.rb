@@ -22,7 +22,7 @@ RSpec.describe Seam::Client do
 
       it "parses the error" do
         expect { client.health }.to raise_error do |error|
-          expect(error).to be_a(Seam::SeamHttpApiError)
+          expect(error).to be_a(Seam::Errors::SeamHttpApiError)
           expect(error.message).to eq(message)
           expect(error.code).to eq(type)
           expect(error.request_id).to eq(request_id)
@@ -48,7 +48,7 @@ RSpec.describe Seam::Client do
 
       it "parses the error" do
         expect { client.health }.to raise_error do |error|
-          expect(error).to be_a(Seam::SeamHttpApiError)
+          expect(error).to be_a(Seam::Errors::SeamHttpApiError)
           expect(error.message).to eq(message)
           expect(error.code).to eq(type)
           expect(error.request_id).to eq(request_id)

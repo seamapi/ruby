@@ -14,19 +14,22 @@ module Seam
         end
       end
 
-      def self.wait_until_finished(action_attempt, client, timeout: 5.0, polling_interval: 0.5)
+      def self.wait_until_finished(action_attempt, client, timeout: nil, polling_interval: nil)
+        timeout = timeout.nil? ? 5.0 : timeout
+        polling_interval = polling_interval.nil? ? 0.5 : polling_interval
+
         time_waiting = 0.0
 
         while action_attempt.status == "pending"
           sleep(polling_interval)
           time_waiting += polling_interval
 
-          raise "Timed out waiting for action attempt to be finished" if time_waiting > timeout
+          raise Errors::SeamActionAttemptTimeoutError.new(action_attempt, timeout) if time_waiting > timeout
 
           action_attempt = update_action_attempt(action_attempt, client)
-
-          raise "Action Attempt failed: #{action_attempt.error["message"]}" if action_attempt.status == "failed"
         end
+
+        raise Errors::SeamActionAttemptFailedError.new(action_attempt) if action_attempt.status == "error"
 
         action_attempt
       end
