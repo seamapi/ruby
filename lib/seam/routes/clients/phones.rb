@@ -17,13 +17,13 @@ module Seam
         nil
       end
 
-      def list(owner_user_identity_id: nil)
+      def list(acs_credential_id: nil, owner_user_identity_id: nil)
         request_seam_object(
           :post,
           "/phones/list",
           Seam::Phone,
           "phones",
-          body: {owner_user_identity_id: owner_user_identity_id}.compact
+          body: {acs_credential_id: acs_credential_id, owner_user_identity_id: owner_user_identity_id}.compact
         )
       end
     end
