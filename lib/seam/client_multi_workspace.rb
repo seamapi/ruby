@@ -27,7 +27,7 @@ module Seam
       @workspaces ||= WorkspacesProxy.new(Seam::Clients::Workspaces.new(self))
     end
 
-    def self.from_personal_access_token(personal_access_token, endpoint: nil, wait_for_action_attempt: true)
+    def self.from_personal_access_token(personal_access_token:, endpoint: nil, wait_for_action_attempt: true)
       new(
         personal_access_token: personal_access_token,
         endpoint: endpoint,
