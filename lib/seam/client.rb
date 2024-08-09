@@ -19,11 +19,11 @@ module Seam
       @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
     end
 
-    def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, debug: false)
+    def self.from_api_key(api_key:, endpoint: nil, wait_for_action_attempt: false, debug: false)
       new(api_key: api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
     end
 
-    def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: false, debug: false)
+    def self.from_personal_access_token(personal_access_token:, workspace_id:, endpoint: nil, wait_for_action_attempt: false, debug: false)
       new(personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
     end
 
