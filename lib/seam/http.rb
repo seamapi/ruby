@@ -4,10 +4,10 @@ require_relative "parse_options"
 require_relative "routes/routes"
 
 module Seam
-  class Client
+  class Http
     include Seam::Routes
 
-    attr_accessor :wait_for_action_attempt, :defaults
+    attr_accessor :defaults
 
     def initialize(api_key: nil, personal_access_token: nil, workspace_id: nil, endpoint: nil,
       wait_for_action_attempt: true, debug: false)
@@ -17,22 +17,6 @@ module Seam
       @debug = debug
       @wait_for_action_attempt = wait_for_action_attempt
       @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
-    end
-
-    def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, debug: false)
-      new(api_key: api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
-    end
-
-    def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: false, debug: false)
-      new(personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
-    end
-
-    def self.lts_version
-      Seam::LTS_VERSION
-    end
-
-    def lts_version
-      Seam::LTS_VERSION
     end
 
     def request_seam_object(method, path, klass, inner_object, config = {})
