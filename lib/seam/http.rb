@@ -19,6 +19,10 @@ module Seam
       @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
     end
 
+    def lts_version
+      Seam::LTS_VERSION
+    end
+
     def request_seam_object(method, path, klass, inner_object, config = {})
       response = request_seam(method, path, config)
 

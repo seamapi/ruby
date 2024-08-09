@@ -29,8 +29,4 @@ module Seam
   def self.lts_version
     Seam::LTS_VERSION
   end
-
-  def lts_version
-    Seam::LTS_VERSION
-  end
 end
