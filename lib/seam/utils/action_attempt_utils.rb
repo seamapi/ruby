@@ -4,7 +4,7 @@ module Seam
   module Utils
     module ActionAttemptUtils
       def self.decide_and_wait(action_attempt, client, wait_for_action_attempt)
-        wait_decision = wait_for_action_attempt.nil? ? client.defaults["wait_for_action_attempt"] : wait_for_action_attempt
+        wait_decision = wait_for_action_attempt.nil? ? client.defaults.wait_for_action_attempt : wait_for_action_attempt
 
         if wait_decision == true
           wait_until_finished(action_attempt, client)

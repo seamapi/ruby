@@ -16,7 +16,7 @@ module Seam
       @auth_headers = options[:auth_headers]
       @debug = debug
       @wait_for_action_attempt = wait_for_action_attempt
-      @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
+      @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
     end
 
     def request_seam_object(method, path, klass, inner_object, config = {})
