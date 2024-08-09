@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Client do
-  let(:seam) { Seam::Client.new(api_key: "seam_some_api_key") }
+RSpec.describe Seam::Http do
+  let(:seam) { Seam.new(api_key: "seam_some_api_key") }
   let(:request_id) { "request_id_1234" }
 
   describe "#request_seam" do
@@ -33,11 +33,14 @@ RSpec.describe Seam::Client do
 
       before do
         stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/get")
-          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "application/json", "seam-request-id" => request_id})
+          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "application/json",
+                                                                           "seam-request-id" => request_id})
       end
 
       it "raises SeamHttpInvalidInputError" do
-        expect { seam.devices.get(device_id: "invalid_device_id") }.to raise_error(Seam::Errors::SeamHttpInvalidInputError) do |error|
+        expect do
+          seam.devices.get(device_id: "invalid_device_id")
+        end.to raise_error(Seam::Errors::SeamHttpInvalidInputError) do |error|
           expect(error.message).to eq(error_message)
           expect(error.status_code).to eq(error_status)
           expect(error.request_id).to eq(request_id)
@@ -60,7 +63,8 @@ RSpec.describe Seam::Client do
 
       before do
         stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/list")
-          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "application/json", "seam-request-id" => request_id})
+          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "application/json",
+                                                                           "seam-request-id" => request_id})
       end
 
       it "raises SeamHttpApiError with the correct details" do

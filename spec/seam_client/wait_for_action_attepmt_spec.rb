@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Seam::Client do
+RSpec.describe Seam::Http do
   let(:api_key) { "seam_apikey1_token" }
   let(:device_id) { "august_device_1" }
 
@@ -114,12 +114,12 @@ RSpec.describe Seam::Client do
       stub_seam_request(:post, "/action_attempts/get", pending_response)
         .with { |req| req.body.source == {action_attempt_id: "1234"}.to_json }
 
-      expect {
+      expect do
         client.action_attempts.get(
           action_attempt_id: action_attempt.action_attempt_id,
           wait_for_action_attempt: {timeout: 0.1}
         )
-      }.to raise_error(Seam::Errors::SeamActionAttemptTimeoutError) do |error|
+      end.to raise_error(Seam::Errors::SeamActionAttemptTimeoutError) do |error|
         expect(error.action_attempt.action_attempt_id).to eq(action_attempt.action_attempt_id)
         expect(error.action_attempt.status).to eq(action_attempt.status)
       end
@@ -137,12 +137,12 @@ RSpec.describe Seam::Client do
       stub_seam_request(:post, "/action_attempts/get", error_response)
         .with { |req| req.body.source == {action_attempt_id: "1234"}.to_json }
 
-      expect {
+      expect do
         client.action_attempts.get(
           action_attempt_id: action_attempt.action_attempt_id,
           wait_for_action_attempt: true
         )
-      }.to raise_error(Seam::Errors::SeamActionAttemptFailedError) do |error|
+      end.to raise_error(Seam::Errors::SeamActionAttemptFailedError) do |error|
         expect(error.message).to include("Failed")
         expect(error.action_attempt.action_attempt_id).to eq(action_attempt.action_attempt_id)
         expect(error.action_attempt.status).to eq("error")
@@ -162,12 +162,12 @@ RSpec.describe Seam::Client do
       stub_seam_request(:post, "/action_attempts/get", pending_response)
         .with { |req| req.body.source == {action_attempt_id: "1234"}.to_json }
 
-      expect {
+      expect do
         client.action_attempts.get(
           action_attempt_id: action_attempt.action_attempt_id,
           wait_for_action_attempt: {timeout: 0.5, polling_interval: 3}
         )
-      }.to raise_error(Seam::Errors::SeamActionAttemptTimeoutError) do |error|
+      end.to raise_error(Seam::Errors::SeamActionAttemptTimeoutError) do |error|
         expect(error.action_attempt.action_attempt_id).to eq(action_attempt.action_attempt_id)
         expect(error.action_attempt.status).to eq(action_attempt.status)
       end
