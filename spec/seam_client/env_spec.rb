@@ -74,7 +74,7 @@ RSpec.describe Seam::Client do
     it "uses SEAM_ENDPOINT environment variable with from_api_key" do
       ENV["SEAM_API_URL"] = "https://example.com"
       ENV["SEAM_ENDPOINT"] = Seam::DEFAULT_ENDPOINT
-      seam = Seam::Client.from_api_key("seam_some_api_key")
+      seam = Seam::Client.from_api_key(api_key: "seam_some_api_key")
 
       stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
       devices = seam.devices.list
@@ -85,8 +85,8 @@ RSpec.describe Seam::Client do
       ENV["SEAM_API_KEY"] = "seam_some_api_key"
 
       seam = Seam::Client.from_personal_access_token(
-        "seam_at1_token",
-        "workspace_123"
+        personal_access_token: "seam_at1_token",
+        workspace_id: "workspace_123"
       )
 
       stub_seam_request(:post, "/devices/list", {devices: [device_hash]})

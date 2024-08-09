@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Seam::ClientMultiWorkspace do
   let(:personal_access_token) { "seam_at_12345" }
   let(:endpoint) { "https://example.com/api" }
-  let(:client) { described_class.from_personal_access_token(personal_access_token, endpoint: endpoint) }
+  let(:client) { described_class.from_personal_access_token(personal_access_token: personal_access_token, endpoint: endpoint) }
 
   describe ".from_personal_access_token" do
     it "creates a new instance with the given token and endpoint" do
@@ -39,10 +39,10 @@ RSpec.describe Seam::ClientMultiWorkspace do
 
   describe "token format validation" do
     it "raises SeamInvalidTokenError for invalid token formats" do
-      expect { described_class.from_personal_access_token("invalid_token") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
-      expect { described_class.from_personal_access_token("seam_apikey_token") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
-      expect { described_class.from_personal_access_token("seam_cst") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Client Session Token/)
-      expect { described_class.from_personal_access_token("ey") }.to raise_error(SeamAuth::SeamInvalidTokenError, /JWT/)
+      expect { described_class.from_personal_access_token(personal_access_token: "invalid_token") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
+      expect { described_class.from_personal_access_token(personal_access_token: "seam_apikey_token") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
+      expect { described_class.from_personal_access_token(personal_access_token: "seam_cst") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Client Session Token/)
+      expect { described_class.from_personal_access_token(personal_access_token: "ey") }.to raise_error(SeamAuth::SeamInvalidTokenError, /JWT/)
     end
   end
 end
