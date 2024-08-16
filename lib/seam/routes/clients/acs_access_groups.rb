@@ -33,6 +33,16 @@ module Seam
         )
       end
 
+      def list_accessible_entrances(acs_access_group_id:)
+        request_seam_object(
+          :post,
+          "/acs/access_groups/list_accessible_entrances",
+          Seam::AcsEntrance,
+          "acs_entrances",
+          body: {acs_access_group_id: acs_access_group_id}.compact
+        )
+      end
+
       def list_users(acs_access_group_id:)
         request_seam_object(
           :post,
