@@ -2,14 +2,14 @@
 
 require "spec_helper"
 
-RSpec.describe Seam::ClientMultiWorkspace do
+RSpec.describe Seam::HttpMultiWorkspace do
   let(:personal_access_token) { "seam_at_12345" }
   let(:endpoint) { "https://example.com/api" }
   let(:client) { described_class.from_personal_access_token(personal_access_token, endpoint: endpoint) }
 
   describe ".from_personal_access_token" do
     it "creates a new instance with the given token and endpoint" do
-      expect(client).to be_a(Seam::ClientMultiWorkspace)
+      expect(client).to be_a(Seam::HttpMultiWorkspace)
       expect(client.instance_variable_get(:@auth_headers)).to include("authorization" => "Bearer #{personal_access_token}")
       expect(client.instance_variable_get(:@endpoint)).to eq(endpoint)
     end
