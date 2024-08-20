@@ -142,7 +142,7 @@ RSpec.describe Seam::Http do
           action_attempt_id: action_attempt.action_attempt_id,
           wait_for_action_attempt: true
         )
-      end.to raise_error(Seam::Errors::SeamActionAttemptFailedError) do |error|
+      end.to raise_error(Seam::Errors::ActionAttemptFailedError) do |error|
         expect(error.message).to include("Failed")
         expect(error.action_attempt.action_attempt_id).to eq(action_attempt.action_attempt_id)
         expect(error.action_attempt.status).to eq("error")
