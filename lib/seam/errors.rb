@@ -36,7 +36,7 @@ module Seam
     end
 
     # Action attempt
-    class SeamActionAttemptError < StandardError
+    class ActionAttemptError < StandardError
       attr_reader :action_attempt
 
       def initialize(message, action_attempt)
@@ -49,7 +49,7 @@ module Seam
       end
     end
 
-    class SeamActionAttemptFailedError < SeamActionAttemptError
+    class SeamActionAttemptFailedError < ActionAttemptError
       attr_reader :code
 
       def initialize(action_attempt)
@@ -58,7 +58,7 @@ module Seam
       end
     end
 
-    class SeamActionAttemptTimeoutError < SeamActionAttemptError
+    class SeamActionAttemptTimeoutError < ActionAttemptError
       def initialize(action_attempt, timeout)
         message = "Timed out waiting for action attempt after #{timeout}s"
         super(message, action_attempt)
