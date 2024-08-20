@@ -3,7 +3,7 @@
 require "seam/utils/action_attempt_utils"
 
 RSpec.describe Seam::Utils::ActionAttemptUtils do
-  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
+  let(:client) { Seam.new(api_key: "seam_some_api_key") }
   let(:action_attempt_id) { "action_attempt_id_1234" }
   let(:finished_status) { "finished" }
   let(:action_attempt_hash) do
@@ -28,14 +28,15 @@ RSpec.describe Seam::Utils::ActionAttemptUtils do
       let(:wait_options) { {timeout: 10, polling_interval: 1} }
 
       it "calls wait_until_finished with options" do
-        expect(described_class).to receive(:wait_until_finished).with(action_attempt, client, timeout: 10, polling_interval: 1)
+        expect(described_class).to receive(:wait_until_finished).with(action_attempt, client, timeout: 10,
+          polling_interval: 1)
         described_class.decide_and_wait(action_attempt, client, wait_options)
       end
     end
 
     context "when wait_for_action_attempt is nil" do
       it "uses the client's actual default wait_for_action_attempt value" do
-        client_default = client.defaults["wait_for_action_attempt"]
+        client_default = client.defaults.wait_for_action_attempt
 
         if client_default
           expect(described_class).to receive(:wait_until_finished).with(action_attempt, client)

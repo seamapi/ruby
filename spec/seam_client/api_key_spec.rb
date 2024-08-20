@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Client do
-  let(:client) { Seam::Client.new(api_key: "seam_some_api_key") }
+RSpec.describe Seam::Http do
+  let(:client) { Seam.new(api_key: "seam_some_api_key") }
   let(:device_hash) { {device_id: "123"} }
 
   describe "#from_api_key" do
@@ -23,19 +23,19 @@ RSpec.describe Seam::Client do
   describe "#api_key_format" do
     it "checks api key format" do
       expect do
-        Seam::Client.from_api_key("some-invalid-key-format")
+        Seam.from_api_key("some-invalid-key-format")
       end.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
 
       expect do
-        Seam::Client.from_api_key("ey")
+        Seam.from_api_key("ey")
       end.to raise_error(SeamAuth::SeamInvalidTokenError, /JWT/)
 
       expect do
-        Seam::Client.from_api_key("seam_cst_token")
+        Seam.from_api_key("seam_cst_token")
       end.to raise_error(SeamAuth::SeamInvalidTokenError, /Client Session Token/)
 
       expect do
-        Seam::Client.from_api_key("seam_at")
+        Seam.from_api_key("seam_at")
       end.to raise_error(SeamAuth::SeamInvalidTokenError, /Access Token/)
     end
   end
