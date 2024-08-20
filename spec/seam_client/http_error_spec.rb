@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Seam::Errors::InvalidInputError do
+RSpec.describe Seam::InvalidInputError do
   let(:api_key) { "seam_apikey1_token" }
   let(:client) { Seam.new(api_key: api_key) }
 
@@ -28,7 +28,7 @@ RSpec.describe Seam::Errors::InvalidInputError do
 
       expect do
         client.devices.list(device_ids: 123)
-      end.to raise_error(Seam::Errors::InvalidInputError) do |error|
+      end.to raise_error(Seam::InvalidInputError) do |error|
         expect(error.code).to eq("invalid_input")
         expect(error.status_code).to eq(400)
         expect(error.get_validation_error_messages("device_ids")).to eq(["Expected array, received number"])
@@ -44,7 +44,7 @@ RSpec.describe Seam::Errors::InvalidInputError do
 
       begin
         client.devices.list(device_ids: 123)
-      rescue Seam::Errors::InvalidInputError => e
+      rescue Seam::InvalidInputError => e
         expect(e.get_validation_error_messages("non_existent_field")).to eq([])
       end
     end

@@ -1,68 +1,73 @@
 # frozen_string_literal: true
 
 module Seam
-  module Errors
-    # HTTP
-    class HttpApiError < StandardError
-      attr_reader :code, :status_code, :request_id, :data
+  class HttpApiError < StandardError
+    attr_reader :code, :status_code, :request_id, :data
 
-      def initialize(error, status_code, request_id)
-        super(error[:message])
-        @code = error[:type]
-        @status_code = status_code
-        @request_id = request_id
-        @data = error[:data]
-      end
+    def initialize(error, status_code, request_id)
+      super(error[:message])
+      @code = error[:type]
+      @status_code = status_code
+      @request_id = request_id
+      @data = error[:data]
+    end
+  end
+
+  class HttpUnauthorizedError < HttpApiError
+    def initialize(request_id)
+      super({type: "unauthorized", message: "Unauthorized"}, 401, request_id)
+    end
+  end
+
+  class InvalidInputError < HttpApiError
+    attr_reader :validation_errors
+
+    def initialize(error, status_code, request_id)
+      super(error, status_code, request_id)
+      @code = "invalid_input"
+      @validation_errors = error["validation_errors"] || {}
     end
 
-    class HttpUnauthorizedError < HttpApiError
-      def initialize(request_id)
-        super({type: "unauthorized", message: "Unauthorized"}, 401, request_id)
-      end
+    def get_validation_error_messages(param_name)
+      @validation_errors.dig(param_name, "_errors") || []
+    end
+  end
+
+  # Action attempt
+  class ActionAttemptError < StandardError
+    attr_reader :action_attempt
+
+    def initialize(message, action_attempt)
+      super(message)
+      @action_attempt = action_attempt
     end
 
-    class InvalidInputError < HttpApiError
-      attr_reader :validation_errors
-
-      def initialize(error, status_code, request_id)
-        super(error, status_code, request_id)
-        @code = "invalid_input"
-        @validation_errors = error["validation_errors"] || {}
-      end
-
-      def get_validation_error_messages(param_name)
-        @validation_errors.dig(param_name, "_errors") || []
-      end
+    def name
+      self.class.name
     end
+  end
 
-    # Action attempt
-    class ActionAttemptError < StandardError
-      attr_reader :action_attempt
+  class ActionAttemptFailedError < ActionAttemptError
+    attr_reader :code
 
-      def initialize(message, action_attempt)
-        super(message)
-        @action_attempt = action_attempt
-      end
-
-      def name
-        self.class.name
-      end
+    def initialize(action_attempt)
+      super(action_attempt.error.message, action_attempt)
+      @code = action_attempt.error.type
     end
+  end
 
-    class ActionAttemptFailedError < ActionAttemptError
-      attr_reader :code
-
-      def initialize(action_attempt)
-        super(action_attempt.error.message, action_attempt)
-        @code = action_attempt.error.type
-      end
+  class ActionAttemptTimeoutError < ActionAttemptError
+    def initialize(action_attempt, timeout)
+      message = "Timed out waiting for action attempt after #{timeout}s"
+      super(message, action_attempt)
     end
+  end
+end
 
-    class ActionAttemptTimeoutError < ActionAttemptError
-      def initialize(action_attempt, timeout)
-        message = "Timed out waiting for action attempt after #{timeout}s"
-        super(message, action_attempt)
-      end
+module Http
+  class SeamInvalidTokenError < StandardError
+    def initialize(message)
+      super("Seam received an invalid token: #{message}")
     end
   end
 end
