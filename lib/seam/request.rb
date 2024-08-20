@@ -52,7 +52,7 @@ module Seam
         )
       end
 
-      raise Errors::SeamHttpApiError.new(error_details, status_code, request_id)
+      raise Errors::HttpApiError.new(error_details, status_code, request_id)
     end
 
     def build_url(uri)

@@ -3,7 +3,7 @@
 module Seam
   module Errors
     # HTTP
-    class SeamHttpApiError < StandardError
+    class HttpApiError < StandardError
       attr_reader :code, :status_code, :request_id, :data
 
       def initialize(error, status_code, request_id)
@@ -15,13 +15,13 @@ module Seam
       end
     end
 
-    class SeamHttpUnauthorizedError < SeamHttpApiError
+    class SeamHttpUnauthorizedError < HttpApiError
       def initialize(request_id)
         super({type: "unauthorized", message: "Unauthorized"}, 401, request_id)
       end
     end
 
-    class SeamHttpInvalidInputError < SeamHttpApiError
+    class SeamHttpInvalidInputError < HttpApiError
       attr_reader :validation_errors
 
       def initialize(error, status_code, request_id)
