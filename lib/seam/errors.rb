@@ -58,7 +58,7 @@ module Seam
       end
     end
 
-    class SeamActionAttemptTimeoutError < ActionAttemptError
+    class ActionAttemptTimeoutError < ActionAttemptError
       def initialize(action_attempt, timeout)
         message = "Timed out waiting for action attempt after #{timeout}s"
         super(message, action_attempt)

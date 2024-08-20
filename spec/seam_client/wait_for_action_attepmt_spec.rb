@@ -119,7 +119,7 @@ RSpec.describe Seam::Http do
           action_attempt_id: action_attempt.action_attempt_id,
           wait_for_action_attempt: {timeout: 0.1}
         )
-      end.to raise_error(Seam::Errors::SeamActionAttemptTimeoutError) do |error|
+      end.to raise_error(Seam::Errors::ActionAttemptTimeoutError) do |error|
         expect(error.action_attempt.action_attempt_id).to eq(action_attempt.action_attempt_id)
         expect(error.action_attempt.status).to eq(action_attempt.status)
       end
@@ -167,7 +167,7 @@ RSpec.describe Seam::Http do
           action_attempt_id: action_attempt.action_attempt_id,
           wait_for_action_attempt: {timeout: 0.5, polling_interval: 3}
         )
-      end.to raise_error(Seam::Errors::SeamActionAttemptTimeoutError) do |error|
+      end.to raise_error(Seam::Errors::ActionAttemptTimeoutError) do |error|
         expect(error.action_attempt.action_attempt_id).to eq(action_attempt.action_attempt_id)
         expect(error.action_attempt.status).to eq(action_attempt.status)
       end
