@@ -21,8 +21,8 @@ RSpec.describe Seam::Errors::InvalidInputError do
 
     it "raises InvalidInputError with correct validation messages" do
       stub_seam_request(:post, "/devices/list",
-                        error_response,
-                        status: 400).with do |req|
+        error_response,
+        status: 400).with do |req|
         req.body.source == {device_ids: 123}.to_json
       end
 
@@ -37,8 +37,8 @@ RSpec.describe Seam::Errors::InvalidInputError do
 
     it "returns an empty array for non-existent validation errors" do
       stub_seam_request(:post, "/devices/list",
-                        error_response,
-                        status: 400).with do |req|
+        error_response,
+        status: 400).with do |req|
         req.body.source == {device_ids: 123}.to_json
       end
 
