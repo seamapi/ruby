@@ -34,7 +34,7 @@ module Seam
       status_code = response.status.code
       request_id = response.headers["seam-request-id"]
 
-      raise Errors::UnauthorizedError.new(request_id) if status_code == 401
+      raise Errors::HttpUnauthorizedError.new(request_id) if status_code == 401
 
       error = response.parse["error"] || {}
       error_type = error["type"] || "unknown_error"

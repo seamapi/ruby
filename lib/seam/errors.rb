@@ -15,7 +15,7 @@ module Seam
       end
     end
 
-    class UnauthorizedError < HttpApiError
+    class HttpUnauthorizedError < HttpApiError
       def initialize(request_id)
         super({type: "unauthorized", message: "Unauthorized"}, 401, request_id)
       end

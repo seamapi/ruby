@@ -11,8 +11,8 @@ RSpec.describe Seam::Http do
           .to_return(status: 401, headers: {"seam-request-id" => request_id})
       end
 
-      it "raises UnauthorizedError" do
-        expect { seam.devices.list }.to raise_error(Seam::Errors::UnauthorizedError) do |error|
+      it "raises HttpUnauthorizedError" do
+        expect { seam.devices.list }.to raise_error(Seam::Errors::HttpUnauthorizedError) do |error|
           expect(error.message).to eq("Unauthorized")
           expect(error.request_id).to eq(request_id)
         end
