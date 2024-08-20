@@ -49,7 +49,7 @@ module Seam
       end
     end
 
-    class SeamActionAttemptFailedError < ActionAttemptError
+    class ActionAttemptFailedError < ActionAttemptError
       attr_reader :code
 
       def initialize(action_attempt)
