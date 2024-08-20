@@ -21,7 +21,7 @@ module Seam
       end
     end
 
-    class SeamHttpInvalidInputError < HttpApiError
+    class InvalidInputError < HttpApiError
       attr_reader :validation_errors
 
       def initialize(error, status_code, request_id)

@@ -47,7 +47,7 @@ module Seam
       if error_type == "invalid_input"
         error_details["validation_errors"] = error["validation_errors"]
 
-        raise Errors::SeamHttpInvalidInputError.new(
+        raise Errors::InvalidInputError.new(
           error_details, status_code, request_id
         )
       end
