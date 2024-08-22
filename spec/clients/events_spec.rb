@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Clients::Events do
+RSpec.describe Seam::Clients::SeamEvents do
   let(:client) { Seam.new(api_key: "seam_some_api_key") }
 
   describe "#list" do
@@ -16,7 +16,7 @@ RSpec.describe Seam::Clients::Events do
 
     it "returns a list of Events" do
       expect(events).to be_a(Array)
-      expect(events.first).to be_a(Seam::Event)
+      expect(events.first).to be_a(Seam::SeamEvent)
       expect(events.first.event_id).to be_a(String)
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe Seam::Clients::Events do
     let(:result) { client.events.get(event_id: event_id) }
 
     it "returns an Event" do
-      expect(result).to be_a(Seam::Event)
+      expect(result).to be_a(Seam::SeamEvent)
     end
   end
 end
