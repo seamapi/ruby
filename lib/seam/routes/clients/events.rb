@@ -2,12 +2,12 @@
 
 module Seam
   module Clients
-    class Events < BaseClient
+    class SeamEvents < BaseClient
       def get(device_id: nil, event_id: nil, event_type: nil)
         request_seam_object(
           :post,
           "/events/get",
-          Seam::Event,
+          Seam::SeamEvent,
           "event",
           body: {device_id: device_id, event_id: event_id, event_type: event_type}.compact
         )
@@ -17,7 +17,7 @@ module Seam
         request_seam_object(
           :post,
           "/events/list",
-          Seam::Event,
+          Seam::SeamEvent,
           "events",
           body: {access_code_id: access_code_id, access_code_ids: access_code_ids, between: between, connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, device_id: device_id, device_ids: device_ids, event_type: event_type, event_types: event_types, limit: limit, since: since}.compact
         )
