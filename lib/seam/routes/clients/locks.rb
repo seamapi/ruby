@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/helpers/action_attempt"
+
 module Seam
   module Clients
     class Locks < BaseClient
@@ -32,8 +34,7 @@ module Seam
           body: {device_id: device_id, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def unlock_door(device_id:, sync: nil, wait_for_action_attempt: nil)
@@ -45,8 +46,7 @@ module Seam
           body: {device_id: device_id, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
     end
   end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/helpers/action_attempt"
+
 module Seam
   module Clients
     class Thermostats < BaseClient
@@ -16,8 +18,7 @@ module Seam
           body: {device_id: device_id, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def get(device_id: nil, name: nil)
@@ -39,8 +40,7 @@ module Seam
           body: {device_id: device_id, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def heat_cool(device_id:, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, sync: nil, wait_for_action_attempt: nil)
@@ -52,8 +52,7 @@ module Seam
           body: {device_id: device_id, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, device_ids: nil, device_types: nil, exclude_if: nil, include_if: nil, limit: nil, manufacturer: nil, user_identifier_key: nil)
@@ -75,8 +74,7 @@ module Seam
           body: {device_id: device_id, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def set_fan_mode(device_id:, fan_mode: nil, fan_mode_setting: nil, sync: nil, wait_for_action_attempt: nil)
@@ -88,8 +86,7 @@ module Seam
           body: {device_id: device_id, fan_mode: fan_mode, fan_mode_setting: fan_mode_setting, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def update(default_climate_setting:, device_id:)
