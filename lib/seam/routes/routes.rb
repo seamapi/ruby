@@ -31,7 +31,7 @@ module Seam
     end
 
     def events
-      @events ||= Seam::Clients::Events.new(self)
+      @events ||= Seam::Clients::SeamEvents.new(self)
     end
 
     def locks
