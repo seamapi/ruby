@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/helpers/action_attempt"
+
 module Seam
   module Clients
     class ActionAttempts < BaseClient
@@ -12,8 +14,7 @@ module Seam
           body: {action_attempt_id: action_attempt_id}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def list(action_attempt_ids:)
