@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Clients::SeamEvents do
+RSpec.describe Seam::Clients::Events do
   let(:client) { Seam.new(api_key: "seam_some_api_key") }
 
   describe "#list" do
