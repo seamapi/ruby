@@ -3,7 +3,7 @@ PATH
   specs:
     seam (2.0.0a2)
       http (~> 5.2)
-      svix (~> 1.30.0)
+      svix (~> 1.30)
 
 GEM
   remote: https://rubygems.org/
