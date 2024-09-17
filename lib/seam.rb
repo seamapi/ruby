@@ -10,6 +10,7 @@ require_relative "seam/http_multi_workspace"
 require_relative "seam/base_client"
 require_relative "seam/base_resource"
 require_relative "seam/errors"
+require_relative "seam/seam_webhook"
 
 require_relative "seam/routes/resources/index"
 require_relative "seam/routes/clients/index"
