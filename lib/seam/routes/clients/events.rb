@@ -2,7 +2,7 @@
 
 module Seam
   module Clients
-    class SeamEvents < BaseClient
+    class Events < BaseClient
       def get(device_id: nil, event_id: nil, event_type: nil)
         request_seam_object(
           :post,
