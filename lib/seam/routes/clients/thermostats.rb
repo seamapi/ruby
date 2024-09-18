@@ -1,10 +1,24 @@
 # frozen_string_literal: true
 
+require "seam/helpers/action_attempt"
+
 module Seam
   module Clients
     class Thermostats < BaseClient
-      def climate_setting_schedules
-        @climate_setting_schedules ||= Seam::Clients::ThermostatsClimateSettingSchedules.new(self)
+      def schedules
+        @schedules ||= Seam::Clients::ThermostatsSchedules.new(self)
+      end
+
+      def activate_climate_preset(climate_preset_key:, device_id:, wait_for_action_attempt: nil)
+        action_attempt = request_seam_object(
+          :post,
+          "/thermostats/activate_climate_preset",
+          Seam::ActionAttempt,
+          "action_attempt",
+          body: {climate_preset_key: climate_preset_key, device_id: device_id}.compact
+        )
+
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def cool(device_id:, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, sync: nil, wait_for_action_attempt: nil)
@@ -16,8 +30,27 @@ module Seam
           body: {device_id: device_id, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
+      end
+
+      def create_climate_preset(climate_preset_key:, device_id:, manual_override_allowed:, name:, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil)
+        request_seam(
+          :post,
+          "/thermostats/create_climate_preset",
+          body: {climate_preset_key: climate_preset_key, device_id: device_id, manual_override_allowed: manual_override_allowed, name: name, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting}.compact
+        )
+
+        nil
+      end
+
+      def delete_climate_preset(climate_preset_key:, device_id:)
+        request_seam(
+          :post,
+          "/thermostats/delete_climate_preset",
+          body: {climate_preset_key: climate_preset_key, device_id: device_id}.compact
+        )
+
+        nil
       end
 
       def get(device_id: nil, name: nil)
@@ -39,8 +72,7 @@ module Seam
           body: {device_id: device_id, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def heat_cool(device_id:, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, sync: nil, wait_for_action_attempt: nil)
@@ -52,8 +84,7 @@ module Seam
           body: {device_id: device_id, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, device_ids: nil, device_types: nil, exclude_if: nil, include_if: nil, limit: nil, manufacturer: nil, user_identifier_key: nil)
@@ -75,8 +106,17 @@ module Seam
           body: {device_id: device_id, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
+      end
+
+      def set_fallback_climate_preset(climate_preset_key:, device_id:)
+        request_seam(
+          :post,
+          "/thermostats/set_fallback_climate_preset",
+          body: {climate_preset_key: climate_preset_key, device_id: device_id}.compact
+        )
+
+        nil
       end
 
       def set_fan_mode(device_id:, fan_mode: nil, fan_mode_setting: nil, sync: nil, wait_for_action_attempt: nil)
@@ -88,15 +128,14 @@ module Seam
           body: {device_id: device_id, fan_mode: fan_mode, fan_mode_setting: fan_mode_setting, sync: sync}.compact
         )
 
-        action_attempt.decide_and_wait(wait_for_action_attempt)
-        action_attempt
+        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
-      def update(default_climate_setting:, device_id:)
+      def update_climate_preset(climate_preset_key:, device_id:, manual_override_allowed:, name:, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil)
         request_seam(
           :post,
-          "/thermostats/update",
-          body: {default_climate_setting: default_climate_setting, device_id: device_id}.compact
+          "/thermostats/update_climate_preset",
+          body: {climate_preset_key: climate_preset_key, device_id: device_id, manual_override_allowed: manual_override_allowed, name: name, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting}.compact
         )
 
         nil
