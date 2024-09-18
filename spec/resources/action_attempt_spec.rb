@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "seam/utils/action_attempt_utils"
+require "seam/helpers/action_attempt"
 
-RSpec.describe Seam::Utils::ActionAttemptUtils do
+RSpec.describe Seam::Helpers::ActionAttempt do
   let(:client) { Seam.new(api_key: "seam_some_api_key") }
   let(:action_attempt_id) { "action_attempt_id_1234" }
   let(:finished_status) { "finished" }
@@ -73,6 +73,7 @@ RSpec.describe Seam::Utils::ActionAttemptUtils do
 
     it "returns an updated ActionAttempt" do
       expect(result.status).to eq(finished_status)
+      expect(result).to be_a(Seam::ActionAttempt)
     end
   end
 
