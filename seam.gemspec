@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.files += Dir["[A-Z]*"]
 
   spec.add_dependency "http", "~> 5.2"
+  spec.add_dependency "svix", "~> 1.30"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "gem-release", "~> 2.2"
