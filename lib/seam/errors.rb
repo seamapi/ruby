@@ -63,11 +63,3 @@ module Seam
     end
   end
 end
-
-module Http
-  class SeamInvalidTokenError < StandardError
-    def initialize(message)
-      super("Seam received an invalid token: #{message}")
-    end
-  end
-end
