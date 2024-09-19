@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
 module Seam
-  module Utils
-    module ActionAttemptUtils
+  module Helpers
+    module ActionAttempt
       def self.decide_and_wait(action_attempt, client, wait_for_action_attempt)
         wait_decision = wait_for_action_attempt.nil? ? client.defaults.wait_for_action_attempt : wait_for_action_attempt
 
         if wait_decision == true
-          wait_until_finished(action_attempt, client)
+          return wait_until_finished(action_attempt, client)
         elsif wait_decision.is_a?(Hash)
-          wait_until_finished(action_attempt, client, timeout: wait_decision[:timeout],
+          return wait_until_finished(action_attempt, client, timeout: wait_decision[:timeout],
             polling_interval: wait_decision[:polling_interval])
         end
+
+        action_attempt
       end
 
       def self.wait_until_finished(action_attempt, client, timeout: nil, polling_interval: nil)
