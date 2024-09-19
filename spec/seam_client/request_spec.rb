@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Http do
+RSpec.describe Seam::Client do
   let(:seam) { Seam.new(api_key: "seam_some_api_key") }
   let(:request_id) { "request_id_1234" }
 

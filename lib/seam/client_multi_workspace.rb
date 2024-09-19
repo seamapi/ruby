@@ -5,7 +5,7 @@ require_relative "lts_version"
 require_relative "auth"
 
 module Seam
-  class HttpMultiWorkspace
+  class ClientMultiWorkspace
     attr_reader :wait_for_action_attempt, :defaults
 
     def initialize(personal_access_token:, endpoint: nil, wait_for_action_attempt: true)

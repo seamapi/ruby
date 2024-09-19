@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Http do
+RSpec.describe Seam::Client do
   before(:each) do
     cleanup_env
   end
