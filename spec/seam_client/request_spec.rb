@@ -12,7 +12,7 @@ RSpec.describe Seam::Client do
       end
 
       it "raises HttpUnauthorizedError" do
-        expect { seam.devices.list }.to raise_error(Seam::HttpUnauthorizedError) do |error|
+        expect { seam.devices.list }.to raise_error(Seam::Http::HttpUnauthorizedError) do |error|
           expect(error.message).to eq("Unauthorized")
           expect(error.request_id).to eq(request_id)
         end
@@ -40,7 +40,7 @@ RSpec.describe Seam::Client do
       it "raises InvalidInputError" do
         expect do
           seam.devices.get(device_id: "invalid_device_id")
-        end.to raise_error(Seam::InvalidInputError) do |error|
+        end.to raise_error(Seam::Http::InvalidInputError) do |error|
           expect(error.message).to eq(error_message)
           expect(error.status_code).to eq(error_status)
           expect(error.request_id).to eq(request_id)
@@ -68,7 +68,7 @@ RSpec.describe Seam::Client do
       end
 
       it "raises HttpApiError with the correct details" do
-        expect { seam.devices.list }.to raise_error(Seam::HttpApiError) do |error|
+        expect { seam.devices.list }.to raise_error(Seam::Http::HttpApiError) do |error|
           expect(error.message).to eq(error_message)
           expect(error.status_code).to eq(error_status)
           expect(error.request_id).to eq(request_id)

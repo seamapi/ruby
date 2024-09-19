@@ -24,19 +24,19 @@ RSpec.describe Seam::Client do
     it "checks api key format" do
       expect do
         Seam.from_api_key("some-invalid-key-format")
-      end.to raise_error(Http::SeamInvalidTokenError, /Unknown/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
 
       expect do
         Seam.from_api_key("ey")
-      end.to raise_error(Http::SeamInvalidTokenError, /JWT/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /JWT/)
 
       expect do
         Seam.from_api_key("seam_cst_token")
-      end.to raise_error(Http::SeamInvalidTokenError, /Client Session Token/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /Client Session Token/)
 
       expect do
         Seam.from_api_key("seam_at")
-      end.to raise_error(Http::SeamInvalidTokenError, /Access Token/)
+      end.to raise_error(SeamAuth::SeamInvalidTokenError, /Access Token/)
     end
   end
 end
