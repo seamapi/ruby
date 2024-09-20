@@ -132,13 +132,13 @@ module Seam
       end
 
       def update_climate_preset(climate_preset_key:, device_id:, manual_override_allowed:, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil, name: nil)
-        request_seam(
+        request_seam_object(
           :post,
           "/thermostats/update_climate_preset",
+          Seam::ClimatePreset,
+          "climate_preset",
           body: {climate_preset_key: climate_preset_key, device_id: device_id, manual_override_allowed: manual_override_allowed, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting, name: name}.compact
         )
-
-        nil
       end
     end
   end
