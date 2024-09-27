@@ -19,6 +19,10 @@ module Seam
         @credentials ||= Seam::Clients::AcsCredentials.new(self)
       end
 
+      def encoders
+        @encoders ||= Seam::Clients::AcsEncoders.new(self)
+      end
+
       def entrances
         @entrances ||= Seam::Clients::AcsEntrances.new(self)
       end
