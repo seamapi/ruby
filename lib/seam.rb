@@ -2,7 +2,7 @@
 
 require_relative "seam/logger"
 require_relative "seam/http"
-require_relative "seam/errors"
+require_relative "seam/wait_for_action_attempt"
 require_relative "seam/webhook"
 
 module Seam
