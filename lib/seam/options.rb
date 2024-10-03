@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "default_endpoint"
+
 module SeamOptions
   def self.get_endpoint(endpoint = nil)
     endpoint || get_endpoint_from_env || Seam::DEFAULT_ENDPOINT

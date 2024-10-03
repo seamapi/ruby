@@ -2,6 +2,7 @@
 
 require_relative "parse_options"
 require_relative "routes/routes"
+require_relative "request"
 
 module Seam
   module Http

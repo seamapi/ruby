@@ -3,6 +3,7 @@
 require_relative "parse_options"
 require_relative "lts_version"
 require_relative "auth"
+require_relative "request"
 
 module Seam
   module Http
