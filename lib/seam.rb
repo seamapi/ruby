@@ -2,8 +2,6 @@
 
 require_relative "seam/logger"
 require_relative "seam/http"
-require_relative "seam/base_client"
-require_relative "seam/base_resource"
 require_relative "seam/errors"
 require_relative "seam/webhook"
 
