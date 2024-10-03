@@ -8,6 +8,14 @@ module Seam
       Http::SingleWorkspace.new(**args)
     end
 
+    def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, debug: false)
+      Http::SingleWorkspace.from_api_key(api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
+    end
+
+    def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: false, debug: false)
+      Http::SingleWorkspace.from_personal_access_token(personal_access_token, workspace_id, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, debug: debug)
+    end
+
     class HttpApiError < StandardError
       attr_reader :code, :status_code, :request_id, :data
 
