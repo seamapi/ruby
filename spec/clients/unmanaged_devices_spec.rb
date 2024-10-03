@@ -17,7 +17,7 @@ RSpec.describe Seam::Clients::DevicesUnmanaged do
       let(:result) { client.unmanaged_devices.get(device_id: device_id) }
 
       it "returns an unmanaged Device" do
-        expect(result).to be_a(Seam::UnmanagedDevice)
+        expect(result).to be_a(Seam::Resources::UnmanagedDevice)
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe Seam::Clients::DevicesUnmanaged do
       let(:result) { client.unmanaged_devices.get(name: name) }
 
       it "returns an unmanaged Device" do
-        expect(result).to be_a(Seam::UnmanagedDevice)
+        expect(result).to be_a(Seam::Resources::UnmanagedDevice)
       end
     end
   end
@@ -50,7 +50,7 @@ RSpec.describe Seam::Clients::DevicesUnmanaged do
 
     it "returns a list of unmanaged Devices" do
       expect(unmanaged_devices).to be_a(Array)
-      expect(unmanaged_devices.first).to be_a(Seam::UnmanagedDevice)
+      expect(unmanaged_devices.first).to be_a(Seam::Resources::UnmanagedDevice)
       expect(unmanaged_devices.first.device_id).to be_a(String)
     end
   end

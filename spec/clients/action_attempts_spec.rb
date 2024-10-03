@@ -16,7 +16,7 @@ RSpec.describe Seam::Clients::AccessCodes do
     let(:result) { client.action_attempts.get(action_attempt_id: action_attempt_id) }
 
     it "returns a Device" do
-      expect(result).to be_a(Seam::ActionAttempt)
+      expect(result).to be_a(Seam::Resources::ActionAttempt)
     end
   end
 end

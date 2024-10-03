@@ -14,7 +14,7 @@ RSpec.describe Seam::Clients::Devices do
 
     it "returns a list of Devices" do
       expect(devices).to be_a(Array)
-      expect(devices.first).to be_a(Seam::Device)
+      expect(devices.first).to be_a(Seam::Resources::Device)
       expect(devices.first.device_id).to be_a(String)
     end
   end
@@ -33,7 +33,7 @@ RSpec.describe Seam::Clients::Devices do
       let(:result) { client.devices.get(device_id: device_id) }
 
       it "returns a Device" do
-        expect(result).to be_a(Seam::Device)
+        expect(result).to be_a(Seam::Resources::Device)
         expect(result.properties.manufacturer).to eq("august")
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe Seam::Clients::Devices do
       let(:result) { client.devices.get(name: name) }
 
       it "returns a Device" do
-        expect(result).to be_a(Seam::Device)
+        expect(result).to be_a(Seam::Resources::Device)
       end
     end
   end
@@ -74,7 +74,7 @@ RSpec.describe Seam::Clients::Devices do
     let(:result) { client.devices.get(device_id: device_id) }
 
     it "returns a Device" do
-      expect(result).to be_a(Seam::Device)
+      expect(result).to be_a(Seam::Resources::Device)
     end
 
     it "returns device errors" do
@@ -112,7 +112,7 @@ RSpec.describe Seam::Clients::Devices do
     it "returns a list of stable Device Providers" do
       expect(device_providers).to be_a(Array)
       expect(device_providers.length).to eq(2)
-      expect(device_providers.first).to be_a(Seam::DeviceProvider)
+      expect(device_providers.first).to be_a(Seam::Resources::DeviceProvider)
       expect(device_providers.first.device_provider_name).to be_a(String)
       expect(device_providers.first.display_name).to be_a(String)
       expect(device_providers.first.provider_categories).to be_a(Array)
@@ -132,7 +132,7 @@ RSpec.describe Seam::Clients::Devices do
       expect(device_providers).to be_a(Array)
       expect(device_providers.length).to eq(1)
 
-      expect(device_providers.first).to be_a(Seam::DeviceProvider)
+      expect(device_providers.first).to be_a(Seam::Resources::DeviceProvider)
       expect(device_providers.first.device_provider_name).to be_a(String)
       expect(device_providers.first.display_name).to be_a(String)
       expect(device_providers.first.provider_categories).to be_a(Array)

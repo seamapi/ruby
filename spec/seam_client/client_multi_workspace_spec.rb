@@ -32,7 +32,7 @@ RSpec.describe Seam::Http::MultiWorkspace do
         is_sandbox: true
       )
 
-      expect(workspace).to be_a(Seam::Workspace)
+      expect(workspace).to be_a(Seam::Resources::Workspace)
       expect(workspace.workspace_id).to eq("ws_123456")
     end
   end

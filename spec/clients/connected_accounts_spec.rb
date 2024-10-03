@@ -17,7 +17,7 @@ RSpec.describe Seam::Clients::ConnectedAccounts do
       let(:result) { client.connected_accounts.get(connected_account_id: connected_account_id) }
 
       it "returns a ConnectedAccount" do
-        expect(result).to be_a(Seam::ConnectedAccount)
+        expect(result).to be_a(Seam::Resources::ConnectedAccount)
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe Seam::Clients::ConnectedAccounts do
       let(:result) { client.connected_accounts.get(email: email) }
 
       it "returns a ConnectedAccount" do
-        expect(result).to be_a(Seam::ConnectedAccount)
+        expect(result).to be_a(Seam::Resources::ConnectedAccount)
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe Seam::Clients::ConnectedAccounts do
 
     it "returns a ConnectedAccount Array" do
       expect(result).to be_a(Array)
-      expect(result.first).to be_a(Seam::ConnectedAccount)
+      expect(result.first).to be_a(Seam::Resources::ConnectedAccount)
     end
   end
 end

@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/networks/get",
-          Seam::Network,
+          Seam::Resources::Network,
           "network",
           body: {network_id: network_id}.compact
         )
@@ -17,7 +17,7 @@ module Seam
         request_seam_object(
           :post,
           "/networks/list",
-          Seam::Network,
+          Seam::Resources::Network,
           "networks",
           body: {}.compact
         )

@@ -14,7 +14,7 @@ RSpec.describe Seam::Clients::Locks do
 
     it "returns a list of Devices" do
       expect(devices).to be_a(Array)
-      expect(devices.first).to be_a(Seam::Device)
+      expect(devices.first).to be_a(Seam::Resources::Device)
       expect(devices.first.device_id).to be_a(String)
     end
   end
@@ -32,7 +32,7 @@ RSpec.describe Seam::Clients::Locks do
     let(:lock) { client.locks.get(device_id: device_id) }
 
     it "returns a list of Devices" do
-      expect(lock).to be_a(Seam::Device)
+      expect(lock).to be_a(Seam::Resources::Device)
       expect(lock.device_id).to be_a(String)
     end
   end
@@ -67,7 +67,7 @@ RSpec.describe Seam::Clients::Locks do
         let(:result) { client.locks.unlock_door(device_id: device_id) }
 
         it "returns an action attempt" do
-          expect(result).to be_a(Seam::ActionAttempt)
+          expect(result).to be_a(Seam::Resources::ActionAttempt)
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe Seam::Clients::Locks do
         let(:result) { client.locks.lock_door(device_id: device_id) }
 
         it "returns an action attempt" do
-          expect(result).to be_a(Seam::ActionAttempt)
+          expect(result).to be_a(Seam::Resources::ActionAttempt)
         end
       end
     end

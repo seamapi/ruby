@@ -17,7 +17,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/credentials/create",
-          Seam::AcsCredential,
+          Seam::Resources::AcsCredential,
           "acs_credential",
           body: {access_method: access_method, acs_user_id: acs_user_id, allowed_acs_entrance_ids: allowed_acs_entrance_ids, code: code, credential_manager_acs_system_id: credential_manager_acs_system_id, ends_at: ends_at, is_multi_phone_sync_credential: is_multi_phone_sync_credential, starts_at: starts_at, visionline_metadata: visionline_metadata}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/credentials/get",
-          Seam::AcsCredential,
+          Seam::Resources::AcsCredential,
           "acs_credential",
           body: {acs_credential_id: acs_credential_id}.compact
         )
@@ -47,7 +47,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/credentials/list",
-          Seam::AcsCredential,
+          Seam::Resources::AcsCredential,
           "acs_credentials",
           body: {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit}.compact
         )
@@ -57,7 +57,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/credentials/list_accessible_entrances",
-          Seam::AcsEntrance,
+          Seam::Resources::AcsEntrance,
           "acs_entrances",
           body: {acs_credential_id: acs_credential_id}.compact
         )
