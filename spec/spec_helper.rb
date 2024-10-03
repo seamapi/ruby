@@ -6,10 +6,6 @@ require "simplecov-console"
 SimpleCov.start
 
 require "seam"
-require "seam/http"
-require "seam/auth"
-require "seam/options"
-require "seam/client_multi_workspace"
 require "seam/deep_hash_accessor"
 require "webmock/rspec"
 

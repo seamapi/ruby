@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Seam::Client do
+RSpec.describe Seam::Http do
   let(:api_key) { "seam_apikey1_token" }
   let(:device_id) { "august_device_1" }
 

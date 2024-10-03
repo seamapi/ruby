@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
+require_relative "http_single_workspace"
+
 module Seam
   module Http
+    def self.new(**args)
+      Http::SingleWorkspace.new(**args)
+    end
+
     class HttpApiError < StandardError
       attr_reader :code, :status_code, :request_id, :data
 
