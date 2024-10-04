@@ -9,7 +9,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/acs/encoders/encode_card",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {acs_system_id: acs_system_id, device_name: device_name, device_id: device_id}.compact
         )
@@ -21,7 +21,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/encoders/list",
-          Seam::Device,
+          Seam::Resources::Device,
           "devices",
           body: {acs_system_ids: acs_system_ids, device_ids: device_ids, limit: limit}.compact
         )
@@ -31,7 +31,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/acs/encoders/read_card",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {acs_system_id: acs_system_id, device_name: device_name, device_id: device_id}.compact
         )

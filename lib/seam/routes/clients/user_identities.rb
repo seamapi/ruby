@@ -21,7 +21,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/create",
-          Seam::UserIdentity,
+          Seam::Resources::UserIdentity,
           "user_identity",
           body: {email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact
         )
@@ -41,7 +41,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/get",
-          Seam::UserIdentity,
+          Seam::Resources::UserIdentity,
           "user_identity",
           body: {user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact
         )
@@ -61,7 +61,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/list",
-          Seam::UserIdentity,
+          Seam::Resources::UserIdentity,
           "user_identities",
           body: {credential_manager_acs_system_id: credential_manager_acs_system_id}.compact
         )
@@ -71,7 +71,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/list_accessible_devices",
-          Seam::Device,
+          Seam::Resources::Device,
           "devices",
           body: {user_identity_id: user_identity_id}.compact
         )
@@ -81,7 +81,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/list_acs_systems",
-          Seam::AcsSystem,
+          Seam::Resources::AcsSystem,
           "acs_systems",
           body: {user_identity_id: user_identity_id}.compact
         )
@@ -91,7 +91,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/list_acs_users",
-          Seam::AcsUser,
+          Seam::Resources::AcsUser,
           "acs_users",
           body: {user_identity_id: user_identity_id}.compact
         )

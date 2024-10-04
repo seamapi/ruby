@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/webhooks/create",
-          Seam::Webhook,
+          Seam::Resources::Webhook,
           "webhook",
           body: {url: url, event_types: event_types}.compact
         )
@@ -27,7 +27,7 @@ module Seam
         request_seam_object(
           :post,
           "/webhooks/get",
-          Seam::Webhook,
+          Seam::Resources::Webhook,
           "webhook",
           body: {webhook_id: webhook_id}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/webhooks/list",
-          Seam::Webhook,
+          Seam::Resources::Webhook,
           "webhooks",
           body: {}.compact
         )
