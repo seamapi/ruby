@@ -15,7 +15,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/create",
-          Seam::AccessCode,
+          Seam::Resources::AccessCode,
           "access_code",
           body: {device_id: device_id, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, code: code, common_code_key: common_code_key, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, is_offline_access_code: is_offline_access_code, is_one_time_use: is_one_time_use, max_time_rounding: max_time_rounding, name: name, prefer_native_scheduling: prefer_native_scheduling, preferred_code_length: preferred_code_length, starts_at: starts_at, sync: sync, use_backup_access_code_pool: use_backup_access_code_pool, use_offline_access_code: use_offline_access_code}.compact
         )
@@ -25,7 +25,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/create_multiple",
-          Seam::AccessCode,
+          Seam::Resources::AccessCode,
           "access_codes",
           body: {device_ids: device_ids, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, behavior_when_code_cannot_be_shared: behavior_when_code_cannot_be_shared, code: code, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, is_offline_access_code: is_offline_access_code, is_one_time_use: is_one_time_use, max_time_rounding: max_time_rounding, name: name, prefer_native_scheduling: prefer_native_scheduling, preferred_code_length: preferred_code_length, starts_at: starts_at, use_backup_access_code_pool: use_backup_access_code_pool, use_offline_access_code: use_offline_access_code}.compact
         )
@@ -45,7 +45,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/generate_code",
-          Seam::AccessCode,
+          Seam::Resources::AccessCode,
           "generated_code",
           body: {device_id: device_id}.compact
         )
@@ -55,7 +55,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/get",
-          Seam::AccessCode,
+          Seam::Resources::AccessCode,
           "access_code",
           body: {access_code_id: access_code_id, code: code, device_id: device_id}.compact
         )
@@ -65,7 +65,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/list",
-          Seam::AccessCode,
+          Seam::Resources::AccessCode,
           "access_codes",
           body: {access_code_ids: access_code_ids, device_id: device_id, user_identifier_key: user_identifier_key}.compact
         )
@@ -75,7 +75,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/pull_backup_access_code",
-          Seam::AccessCode,
+          Seam::Resources::AccessCode,
           "backup_access_code",
           body: {access_code_id: access_code_id}.compact
         )

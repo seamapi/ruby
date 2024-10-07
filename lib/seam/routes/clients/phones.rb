@@ -21,7 +21,7 @@ module Seam
         request_seam_object(
           :post,
           "/phones/list",
-          Seam::Phone,
+          Seam::Resources::Phone,
           "phones",
           body: {acs_credential_id: acs_credential_id, owner_user_identity_id: owner_user_identity_id}.compact
         )
