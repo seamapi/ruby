@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/thermostats/schedules/create",
-          Seam::ThermostatSchedule,
+          Seam::Resources::ThermostatSchedule,
           "thermostat_schedule",
           body: {climate_preset_key: climate_preset_key, device_id: device_id, ends_at: ends_at, starts_at: starts_at, max_override_period_minutes: max_override_period_minutes, name: name}.compact
         )
@@ -27,7 +27,7 @@ module Seam
         request_seam_object(
           :post,
           "/thermostats/schedules/get",
-          Seam::ThermostatSchedule,
+          Seam::Resources::ThermostatSchedule,
           "thermostat_schedule",
           body: {thermostat_schedule_id: thermostat_schedule_id}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/thermostats/schedules/list",
-          Seam::ThermostatSchedule,
+          Seam::Resources::ThermostatSchedule,
           "thermostat_schedules",
           body: {device_id: device_id, user_identifier_key: user_identifier_key}.compact
         )

@@ -15,7 +15,7 @@ module Seam
         request_seam_object(
           :post,
           "/noise_sensors/list",
-          Seam::Device,
+          Seam::Resources::Device,
           "devices",
           body: {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, device_ids: device_ids, device_types: device_types, exclude_if: exclude_if, include_if: include_if, limit: limit, manufacturer: manufacturer, user_identifier_key: user_identifier_key}.compact
         )

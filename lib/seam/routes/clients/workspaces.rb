@@ -9,7 +9,7 @@ module Seam
         request_seam_object(
           :post,
           "/workspaces/create",
-          Seam::Workspace,
+          Seam::Resources::Workspace,
           "workspace",
           body: {name: name, company_name: company_name, connect_partner_name: connect_partner_name, is_sandbox: is_sandbox, webview_logo_shape: webview_logo_shape, webview_primary_button_color: webview_primary_button_color}.compact
         )
@@ -19,7 +19,7 @@ module Seam
         request_seam_object(
           :post,
           "/workspaces/get",
-          Seam::Workspace,
+          Seam::Resources::Workspace,
           "workspace",
           body: {}.compact
         )
@@ -29,7 +29,7 @@ module Seam
         request_seam_object(
           :post,
           "/workspaces/list",
-          Seam::Workspace,
+          Seam::Resources::Workspace,
           "workspaces",
           body: {}.compact
         )
@@ -39,7 +39,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/workspaces/reset_sandbox",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {}.compact
         )

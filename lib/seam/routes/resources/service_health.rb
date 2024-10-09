@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Seam
-  class ServiceHealth < BaseResource
-    attr_accessor :description, :service, :status
+  module Resources
+    class ServiceHealth < BaseResource
+      attr_accessor :description, :service, :status
+    end
   end
 end

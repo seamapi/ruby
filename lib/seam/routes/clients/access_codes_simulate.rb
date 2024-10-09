@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/simulate/create_unmanaged_access_code",
-          Seam::UnmanagedAccessCode,
+          Seam::Resources::UnmanagedAccessCode,
           "access_code",
           body: {code: code, device_id: device_id, name: name}.compact
         )
