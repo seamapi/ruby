@@ -9,7 +9,7 @@ module Seam
         request_seam_object(
           :post,
           "/locks/get",
-          Seam::Device,
+          Seam::Resources::Device,
           "device",
           body: {device_id: device_id, name: name}.compact
         )
@@ -19,7 +19,7 @@ module Seam
         request_seam_object(
           :post,
           "/locks/list",
-          Seam::Device,
+          Seam::Resources::Device,
           "devices",
           body: {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, device_ids: device_ids, device_types: device_types, exclude_if: exclude_if, include_if: include_if, limit: limit, manufacturer: manufacturer, user_identifier_key: user_identifier_key}.compact
         )
@@ -29,7 +29,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/locks/lock_door",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {device_id: device_id, sync: sync}.compact
         )
@@ -41,7 +41,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/locks/unlock_door",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {device_id: device_id, sync: sync}.compact
         )

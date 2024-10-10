@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/entrances/get",
-          Seam::AcsEntrance,
+          Seam::Resources::AcsEntrance,
           "acs_entrance",
           body: {acs_entrance_id: acs_entrance_id}.compact
         )
@@ -27,7 +27,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/entrances/list",
-          Seam::AcsEntrance,
+          Seam::Resources::AcsEntrance,
           "acs_entrances",
           body: {acs_credential_id: acs_credential_id, acs_system_id: acs_system_id}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/entrances/list_credentials_with_access",
-          Seam::AcsCredential,
+          Seam::Resources::AcsCredential,
           "acs_credentials",
           body: {acs_entrance_id: acs_entrance_id, include_if: include_if}.compact
         )

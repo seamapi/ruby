@@ -27,7 +27,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/unmanaged/get",
-          Seam::UnmanagedAccessCode,
+          Seam::Resources::UnmanagedAccessCode,
           "access_code",
           body: {access_code_id: access_code_id, code: code, device_id: device_id}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/access_codes/unmanaged/list",
-          Seam::UnmanagedAccessCode,
+          Seam::Resources::UnmanagedAccessCode,
           "access_codes",
           body: {device_id: device_id, user_identifier_key: user_identifier_key}.compact
         )

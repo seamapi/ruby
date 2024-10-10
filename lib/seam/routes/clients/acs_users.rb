@@ -17,7 +17,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/users/create",
-          Seam::AcsUser,
+          Seam::Resources::AcsUser,
           "acs_user",
           body: {acs_system_id: acs_system_id, access_schedule: access_schedule, acs_access_group_ids: acs_access_group_ids, email: email, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_id: user_identity_id}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/users/get",
-          Seam::AcsUser,
+          Seam::Resources::AcsUser,
           "acs_user",
           body: {acs_user_id: acs_user_id}.compact
         )
@@ -47,7 +47,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/users/list",
-          Seam::AcsUser,
+          Seam::Resources::AcsUser,
           "acs_users",
           body: {acs_system_id: acs_system_id, created_before: created_before, limit: limit, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact
         )
@@ -57,7 +57,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/users/list_accessible_entrances",
-          Seam::AcsEntrance,
+          Seam::Resources::AcsEntrance,
           "acs_entrances",
           body: {acs_user_id: acs_user_id}.compact
         )

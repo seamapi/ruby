@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/systems/get",
-          Seam::AcsSystem,
+          Seam::Resources::AcsSystem,
           "acs_system",
           body: {acs_system_id: acs_system_id}.compact
         )
@@ -17,7 +17,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/systems/list",
-          Seam::AcsSystem,
+          Seam::Resources::AcsSystem,
           "acs_systems",
           body: {connected_account_id: connected_account_id}.compact
         )
@@ -27,7 +27,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/systems/list_compatible_credential_manager_acs_systems",
-          Seam::AcsSystem,
+          Seam::Resources::AcsSystem,
           "acs_systems",
           body: {acs_system_id: acs_system_id}.compact
         )

@@ -9,7 +9,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/action_attempts/get",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {action_attempt_id: action_attempt_id}.compact
         )
@@ -21,7 +21,7 @@ module Seam
         request_seam_object(
           :post,
           "/action_attempts/list",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempts",
           body: {action_attempt_ids: action_attempt_ids}.compact
         )
