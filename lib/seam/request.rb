@@ -34,7 +34,7 @@ module Seam
       status_code = response.status.code
       request_id = response.headers["seam-request-id"]
 
-      raise Http::HttpUnauthorizedError.new(request_id) if status_code == 401
+      raise Http::UnauthorizedError.new(request_id) if status_code == 401
 
       error = response.parse["error"] || {}
       error_type = error["type"] || "unknown_error"
@@ -52,7 +52,7 @@ module Seam
         )
       end
 
-      raise Http::HttpApiError.new(error_details, status_code, request_id)
+      raise Http::ApiError.new(error_details, status_code, request_id)
     end
 
     def build_url(uri)
