@@ -13,7 +13,7 @@ module Seam
 
       def initialize(api_key: nil, personal_access_token: nil, workspace_id: nil, endpoint: nil,
         wait_for_action_attempt: true, debug: false)
-        options = SeamOptions.parse_options(api_key: api_key, personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint)
+        options = Http::Options.parse_options(api_key: api_key, personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint)
         @endpoint = options[:endpoint]
         @auth_headers = options[:auth_headers]
         @debug = debug

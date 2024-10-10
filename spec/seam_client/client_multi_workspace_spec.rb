@@ -41,16 +41,18 @@ RSpec.describe Seam::Http::MultiWorkspace do
     it "raises SeamInvalidTokenError for invalid token formats" do
       expect do
         described_class.from_personal_access_token("invalid_token")
-      end.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError, /Unknown/)
       expect do
         described_class.from_personal_access_token("seam_apikey_token")
-      end.to raise_error(SeamAuth::SeamInvalidTokenError,
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError,
         /Unknown/)
       expect do
         described_class.from_personal_access_token("seam_cst")
-      end.to raise_error(SeamAuth::SeamInvalidTokenError,
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError,
         /Client Session Token/)
-      expect { described_class.from_personal_access_token("ey") }.to raise_error(SeamAuth::SeamInvalidTokenError, /JWT/)
+      expect do
+        described_class.from_personal_access_token("ey")
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError, /JWT/)
     end
   end
 end
