@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "seam/base_resource"
 require_relative "resource_error"
 require_relative "resource_warning"
 require_relative "resource_errors_support"

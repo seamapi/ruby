@@ -13,7 +13,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/thermostats/activate_climate_preset",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {climate_preset_key: climate_preset_key, device_id: device_id}.compact
         )
@@ -25,7 +25,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/thermostats/cool",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {device_id: device_id, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, sync: sync}.compact
         )
@@ -57,7 +57,7 @@ module Seam
         request_seam_object(
           :post,
           "/thermostats/get",
-          Seam::Device,
+          Seam::Resources::Device,
           "thermostat",
           body: {device_id: device_id, name: name}.compact
         )
@@ -67,7 +67,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/thermostats/heat",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {device_id: device_id, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, sync: sync}.compact
         )
@@ -79,7 +79,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/thermostats/heat_cool",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {device_id: device_id, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, sync: sync}.compact
         )
@@ -91,8 +91,8 @@ module Seam
         request_seam_object(
           :post,
           "/thermostats/list",
-          Seam::Device,
-          "thermostats",
+          Seam::Resources::Device,
+          "devices",
           body: {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, device_ids: device_ids, device_types: device_types, exclude_if: exclude_if, include_if: include_if, limit: limit, manufacturer: manufacturer, user_identifier_key: user_identifier_key}.compact
         )
       end
@@ -101,7 +101,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/thermostats/off",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {device_id: device_id, sync: sync}.compact
         )
@@ -123,7 +123,7 @@ module Seam
         action_attempt = request_seam_object(
           :post,
           "/thermostats/set_fan_mode",
-          Seam::ActionAttempt,
+          Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {device_id: device_id, fan_mode: fan_mode, fan_mode_setting: fan_mode_setting, sync: sync}.compact
         )

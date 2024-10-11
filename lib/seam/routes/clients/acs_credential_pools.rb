@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/acs/credential_pools/list",
-          Seam::AcsCredentialPool,
+          Seam::Resources::AcsCredentialPool,
           "acs_credential_pools",
           body: {acs_system_id: acs_system_id}.compact
         )
