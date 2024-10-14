@@ -16,7 +16,7 @@ RSpec.describe Seam::Clients::AccessCodesUnmanaged do
     let(:result) { client.unmanaged_access_codes.get(access_code_id: access_code_id) }
 
     it "returns an unmanaged Access Code" do
-      expect(result).to be_a(Seam::UnmanagedAccessCode)
+      expect(result).to be_a(Seam::Resources::UnmanagedAccessCode)
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe Seam::Clients::AccessCodesUnmanaged do
 
     it "returns a list of unmanaged Access Codes" do
       expect(unmanaged_access_codes).to be_a(Array)
-      expect(unmanaged_access_codes.first).to be_a(Seam::UnmanagedAccessCode)
+      expect(unmanaged_access_codes.first).to be_a(Seam::Resources::UnmanagedAccessCode)
       expect(unmanaged_access_codes.first.access_code_id).to be_a(String)
     end
   end

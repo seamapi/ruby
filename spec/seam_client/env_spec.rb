@@ -39,7 +39,7 @@ RSpec.describe Seam::Http do
     it "requires api_key when passed no argument" do
       expect do
         Seam.new
-      end.to raise_error(SeamOptions::SeamInvalidOptionsError, /api_key/)
+      end.to raise_error(Seam::Http::Options::SeamInvalidOptionsError, /api_key/)
     end
 
     it "uses SEAM_ENDPOINT environment variable first" do

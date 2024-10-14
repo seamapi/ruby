@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/client_sessions/create",
-          Seam::ClientSession,
+          Seam::Resources::ClientSession,
           "client_session",
           body: {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_ids: user_identity_ids}.compact
         )
@@ -27,7 +27,7 @@ module Seam
         request_seam_object(
           :post,
           "/client_sessions/get",
-          Seam::ClientSession,
+          Seam::Resources::ClientSession,
           "client_session",
           body: {client_session_id: client_session_id, user_identifier_key: user_identifier_key}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/client_sessions/get_or_create",
-          Seam::ClientSession,
+          Seam::Resources::ClientSession,
           "client_session",
           body: {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_ids: user_identity_ids}.compact
         )
@@ -57,7 +57,7 @@ module Seam
         request_seam_object(
           :post,
           "/client_sessions/list",
-          Seam::ClientSession,
+          Seam::Resources::ClientSession,
           "client_sessions",
           body: {client_session_id: client_session_id, connect_webview_id: connect_webview_id, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, without_user_identifier_key: without_user_identifier_key}.compact
         )

@@ -14,7 +14,7 @@ RSpec.describe Seam::Helpers::ActionAttempt do
       result: {}
     }
   end
-  let(:action_attempt) { Seam::ActionAttempt.new(action_attempt_hash, client) }
+  let(:action_attempt) { Seam::Resources::ActionAttempt.new(action_attempt_hash, client) }
 
   describe ".decide_and_wait" do
     context "when wait_for_action_attempt is true" do
@@ -73,7 +73,7 @@ RSpec.describe Seam::Helpers::ActionAttempt do
 
     it "returns an updated ActionAttempt" do
       expect(result.status).to eq(finished_status)
-      expect(result).to be_a(Seam::ActionAttempt)
+      expect(result).to be_a(Seam::Resources::ActionAttempt)
     end
   end
 

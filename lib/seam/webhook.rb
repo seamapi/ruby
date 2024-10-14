@@ -3,7 +3,7 @@
 require "svix"
 
 module Seam
-  class SeamWebhook
+  class Webhook
     def initialize(secret)
       @webhook = Svix::Webhook.new(secret)
     end

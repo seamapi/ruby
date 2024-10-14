@@ -1,44 +1,53 @@
 # frozen_string_literal: true
 
-require_relative "parse_options"
-require_relative "routes/routes"
+require_relative "http_single_workspace"
 
 module Seam
-  class Http
-    include Seam::Routes
-
-    attr_accessor :defaults
-
-    def initialize(api_key: nil, personal_access_token: nil, workspace_id: nil, endpoint: nil,
-      wait_for_action_attempt: true, debug: false)
-      options = SeamOptions.parse_options(api_key: api_key, personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint)
-      @endpoint = options[:endpoint]
-      @auth_headers = options[:auth_headers]
-      @debug = debug
-      @wait_for_action_attempt = wait_for_action_attempt
-      @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
+  module Http
+    def self.new(**args)
+      Http::SingleWorkspace.new(**args)
     end
 
-    def lts_version
-      Seam::LTS_VERSION
+    def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, debug: false)
+      Http::SingleWorkspace.from_api_key(api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt,
+        debug: debug)
     end
 
-    def request_seam_object(method, path, klass, inner_object, config = {})
-      response = request_seam(method, path, config)
-
-      data = response[inner_object]
-
-      klass.load_from_response(data, self)
+    def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: false, debug: false)
+      Http::SingleWorkspace.from_personal_access_token(personal_access_token, workspace_id, endpoint: endpoint,
+        wait_for_action_attempt: wait_for_action_attempt, debug: debug)
     end
 
-    def request_seam(method, path, config = {})
-      Seam::Request.new(
-        auth_headers: @auth_headers,
-        endpoint: @endpoint,
-        debug: @debug
-      ).perform(
-        method, path, config
-      )
+    class ApiError < StandardError
+      attr_reader :code, :status_code, :request_id, :data
+
+      def initialize(error, status_code, request_id)
+        super(error[:message])
+        @code = error[:type]
+        @status_code = status_code
+        @request_id = request_id
+        @data = error[:data]
+      end
+    end
+
+    class UnauthorizedError < ApiError
+      def initialize(request_id)
+        super({type: "unauthorized", message: "Unauthorized"}, 401, request_id)
+      end
+    end
+
+    class InvalidInputError < ApiError
+      attr_reader :validation_errors
+
+      def initialize(error, status_code, request_id)
+        super(error, status_code, request_id)
+        @code = "invalid_input"
+        @validation_errors = error["validation_errors"] || {}
+      end
+
+      def get_validation_error_messages(param_name)
+        @validation_errors.dig(param_name, "_errors") || []
+      end
     end
   end
 end

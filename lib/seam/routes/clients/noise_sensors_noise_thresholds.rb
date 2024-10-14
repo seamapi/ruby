@@ -7,7 +7,7 @@ module Seam
         request_seam_object(
           :post,
           "/noise_sensors/noise_thresholds/create",
-          Seam::NoiseThreshold,
+          Seam::Resources::NoiseThreshold,
           "noise_threshold",
           body: {device_id: device_id, ends_daily_at: ends_daily_at, starts_daily_at: starts_daily_at, name: name, noise_threshold_decibels: noise_threshold_decibels, noise_threshold_nrs: noise_threshold_nrs, sync: sync}.compact
         )
@@ -27,7 +27,7 @@ module Seam
         request_seam_object(
           :post,
           "/noise_sensors/noise_thresholds/get",
-          Seam::NoiseThreshold,
+          Seam::Resources::NoiseThreshold,
           "noise_threshold",
           body: {noise_threshold_id: noise_threshold_id}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/noise_sensors/noise_thresholds/list",
-          Seam::NoiseThreshold,
+          Seam::Resources::NoiseThreshold,
           "noise_thresholds",
           body: {device_id: device_id, is_programmed: is_programmed}.compact
         )

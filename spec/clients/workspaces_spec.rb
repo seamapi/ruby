@@ -14,7 +14,7 @@ RSpec.describe Seam::Clients::Workspaces do
 
     it "returns a list of Workspaces" do
       expect(workspaces).to be_a(Array)
-      expect(workspaces.first).to be_a(Seam::Workspace)
+      expect(workspaces.first).to be_a(Seam::Resources::Workspace)
       expect(workspaces.first.workspace_id).to be_a(String)
     end
   end
@@ -32,7 +32,7 @@ RSpec.describe Seam::Clients::Workspaces do
     let(:result) { client.workspaces.get }
 
     it "returns a Device" do
-      expect(result).to be_a(Seam::Workspace)
+      expect(result).to be_a(Seam::Resources::Workspace)
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe Seam::Clients::Workspaces do
     let(:result) { client.workspaces.reset_sandbox }
 
     it "returns a Resets the Workspace" do
-      expect(result).to be_a(Seam::ActionAttempt)
+      expect(result).to be_a(Seam::Resources::ActionAttempt)
     end
   end
 end

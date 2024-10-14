@@ -21,7 +21,7 @@ RSpec.describe Seam::Clients::AccessCodes do
 
       it "returns a list of Access codes" do
         expect(access_codes).to be_a(Array)
-        expect(access_codes.first).to be_a(Seam::AccessCode)
+        expect(access_codes.first).to be_a(Seam::Resources::AccessCode)
         expect(access_codes.first.access_code_id).to be_a(String)
       end
     end
@@ -38,7 +38,7 @@ RSpec.describe Seam::Clients::AccessCodes do
 
       it "returns a list of Access codes" do
         expect(access_codes).to be_a(Array)
-        expect(access_codes.first).to be_a(Seam::AccessCode)
+        expect(access_codes.first).to be_a(Seam::Resources::AccessCode)
         expect(access_codes.first.access_code_id).to be_a(String)
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe Seam::Clients::AccessCodes do
     let(:result) { client.access_codes.get(access_code_id: access_code_id) }
 
     it "returns an Access Code" do
-      expect(result).to be_a(Seam::AccessCode)
+      expect(result).to be_a(Seam::Resources::AccessCode)
     end
 
     it "returns access code errors" do
@@ -88,7 +88,7 @@ RSpec.describe Seam::Clients::AccessCodes do
     let(:result) { client.access_codes.create(**access_code_hash) }
 
     it "returns an Access Code" do
-      expect(result).to be_a(Seam::AccessCode)
+      expect(result).to be_a(Seam::Resources::AccessCode)
     end
   end
 
@@ -165,7 +165,7 @@ RSpec.describe Seam::Clients::AccessCodes do
     let(:result) { client.access_codes.pull_backup_access_code(access_code_id: access_code_id) }
 
     it "returns an backup Access Code" do
-      expect(result).to be_a(Seam::AccessCode)
+      expect(result).to be_a(Seam::Resources::AccessCode)
     end
   end
 end

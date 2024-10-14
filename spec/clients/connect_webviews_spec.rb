@@ -15,7 +15,7 @@ RSpec.describe Seam::Clients::ConnectWebviews do
 
     it "returns a list of Devices" do
       expect(connect_webviews).to be_a(Array)
-      expect(connect_webviews.first).to be_a(Seam::ConnectWebview)
+      expect(connect_webviews.first).to be_a(Seam::Resources::ConnectWebview)
       expect(connect_webviews.first.connect_webview_id).to be_a(String)
     end
   end
@@ -33,7 +33,7 @@ RSpec.describe Seam::Clients::ConnectWebviews do
     let(:result) { client.connect_webviews.get(connect_webview_id: connect_webview_id) }
 
     it "returns a Device" do
-      expect(result).to be_a(Seam::ConnectWebview)
+      expect(result).to be_a(Seam::Resources::ConnectWebview)
     end
   end
 
@@ -70,7 +70,7 @@ RSpec.describe Seam::Clients::ConnectWebviews do
     end
 
     it "returns a ConnectWebview" do
-      expect(result).to be_a(Seam::ConnectWebview)
+      expect(result).to be_a(Seam::Resources::ConnectWebview)
     end
   end
 end

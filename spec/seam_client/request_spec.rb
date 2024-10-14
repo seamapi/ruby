@@ -11,8 +11,8 @@ RSpec.describe Seam::Http do
           .to_return(status: 401, headers: {"seam-request-id" => request_id})
       end
 
-      it "raises SeamHttpUnauthorizedError" do
-        expect { seam.devices.list }.to raise_error(Seam::Errors::SeamHttpUnauthorizedError) do |error|
+      it "raises UnauthorizedError" do
+        expect { seam.devices.list }.to raise_error(Seam::Http::UnauthorizedError) do |error|
           expect(error.message).to eq("Unauthorized")
           expect(error.request_id).to eq(request_id)
         end
@@ -37,10 +37,10 @@ RSpec.describe Seam::Http do
                                                                            "seam-request-id" => request_id})
       end
 
-      it "raises SeamHttpInvalidInputError" do
+      it "raises InvalidInputError" do
         expect do
           seam.devices.get(device_id: "invalid_device_id")
-        end.to raise_error(Seam::Errors::SeamHttpInvalidInputError) do |error|
+        end.to raise_error(Seam::Http::InvalidInputError) do |error|
           expect(error.message).to eq(error_message)
           expect(error.status_code).to eq(error_status)
           expect(error.request_id).to eq(request_id)
@@ -67,8 +67,8 @@ RSpec.describe Seam::Http do
                                                                            "seam-request-id" => request_id})
       end
 
-      it "raises SeamHttpApiError with the correct details" do
-        expect { seam.devices.list }.to raise_error(Seam::Errors::SeamHttpApiError) do |error|
+      it "raises ApiError with the correct details" do
+        expect { seam.devices.list }.to raise_error(Seam::Http::ApiError) do |error|
           expect(error.message).to eq(error_message)
           expect(error.status_code).to eq(error_status)
           expect(error.request_id).to eq(request_id)

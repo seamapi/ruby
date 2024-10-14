@@ -2,14 +2,14 @@
 
 require "spec_helper"
 
-RSpec.describe Seam::HttpMultiWorkspace do
+RSpec.describe Seam::Http::MultiWorkspace do
   let(:personal_access_token) { "seam_at_12345" }
   let(:endpoint) { "https://example.com/api" }
   let(:client) { described_class.from_personal_access_token(personal_access_token, endpoint: endpoint) }
 
   describe ".from_personal_access_token" do
     it "creates a new instance with the given token and endpoint" do
-      expect(client).to be_a(Seam::HttpMultiWorkspace)
+      expect(client).to be_a(Seam::Http::MultiWorkspace)
       expect(client.instance_variable_get(:@auth_headers)).to include("authorization" => "Bearer #{personal_access_token}")
       expect(client.instance_variable_get(:@endpoint)).to eq(endpoint)
     end
@@ -32,17 +32,27 @@ RSpec.describe Seam::HttpMultiWorkspace do
         is_sandbox: true
       )
 
-      expect(workspace).to be_a(Seam::Workspace)
+      expect(workspace).to be_a(Seam::Resources::Workspace)
       expect(workspace.workspace_id).to eq("ws_123456")
     end
   end
 
   describe "token format validation" do
     it "raises SeamInvalidTokenError for invalid token formats" do
-      expect { described_class.from_personal_access_token("invalid_token") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
-      expect { described_class.from_personal_access_token("seam_apikey_token") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Unknown/)
-      expect { described_class.from_personal_access_token("seam_cst") }.to raise_error(SeamAuth::SeamInvalidTokenError, /Client Session Token/)
-      expect { described_class.from_personal_access_token("ey") }.to raise_error(SeamAuth::SeamInvalidTokenError, /JWT/)
+      expect do
+        described_class.from_personal_access_token("invalid_token")
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError, /Unknown/)
+      expect do
+        described_class.from_personal_access_token("seam_apikey_token")
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError,
+        /Unknown/)
+      expect do
+        described_class.from_personal_access_token("seam_cst")
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError,
+        /Client Session Token/)
+      expect do
+        described_class.from_personal_access_token("ey")
+      end.to raise_error(Seam::Http::Auth::SeamInvalidTokenError, /JWT/)
     end
   end
 end

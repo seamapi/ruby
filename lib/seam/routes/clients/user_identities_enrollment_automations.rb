@@ -17,7 +17,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/enrollment_automations/get",
-          Seam::EnrollmentAutomation,
+          Seam::Resources::EnrollmentAutomation,
           "enrollment_automation",
           body: {enrollment_automation_id: enrollment_automation_id}.compact
         )
@@ -37,7 +37,7 @@ module Seam
         request_seam_object(
           :post,
           "/user_identities/enrollment_automations/list",
-          Seam::EnrollmentAutomation,
+          Seam::Resources::EnrollmentAutomation,
           "enrollment_automations",
           body: {user_identity_id: user_identity_id}.compact
         )

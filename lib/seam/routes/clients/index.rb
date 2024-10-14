@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "seam/base_client"
 require_relative "access_codes"
 require_relative "access_codes_simulate"
 require_relative "access_codes_unmanaged"
