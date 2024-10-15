@@ -27,10 +27,10 @@ module Seam
         )
       end
 
-      def read_card(acs_system_id: nil, device_name: nil, device_id: nil, wait_for_action_attempt: nil)
+      def scan_card(acs_system_id:, device_name: nil, device_id: nil, wait_for_action_attempt: nil)
         action_attempt = request_seam_object(
           :post,
-          "/acs/encoders/read_card",
+          "/acs/encoders/scan_card",
           Seam::Resources::ActionAttempt,
           "action_attempt",
           body: {acs_system_id: acs_system_id, device_name: device_name, device_id: device_id}.compact

@@ -34,13 +34,13 @@ module Seam
       end
 
       def update(connected_account_id:, automatically_manage_new_devices: nil, custom_metadata: nil)
-        request_seam_object(
+        request_seam(
           :post,
           "/connected_accounts/update",
-          Seam::Resources::ConnectedAccount,
-          "connected_account",
           body: {connected_account_id: connected_account_id, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata}.compact
         )
+
+        nil
       end
     end
   end
