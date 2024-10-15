@@ -90,6 +90,16 @@ module Seam
 
         nil
       end
+
+      def update_multiple(common_code_key:, allow_external_modification: nil, code: nil, ends_at: nil, is_external_modification_allowed: nil, name: nil, prefer_native_scheduling: nil, starts_at: nil)
+        request_seam(
+          :post,
+          "/access_codes/update_multiple",
+          body: {common_code_key: common_code_key, allow_external_modification: allow_external_modification, code: code, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, name: name, prefer_native_scheduling: prefer_native_scheduling, starts_at: starts_at}.compact
+        )
+
+        nil
+      end
     end
   end
 end
