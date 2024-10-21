@@ -40,7 +40,7 @@ module Seam
       attr_reader :validation_errors
 
       def initialize(error, status_code, request_id)
-        super(error, status_code, request_id)
+        super
         @code = "invalid_input"
         @validation_errors = error["validation_errors"] || {}
       end
