@@ -6,12 +6,18 @@ require "faraday/retry"
 module Seam
   module Http
     module Request
-      def self.create_faraday_client(endpoint, auth_headers)
-        Faraday.new(endpoint) do |builder|
+      def self.create_faraday_client(endpoint, auth_headers, client_options = {})
+        default_options = {
+          url: endpoint,
+          headers: auth_headers.merge(default_headers)
+        }
+
+        options = deep_merge(default_options, client_options)
+
+        Faraday.new(options) do |builder|
           builder.request :json
           builder.request :retry, backoff_factor: 2
           builder.response :json
-          builder.headers = auth_headers.merge(default_headers)
         end
       end
 
@@ -57,6 +63,20 @@ module Seam
           :"seam-lts-version" => Seam::LTS_VERSION
         }
       end
+
+      def self.deep_merge(hash1, hash2)
+        result = hash1.dup
+        hash2.each do |key, value|
+          result[key] = if value.is_a?(Hash) && result[key].is_a?(Hash)
+            deep_merge(result[key], value)
+          else
+            value
+          end
+        end
+        result
+      end
+
+      private_class_method :deep_merge
     end
   end
 end
