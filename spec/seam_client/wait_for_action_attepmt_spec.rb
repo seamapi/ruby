@@ -39,7 +39,7 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key, wait_for_action_attempt: false)
 
       stub_seam_request(:post, "/locks/unlock_door", success_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id, wait_for_action_attempt: true)
       expect(action_attempt.status).to eq("success")
@@ -49,7 +49,7 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key)
 
       stub_seam_request(:post, "/locks/unlock_door", success_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id)
       expect(action_attempt.status).to eq("success")
@@ -59,7 +59,7 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key, wait_for_action_attempt: false)
 
       stub_seam_request(:post, "/locks/unlock_door", pending_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id)
       expect(action_attempt.status).to eq("pending")
@@ -69,7 +69,7 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key, wait_for_action_attempt: {timeout: 5})
 
       stub_seam_request(:post, "/locks/unlock_door", success_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id)
       expect(action_attempt.status).to eq("success")
@@ -79,13 +79,13 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key, wait_for_action_attempt: false)
 
       stub_seam_request(:post, "/locks/unlock_door", pending_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id)
       expect(action_attempt.status).to eq("pending")
 
       stub_seam_request(:post, "/action_attempts/get", success_response)
-        .with { |req| req.body.source == {action_attempt_id: "1234"}.to_json }
+        .with { |req| req.body == {action_attempt_id: "1234"}.to_json }
 
       successful_action_attempt = client.action_attempts.get(
         action_attempt_id: action_attempt.action_attempt_id
@@ -106,13 +106,13 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key, wait_for_action_attempt: false)
 
       stub_seam_request(:post, "/locks/unlock_door", pending_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id)
       expect(action_attempt.status).to eq("pending")
 
       stub_seam_request(:post, "/action_attempts/get", pending_response)
-        .with { |req| req.body.source == {action_attempt_id: "1234"}.to_json }
+        .with { |req| req.body == {action_attempt_id: "1234"}.to_json }
 
       expect do
         client.action_attempts.get(
@@ -129,13 +129,13 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key, wait_for_action_attempt: false)
 
       stub_seam_request(:post, "/locks/unlock_door", pending_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id)
       expect(action_attempt.status).to eq("pending")
 
       stub_seam_request(:post, "/action_attempts/get", error_response)
-        .with { |req| req.body.source == {action_attempt_id: "1234"}.to_json }
+        .with { |req| req.body == {action_attempt_id: "1234"}.to_json }
 
       expect do
         client.action_attempts.get(
@@ -154,13 +154,13 @@ RSpec.describe Seam::Http do
       client = described_class.new(api_key: api_key, wait_for_action_attempt: false)
 
       stub_seam_request(:post, "/locks/unlock_door", pending_response)
-        .with { |req| req.body.source == {device_id: device_id}.to_json }
+        .with { |req| req.body == {device_id: device_id}.to_json }
 
       action_attempt = client.locks.unlock_door(device_id: device_id)
       expect(action_attempt.status).to eq("pending")
 
       stub_seam_request(:post, "/action_attempts/get", pending_response)
-        .with { |req| req.body.source == {action_attempt_id: "1234"}.to_json }
+        .with { |req| req.body == {action_attempt_id: "1234"}.to_json }
 
       expect do
         client.action_attempts.get(

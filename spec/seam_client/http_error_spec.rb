@@ -23,7 +23,7 @@ RSpec.describe Seam::Http::InvalidInputError do
       stub_seam_request(:post, "/devices/list",
         error_response,
         status: 400).with do |req|
-        req.body.source == {device_ids: 123}.to_json
+        req.body == {device_ids: 123}.to_json
       end
 
       expect do
@@ -39,7 +39,7 @@ RSpec.describe Seam::Http::InvalidInputError do
       stub_seam_request(:post, "/devices/list",
         error_response,
         status: 400).with do |req|
-        req.body.source == {device_ids: 123}.to_json
+        req.body == {device_ids: 123}.to_json
       end
 
       begin

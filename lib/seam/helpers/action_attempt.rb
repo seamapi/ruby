@@ -45,7 +45,7 @@ module Seam
           }
         )
 
-        action_attempt.update_from_response(response["action_attempt"])
+        action_attempt.update_from_response(response.body["action_attempt"])
         action_attempt
       end
     end

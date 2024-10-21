@@ -13,7 +13,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       before do
         stub_seam_request(:post, "/access_codes/list",
           {access_codes: [access_code_hash]}).with do |req|
-          req.body.source == {device_id: device_id}.to_json
+          req.body == {device_id: device_id}.to_json
         end
       end
 
@@ -30,7 +30,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       before do
         stub_seam_request(:post, "/access_codes/list",
           {access_codes: [access_code_hash]}).with do |req|
-          req.body.source == {access_code_ids: [access_code_id]}.to_json
+          req.body == {access_code_ids: [access_code_id]}.to_json
         end
       end
 
@@ -58,7 +58,7 @@ RSpec.describe Seam::Clients::AccessCodes do
           errors: [failed_to_set_error],
           warnings: [delay_in_setting_warning]
         )}
-      ).with { |req| req.body.source == {access_code_id: access_code_id}.to_json }
+      ).with { |req| req.body == {access_code_id: access_code_id}.to_json }
     end
 
     let(:result) { client.access_codes.get(access_code_id: access_code_id) }
@@ -100,7 +100,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       stub_seam_request(
         :post, "/access_codes/delete", {action_attempt: action_attempt_hash}
       ).with do |req|
-        req.body.source == {access_code_id: access_code_id}.to_json
+        req.body == {access_code_id: access_code_id}.to_json
       end
 
       stub_seam_request(
@@ -111,7 +111,7 @@ RSpec.describe Seam::Clients::AccessCodes do
             status: "success"
           }
         }
-      ).with { |req| req.body.source == {action_attempt_id: action_attempt_hash[:action_attempt_id]}.to_json }
+      ).with { |req| req.body == {action_attempt_id: action_attempt_hash[:action_attempt_id]}.to_json }
     end
 
     let(:result) { client.access_codes.delete(access_code_id: access_code_id) }
@@ -129,7 +129,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       stub_seam_request(
         :post, "/access_codes/update", {action_attempt: action_attempt_hash}
       ).with do |req|
-        req.body.source == {access_code_id: access_code_id, type: "ongoing"}.to_json
+        req.body == {access_code_id: access_code_id, type: "ongoing"}.to_json
       end
 
       stub_seam_request(
@@ -140,7 +140,7 @@ RSpec.describe Seam::Clients::AccessCodes do
             status: "success"
           }
         }
-      ).with { |req| req.body.source == {action_attempt_id: action_attempt_hash[:action_attempt_id]}.to_json }
+      ).with { |req| req.body == {action_attempt_id: action_attempt_hash[:action_attempt_id]}.to_json }
     end
 
     let(:result) { client.access_codes.update(access_code_id: access_code_id, type: "ongoing") }
@@ -158,7 +158,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       stub_seam_request(
         :post, "/access_codes/pull_backup_access_code", {backup_access_code: access_code_hash}
       ).with do |req|
-        req.body.source == {access_code_id: access_code_id}.to_json
+        req.body == {access_code_id: access_code_id}.to_json
       end
     end
 
