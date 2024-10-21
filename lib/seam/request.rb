@@ -1,76 +1,64 @@
 # frozen_string_literal: true
 
-require "http"
+require "faraday"
+require "faraday/retry"
 
 module Seam
-  class Request
-    attr_reader :endpoint, :debug
-
-    def initialize(auth_headers:, endpoint:, debug: false)
-      @auth_headers = auth_headers
-      @endpoint = endpoint
-      @debug = debug
-    end
-
-    def perform(method, uri, config = {})
-      Logger.info("Request: #{method} #{uri} #{config}") if debug
-
-      config[:body] = config[:body].to_json if config[:body]
-
-      response = HTTP.request(
-        method,
-        build_url(uri),
-        {headers: headers}.merge(config)
-      )
-
-      return response.parse if response.status.success?
-
-      handle_error_response(response, method, uri)
-    end
-
-    protected
-
-    def handle_error_response(response, _method, _uri)
-      status_code = response.status.code
-      request_id = response.headers["seam-request-id"]
-
-      raise Http::UnauthorizedError.new(request_id) if status_code == 401
-
-      error = response.parse["error"] || {}
-      error_type = error["type"] || "unknown_error"
-      error_details = {
-        type: error_type,
-        message: error["message"] || "Unknown error",
-        data: error["data"]
-      }
-
-      if error_type == "invalid_input"
-        error_details["validation_errors"] = error["validation_errors"]
-
-        raise Http::InvalidInputError.new(
-          error_details, status_code, request_id
-        )
+  module Http
+    module Request
+      def self.create_faraday_client(endpoint, auth_headers, debug)
+        Faraday.new(endpoint) do |builder|
+          builder.request :json
+          builder.request :retry # TODO: provide retry options
+          builder.response :json
+          builder.response :logger if debug
+          builder.headers = auth_headers
+        end
       end
 
-      raise Http::ApiError.new(error_details, status_code, request_id)
-    end
+      def self.handle_error_response(response, method, path)
+        status_code = response.status
+        request_id = response.headers["seam-request-id"]
 
-    def build_url(uri)
-      "#{endpoint}#{uri}"
-    end
+        raise Http::UnauthorizedError.new(request_id) if status_code == 401
 
-    def headers
-      {
-        "User-Agent" => user_agent,
-        "Content-Type" => "application/json",
-        :"seam-sdk-name" => "seamapi/ruby",
-        :"seam-sdk-version" => Seam::VERSION,
-        :"seam-lts-version" => Seam::LTS_VERSION
-      }.merge(@auth_headers)
-    end
+        error = response.body["error"] || {}
+        error_type = error["type"] || "unknown_error"
+        error_details = {
+          type: error_type,
+          message: error["message"] || "Unknown error",
+          data: error["data"]
+        }
 
-    def user_agent
-      "seam-ruby/#{Seam::VERSION}"
+        if error_type == "invalid_input"
+          error_details["validation_errors"] = error["validation_errors"]
+          raise Http::InvalidInputError.new(error_details, status_code, request_id)
+        end
+
+        raise Http::ApiError.new(error_details, status_code, request_id)
+      end
+
+      def self.request_seam(client, endpoint, method, path, config = {})
+        url = "#{endpoint}#{path}"
+        headers = config[:headers] || {}
+        response = client.run_request(method, url, config[:body], headers.merge(default_headers))
+
+        if response.success?
+          response
+        else
+          handle_error_response(response, method, path)
+        end
+      end
+
+      def self.default_headers
+        {
+          "User-Agent" => "seam-ruby/#{Seam::VERSION}",
+          "Content-Type" => "application/json",
+          :"seam-sdk-name" => "seamapi/ruby",
+          :"seam-sdk-version" => Seam::VERSION,
+          :"seam-lts-version" => Seam::LTS_VERSION
+        }
+      end
     end
   end
 end
