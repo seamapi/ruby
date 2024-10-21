@@ -9,7 +9,7 @@ module Seam
       def self.create_faraday_client(endpoint, auth_headers)
         Faraday.new(endpoint) do |builder|
           builder.request :json
-          builder.request :retry # TODO: provide retry options
+          builder.request :retry, backoff_factor: 2
           builder.response :json
           builder.headers = auth_headers
         end
