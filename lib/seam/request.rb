@@ -6,12 +6,11 @@ require "faraday/retry"
 module Seam
   module Http
     module Request
-      def self.create_faraday_client(endpoint, auth_headers, debug)
+      def self.create_faraday_client(endpoint, auth_headers)
         Faraday.new(endpoint) do |builder|
           builder.request :json
           builder.request :retry # TODO: provide retry options
           builder.response :json
-          builder.response :logger if debug
           builder.headers = auth_headers
         end
       end

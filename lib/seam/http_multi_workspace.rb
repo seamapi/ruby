@@ -10,13 +10,12 @@ module Seam
     class MultiWorkspace
       attr_reader :client, :wait_for_action_attempt, :defaults
 
-      def initialize(personal_access_token:, endpoint: nil, wait_for_action_attempt: true, debug: false)
+      def initialize(personal_access_token:, endpoint: nil, wait_for_action_attempt: true)
         @wait_for_action_attempt = wait_for_action_attempt
         @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
         @endpoint = Http::Options.get_endpoint(endpoint)
         @auth_headers = Http::Auth.get_auth_headers_for_multi_workspace_personal_access_token(personal_access_token)
-        @debug = debug
-        @client = Seam::Http::Request.create_faraday_client(@endpoint, @auth_headers, @debug)
+        @client = Seam::Http::Request.create_faraday_client(@endpoint, @auth_headers)
       end
 
       def self.lts_version
@@ -31,12 +30,11 @@ module Seam
         @workspaces ||= WorkspacesProxy.new(Seam::Clients::Workspaces.new(self))
       end
 
-      def self.from_personal_access_token(personal_access_token, endpoint: nil, wait_for_action_attempt: true, debug: false)
+      def self.from_personal_access_token(personal_access_token, endpoint: nil, wait_for_action_attempt: true)
         new(
           personal_access_token: personal_access_token,
           endpoint: endpoint,
-          wait_for_action_attempt: wait_for_action_attempt,
-          debug: debug
+          wait_for_action_attempt: wait_for_action_attempt
         )
       end
 
