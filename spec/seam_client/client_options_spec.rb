@@ -7,8 +7,8 @@ RSpec.describe Seam::Http::SingleWorkspace do
   let(:endpoint) { "https://example.com/api" }
   let(:client_options) do
     {
-      headers: { "Custom-Header" => "Test-Value" },
-      request: { timeout: 30 }
+      headers: {"Custom-Header" => "Test-Value"},
+      request: {timeout: 30}
     }
   end
 
@@ -17,7 +17,7 @@ RSpec.describe Seam::Http::SingleWorkspace do
       expect(Faraday).to receive(:new).with(
         hash_including(
           headers: hash_including("Custom-Header" => "Test-Value"),
-          request: { timeout: 30 }
+          request: {timeout: 30}
         )
       ).and_call_original
 
