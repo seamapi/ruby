@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
+require_relative "request"
 require_relative "parse_options"
 require_relative "lts_version"
 require_relative "auth"
-require_relative "request"
 
 module Seam
   module Http
     class MultiWorkspace
-      attr_reader :wait_for_action_attempt, :defaults
+      attr_reader :client, :wait_for_action_attempt, :defaults
 
-      def initialize(personal_access_token:, endpoint: nil, wait_for_action_attempt: true)
+      def initialize(personal_access_token:, endpoint: nil, wait_for_action_attempt: true, debug: false)
         @wait_for_action_attempt = wait_for_action_attempt
         @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
         @endpoint = Http::Options.get_endpoint(endpoint)
         @auth_headers = Http::Auth.get_auth_headers_for_multi_workspace_personal_access_token(personal_access_token)
+        @debug = debug
+        @client = Seam::Http::Request.create_faraday_client(@endpoint, @auth_headers, @debug)
       end
 
       def self.lts_version
@@ -29,29 +31,23 @@ module Seam
         @workspaces ||= WorkspacesProxy.new(Seam::Clients::Workspaces.new(self))
       end
 
-      def self.from_personal_access_token(personal_access_token, endpoint: nil, wait_for_action_attempt: true)
+      def self.from_personal_access_token(personal_access_token, endpoint: nil, wait_for_action_attempt: true, debug: false)
         new(
           personal_access_token: personal_access_token,
           endpoint: endpoint,
-          wait_for_action_attempt: wait_for_action_attempt
+          wait_for_action_attempt: wait_for_action_attempt,
+          debug: debug
         )
       end
 
       def request_seam_object(method, path, klass, inner_object, config = {})
-        response = request_seam(method, path, config)
-
-        data = response[inner_object]
-
+        response = Seam::Http::Request.request_seam(@client, @endpoint, method, path, config)
+        data = response.body[inner_object]
         klass.load_from_response(data, self)
       end
 
       def request_seam(method, path, config = {})
-        Seam::Request.new(
-          auth_headers: @auth_headers,
-          endpoint: @endpoint
-        ).perform(
-          method, path, config
-        )
+        Seam::Http::Request.request_seam(@client, @endpoint, method, path, config)
       end
     end
   end
