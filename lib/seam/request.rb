@@ -11,7 +11,7 @@ module Seam
           builder.request :json
           builder.request :retry, backoff_factor: 2
           builder.response :json
-          builder.headers = auth_headers
+          builder.headers = auth_headers.merge(default_headers)
         end
       end
 
@@ -39,8 +39,7 @@ module Seam
 
       def self.request_seam(client, endpoint, method, path, config = {})
         url = "#{endpoint}#{path}"
-        headers = config[:headers] || {}
-        response = client.run_request(method, url, config[:body], headers.merge(default_headers))
+        response = client.run_request(method, url, config[:body], config[:headers])
 
         if response.success?
           response
