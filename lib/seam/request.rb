@@ -34,11 +34,12 @@ module Seam
 
         raise Http::UnauthorizedError.new(request_id) if status_code == 401
 
-        error = response.body["error"] || {}
+        error = response.body.is_a?(Hash) ? response.body["error"] || {} : {}
         error_type = error["type"] || "unknown_error"
+        error_message = error["message"] || "Unknown error"
         error_details = {
           type: error_type,
-          message: error["message"] || "Unknown error",
+          message: error_message,
           data: error["data"]
         }
 
