@@ -8,7 +8,7 @@ require_relative "auth"
 module Seam
   module Http
     class MultiWorkspace
-      attr_reader :client, :wait_for_action_attempt, :defaults
+      attr_reader :client, :defaults
 
       def initialize(personal_access_token:, endpoint: nil, wait_for_action_attempt: true, client_options: {}, retry_options: {})
         @wait_for_action_attempt = wait_for_action_attempt
