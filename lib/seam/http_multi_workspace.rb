@@ -50,19 +50,19 @@ module Seam
         Seam::Http::Request.request_seam(@client, @endpoint, method, path, config)
       end
     end
-  end
-end
 
-class WorkspacesProxy
-  def initialize(workspaces)
-    @workspaces = workspaces
-  end
+    class WorkspacesProxy
+      def initialize(workspaces)
+        @workspaces = workspaces
+      end
 
-  def list(**kwargs)
-    @workspaces.list(**kwargs)
-  end
+      def list(**kwargs)
+        @workspaces.list(**kwargs)
+      end
 
-  def create(**kwargs)
-    @workspaces.create(**kwargs)
+      def create(**kwargs)
+        @workspaces.create(**kwargs)
+      end
+    end
   end
 end
