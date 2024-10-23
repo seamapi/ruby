@@ -6,29 +6,29 @@ require "faraday/retry"
 module Seam
   module Http
     module Request
-      def self.create_faraday_client(endpoint, auth_headers, client_options = {}, retry_options = {})
+      def self.create_faraday_client(endpoint, auth_headers, faraday_options = {}, faraday_retry_options = {})
         default_options = {
           url: endpoint,
           headers: auth_headers.merge(default_headers)
         }
 
-        options = deep_merge(default_options, client_options)
+        options = deep_merge(default_options, faraday_options)
 
-        default_retry_options = {
+        default_faraday_retry_options = {
           max: 2,
           backoff_factor: 2
         }
 
-        retry_options = default_retry_options.merge(retry_options)
+        faraday_retry_options = default_faraday_retry_options.merge(faraday_retry_options)
 
         Faraday.new(options) do |builder|
           builder.request :json
-          builder.request :retry, retry_options
+          builder.request :retry, faraday_retry_options
           builder.response :json
         end
       end
 
-      def self.handle_error_response(response, method, path)
+      def self.handle_error_response(response, _method, _path)
         status_code = response.status
         request_id = response.headers["seam-request-id"]
 

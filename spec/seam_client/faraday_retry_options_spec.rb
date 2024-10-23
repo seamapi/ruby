@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Seam::Http::SingleWorkspace do
   let(:api_key) { "seam_test_api_key" }
   let(:endpoint) { "https://example.com/api" }
-  let(:retry_options) do
+  let(:faraday_retry_options) do
     {
       max: 3,
       interval: 0.1,
@@ -15,11 +15,11 @@ RSpec.describe Seam::Http::SingleWorkspace do
   end
 
   describe "retry options" do
-    it "passes retry_options to the Faraday client and uses them" do
+    it "passes faraday_retry_options to the Faraday client and uses them" do
       client = described_class.new(
         api_key: api_key,
         endpoint: endpoint,
-        retry_options: retry_options
+        faraday_retry_options: faraday_retry_options
       )
 
       stub_request(:post, "#{endpoint}/devices/list")
