@@ -7,17 +7,235 @@ SDK for the Seam API written in Ruby.
 
 ## Description
 
-TODO
+[Seam](https://seam.co) makes it easy to integrate IoT devices with your applications.
+This is an official SDK for the Seam API.
+Please refer to the official [Seam Docs](https://docs.seam.co/latest/) to get started.
+
+Parts of this SDK are generated from always up-to-date type information
+provided by [@seamapi/types](https://github.com/seamapi/types/) node package.
+This ensures all API methods, request shapes, and response shapes are
+accurate and fully typed.
 
 ## Installation
 
-Add this as a dependency to your project using [Bundler] with
+Add this as a dependency to your project using [Bundler](https://bundler.io/) with:
 
-```
+```bash
 $ bundle add seam
 ```
 
-[bundler]: https://bundler.io/
+## Usage
+
+### Examples
+
+**Note:** _These examples assume `SEAM_API_KEY` is set in your environment._
+
+#### List devices
+
+```ruby
+require 'seam'
+
+seam = Seam.new
+devices = seam.devices.list
+```
+
+#### Unlock a door
+
+```ruby
+require 'seam'
+
+seam = Seam.new
+lock = seam.locks.get(name: "Front Door")
+seam.locks.unlock_door(device_id: lock.device_id)
+```
+
+### Authentication Method
+
+The SDK supports API key and personal access token authentication mechanisms.
+Authentication may be configured by passing the corresponding options directly to the `Seam` constructor, or with the more ergonomic static factory methods.
+
+#### API Key
+
+An API key is scoped to a single workspace and should only be used on the server.
+Obtain one from the Seam Console.
+
+```ruby
+# Set the `SEAM_API_KEY` environment variable
+seam = Seam.new
+
+# Pass as a keyword argument to the constructor
+seam = Seam.new(api_key: "your-api-key")
+
+# Use the factory method
+seam = Seam.from_api_key("your-api-key")
+```
+
+#### Personal Access Token
+
+A Personal Access Token is scoped to a Seam Console user.
+Obtain one from the Seam Console.
+A workspace ID must be provided when using this method and all requests will be scoped to that workspace.
+
+```ruby
+# Pass as an option to the constructor
+seam = Seam.new(
+  personal_access_token: "your-personal-access-token",
+  workspace_id: "your-workspace-id"
+)
+
+# Use the factory method
+seam = Seam.from_personal_access_token(
+  "your-personal-access-token",
+  "your-workspace-id"
+)
+```
+
+### Action Attempts
+
+Some asynchronous operations, e.g., unlocking a door, return an
+[action attempt](https://docs.seam.co/latest/core-concepts/action-attempts).
+Seam tracks the progress of the requested operation and updates the action attempt
+when it succeeds or fails.
+
+To make working with action attempts more convenient for applications,
+this library provides the `wait_for_action_attempt` option and enables it by default.
+
+When the `wait_for_action_attempt` option is enabled, the SDK:
+
+- Polls the action attempt up to the `timeout`
+  at the `polling_interval` (both in seconds).
+- Resolves with a fresh copy of the successful action attempt.
+- Raises a `Seam::ActionAttemptFailedError` if the action attempt is unsuccessful.
+- Raises a `Seam::ActionAttemptTimeoutError` if the action attempt is still pending when the `timeout` is reached.
+- Both errors expose an `action_attempt` property.
+
+If you already have an action attempt ID
+and want to wait for it to resolve, simply use:
+
+```ruby
+seam.action_attempts.get(action_attempt_id: action_attempt_id)
+```
+
+Or, to get the current state of an action attempt by ID without waiting:
+
+```ruby
+seam.action_attempts.get(
+  action_attempt_id: action_attempt_id,
+  wait_for_action_attempt: false
+)
+```
+
+To disable this behavior, set the default option for the client:
+
+```ruby
+seam = Seam.new(
+  api_key: "your-api-key",
+  wait_for_action_attempt: false
+)
+
+seam.locks.unlock_door(device_id: device_id)
+```
+
+or the behavior may be configured per-request:
+
+```ruby
+seam.locks.unlock_door(
+  device_id: device_id,
+  wait_for_action_attempt: false
+)
+```
+
+The `polling_interval` and `timeout` may be configured for the client or per-request.
+For example:
+
+```ruby
+require 'seam'
+
+seam = Seam.new("your-api-key")
+
+locks = seam.locks.list
+
+if locks.empty?
+  raise "No locks in this workspace"
+end
+
+lock = locks.first
+
+begin
+  seam.locks.unlock_door(
+    device_id: lock.device_id,
+    wait_for_action_attempt: {
+      timeout: 5.0,
+      polling_interval: 1.0
+    }
+  )
+
+  puts "Door unlocked"
+rescue Seam::ActionAttemptFailedError
+  puts "Could not unlock the door"
+rescue Seam::ActionAttemptTimeoutError
+  puts "Door took too long to unlock"
+end
+```
+
+### Interacting with Multiple Workspaces
+
+Some Seam API endpoints interact with multiple workspaces. The `Seam::Http::SeamMultiWorkspace` client is not bound to a specific workspace and may use those endpoints with a personal access token authentication method.
+
+A Personal Access Token is scoped to a Seam Console user. Obtain one from the Seam Console.
+
+```ruby
+# Pass as an option to the constructor
+seam = Seam::Http::SeamMultiWorkspace.new(personal_access_token: "your-personal-access-token")
+
+# Use the factory method
+seam = Seam::Http::SeamMultiWorkspace.from_personal_access_token("your-personal-access-token")
+
+# List workspaces authorized for this Personal Access Token
+workspaces = seam.workspaces.list
+```
+
+### Webhooks
+
+The Seam API implements webhooks using [Svix](https://www.svix.com). This SDK exports a thin wrapper `Seam::Webhook` around the svix package. Use it to parse and validate Seam webhook events.
+
+Refer to the [Svix docs on Consuming Webhooks](https://docs.svix.com/receiving/introduction) for an in-depth guide on best-practices for handling webhooks in your application.
+
+```ruby
+require 'sinatra'
+require 'seam'
+
+webhook = Seam::Webhook.new(ENV['SEAM_WEBHOOK_SECRET'])
+
+post '/webhook' do
+  begin
+    data = webhook.verify(request.body.read, request.env)
+  rescue StandardError
+    halt 400, 'Bad Request'
+  end
+
+  begin
+    store_event(data)
+  rescue StandardError
+    halt 500, 'Internal Server Error'
+  end
+
+  204
+end
+
+def store_event(data)
+  puts data
+end
+```
+
+### Advanced Usage
+
+#### Setting the endpoint
+
+Some contexts may need to override the API endpoint,
+e.g., testing or proxy setups.
+
+Either pass the `endpoint` option to the constructor, or set the `SEAM_ENDPOINT` environment variable.
 
 ## Development and Testing
 
