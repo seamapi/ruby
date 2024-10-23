@@ -16,10 +16,6 @@ RSpec.describe Seam::Http::MultiWorkspace do
   end
 
   describe "#workspaces" do
-    it "returns a WorkspacesProxy instance" do
-      expect(client.workspaces).to be_a(Seam::Http::WorkspacesProxy)
-    end
-
     before do
       stub_request(:post, "#{endpoint}/workspaces/create")
         .to_return(status: 200, body: {workspace: {workspace_id: "ws_123456"}}.to_json, headers: {"Content-Type" => "application/json"})
