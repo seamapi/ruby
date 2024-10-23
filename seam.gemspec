@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.files += Dir["[A-Z]*"]
 
   spec.add_dependency "faraday", "~> 2.7"
-  spec.add_dependency "faraday-retry", "~> 2.2.1"
+  spec.add_dependency "faraday-retry", "~> 2.2"
   spec.add_dependency "svix", "~> 1.30"
 
   spec.add_development_dependency "bundler", "~> 2.0"
