@@ -230,12 +230,70 @@ end
 
 ### Advanced Usage
 
+#### Additional Options
+
+In addition to the various authentication options,
+the constructor takes some advanced options that affect behavior.
+
+```ruby
+seam = Seam.new(
+  api_key: 'your-api-key',
+  endpoint: 'https://example.com',
+  faraday_options: {},
+  faraday_retry_options: {}
+)
+```
+
+When using the static factory methods,
+these options may be passed in as keyword arguments.
+
+```ruby
+seam = Seam.from_api_key('some-api-key',
+  endpoint: 'https://example.com',
+  faraday_options: {},
+  faraday_retry_options: {}
+)
+```
+
 #### Setting the endpoint
 
 Some contexts may need to override the API endpoint,
-e.g., testing or proxy setups.
+e.g., testing or proxy setups. This option corresponds to the [Faraday](https://lostisland.github.io/faraday/#/) `url` setting.
 
-Either pass the `endpoint` option to the constructor, or set the `SEAM_ENDPOINT` environment variable.
+Either pass the `endpoint` option, or set the `SEAM_ENDPOINT` environment variable.
+
+#### Configuring the Faraday Client
+
+The Faraday client and retry behavior may be configured with custom initiation options
+via [`faraday_option`][faraday_option] and [`faraday_retry_option`][faraday_retry_option].
+Options are deep merged with the default options.
+
+[faraday_option]: https://lostisland.github.io/faraday/#/customization/connection-options?id=connection-options
+[faraday_retry_option]: https://github.com/lostisland/faraday-retry
+
+#### Using the Faraday Client
+
+The Faraday client is exposed and may be used or configured directly:
+
+```rb
+require "seam"
+require "faraday"
+
+seam = Seam.new
+
+seam.client.builder.use Faraday::Response::Middleware do |env|
+  puts env.response
+  env.response
+end
+
+
+devices = seam.client.get('/devices/list')
+```
+
+#### Overriding the Client
+
+A Faraday compatible client may be provided to create a `Seam` instance.
+This API is used internally and is not directly supported.
 
 ## Development and Testing
 
