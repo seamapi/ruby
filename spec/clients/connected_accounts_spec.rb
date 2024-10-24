@@ -11,7 +11,7 @@ RSpec.describe Seam::Clients::ConnectedAccounts do
       before do
         stub_seam_request(
           :post, "/connected_accounts/get", {connected_account: connected_account_hash}
-        ).with { |req| req.body.source == {connected_account_id: connected_account_id}.to_json }
+        ).with { |req| req.body == {connected_account_id: connected_account_id}.to_json }
       end
 
       let(:result) { client.connected_accounts.get(connected_account_id: connected_account_id) }
@@ -27,7 +27,7 @@ RSpec.describe Seam::Clients::ConnectedAccounts do
       before do
         stub_seam_request(
           :post, "/connected_accounts/get", {connected_account: connected_account_hash}
-        ).with { |req| req.body.source == {email: email}.to_json }
+        ).with { |req| req.body == {email: email}.to_json }
       end
 
       let(:result) { client.connected_accounts.get(email: email) }
@@ -47,7 +47,7 @@ RSpec.describe Seam::Clients::ConnectedAccounts do
             errors: [account_disconnected_error],
             warnings: [limit_reached_warning]
           )}
-        ).with { |req| req.body.source == {connected_account_id: connected_account_id}.to_json }
+        ).with { |req| req.body == {connected_account_id: connected_account_id}.to_json }
       end
 
       let(:result) { client.connected_accounts.get(connected_account_id: connected_account_id) }

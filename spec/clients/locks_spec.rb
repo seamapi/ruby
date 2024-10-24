@@ -25,7 +25,7 @@ RSpec.describe Seam::Clients::Locks do
 
     before do
       stub_seam_request(:post, "/locks/get", {device: locks_hash}).with do |req|
-        req.body.source == {device_id: device_id}.to_json
+        req.body == {device_id: device_id}.to_json
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Seam::Clients::Locks do
           action_attempt: action_attempt_hash
         }
       ).with do |req|
-        req.body.source == {device_id: device_id}.to_json
+        req.body == {device_id: device_id}.to_json
       end
     end
 

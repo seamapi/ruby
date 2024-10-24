@@ -26,7 +26,7 @@ RSpec.describe Seam::Clients::Devices do
 
       before do
         stub_seam_request(:post, "/devices/get", {device: device_hash}).with do |req|
-          req.body.source == {device_id: device_id}.to_json
+          req.body == {device_id: device_id}.to_json
         end
       end
 
@@ -44,7 +44,7 @@ RSpec.describe Seam::Clients::Devices do
 
       before do
         stub_seam_request(:post, "/devices/get", {device: device_hash}).with do |req|
-          req.body.source == {name: name}.to_json
+          req.body == {name: name}.to_json
         end
       end
 
@@ -68,7 +68,7 @@ RSpec.describe Seam::Clients::Devices do
           errors: [device_removed_error],
           warnings: [device_privacy_warning]
         )
-      }).with { |req| req.body.source == {device_id: device_id}.to_json }
+      }).with { |req| req.body == {device_id: device_id}.to_json }
     end
 
     let(:result) { client.devices.get(device_id: device_id) }
@@ -123,7 +123,7 @@ RSpec.describe Seam::Clients::Devices do
     before do
       stub_seam_request(:post, "/devices/list_device_providers",
         {device_providers: [stable_device_provider_hash]})
-        .with { |req| req.body.source == {provider_category: "stable"}.to_json }
+        .with { |req| req.body == {provider_category: "stable"}.to_json }
     end
 
     let(:device_providers) { client.devices.list_device_providers(provider_category: "stable") }
@@ -146,7 +146,7 @@ RSpec.describe Seam::Clients::Devices do
     before do
       stub_seam_request(:post, "/devices/update", nil)
         .with do |req|
-          req.body.source == {device_id: device_id, name: name}.to_json
+          req.body == {device_id: device_id, name: name}.to_json
         end
     end
 
