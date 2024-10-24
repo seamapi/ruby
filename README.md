@@ -277,13 +277,13 @@ The Faraday client is exposed and may be used or configured directly:
 require "seam"
 require "faraday"
 
-seam = Seam.new
-
 class MyMiddleware < Faraday::Middleware
   def on_complete(env)
     puts env.response.inspect
   end
 end
+
+seam = Seam.new
 
 seam.client.builder.use MyMiddleware
 
