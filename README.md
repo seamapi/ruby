@@ -210,7 +210,7 @@ webhook = Seam::Webhook.new(ENV["SEAM_WEBHOOK_SECRET"])
 post "/webhook" do
   begin
     data = webhook.verify(request.body.read, request.env)
-  rescue
+  rescue Seam::WebhookVerificationError
     halt 400, "Bad Request"
   end
 

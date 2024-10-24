@@ -3,6 +3,8 @@
 require "svix"
 
 module Seam
+  WebhookVerificationError = Svix::WebhookVerificationError
+
   class Webhook
     def initialize(secret)
       @webhook = Svix::Webhook.new(secret)
