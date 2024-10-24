@@ -12,7 +12,7 @@ This is an official SDK for the Seam API.
 Please refer to the official [Seam Docs](https://docs.seam.co/latest/) to get started.
 
 Parts of this SDK are generated from always up-to-date type information
-provided by [@seamapi/types](https://github.com/seamapi/types/) node package.
+provided by [@seamapi/types](https://github.com/seamapi/types/).
 This ensures all API methods, request shapes, and response shapes are
 accurate and fully typed.
 
