@@ -287,7 +287,7 @@ seam = Seam.new
 
 seam.client.builder.use MyMiddleware
 
-devices = seam.client.post("/devices/list").body["devices"]
+devices = seam.client.get("/devices/list").body["devices"]
 ```
 
 #### Overriding the Client
