@@ -33,7 +33,7 @@ $ bundle add seam
 #### List devices
 
 ```ruby
-require 'seam'
+require "seam"
 
 seam = Seam.new
 devices = seam.devices.list
@@ -42,7 +42,7 @@ devices = seam.devices.list
 #### Unlock a door
 
 ```ruby
-require 'seam'
+require "seam"
 
 seam = Seam.new
 lock = seam.locks.get(name: "Front Door")
@@ -149,7 +149,7 @@ The `polling_interval` and `timeout` may be configured for the client or per-req
 For example:
 
 ```ruby
-require 'seam'
+require "seam"
 
 seam = Seam.new("your-api-key")
 
@@ -202,22 +202,22 @@ The Seam API implements webhooks using [Svix](https://www.svix.com). This SDK ex
 Refer to the [Svix docs on Consuming Webhooks](https://docs.svix.com/receiving/introduction) for an in-depth guide on best-practices for handling webhooks in your application.
 
 ```ruby
-require 'sinatra'
-require 'seam'
+require "sinatra"
+require "seam"
 
-webhook = Seam::Webhook.new(ENV['SEAM_WEBHOOK_SECRET'])
+webhook = Seam::Webhook.new(ENV["SEAM_WEBHOOK_SECRET"])
 
-post '/webhook' do
+post "/webhook" do
   begin
     data = webhook.verify(request.body.read, request.env)
-  rescue StandardError
-    halt 400, 'Bad Request'
+  rescue
+    halt 400, "Bad Request"
   end
 
   begin
     store_event(data)
-  rescue StandardError
-    halt 500, 'Internal Server Error'
+  rescue
+    halt 500, "Internal Server Error"
   end
 
   204
@@ -237,8 +237,8 @@ the constructor takes some advanced options that affect behavior.
 
 ```ruby
 seam = Seam.new(
-  api_key: 'your-api-key',
-  endpoint: 'https://example.com',
+  api_key: "your-api-key",
+  endpoint: "https://example.com",
   faraday_options: {},
   faraday_retry_options: {}
 )
@@ -248,11 +248,10 @@ When using the static factory methods,
 these options may be passed in as keyword arguments.
 
 ```ruby
-seam = Seam.from_api_key('some-api-key',
-  endpoint: 'https://example.com',
+seam = Seam.from_api_key("some-api-key",
+  endpoint: "https://example.com",
   faraday_options: {},
-  faraday_retry_options: {}
-)
+  faraday_retry_options: {})
 ```
 
 #### Setting the endpoint
@@ -266,7 +265,6 @@ Either pass the `endpoint` option, or set the `SEAM_ENDPOINT` environment variab
 
 The Faraday client and retry behavior may be configured with custom initiation options
 via [`faraday_option`][faraday_option] and [`faraday_retry_option`][faraday_retry_option].
-Options are deep merged with the default options.
 
 [faraday_option]: https://lostisland.github.io/faraday/#/customization/connection-options?id=connection-options
 [faraday_retry_option]: https://github.com/lostisland/faraday-retry
@@ -275,19 +273,21 @@ Options are deep merged with the default options.
 
 The Faraday client is exposed and may be used or configured directly:
 
-```rb
+```ruby
 require "seam"
 require "faraday"
 
 seam = Seam.new
 
-seam.client.builder.use Faraday::Response::Middleware do |env|
-  puts env.response
-  env.response
+class MyMiddleware < Faraday::Middleware
+  def on_complete(env)
+    puts env.response.inspect
+  end
 end
 
+seam.client.builder.use MyMiddleware
 
-devices = seam.client.get('/devices/list')
+devices = seam.client.post("/devices/list").body["devices"]
 ```
 
 #### Overriding the Client
