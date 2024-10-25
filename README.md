@@ -30,7 +30,8 @@ $ bundle add seam
 
 ### Examples
 
-**Note:** _These examples assume `SEAM_API_KEY` is set in your environment._
+> [!NOTE]
+> These examples assume `SEAM_API_KEY` is set in your environment.
 
 #### List devices
 
