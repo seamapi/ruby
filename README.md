@@ -18,11 +18,13 @@ accurate and fully typed.
 
 ## Installation
 
-Add this as a dependency to your project using [Bundler](https://bundler.io/) with:
+Add this as a dependency to your project using [Bundler] with:
 
 ```
 $ bundle add seam
 ```
+
+[Bundler]: https://bundler.io/
 
 ## Usage
 
