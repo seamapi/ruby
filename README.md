@@ -20,7 +20,7 @@ accurate and fully typed.
 
 Add this as a dependency to your project using [Bundler](https://bundler.io/) with:
 
-```bash
+```
 $ bundle add seam
 ```
 
