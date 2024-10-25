@@ -1,76 +1,90 @@
 # frozen_string_literal: true
 
-require "http"
+require "faraday"
+require "faraday/retry"
 
 module Seam
-  class Request
-    attr_reader :endpoint, :debug
+  module Http
+    module Request
+      def self.create_faraday_client(endpoint, auth_headers, faraday_options = {}, faraday_retry_options = {})
+        default_options = {
+          url: endpoint,
+          headers: auth_headers.merge(default_headers)
+        }
 
-    def initialize(auth_headers:, endpoint:, debug: false)
-      @auth_headers = auth_headers
-      @endpoint = endpoint
-      @debug = debug
-    end
+        options = deep_merge(default_options, faraday_options)
 
-    def perform(method, uri, config = {})
-      Logger.info("Request: #{method} #{uri} #{config}") if debug
+        default_faraday_retry_options = {
+          max: 2,
+          backoff_factor: 2
+        }
 
-      config[:body] = config[:body].to_json if config[:body]
+        faraday_retry_options = default_faraday_retry_options.merge(faraday_retry_options)
 
-      response = HTTP.request(
-        method,
-        build_url(uri),
-        {headers: headers}.merge(config)
-      )
-
-      return response.parse if response.status.success?
-
-      handle_error_response(response, method, uri)
-    end
-
-    protected
-
-    def handle_error_response(response, _method, _uri)
-      status_code = response.status.code
-      request_id = response.headers["seam-request-id"]
-
-      raise Http::UnauthorizedError.new(request_id) if status_code == 401
-
-      error = response.parse["error"] || {}
-      error_type = error["type"] || "unknown_error"
-      error_details = {
-        type: error_type,
-        message: error["message"] || "Unknown error",
-        data: error["data"]
-      }
-
-      if error_type == "invalid_input"
-        error_details["validation_errors"] = error["validation_errors"]
-
-        raise Http::InvalidInputError.new(
-          error_details, status_code, request_id
-        )
+        Faraday.new(options) do |builder|
+          builder.request :json
+          builder.request :retry, faraday_retry_options
+          builder.response :json
+        end
       end
 
-      raise Http::ApiError.new(error_details, status_code, request_id)
-    end
+      def self.handle_error_response(response, _method, _path)
+        status_code = response.status
+        request_id = response.headers["seam-request-id"]
 
-    def build_url(uri)
-      "#{endpoint}#{uri}"
-    end
+        raise Http::UnauthorizedError.new(request_id) if status_code == 401
 
-    def headers
-      {
-        "User-Agent" => user_agent,
-        "Content-Type" => "application/json",
-        :"seam-sdk-name" => "seamapi/ruby",
-        :"seam-sdk-version" => Seam::VERSION,
-        :"seam-lts-version" => Seam::LTS_VERSION
-      }.merge(@auth_headers)
-    end
+        error = response.body.is_a?(Hash) ? response.body["error"] || {} : {}
+        error_type = error["type"] || "unknown_error"
+        error_message = error["message"] || "Unknown error"
+        error_details = {
+          type: error_type,
+          message: error_message,
+          data: error["data"]
+        }
 
-    def user_agent
-      "seam-ruby/#{Seam::VERSION}"
+        if error_type == "invalid_input"
+          error_details["validation_errors"] = error["validation_errors"]
+          raise Http::InvalidInputError.new(error_details, status_code, request_id)
+        end
+
+        raise Http::ApiError.new(error_details, status_code, request_id)
+      end
+
+      def self.request_seam(client, endpoint, method, path, config = {})
+        url = "#{endpoint}#{path}"
+        response = client.run_request(method, url, config[:body], config[:headers])
+
+        if response.success?
+          response
+        else
+          handle_error_response(response, method, path)
+        end
+      end
+
+      def self.default_headers
+        {
+          "User-Agent" => "seam-ruby/#{Seam::VERSION}",
+          "Content-Type" => "application/json",
+          :"seam-sdk-name" => "seamapi/ruby",
+          :"seam-sdk-version" => Seam::VERSION,
+          :"seam-lts-version" => Seam::LTS_VERSION
+        }
+      end
+
+      def self.deep_merge(hash1, hash2)
+        result = hash1.dup
+        hash2.each do |key, value|
+          result[key] = if value.is_a?(Hash) && result[key].is_a?(Hash)
+            deep_merge(result[key], value)
+          else
+            value
+          end
+        end
+        result
+      end
+
+      private_class_method :deep_merge
     end
   end
 end

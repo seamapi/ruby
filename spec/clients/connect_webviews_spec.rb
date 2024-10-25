@@ -27,7 +27,7 @@ RSpec.describe Seam::Clients::ConnectWebviews do
     before do
       stub_seam_request(
         :post, "/connect_webviews/get", {connect_webview: connect_webview_hash}
-      ).with { |req| req.body.source == {connect_webview_id: connect_webview_id}.to_json }
+      ).with { |req| req.body == {connect_webview_id: connect_webview_id}.to_json }
     end
 
     let(:result) { client.connect_webviews.get(connect_webview_id: connect_webview_id) }
@@ -49,7 +49,7 @@ RSpec.describe Seam::Clients::ConnectWebviews do
       stub_seam_request(
         :post, "/connect_webviews/create", {connect_webview: connect_webview_hash}
       ).with do |req|
-        req.body.source == {
+        req.body == {
           accepted_providers: accepted_providers,
           automatically_manage_new_devices: automatically_manage_new_devices,
           custom_redirect_failure_url: custom_redirect_failure_url,
