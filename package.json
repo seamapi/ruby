@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "pregenerate": "markdown-toc -i README.md --bullets '-'",
     "generate": "node generate-routes.js",
     "postgenerate": "rake format",
     "format": "prettier --write --ignore-path .gitignore ."
@@ -11,6 +12,7 @@
     "@seamapi/nextlove-sdk-generator": "1.14.6",
     "@seamapi/types": "1.272.0",
     "del": "^7.1.0",
+    "markdown-toc": "^1.2.0",
     "prettier": "^3.2.5"
   }
 }

@@ -16,6 +16,40 @@ provided by [@seamapi/types](https://github.com/seamapi/types/).
 This ensures all API methods, request shapes, and response shapes are
 accurate and fully typed.
 
+<!-- toc -->
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Examples](#examples)
+    - [List devices](#list-devices)
+    - [Unlock a door](#unlock-a-door)
+  - [Authentication Method](#authentication-method)
+    - [API Key](#api-key)
+    - [Personal Access Token](#personal-access-token)
+  - [Action Attempts](#action-attempts)
+  - [Interacting with Multiple Workspaces](#interacting-with-multiple-workspaces)
+  - [Webhooks](#webhooks)
+  - [Advanced Usage](#advanced-usage)
+    - [Additional Options](#additional-options)
+    - [Setting the endpoint](#setting-the-endpoint)
+    - [Configuring the Faraday Client](#configuring-the-faraday-client)
+    - [Using the Faraday Client](#using-the-faraday-client)
+    - [Overriding the Client](#overriding-the-client)
+- [Development and Testing](#development-and-testing)
+  - [Quickstart](#quickstart)
+  - [Source code](#source-code)
+  - [Requirements](#requirements)
+  - [Publishing](#publishing)
+    - [Automatic](#automatic)
+    - [Manual](#manual)
+- [GitHub Actions](#github-actions)
+  - [Secrets for Optional GitHub Actions](#secrets-for-optional-github-actions)
+- [Contributing](#contributing)
+- [License](#license)
+- [Warranty](#warranty)
+
+<!-- tocstop -->
+
 ## Installation
 
 Add this as a dependency to your project using [Bundler] with:
