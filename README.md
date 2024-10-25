@@ -203,8 +203,8 @@ workspaces = seam.workspaces.list
 The Seam API implements webhooks using [Svix](https://www.svix.com).This SDK exports a thin wrapper `Seam::Webhook` around the svix package.
 Use it to parse and validate Seam webhook events.
 
-Refer to the [Svix docs on Consuming Webhooks](https://docs.svix.com/receiving/introduction)
-for an in-depth guide on best-practices for handling webhooks in your application.
+> [!TIP]
+> This example is for [Sinatra](https://sinatrarb.com/), see the [Svix docs for more examples in specific frameworks](https://docs.svix.com/receiving/verifying-payloads/how).
 
 ```ruby
 require "sinatra"
