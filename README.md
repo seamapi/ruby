@@ -248,7 +248,12 @@ webhook = Seam::Webhook.new(ENV["SEAM_WEBHOOK_SECRET"])
 
 post "/webhook" do
   begin
-    data = webhook.verify(request.body.read, request.env)
+    headers = {
+      "svix-id" => request.env["HTTP_SVIX_ID"],
+      "svix-signature" => request.env["HTTP_SVIX_SIGNATURE"],
+      "svix-timestamp" => request.env["HTTP_SVIX_TIMESTAMP"]
+    }
+    data = webhook.verify(request.body.read, headers)
   rescue Seam::WebhookVerificationError
     halt 400, "Bad Request"
   end
