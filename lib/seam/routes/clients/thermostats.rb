@@ -131,6 +131,16 @@ module Seam
         Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
       end
 
+      def set_temperature_threshold(device_id:, lower_limit_celsius: nil, lower_limit_fahrenheit: nil, upper_limit_celsius: nil, upper_limit_fahrenheit: nil)
+        request_seam(
+          :post,
+          "/thermostats/set_temperature_threshold",
+          body: {device_id: device_id, lower_limit_celsius: lower_limit_celsius, lower_limit_fahrenheit: lower_limit_fahrenheit, upper_limit_celsius: upper_limit_celsius, upper_limit_fahrenheit: upper_limit_fahrenheit}.compact
+        )
+
+        nil
+      end
+
       def update_climate_preset(climate_preset_key:, device_id:, manual_override_allowed:, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil, name: nil)
         request_seam(
           :post,
