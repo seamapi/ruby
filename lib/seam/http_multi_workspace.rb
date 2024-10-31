@@ -66,5 +66,7 @@ module Seam
         @workspaces.create(**kwargs)
       end
     end
+
+    private_constant :WorkspacesProxy
   end
 end
