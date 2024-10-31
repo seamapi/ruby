@@ -2,23 +2,20 @@
 
 module Seam
   module Clients
-    class AcsAccessGroupsUnmanaged < BaseClient
+    class AcsAccessGroupsUnmanaged
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
+
       def get(acs_access_group_id:)
-        request_seam(
-          :post,
-          "/acs/access_groups/unmanaged/get",
-          body: {acs_access_group_id: acs_access_group_id}.compact
-        )
+        @client.post("/acs/access_groups/unmanaged/get", {acs_access_group_id: acs_access_group_id}.compact)
 
         nil
       end
 
       def list(acs_system_id: nil, acs_user_id: nil)
-        request_seam(
-          :post,
-          "/acs/access_groups/unmanaged/list",
-          body: {acs_system_id: acs_system_id, acs_user_id: acs_user_id}.compact
-        )
+        @client.post("/acs/access_groups/unmanaged/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id}.compact)
 
         nil
       end
