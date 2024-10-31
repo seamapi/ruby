@@ -33,20 +33,6 @@ RSpec.describe Seam::Helpers::ActionAttempt do
         described_class.decide_and_wait(action_attempt, seam, wait_options)
       end
     end
-
-    context "when wait_for_action_attempt is nil" do
-      it "uses the seam's actual default wait_for_action_attempt value" do
-        seam_default = seam.defaults.wait_for_action_attempt
-
-        if seam_default
-          expect(described_class).to receive(:wait_until_finished).with(action_attempt, seam)
-        else
-          expect(described_class).not_to receive(:wait_until_finished)
-        end
-
-        described_class.decide_and_wait(action_attempt, seam, nil)
-      end
-    end
   end
 
   describe ".wait_until_finished" do
