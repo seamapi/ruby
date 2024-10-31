@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe Seam::Http::SingleWorkspace do
   let(:api_key) { "seam_test_api_key" }
-  let(:endpoint) { "https://example.com/api" }
+  let(:endpoint) { "https://example.com" }
   let(:faraday_retry_options) do
     {
       max: 3,
@@ -23,6 +23,11 @@ RSpec.describe Seam::Http::SingleWorkspace do
       )
 
       stub_request(:post, "#{endpoint}/devices/list")
+        .with(
+          headers: {
+            "Content-Type" => "application/json"
+          }
+        )
         .to_return(status: 500, body: {"error" => {"type" => "server_error", "message" => "Internal Server Error"}}.to_json, headers: {"Content-Type" => "application/json"})
         .to_return(status: 500, body: {"error" => {"type" => "server_error", "message" => "Internal Server Error"}}.to_json, headers: {"Content-Type" => "application/json"})
         .to_return(status: 200, body: {devices: []}.to_json, headers: {"Content-Type" => "application/json"})

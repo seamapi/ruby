@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe Seam::Http::MultiWorkspace do
   let(:personal_access_token) { "seam_at_12345" }
-  let(:endpoint) { "https://example.com/api" }
+  let(:endpoint) { "https://example.com" }
   let(:client) { described_class.from_personal_access_token(personal_access_token, endpoint: endpoint) }
 
   describe ".from_personal_access_token" do
@@ -20,16 +20,28 @@ RSpec.describe Seam::Http::MultiWorkspace do
       expect(client.workspaces).to be_a(Seam::Http::WorkspacesProxy)
     end
 
-    before do
-      stub_request(:post, "#{endpoint}/workspaces/create")
-        .to_return(status: 200, body: {workspace: {workspace_id: "ws_123456"}}.to_json, headers: {"Content-Type" => "application/json"})
-    end
-
     it "creates a new workspace" do
+      name = "Test Workspace"
+      connect_partner_name = "Example Partner"
+      is_sandbox = true
+
+      stub_request(:post, "#{endpoint}/workspaces/create")
+        .with(
+          body: {
+            name: name,
+            connect_partner_name: connect_partner_name,
+            is_sandbox: is_sandbox
+          }.to_json,
+          headers: {
+            "Content-Type" => "application/json"
+          }
+        )
+        .to_return(status: 200, body: {workspace: {workspace_id: "ws_123456"}}.to_json, headers: {"Content-Type" => "application/json"})
+
       workspace = client.workspaces.create(
-        name: "Test Workspace",
-        connect_partner_name: "Example Partner",
-        is_sandbox: true
+        name: name,
+        connect_partner_name: connect_partner_name,
+        is_sandbox: is_sandbox
       )
 
       expect(workspace).to be_a(Seam::Resources::Workspace)

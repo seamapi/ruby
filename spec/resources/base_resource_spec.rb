@@ -12,7 +12,6 @@ RSpec.describe Seam::Resources::BaseResource do
 
   describe ".date_accessor" do
     it "parses a date string" do
-      puts device.created_at.class
       expect(device.created_at).to be_a(Time)
     end
   end
