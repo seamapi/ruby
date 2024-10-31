@@ -51,7 +51,7 @@ module Seam
           status_code = env.status
           request_id = env.response_headers["seam-request-id"]
 
-          retry_statuses = (@retry_options || {}).fetch(:retry_statuses, [])
+          retry_statuses = @retry_options.fetch(:retry_statuses, [])
           if retry_statuses.include?(status_code)
             raise Faraday::RetriableResponse.new(nil, env.response)
           end
