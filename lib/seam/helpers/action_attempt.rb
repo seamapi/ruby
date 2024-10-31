@@ -4,13 +4,11 @@ module Seam
   module Helpers
     module ActionAttempt
       def self.decide_and_wait(action_attempt, client, wait_for_action_attempt)
-        wait_decision = wait_for_action_attempt.nil? ? client.defaults.wait_for_action_attempt : wait_for_action_attempt
-
-        if wait_decision == true
+        if wait_for_action_attempt == true
           return wait_until_finished(action_attempt, client)
-        elsif wait_decision.is_a?(Hash)
-          return wait_until_finished(action_attempt, client, timeout: wait_decision[:timeout],
-            polling_interval: wait_decision[:polling_interval])
+        elsif wait_for_action_attempt.is_a?(Hash)
+          return wait_until_finished(action_attempt, client, timeout: wait_for_action_attempt[:timeout],
+            polling_interval: wait_for_action_attempt[:polling_interval])
         end
 
         action_attempt
@@ -37,13 +35,7 @@ module Seam
       end
 
       def self.update_action_attempt(action_attempt, client)
-        response = client.request_seam(
-          :post,
-          "/action_attempts/get",
-          body: {
-            action_attempt_id: action_attempt.action_attempt_id
-          }
-        )
+        response = client.post("/action_attempts/get", {action_attempt_id: action_attempt.action_attempt_id})
 
         action_attempt.update_from_response(response.body["action_attempt"])
         action_attempt
