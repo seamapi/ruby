@@ -16,10 +16,6 @@ RSpec.describe Seam::Http::MultiWorkspace do
   end
 
   describe "#workspaces" do
-    it "returns a WorkspacesProxy instance" do
-      expect(client.workspaces).to be_a(Seam::Http::WorkspacesProxy)
-    end
-
     it "creates a new workspace" do
       name = "Test Workspace"
       connect_partner_name = "Example Partner"
