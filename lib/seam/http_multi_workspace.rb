@@ -29,7 +29,7 @@ module Seam
       end
 
       def workspaces
-        @workspaces ||= WorkspacesProxy.new(Seam::Clients::Workspaces.new(self))
+        @workspaces ||= WorkspacesProxy.new(Seam::Clients::Workspaces.new(client: @client, defaults: @defaults))
       end
 
       def self.from_personal_access_token(personal_access_token, endpoint: nil, wait_for_action_attempt: true, faraday_options: {}, faraday_retry_options: {})
@@ -40,16 +40,6 @@ module Seam
           faraday_options: faraday_options,
           faraday_retry_options: faraday_retry_options
         )
-      end
-
-      def request_seam_object(method, path, klass, inner_object, config = {})
-        response = Seam::Http::Request.request_seam(@client, @endpoint, method, path, config)
-        data = response.body[inner_object]
-        klass.load_from_response(data, self)
-      end
-
-      def request_seam(method, path, config = {})
-        Seam::Http::Request.request_seam(@client, @endpoint, method, path, config)
       end
     end
 
