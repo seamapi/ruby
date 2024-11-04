@@ -2,25 +2,22 @@
 
 module Seam
   module Clients
-    class Networks < BaseClient
+    class Networks
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
+
       def get(network_id:)
-        request_seam_object(
-          :post,
-          "/networks/get",
-          Seam::Resources::Network,
-          "network",
-          body: {network_id: network_id}.compact
-        )
+        res = @client.post("/networks/get", {network_id: network_id}.compact)
+
+        Seam::Resources::Network.load_from_response(res.body["network"])
       end
 
       def list
-        request_seam_object(
-          :post,
-          "/networks/list",
-          Seam::Resources::Network,
-          "networks",
-          body: {}.compact
-        )
+        res = @client.post("/networks/list")
+
+        Seam::Resources::Network.load_from_response(res.body["networks"])
       end
     end
   end

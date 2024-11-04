@@ -2,15 +2,16 @@
 
 module Seam
   module Clients
-    class AccessCodesSimulate < BaseClient
+    class AccessCodesSimulate
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
+
       def create_unmanaged_access_code(code:, device_id:, name:)
-        request_seam_object(
-          :post,
-          "/access_codes/simulate/create_unmanaged_access_code",
-          Seam::Resources::UnmanagedAccessCode,
-          "access_code",
-          body: {code: code, device_id: device_id, name: name}.compact
-        )
+        res = @client.post("/access_codes/simulate/create_unmanaged_access_code", {code: code, device_id: device_id, name: name}.compact)
+
+        Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_code"])
       end
     end
   end

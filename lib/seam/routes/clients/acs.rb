@@ -2,37 +2,42 @@
 
 module Seam
   module Clients
-    class Acs < BaseClient
+    class Acs
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
+
       def access_groups
-        @access_groups ||= Seam::Clients::AcsAccessGroups.new(self)
+        @access_groups ||= Seam::Clients::AcsAccessGroups.new(client: @client, defaults: @defaults)
       end
 
       def credential_pools
-        @credential_pools ||= Seam::Clients::AcsCredentialPools.new(self)
+        @credential_pools ||= Seam::Clients::AcsCredentialPools.new(client: @client, defaults: @defaults)
       end
 
       def credential_provisioning_automations
-        @credential_provisioning_automations ||= Seam::Clients::AcsCredentialProvisioningAutomations.new(self)
+        @credential_provisioning_automations ||= Seam::Clients::AcsCredentialProvisioningAutomations.new(client: @client, defaults: @defaults)
       end
 
       def credentials
-        @credentials ||= Seam::Clients::AcsCredentials.new(self)
+        @credentials ||= Seam::Clients::AcsCredentials.new(client: @client, defaults: @defaults)
       end
 
       def encoders
-        @encoders ||= Seam::Clients::AcsEncoders.new(self)
+        @encoders ||= Seam::Clients::AcsEncoders.new(client: @client, defaults: @defaults)
       end
 
       def entrances
-        @entrances ||= Seam::Clients::AcsEntrances.new(self)
+        @entrances ||= Seam::Clients::AcsEntrances.new(client: @client, defaults: @defaults)
       end
 
       def systems
-        @systems ||= Seam::Clients::AcsSystems.new(self)
+        @systems ||= Seam::Clients::AcsSystems.new(client: @client, defaults: @defaults)
       end
 
       def users
-        @users ||= Seam::Clients::AcsUsers.new(self)
+        @users ||= Seam::Clients::AcsUsers.new(client: @client, defaults: @defaults)
       end
     end
   end
