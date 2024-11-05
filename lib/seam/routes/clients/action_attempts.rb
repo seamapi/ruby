@@ -4,27 +4,24 @@ require "seam/helpers/action_attempt"
 
 module Seam
   module Clients
-    class ActionAttempts < BaseClient
-      def get(action_attempt_id:, wait_for_action_attempt: nil)
-        action_attempt = request_seam_object(
-          :post,
-          "/action_attempts/get",
-          Seam::Resources::ActionAttempt,
-          "action_attempt",
-          body: {action_attempt_id: action_attempt_id}.compact
-        )
+    class ActionAttempts
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
 
-        Helpers::ActionAttempt.decide_and_wait(action_attempt, @client, wait_for_action_attempt)
+      def get(action_attempt_id:, wait_for_action_attempt: nil)
+        res = @client.post("/action_attempts/get", {action_attempt_id: action_attempt_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
       def list(action_attempt_ids:)
-        request_seam_object(
-          :post,
-          "/action_attempts/list",
-          Seam::Resources::ActionAttempt,
-          "action_attempts",
-          body: {action_attempt_ids: action_attempt_ids}.compact
-        )
+        res = @client.post("/action_attempts/list", {action_attempt_ids: action_attempt_ids}.compact)
+
+        Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempts"])
       end
     end
   end
