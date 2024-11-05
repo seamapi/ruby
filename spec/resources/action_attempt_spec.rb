@@ -38,10 +38,10 @@ RSpec.describe Seam::Helpers::ActionAttempt do
   describe ".wait_until_finished" do
     before do
       stub_seam_request(
-        :post,
+        :get,
         "/action_attempts/get",
         {action_attempt: action_attempt_hash}
-      ).with { |req| req.body == {"action_attempt_id" => action_attempt_id}.to_json }
+      ).with(query: {action_attempt_id: action_attempt_id})
         .times(2)
         .then
         .to_return(
@@ -67,10 +67,10 @@ RSpec.describe Seam::Helpers::ActionAttempt do
     let(:updated_action_attempt_hash) { action_attempt_hash.merge(status: "finished") }
     before do
       stub_seam_request(
-        :post,
+        :get,
         "/action_attempts/get",
         {action_attempt: updated_action_attempt_hash}
-      ).with { |req| req.body == {action_attempt_id: action_attempt_id}.to_json }
+      ).with(query: {action_attempt_id: action_attempt_id})
     end
 
     it "updates the ActionAttempt" do
