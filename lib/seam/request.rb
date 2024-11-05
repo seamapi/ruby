@@ -39,7 +39,7 @@ module Seam
         }
       end
 
-      class ResponseMiddleware < Faraday::Middleware
+      class ResponseMiddleware < Faraday::Response::RaiseError
         def initialize(app, options = {})
           super(app)
           @retry_options = options[:retry_options]
@@ -49,35 +49,51 @@ module Seam
           return if env.success?
 
           status_code = env.status
-          request_id = env.response_headers["seam-request-id"]
 
           retry_statuses = @retry_options.fetch(:retry_statuses, [])
           if retry_statuses.include?(status_code)
             raise Faraday::RetriableResponse.new(nil, env.response)
           end
 
+          request_id = env.response_headers["seam-request-id"]
+
           raise Http::UnauthorizedError.new(request_id) if status_code == 401
 
-          body = begin
-            JSON.parse(env.body)
-          rescue
-            {}
-          end
-          error = body["error"] || {}
-          error_type = error["type"] || "unknown_error"
-          error_message = error["message"] || "Unknown error"
-          error_details = {
-            type: error_type,
-            message: error_message,
-            data: error["data"]
-          }
+          if seam_api_error_response?(env)
+            body = JSON.parse(env.body)
+            error = body["error"]
+            error_details = {
+              type: error["type"] || "unknown_error",
+              message: error["message"] || "Unknown error",
+              data: error["data"]
+            }
 
-          if error_type == "invalid_input"
-            error_details["validation_errors"] = error["validation_errors"]
-            raise Http::InvalidInputError.new(error_details, status_code, request_id)
+            if error["type"] == "invalid_input"
+              error_details["validation_errors"] = error["validation_errors"]
+              raise Http::InvalidInputError.new(error_details, status_code, request_id)
+            end
+
+            raise Http::ApiError.new(error_details, status_code, request_id)
           end
 
-          raise Http::ApiError.new(error_details, status_code, request_id)
+          super
+        end
+
+        def seam_api_error_response?(env)
+          return false unless env.response_headers
+
+          content_type = env.response_headers["Content-Type"]
+          return false unless content_type&.start_with?("application/json")
+
+          begin
+            body = JSON.parse(env.body)
+            return false unless body.is_a?(Hash) && body["error"].is_a?(Hash)
+
+            error = body["error"]
+            error["type"].is_a?(String) && error["message"].is_a?(String)
+          rescue JSON::ParserError
+            false
+          end
         end
       end
 
