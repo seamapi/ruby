@@ -35,7 +35,7 @@ module Seam
       end
 
       def self.update_action_attempt(action_attempt, client)
-        response = client.post("/action_attempts/get", {action_attempt_id: action_attempt.action_attempt_id})
+        response = client.get("/action_attempts/get", {action_attempt_id: action_attempt.action_attempt_id})
 
         action_attempt.update_from_response(response.body["action_attempt"])
         action_attempt
