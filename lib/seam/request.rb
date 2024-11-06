@@ -23,9 +23,9 @@ module Seam
 
         Faraday.new(options) do |builder|
           builder.request :json
-          builder.request :retry, faraday_retry_options
           builder.response :json
-          builder.use ResponseMiddleware, retry_options: faraday_retry_options
+          builder.use ResponseMiddleware
+          builder.request :retry, faraday_retry_options
         end
       end
 
@@ -40,21 +40,10 @@ module Seam
       end
 
       class ResponseMiddleware < Faraday::Response::RaiseError
-        def initialize(app, options = {})
-          super(app)
-          @retry_options = options[:retry_options]
-        end
-
         def on_complete(env)
           return if env.success?
 
           status_code = env.status
-
-          retry_statuses = @retry_options.fetch(:retry_statuses, [])
-          if retry_statuses.include?(status_code)
-            raise Faraday::RetriableResponse.new(nil, env.response)
-          end
-
           request_id = env.response_headers["seam-request-id"]
 
           raise Http::UnauthorizedError.new(request_id) if status_code == 401
