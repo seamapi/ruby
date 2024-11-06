@@ -2,15 +2,16 @@
 
 module Seam
   module Clients
-    class AcsCredentialPools < BaseClient
+    class AcsCredentialPools
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
+
       def list(acs_system_id:)
-        request_seam_object(
-          :post,
-          "/acs/credential_pools/list",
-          Seam::Resources::AcsCredentialPool,
-          "acs_credential_pools",
-          body: {acs_system_id: acs_system_id}.compact
-        )
+        res = @client.post("/acs/credential_pools/list", {acs_system_id: acs_system_id}.compact)
+
+        Seam::Resources::AcsCredentialPool.load_from_response(res.body["acs_credential_pools"])
       end
     end
   end
