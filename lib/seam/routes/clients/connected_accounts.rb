@@ -2,43 +2,32 @@
 
 module Seam
   module Clients
-    class ConnectedAccounts < BaseClient
+    class ConnectedAccounts
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
+
       def delete(connected_account_id:, sync: nil)
-        request_seam(
-          :post,
-          "/connected_accounts/delete",
-          body: {connected_account_id: connected_account_id, sync: sync}.compact
-        )
+        @client.post("/connected_accounts/delete", {connected_account_id: connected_account_id, sync: sync}.compact)
 
         nil
       end
 
       def get(connected_account_id: nil, email: nil)
-        request_seam_object(
-          :post,
-          "/connected_accounts/get",
-          Seam::Resources::ConnectedAccount,
-          "connected_account",
-          body: {connected_account_id: connected_account_id, email: email}.compact
-        )
+        res = @client.post("/connected_accounts/get", {connected_account_id: connected_account_id, email: email}.compact)
+
+        Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_account"])
       end
 
       def list(custom_metadata_has: nil, user_identifier_key: nil)
-        request_seam_object(
-          :post,
-          "/connected_accounts/list",
-          Seam::Resources::ConnectedAccount,
-          "connected_accounts",
-          body: {custom_metadata_has: custom_metadata_has, user_identifier_key: user_identifier_key}.compact
-        )
+        res = @client.post("/connected_accounts/list", {custom_metadata_has: custom_metadata_has, user_identifier_key: user_identifier_key}.compact)
+
+        Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_accounts"])
       end
 
       def update(connected_account_id:, automatically_manage_new_devices: nil, custom_metadata: nil)
-        request_seam(
-          :post,
-          "/connected_accounts/update",
-          body: {connected_account_id: connected_account_id, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata}.compact
-        )
+        @client.post("/connected_accounts/update", {connected_account_id: connected_account_id, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata}.compact)
 
         nil
       end
