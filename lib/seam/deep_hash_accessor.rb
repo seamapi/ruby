@@ -9,6 +9,10 @@ module Seam
       create_accessor_methods
     end
 
+    def [](key)
+      instance_variable_get(:"@#{key}")
+    end
+
     private
 
     def create_accessor_methods

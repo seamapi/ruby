@@ -48,32 +48,45 @@ RSpec.describe Seam::Http do
       end
     end
 
-    context "when other API error occurs" do
-      let(:error_message) { "An unknown error occurred" }
+    context "when non-Seam API error occurs" do
       let(:error_status) { 500 }
-      let(:error_response) do
-        {
-          error: {
-            type: "api_error",
-            message: error_message,
-            data: nil
-          }
-        }.to_json
-      end
+      let(:error_response) { "Internal Server Error" }
 
       before do
         stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/list")
-          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "application/json",
-                                                                           "seam-request-id" => request_id})
+          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "text/plain"})
       end
 
-      it "raises ApiError with the correct details" do
-        expect { seam.devices.list }.to raise_error(Seam::Http::ApiError) do |error|
-          expect(error.message).to eq(error_message)
-          expect(error.status_code).to eq(error_status)
-          expect(error.request_id).to eq(request_id)
-          expect(error.data).to be_nil
-        end
+      it "raises Faraday error" do
+        expect { seam.devices.list }.to raise_error(Faraday::ServerError)
+      end
+    end
+
+    context "when malformed JSON response" do
+      let(:error_status) { 500 }
+      let(:error_response) { "{invalid json" }
+
+      before do
+        stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/list")
+          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "application/json"})
+      end
+
+      it "raises Faraday error" do
+        expect { seam.devices.list }.to raise_error(Faraday::ServerError)
+      end
+    end
+
+    context "when JSON response without error object" do
+      let(:error_status) { 500 }
+      let(:error_response) { '{"message": "Some error"}' }
+
+      before do
+        stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/list")
+          .to_return(status: error_status, body: error_response, headers: {"Content-Type" => "application/json"})
+      end
+
+      it "raises Faraday error" do
+        expect { seam.devices.list }.to raise_error(Faraday::ServerError)
       end
     end
   end

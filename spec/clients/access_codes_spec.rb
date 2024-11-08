@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::Clients::AccessCodes do
-  let(:client) { Seam.new(api_key: "seam_some_api_key") }
+  let(:seam) { Seam.new(api_key: "seam_some_api_key") }
 
   describe "#list" do
     let(:access_code_id) { "123" }
@@ -17,12 +17,19 @@ RSpec.describe Seam::Clients::AccessCodes do
         end
       end
 
-      let(:access_codes) { client.access_codes.list(device_id: device_id) }
+      let(:access_codes) { seam.access_codes.list(device_id: device_id) }
 
       it "returns a list of Access codes" do
         expect(access_codes).to be_a(Array)
         expect(access_codes.first).to be_a(Seam::Resources::AccessCode)
         expect(access_codes.first.access_code_id).to be_a(String)
+      end
+
+      it "has client set" do
+        expect(seam.client).not_to be_nil
+      end
+      it "initializes access_codes" do
+        expect(seam.access_codes).not_to be_nil
       end
     end
 
@@ -34,7 +41,7 @@ RSpec.describe Seam::Clients::AccessCodes do
         end
       end
 
-      let(:access_codes) { client.access_codes.list(access_code_ids: [access_code_id]) }
+      let(:access_codes) { seam.access_codes.list(access_code_ids: [access_code_id]) }
 
       it "returns a list of Access codes" do
         expect(access_codes).to be_a(Array)
@@ -61,7 +68,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       ).with { |req| req.body == {access_code_id: access_code_id}.to_json }
     end
 
-    let(:result) { client.access_codes.get(access_code_id: access_code_id) }
+    let(:result) { seam.access_codes.get(access_code_id: access_code_id) }
 
     it "returns an Access Code" do
       expect(result).to be_a(Seam::Resources::AccessCode)
@@ -85,7 +92,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       )
     end
 
-    let(:result) { client.access_codes.create(**access_code_hash) }
+    let(:result) { seam.access_codes.create(**access_code_hash) }
 
     it "returns an Access Code" do
       expect(result).to be_a(Seam::Resources::AccessCode)
@@ -114,7 +121,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       ).with { |req| req.body == {action_attempt_id: action_attempt_hash[:action_attempt_id]}.to_json }
     end
 
-    let(:result) { client.access_codes.delete(access_code_id: access_code_id) }
+    let(:result) { seam.access_codes.delete(access_code_id: access_code_id) }
 
     it "returns an Access Code" do
       expect(result).to be_a(NilClass)
@@ -143,7 +150,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       ).with { |req| req.body == {action_attempt_id: action_attempt_hash[:action_attempt_id]}.to_json }
     end
 
-    let(:result) { client.access_codes.update(access_code_id: access_code_id, type: "ongoing") }
+    let(:result) { seam.access_codes.update(access_code_id: access_code_id, type: "ongoing") }
 
     it "returns an Access Code" do
       expect(result).to be_a(NilClass)
@@ -162,7 +169,7 @@ RSpec.describe Seam::Clients::AccessCodes do
       end
     end
 
-    let(:result) { client.access_codes.pull_backup_access_code(access_code_id: access_code_id) }
+    let(:result) { seam.access_codes.pull_backup_access_code(access_code_id: access_code_id) }
 
     it "returns an backup Access Code" do
       expect(result).to be_a(Seam::Resources::AccessCode)

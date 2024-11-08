@@ -18,9 +18,10 @@ module Seam
         @endpoint = options[:endpoint]
         @auth_headers = options[:auth_headers]
         @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
-
         @client = client || Seam::Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
           faraday_retry_options)
+
+        initialize_routes(client: @client, defaults: @defaults)
       end
 
       def lts_version
@@ -35,16 +36,6 @@ module Seam
       def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: false, faraday_options: {}, faraday_retry_options: {})
         new(personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint,
           wait_for_action_attempt: wait_for_action_attempt, faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
-      end
-
-      def request_seam_object(method, path, klass, inner_object, config = {})
-        response = Seam::Http::Request.request_seam(@client, @endpoint, method, path, config)
-        data = response.body[inner_object]
-        klass.load_from_response(data, self)
-      end
-
-      def request_seam(method, path, config = {})
-        Seam::Http::Request.request_seam(@client, @endpoint, method, path, config)
       end
     end
   end
