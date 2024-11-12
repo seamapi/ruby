@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require "svix"
+require "svix/webhook"
+require "svix/errors"
 require_relative "base_resource"
 require_relative "routes/resources/event"
 
