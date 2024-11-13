@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative "clients/index"
+require_relative "resources/index"
+
 module Seam
   module Routes
     def access_codes

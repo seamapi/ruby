@@ -3,6 +3,8 @@
 require_relative "request"
 require_relative "parse_options"
 require_relative "routes/routes"
+require_relative "version"
+require_relative "deep_hash_accessor"
 
 module Seam
   module Http
@@ -18,7 +20,7 @@ module Seam
         @endpoint = options[:endpoint]
         @auth_headers = options[:auth_headers]
         @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
-        @client = client || Seam::Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
+        @client = client || Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
           faraday_retry_options)
 
         initialize_routes(client: @client, defaults: @defaults)

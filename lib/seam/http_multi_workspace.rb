@@ -3,6 +3,7 @@
 require_relative "request"
 require_relative "parse_options"
 require_relative "lts_version"
+require_relative "version"
 require_relative "auth"
 
 module Seam
@@ -16,7 +17,7 @@ module Seam
         @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
         @endpoint = Http::Options.get_endpoint(endpoint)
         @auth_headers = Http::Auth.get_auth_headers_for_multi_workspace_personal_access_token(personal_access_token)
-        @client = Seam::Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
+        @client = Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
           faraday_retry_options)
       end
 

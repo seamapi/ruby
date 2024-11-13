@@ -2,6 +2,8 @@
 
 require "faraday"
 require "faraday/retry"
+require_relative "lts_version"
+require_relative "version"
 
 module Seam
   module Http
