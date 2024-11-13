@@ -97,7 +97,7 @@ jobs:
           path: main.rb
           contents: |
             require 'seam'
-            
+
             random_number = rand(1e6).to_i
             api_url = "https://pws#{random_number}.fakeseamconnect.seam.vc"
             begin
