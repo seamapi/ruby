@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Seam
-  VERSION = "2.0.0b2"
+  VERSION = "2.0.0b3"
 end
