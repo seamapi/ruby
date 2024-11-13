@@ -97,6 +97,20 @@ jobs:
           path: main.rb
           contents: |
             require 'seam'
+            
+            random_number = rand(1e6).to_i
+            api_url = "https://pws#{random_number}.fakeseamconnect.seam.vc"
+            begin
+              seam = Seam.new(endpoint: api_url, api_key: "seam_apikey1_token") 
+              puts "Successfully initialized Seam client"
+              
+              devices = seam.devices.list
+              puts "Successfully listed devices"
+              
+            rescue => e
+              puts "Error: #{e.message}"
+              exit 1
+            end
       - name: Install
         run: gem install ${{ steps.gems.outputs.paths }}
       - name: Run
