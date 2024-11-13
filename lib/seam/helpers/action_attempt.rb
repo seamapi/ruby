@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "seam/webhook"
 require_relative "seam/wait_for_action_attempt"
 
 module Seam
