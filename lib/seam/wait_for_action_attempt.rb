@@ -18,8 +18,8 @@ module Seam
     attr_reader :code
 
     def initialize(action_attempt)
-      super(action_attempt.error.message, action_attempt)
-      @code = action_attempt.error.type
+      super(action_attempt.error.fetch("message", "Unknown error."), action_attempt)
+      @code = action_attempt.error.fetch("type", "unknown_error")
     end
   end
 
