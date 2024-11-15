@@ -33,6 +33,8 @@ jobs:
         uses: ./.github/actions/setup
         with:
           ruby_version: ${{ matrix.ruby }}
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
       - name: Test
         run: bundle exec rake test
   lint:
