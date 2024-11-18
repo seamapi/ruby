@@ -10,22 +10,22 @@ module Seam
         @defaults = defaults
       end
 
-      def encode_card(acs_credential_id:, device_id:, wait_for_action_attempt: nil)
-        res = @client.post("/acs/encoders/encode_card", {acs_credential_id: acs_credential_id, device_id: device_id}.compact)
+      def encode_credential(acs_credential_id:, acs_encoder_id:, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/encode_credential", {acs_credential_id: acs_credential_id, acs_encoder_id: acs_encoder_id}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
         Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      def list(acs_system_ids: nil, device_ids: nil, limit: nil)
-        res = @client.post("/acs/encoders/list", {acs_system_ids: acs_system_ids, device_ids: device_ids, limit: limit}.compact)
+      def list(acs_encoder_ids: nil, acs_system_ids: nil, limit: nil)
+        @client.post("/acs/encoders/list", {acs_encoder_ids: acs_encoder_ids, acs_system_ids: acs_system_ids, limit: limit}.compact)
 
-        Seam::Resources::Device.load_from_response(res.body["devices"])
+        nil
       end
 
-      def scan_card(acs_system_id:, device_id:, wait_for_action_attempt: nil)
-        res = @client.post("/acs/encoders/scan_card", {acs_system_id: acs_system_id, device_id: device_id}.compact)
+      def scan_credential(acs_encoder_id:, acs_system_id:, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/scan_credential", {acs_encoder_id: acs_encoder_id, acs_system_id: acs_system_id}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
