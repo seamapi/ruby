@@ -66,10 +66,6 @@ module Seam
       @workspaces ||= Seam::Clients::Workspaces.new(client: @client, defaults: @defaults)
     end
 
-    def health
-      @client.get("/health")
-    end
-
     # @deprecated Please use {#devices.unmanaged} instead.
     def unmanaged_devices
       warn "[DEPRECATION] 'unmanaged_devices' is deprecated. Please use 'devices.unmanaged' instead."
