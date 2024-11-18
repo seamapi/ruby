@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "time"
 require_relative "deep_hash_accessor"
 
 module Seam
@@ -20,6 +21,7 @@ module Seam
       def update_from_response(data)
         @data = data
         @data.each do |key, value|
+          value = Seam::DeepHashAccessor.new(value) if value.is_a?(Hash)
           instance_variable_set(:"@#{key}", value)
         end
       end
