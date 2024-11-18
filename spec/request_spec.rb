@@ -12,8 +12,8 @@ RSpec.describe Seam::Http do
 
       before do
         stub_seam_request(
-          :get,
-          "/health",
+          :post,
+          "/devices/list",
           {error: error},
           status: 400,
           headers: {"seam-request-id" => request_id}
@@ -21,7 +21,7 @@ RSpec.describe Seam::Http do
       end
 
       it "parses the error" do
-        expect { client.health }.to raise_error do |error|
+        expect { client.devices.list }.to raise_error do |error|
           expect(error).to be_a(Seam::Http::ApiError)
           expect(error.message).to eq(message)
           expect(error.code).to eq(type)
@@ -38,8 +38,8 @@ RSpec.describe Seam::Http do
 
       before do
         stub_seam_request(
-          :get,
-          "/health",
+          :post,
+          "/devices/list",
           {error: error},
           status: 409,
           headers: {"seam-request-id" => request_id}
@@ -47,7 +47,7 @@ RSpec.describe Seam::Http do
       end
 
       it "parses the error" do
-        expect { client.health }.to raise_error do |error|
+        expect { client.devices.list }.to raise_error do |error|
           expect(error).to be_a(Seam::Http::ApiError)
           expect(error.message).to eq(message)
           expect(error.code).to eq(type)
