@@ -8,8 +8,8 @@ module Seam
         @defaults = defaults
       end
 
-      def create(climate_preset_key:, device_id:, ends_at:, starts_at:, max_override_period_minutes: nil, name: nil)
-        res = @client.post("/thermostats/schedules/create", {climate_preset_key: climate_preset_key, device_id: device_id, ends_at: ends_at, starts_at: starts_at, max_override_period_minutes: max_override_period_minutes, name: name}.compact)
+      def create(climate_preset_key:, device_id:, ends_at:, starts_at:, is_override_allowed: nil, max_override_period_minutes: nil, name: nil)
+        res = @client.post("/thermostats/schedules/create", {climate_preset_key: climate_preset_key, device_id: device_id, ends_at: ends_at, starts_at: starts_at, is_override_allowed: is_override_allowed, max_override_period_minutes: max_override_period_minutes, name: name}.compact)
 
         Seam::Resources::ThermostatSchedule.load_from_response(res.body["thermostat_schedule"])
       end
@@ -32,8 +32,8 @@ module Seam
         Seam::Resources::ThermostatSchedule.load_from_response(res.body["thermostat_schedules"])
       end
 
-      def update(thermostat_schedule_id:, climate_preset_key: nil, ends_at: nil, max_override_period_minutes: nil, name: nil, starts_at: nil)
-        @client.post("/thermostats/schedules/update", {thermostat_schedule_id: thermostat_schedule_id, climate_preset_key: climate_preset_key, ends_at: ends_at, max_override_period_minutes: max_override_period_minutes, name: name, starts_at: starts_at}.compact)
+      def update(thermostat_schedule_id:, climate_preset_key: nil, ends_at: nil, is_override_allowed: nil, max_override_period_minutes: nil, name: nil, starts_at: nil)
+        @client.post("/thermostats/schedules/update", {thermostat_schedule_id: thermostat_schedule_id, climate_preset_key: climate_preset_key, ends_at: ends_at, is_override_allowed: is_override_allowed, max_override_period_minutes: max_override_period_minutes, name: name, starts_at: starts_at}.compact)
 
         nil
       end
