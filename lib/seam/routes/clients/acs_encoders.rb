@@ -18,8 +18,8 @@ module Seam
         Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      def list(acs_encoder_ids: nil, acs_system_ids: nil, limit: nil)
-        @client.post("/acs/encoders/list", {acs_encoder_ids: acs_encoder_ids, acs_system_ids: acs_system_ids, limit: limit}.compact)
+      def list(acs_system_id: nil, limit: nil, acs_system_ids: nil, acs_encoder_ids: nil)
+        @client.post("/acs/encoders/list", {acs_system_id: acs_system_id, limit: limit, acs_system_ids: acs_system_ids, acs_encoder_ids: acs_encoder_ids}.compact)
 
         nil
       end
