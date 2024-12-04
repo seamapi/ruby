@@ -55,7 +55,7 @@ module Seam
       def pull_backup_access_code(access_code_id:)
         res = @client.post("/access_codes/pull_backup_access_code", {access_code_id: access_code_id}.compact)
 
-        Seam::Resources::AccessCode.load_from_response(res.body["backup_access_code"])
+        Seam::Resources::AccessCode.load_from_response(res.body["access_code"])
       end
 
       def update(access_code_id:, allow_external_modification: nil, attempt_for_offline_device: nil, code: nil, device_id: nil, ends_at: nil, is_external_modification_allowed: nil, is_managed: nil, is_offline_access_code: nil, is_one_time_use: nil, max_time_rounding: nil, name: nil, prefer_native_scheduling: nil, preferred_code_length: nil, starts_at: nil, sync: nil, type: nil, use_backup_access_code_pool: nil, use_offline_access_code: nil)
