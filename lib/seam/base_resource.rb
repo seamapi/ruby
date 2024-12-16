@@ -11,19 +11,12 @@ module Seam
       def initialize(data, client = nil)
         @data = data
         @client = client
-
-        @data.each do |key, value|
-          value = Seam::DeepHashAccessor.new(value) if value.is_a?(Hash)
-          instance_variable_set(:"@#{key}", value)
-        end
+        process_data_attributes(@data)
       end
 
       def update_from_response(data)
         @data = data
-        @data.each do |key, value|
-          value = Seam::DeepHashAccessor.new(value) if value.is_a?(Hash)
-          instance_variable_set(:"@#{key}", value)
-        end
+        process_data_attributes(@data)
       end
 
       def self.load_from_response(data, client = nil)
@@ -59,6 +52,21 @@ module Seam
 
       def parse_datetime(value)
         Time.parse(value)
+      end
+
+      def process_data_attributes(data)
+        data.each do |key, value|
+          value = process_hash_value(value)
+          instance_variable_set(:"@#{key}", value)
+        end
+      end
+
+      def process_hash_value(value)
+        if value.is_a?(Hash) && !value.empty?
+          Seam::DeepHashAccessor.new(value)
+        else
+          value
+        end
       end
     end
   end
