@@ -24,8 +24,8 @@ module Seam
         nil
       end
 
-      def scan_credential(acs_encoder_id:, acs_system_id:, wait_for_action_attempt: nil)
-        res = @client.post("/acs/encoders/scan_credential", {acs_encoder_id: acs_encoder_id, acs_system_id: acs_system_id}.compact)
+      def scan_credential(acs_encoder_id:, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/scan_credential", {acs_encoder_id: acs_encoder_id}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
