@@ -14,8 +14,8 @@ module Seam
         nil
       end
 
-      def create(acs_system_id:, access_schedule: nil, acs_access_group_ids: nil, email: nil, email_address: nil, full_name: nil, phone_number: nil, user_identity_id: nil)
-        res = @client.post("/acs/users/create", {acs_system_id: acs_system_id, access_schedule: access_schedule, acs_access_group_ids: acs_access_group_ids, email: email, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
+      def create(acs_system_id:, full_name:, access_schedule: nil, acs_access_group_ids: nil, email: nil, email_address: nil, phone_number: nil, user_identity_id: nil)
+        res = @client.post("/acs/users/create", {acs_system_id: acs_system_id, full_name: full_name, access_schedule: access_schedule, acs_access_group_ids: acs_access_group_ids, email: email, email_address: email_address, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
       end
