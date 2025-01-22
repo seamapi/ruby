@@ -14,6 +14,10 @@ module Seam
         @schedules ||= Seam::Clients::ThermostatsSchedules.new(client: @client, defaults: @defaults)
       end
 
+      def simulate
+        @simulate ||= Seam::Clients::ThermostatsSimulate.new(client: @client, defaults: @defaults)
+      end
+
       def activate_climate_preset(climate_preset_key:, device_id:, wait_for_action_attempt: nil)
         res = @client.post("/thermostats/activate_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id}.compact)
 
