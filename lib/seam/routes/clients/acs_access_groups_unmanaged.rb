@@ -9,15 +9,15 @@ module Seam
       end
 
       def get(acs_access_group_id:)
-        @client.post("/acs/access_groups/unmanaged/get", {acs_access_group_id: acs_access_group_id}.compact)
+        res = @client.post("/acs/access_groups/unmanaged/get", {acs_access_group_id: acs_access_group_id}.compact)
 
-        nil
+        Seam::Resources::UnmanagedAcsAccessGroup.load_from_response(res.body["acs_access_group"])
       end
 
       def list(acs_system_id: nil, acs_user_id: nil)
-        @client.post("/acs/access_groups/unmanaged/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id}.compact)
+        res = @client.post("/acs/access_groups/unmanaged/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id}.compact)
 
-        nil
+        Seam::Resources::UnmanagedAcsAccessGroup.load_from_response(res.body["acs_access_groups"])
       end
     end
   end
