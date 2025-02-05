@@ -19,13 +19,13 @@ module Seam
       end
 
       def list(acs_system_id: nil, limit: nil, acs_system_ids: nil, acs_encoder_ids: nil)
-        @client.post("/acs/encoders/list", {acs_system_id: acs_system_id, limit: limit, acs_system_ids: acs_system_ids, acs_encoder_ids: acs_encoder_ids}.compact)
+        res = @client.post("/acs/encoders/list", {acs_system_id: acs_system_id, limit: limit, acs_system_ids: acs_system_ids, acs_encoder_ids: acs_encoder_ids}.compact)
 
-        nil
+        Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoders"])
       end
 
-      def scan_credential(acs_encoder_id:, acs_system_id:, wait_for_action_attempt: nil)
-        res = @client.post("/acs/encoders/scan_credential", {acs_encoder_id: acs_encoder_id, acs_system_id: acs_system_id}.compact)
+      def scan_credential(acs_encoder_id:, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/scan_credential", {acs_encoder_id: acs_encoder_id}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
