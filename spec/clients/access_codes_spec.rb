@@ -163,7 +163,7 @@ RSpec.describe Seam::Clients::AccessCodes do
 
     before do
       stub_seam_request(
-        :post, "/access_codes/pull_backup_access_code", {backup_access_code: access_code_hash}
+        :post, "/access_codes/pull_backup_access_code", {access_code: access_code_hash}
       ).with do |req|
         req.body == {access_code_id: access_code_id}.to_json
       end
