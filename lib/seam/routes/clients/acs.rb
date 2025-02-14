@@ -24,18 +24,6 @@ module Seam
         @credentials ||= Seam::Clients::AcsCredentials.new(client: @client, defaults: @defaults)
       end
 
-      def encoders
-        @encoders ||= Seam::Clients::AcsEncoders.new(client: @client, defaults: @defaults)
-      end
-
-      def entrances
-        @entrances ||= Seam::Clients::AcsEntrances.new(client: @client, defaults: @defaults)
-      end
-
-      def systems
-        @systems ||= Seam::Clients::AcsSystems.new(client: @client, defaults: @defaults)
-      end
-
       def users
         @users ||= Seam::Clients::AcsUsers.new(client: @client, defaults: @defaults)
       end
