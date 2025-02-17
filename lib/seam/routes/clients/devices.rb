@@ -16,12 +16,6 @@ module Seam
         @unmanaged ||= Seam::Clients::DevicesUnmanaged.new(client: @client, defaults: @defaults)
       end
 
-      def delete(device_id:)
-        @client.post("/devices/delete", {device_id: device_id}.compact)
-
-        nil
-      end
-
       def get(device_id: nil, name: nil)
         res = @client.post("/devices/get", {device_id: device_id, name: name}.compact)
 
