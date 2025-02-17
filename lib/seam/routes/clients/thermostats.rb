@@ -46,12 +46,6 @@ module Seam
         nil
       end
 
-      def get(device_id: nil, name: nil)
-        res = @client.post("/thermostats/get", {device_id: device_id, name: name}.compact)
-
-        Seam::Resources::Device.load_from_response(res.body["thermostat"])
-      end
-
       def heat(device_id:, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, sync: nil, wait_for_action_attempt: nil)
         res = @client.post("/thermostats/heat", {device_id: device_id, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, sync: sync}.compact)
 
