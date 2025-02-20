@@ -10,8 +10,8 @@
     "start": "fake-seam-connect --seed"
   },
   "devDependencies": {
-    "@seamapi/fake-seam-connect": "1.75.1",
-    "@seamapi/nextlove-sdk-generator": "1.16.1",
+    "@seamapi/fake-seam-connect": "1.76.0",
+    "@seamapi/nextlove-sdk-generator": "1.17.3",
     "@seamapi/types": "1.353.2",
     "del": "^7.1.0",
     "markdown-toc": "^1.2.0",
