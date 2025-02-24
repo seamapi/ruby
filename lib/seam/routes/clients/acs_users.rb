@@ -32,8 +32,8 @@ module Seam
         Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
       end
 
-      def list(acs_system_id: nil, created_before: nil, limit: nil, page_cursor: nil, user_identity_email_address: nil, user_identity_id: nil, user_identity_phone_number: nil)
-        res = @client.post("/acs/users/list", {acs_system_id: acs_system_id, created_before: created_before, limit: limit, page_cursor: page_cursor, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact)
+      def list(acs_system_id: nil, created_before: nil, limit: nil, page_cursor: nil, search: nil, user_identity_email_address: nil, user_identity_id: nil, user_identity_phone_number: nil)
+        res = @client.post("/acs/users/list", {acs_system_id: acs_system_id, created_before: created_before, limit: limit, page_cursor: page_cursor, search: search, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
       end
