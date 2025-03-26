@@ -8,6 +8,18 @@ module Seam
         @defaults = defaults
       end
 
+      def access_code_lock(access_code_id:, device_id:)
+        @client.post("/devices/simulate/access_code_lock", {access_code_id: access_code_id, device_id: device_id}.compact)
+
+        nil
+      end
+
+      def access_code_unlock(access_code_id:, device_id:)
+        @client.post("/devices/simulate/access_code_unlock", {access_code_id: access_code_id, device_id: device_id}.compact)
+
+        nil
+      end
+
       def connect(device_id:)
         @client.post("/devices/simulate/connect", {device_id: device_id}.compact)
 
