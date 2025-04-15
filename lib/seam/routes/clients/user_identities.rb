@@ -30,6 +30,12 @@ module Seam
         nil
       end
 
+      def generate_instant_key(user_identity_id:)
+        res = @client.post("/user_identities/generate_instant_key", {user_identity_id: user_identity_id}.compact)
+
+        Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
+      end
+
       def get(user_identity_id: nil, user_identity_key: nil)
         res = @client.post("/user_identities/get", {user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
