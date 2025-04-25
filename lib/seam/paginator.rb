@@ -23,7 +23,7 @@ module Seam
     def next_page(next_page_cursor)
       if next_page_cursor.nil? || next_page_cursor.empty?
         raise ArgumentError,
-              "Cannot get the next page with a nil or empty next_page_cursor."
+          "Cannot get the next page with a nil or empty next_page_cursor."
       end
 
       fetch_page(@params.merge(page_cursor: next_page_cursor))
