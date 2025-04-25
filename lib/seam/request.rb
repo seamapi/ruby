@@ -4,6 +4,7 @@ require "faraday"
 require "faraday/retry"
 require_relative "lts_version"
 require_relative "version"
+require_relative "paginator"
 
 module Seam
   module Http
@@ -25,6 +26,7 @@ module Seam
 
         Faraday.new(options) do |builder|
           builder.request :json
+          builder.use Seam::PaginationMiddleware
           builder.response :json
           builder.use ResponseMiddleware
           builder.request :retry, faraday_retry_options

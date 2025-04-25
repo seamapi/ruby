@@ -7,6 +7,7 @@ require_relative "routes/clients/index"
 require_relative "routes/routes"
 require_relative "version"
 require_relative "deep_hash_accessor"
+require_relative "paginator"
 
 module Seam
   module Http
@@ -30,6 +31,10 @@ module Seam
 
       def lts_version
         Seam::LTS_VERSION
+      end
+
+      def create_paginator(request_method, params = {})
+        Paginator.new(request_method, params)
       end
 
       def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, faraday_options: {}, faraday_retry_options: {})
