@@ -3,20 +3,15 @@
 require "spec_helper"
 require "seam/paginator"
 
-# Integration tests for Paginator using the fake Seam Connect server
 RSpec.describe Seam::Paginator do
-  # Use the helper to run a fake server and get a configured client
   around do |example|
     with_fake_seam_connect do |seam, _endpoint, _seed|
-      @seam = seam # Store seam client for use in tests
+      @seam = seam
       example.run
     end
   end
 
-  let(:seam) { @seam } # Make seam client available via let
-
-  # The default seed in fake-seam-connect creates 3 connected accounts.
-  let(:total_accounts) { 3 }
+  let(:seam) { @seam }
 
   describe "#first_page" do
     it "fetches the first page of results and pagination info" do
@@ -61,6 +56,7 @@ RSpec.describe Seam::Paginator do
 
   describe "#flatten_to_list" do
     it "fetches all items from all pages into a single list" do
+      total_accounts = seam.connected_accounts.list.size
       paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 1})
       paginated_accounts = paginator.flatten_to_list
 
@@ -73,6 +69,7 @@ RSpec.describe Seam::Paginator do
 
   describe "#flatten" do
     it "returns an Enumerator that yields all items from all pages" do
+      total_accounts = seam.connected_accounts.list.size
       paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 1})
       enumerator = paginator.flatten
 
