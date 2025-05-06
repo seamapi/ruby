@@ -5,7 +5,7 @@ require_relative "http"
 
 module Seam
   THREAD_CONTEXT_KEY = :seam_pagination_context
-  PaginationContext = Struct.new(:pagination_data)
+  PaginationContext = Struct.new(:pagination)
 
   class Paginator
     def initialize(request, params = {})
@@ -62,9 +62,9 @@ module Seam
       Thread.current[THREAD_CONTEXT_KEY] = context
 
       begin
-        data = @request.call(**params)
-        pagination_result = Pagination.from_hash(context.pagination_data)
-        [data, pagination_result]
+        res_data = @request.call(**params)
+        pagination_result = Pagination.from_hash(context.pagination)
+        [res_data, pagination_result]
       ensure
         Thread.current[THREAD_CONTEXT_KEY] = nil
       end
@@ -93,7 +93,7 @@ module Seam
       return unless context.is_a?(PaginationContext)
 
       pagination_hash = extract_pagination(env)
-      context.pagination_data = pagination_hash if pagination_hash
+      context.pagination = pagination_hash if pagination_hash
     end
 
     private

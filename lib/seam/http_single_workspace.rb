@@ -33,8 +33,8 @@ module Seam
         Seam::LTS_VERSION
       end
 
-      def create_paginator(request_method, params = {})
-        Paginator.new(request_method, params)
+      def create_paginator(request, params = {})
+        Paginator.new(request, params)
       end
 
       def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, faraday_options: {}, faraday_retry_options: {})
