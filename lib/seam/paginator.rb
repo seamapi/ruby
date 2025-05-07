@@ -83,7 +83,7 @@ module Seam
     end
 
     def has_next_page?
-      !!has_next_page
+      has_next_page == true
     end
   end
 
