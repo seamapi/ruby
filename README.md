@@ -215,6 +215,99 @@ rescue Seam::ActionAttemptTimeoutError
 end
 ```
 
+### Pagination
+
+Some Seam API endpoints that return lists of resources support pagination.
+Use the `Seam::Paginator` class to fetch and process resources across multiple pages.
+
+#### Manually fetch pages with the next_page_cursor
+
+```ruby
+require "seam"
+
+seam = Seam.new
+
+paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 20})
+
+connected_accounts, pagination = paginator.first_page
+
+if pagination.has_next_page?
+  more_connected_accounts, _ = paginator.next_page(pagination.next_page_cursor)
+end
+```
+
+#### Resume pagination
+
+Get the first page on initial load and store the state (e.g., in memory or a file):
+
+```ruby
+require "seam"
+require "json"
+
+seam = Seam.new
+
+params = {limit: 20}
+paginator = seam.create_paginator(seam.connected_accounts.method(:list), params)
+
+connected_accounts, pagination = paginator.first_page
+
+# Example: Store state for later use (e.g., in a file or database)
+pagination_state = {
+  "params" => params,
+  "next_page_cursor" => pagination.next_page_cursor,
+  "has_next_page" => pagination.has_next_page?
+}
+File.write("/tmp/seam_connected_accounts_list.json", JSON.dump(pagination_state))
+```
+
+Get the next page at a later time using the stored state:
+
+```ruby
+require "seam"
+require "json"
+
+seam = Seam.new
+
+# Example: Load state from where it was stored
+pagination_state_json = File.read("/tmp/seam_connected_accounts_list.json")
+pagination_state = JSON.parse(pagination_state_json)
+
+if pagination_state["has_next_page"]
+  paginator = seam.create_paginator(
+    seam.connected_accounts.method(:list), pagination_state["params"]
+  )
+  more_connected_accounts, _ = paginator.next_page(
+    pagination_state["next_page_cursor"]
+  )
+end
+```
+
+#### Iterate over all resources
+
+```ruby
+require "seam"
+
+seam = Seam.new
+
+paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 20})
+
+paginator.flatten.each do |account|
+  puts account.account_type_display_name
+end
+```
+
+#### Return all resources across all pages as a list
+
+```ruby
+require "seam"
+
+seam = Seam.new
+
+paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 20})
+
+all_connected_accounts = paginator.flatten_to_list
+```
+
 ### Interacting with Multiple Workspaces
 
 Some Seam API endpoints interact with multiple workspaces. The `Seam::Http::SeamMultiWorkspace` client is not bound to a specific workspace and may use those endpoints with a personal access token authentication method.
