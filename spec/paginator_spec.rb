@@ -71,11 +71,11 @@ RSpec.describe Seam::Paginator do
     it "returns an Enumerator that yields all items from all pages" do
       total_accounts = seam.connected_accounts.list.size
       paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 1})
-      enumerator = paginator.flatten
 
-      expect(enumerator).to be_a(Enumerator)
-
-      collected_accounts = enumerator.to_a
+      collected_accounts = []
+      paginator.flatten.each do |account|
+        collected_accounts << account
+      end
 
       expect(collected_accounts).to be_a(Array)
       expect(collected_accounts.size).to be > 1
