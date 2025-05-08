@@ -54,6 +54,10 @@ module Seam
       @phones ||= Seam::Clients::Phones.new(client: @client, defaults: @defaults)
     end
 
+    def seam
+      @seam ||= Seam::Clients::Seam.new(client: @client, defaults: @defaults)
+    end
+
     def thermostats
       @thermostats ||= Seam::Clients::Thermostats.new(client: @client, defaults: @defaults)
     end
