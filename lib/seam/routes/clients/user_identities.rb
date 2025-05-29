@@ -18,8 +18,8 @@ module Seam
         nil
       end
 
-      def create(email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
-        res = @client.post("/user_identities/create", {email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
+      def create(acs_system_ids: nil, email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
+        res = @client.post("/user_identities/create", {acs_system_ids: acs_system_ids, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
 
         Seam::Resources::UserIdentity.load_from_response(res.body["user_identity"])
       end
@@ -30,8 +30,8 @@ module Seam
         nil
       end
 
-      def generate_instant_key(user_identity_id:)
-        res = @client.post("/user_identities/generate_instant_key", {user_identity_id: user_identity_id}.compact)
+      def generate_instant_key(user_identity_id:, max_use_count: nil)
+        res = @client.post("/user_identities/generate_instant_key", {user_identity_id: user_identity_id, max_use_count: max_use_count}.compact)
 
         Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
       end

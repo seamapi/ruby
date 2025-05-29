@@ -14,10 +14,6 @@ module Seam
       @action_attempts ||= Seam::Clients::ActionAttempts.new(client: @client, defaults: @defaults)
     end
 
-    def bridges
-      @bridges ||= Seam::Clients::Bridges.new(client: @client, defaults: @defaults)
-    end
-
     def client_sessions
       @client_sessions ||= Seam::Clients::ClientSessions.new(client: @client, defaults: @defaults)
     end

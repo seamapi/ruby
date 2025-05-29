@@ -10,8 +10,8 @@ module Seam
         @defaults = defaults
       end
 
-      def create(name:, company_name: nil, connect_partner_name: nil, is_sandbox: nil, webview_logo_shape: nil, webview_primary_button_color: nil, webview_primary_button_text_color: nil, webview_success_message: nil)
-        res = @client.post("/workspaces/create", {name: name, company_name: company_name, connect_partner_name: connect_partner_name, is_sandbox: is_sandbox, webview_logo_shape: webview_logo_shape, webview_primary_button_color: webview_primary_button_color, webview_primary_button_text_color: webview_primary_button_text_color, webview_success_message: webview_success_message}.compact)
+      def create(name:, company_name: nil, connect_partner_name: nil, connect_webview_customization: nil, is_sandbox: nil, webview_logo_shape: nil, webview_primary_button_color: nil, webview_primary_button_text_color: nil, webview_success_message: nil)
+        res = @client.post("/workspaces/create", {name: name, company_name: company_name, connect_partner_name: connect_partner_name, connect_webview_customization: connect_webview_customization, is_sandbox: is_sandbox, webview_logo_shape: webview_logo_shape, webview_primary_button_color: webview_primary_button_color, webview_primary_button_text_color: webview_primary_button_text_color, webview_success_message: webview_success_message}.compact)
 
         Seam::Resources::Workspace.load_from_response(res.body["workspace"])
       end
