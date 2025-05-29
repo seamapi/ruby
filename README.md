@@ -232,12 +232,12 @@ require "seam"
 
 seam = Seam.new
 
-paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 20})
+paginator = seam.create_paginator(seam.devices.method(:list), {limit: 20})
 
-connected_accounts, pagination = paginator.first_page
+devices, pagination = paginator.first_page
 
 if pagination.has_next_page?
-  more_connected_accounts, _ = paginator.next_page(pagination.next_page_cursor)
+  more_devices, _ = paginator.next_page(pagination.next_page_cursor)
 end
 ```
 
@@ -252,9 +252,9 @@ require "json"
 seam = Seam.new
 
 params = {limit: 20}
-paginator = seam.create_paginator(seam.connected_accounts.method(:list), params)
+paginator = seam.create_paginator(seam.devices.method(:list), params)
 
-connected_accounts, pagination = paginator.first_page
+devices, pagination = paginator.first_page
 
 # Example: Store state for later use (e.g., in a file or database)
 pagination_state = {
@@ -262,7 +262,7 @@ pagination_state = {
   "next_page_cursor" => pagination.next_page_cursor,
   "has_next_page" => pagination.has_next_page?
 }
-File.write("/tmp/seam_connected_accounts_list.json", JSON.dump(pagination_state))
+File.write("/tmp/seam_devices.json", JSON.dump(pagination_state))
 ```
 
 Get the next page at a later time using the stored state:
@@ -274,14 +274,14 @@ require "json"
 seam = Seam.new
 
 # Example: Load state from where it was stored
-pagination_state_json = File.read("/tmp/seam_connected_accounts_list.json")
+pagination_state_json = File.read("/tmp/seam_devices.json")
 pagination_state = JSON.parse(pagination_state_json)
 
 if pagination_state["has_next_page"]
   paginator = seam.create_paginator(
-    seam.connected_accounts.method(:list), pagination_state["params"]
+    seam.devices.method(:list), pagination_state["params"]
   )
-  more_connected_accounts, _ = paginator.next_page(
+  more_devices, _ = paginator.next_page(
     pagination_state["next_page_cursor"]
   )
 end
@@ -294,7 +294,7 @@ require "seam"
 
 seam = Seam.new
 
-paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 20})
+paginator = seam.create_paginator(seam.devices.method(:list), {limit: 20})
 
 paginator.flatten.each do |account|
   puts account.account_type_display_name
@@ -308,9 +308,9 @@ require "seam"
 
 seam = Seam.new
 
-paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 20})
+paginator = seam.create_paginator(seam.devices.method(:list), {limit: 20})
 
-all_connected_accounts = paginator.flatten_to_list
+all_devices = paginator.flatten_to_list
 ```
 
 ### Interacting with Multiple Workspaces
