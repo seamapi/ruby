@@ -8,8 +8,8 @@ module Seam
         @defaults = defaults
       end
 
-      def add_user(acs_access_group_id:, acs_user_id:)
-        @client.post("/acs/access_groups/add_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id}.compact)
+      def add_user(acs_access_group_id:, acs_user_id: nil, user_identity_id: nil)
+        @client.post("/acs/access_groups/add_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -20,8 +20,8 @@ module Seam
         Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_group"])
       end
 
-      def list(acs_system_id: nil, acs_user_id: nil)
-        res = @client.post("/acs/access_groups/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id}.compact)
+      def list(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
+        res = @client.post("/acs/access_groups/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_groups"])
       end
@@ -38,8 +38,8 @@ module Seam
         Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
       end
 
-      def remove_user(acs_access_group_id:, acs_user_id:)
-        @client.post("/acs/access_groups/remove_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id}.compact)
+      def remove_user(acs_access_group_id:, acs_user_id: nil, user_identity_id: nil)
+        @client.post("/acs/access_groups/remove_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end

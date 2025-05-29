@@ -10,6 +10,10 @@ module Seam
         @defaults = defaults
       end
 
+      def daily_programs
+        @daily_programs ||= Seam::Clients::ThermostatsDailyPrograms.new(client: @client, defaults: @defaults)
+      end
+
       def schedules
         @schedules ||= Seam::Clients::ThermostatsSchedules.new(client: @client, defaults: @defaults)
       end
@@ -62,8 +66,8 @@ module Seam
         Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, device_ids: nil, device_type: nil, device_types: nil, exclude_if: nil, include_if: nil, limit: nil, manufacturer: nil, unstable_location_id: nil, user_identifier_key: nil)
-        res = @client.post("/thermostats/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, device_ids: device_ids, device_type: device_type, device_types: device_types, exclude_if: exclude_if, include_if: include_if, limit: limit, manufacturer: manufacturer, unstable_location_id: unstable_location_id, user_identifier_key: user_identifier_key}.compact)
+      def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, customer_ids: nil, device_ids: nil, device_type: nil, device_types: nil, exclude_if: nil, include_if: nil, limit: nil, manufacturer: nil, page_cursor: nil, unstable_location_id: nil, user_identifier_key: nil)
+        res = @client.post("/thermostats/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, customer_ids: customer_ids, device_ids: device_ids, device_type: device_type, device_types: device_types, exclude_if: exclude_if, include_if: include_if, limit: limit, manufacturer: manufacturer, page_cursor: page_cursor, unstable_location_id: unstable_location_id, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::Device.load_from_response(res.body["devices"])
       end
@@ -108,6 +112,14 @@ module Seam
         @client.post("/thermostats/update_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id, manual_override_allowed: manual_override_allowed, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting, name: name}.compact)
 
         nil
+      end
+
+      def update_weekly_program(device_id:, friday_program_id: nil, monday_program_id: nil, saturday_program_id: nil, sunday_program_id: nil, thursday_program_id: nil, tuesday_program_id: nil, wednesday_program_id: nil, wait_for_action_attempt: nil)
+        res = @client.post("/thermostats/update_weekly_program", {device_id: device_id, friday_program_id: friday_program_id, monday_program_id: monday_program_id, saturday_program_id: saturday_program_id, sunday_program_id: sunday_program_id, thursday_program_id: thursday_program_id, tuesday_program_id: tuesday_program_id, wednesday_program_id: wednesday_program_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
     end
   end

@@ -10,6 +10,14 @@ module Seam
         @defaults = defaults
       end
 
+      def encode_access_method(access_method_id:, acs_encoder_id:, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/encode_access_method", {access_method_id: access_method_id, acs_encoder_id: acs_encoder_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+      end
+
       def encode_credential(acs_credential_id:, acs_encoder_id:, wait_for_action_attempt: nil)
         res = @client.post("/acs/encoders/encode_credential", {acs_credential_id: acs_credential_id, acs_encoder_id: acs_encoder_id}.compact)
 
