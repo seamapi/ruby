@@ -26,6 +26,12 @@ module Seam
         Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_accounts"])
       end
 
+      def sync(connected_account_id:)
+        @client.post("/connected_accounts/sync", {connected_account_id: connected_account_id}.compact)
+
+        nil
+      end
+
       def update(connected_account_id:, automatically_manage_new_devices: nil, custom_metadata: nil)
         @client.post("/connected_accounts/update", {connected_account_id: connected_account_id, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata}.compact)
 
