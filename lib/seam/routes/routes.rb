@@ -54,6 +54,10 @@ module Seam
       @thermostats ||= Seam::Clients::Thermostats.new(client: @client, defaults: @defaults)
     end
 
+    def unstable_partner
+      @unstable_partner ||= Seam::Clients::UnstablePartner.new(client: @client, defaults: @defaults)
+    end
+
     def user_identities
       @user_identities ||= Seam::Clients::UserIdentities.new(client: @client, defaults: @defaults)
     end
