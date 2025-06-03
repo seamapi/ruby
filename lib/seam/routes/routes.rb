@@ -38,10 +38,6 @@ module Seam
       @locks ||= Seam::Clients::Locks.new(client: @client, defaults: @defaults)
     end
 
-    def networks
-      @networks ||= Seam::Clients::Networks.new(client: @client, defaults: @defaults)
-    end
-
     def noise_sensors
       @noise_sensors ||= Seam::Clients::NoiseSensors.new(client: @client, defaults: @defaults)
     end
@@ -52,10 +48,6 @@ module Seam
 
     def thermostats
       @thermostats ||= Seam::Clients::Thermostats.new(client: @client, defaults: @defaults)
-    end
-
-    def unstable_partner
-      @unstable_partner ||= Seam::Clients::UnstablePartner.new(client: @client, defaults: @defaults)
     end
 
     def user_identities
