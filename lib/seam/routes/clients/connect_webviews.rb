@@ -26,8 +26,8 @@ module Seam
         Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webview"])
       end
 
-      def list(custom_metadata_has: nil, customer_id: nil, limit: nil, user_identifier_key: nil)
-        res = @client.post("/connect_webviews/list", {custom_metadata_has: custom_metadata_has, customer_id: customer_id, limit: limit, user_identifier_key: user_identifier_key}.compact)
+      def list(custom_metadata_has: nil, customer_ids: nil, limit: nil, user_identifier_key: nil)
+        res = @client.post("/connect_webviews/list", {custom_metadata_has: custom_metadata_has, customer_ids: customer_ids, limit: limit, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webviews"])
       end
