@@ -3,7 +3,7 @@
 module Seam
   module Resources
     class AcsEncoder < BaseResource
-      attr_accessor :acs_encoder_id, :acs_system_id, :display_name, :workspace_id
+      attr_accessor :acs_encoder_id, :acs_system_id, :connected_account_id, :display_name, :workspace_id
 
       date_accessor :created_at
 
