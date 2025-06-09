@@ -6,6 +6,14 @@ module Seam
       @access_codes ||= Seam::Clients::AccessCodes.new(client: @client, defaults: @defaults)
     end
 
+    def access_grants
+      @access_grants ||= Seam::Clients::AccessGrants.new(client: @client, defaults: @defaults)
+    end
+
+    def access_methods
+      @access_methods ||= Seam::Clients::AccessMethods.new(client: @client, defaults: @defaults)
+    end
+
     def acs
       @acs ||= Seam::Clients::Acs.new(client: @client, defaults: @defaults)
     end
@@ -44,6 +52,10 @@ module Seam
 
     def phones
       @phones ||= Seam::Clients::Phones.new(client: @client, defaults: @defaults)
+    end
+
+    def spaces
+      @spaces ||= Seam::Clients::Spaces.new(client: @client, defaults: @defaults)
     end
 
     def thermostats
