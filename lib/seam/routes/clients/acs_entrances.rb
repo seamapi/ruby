@@ -20,8 +20,8 @@ module Seam
         nil
       end
 
-      def list(acs_credential_id: nil, acs_system_id: nil, location_id: nil)
-        res = @client.post("/acs/entrances/list", {acs_credential_id: acs_credential_id, acs_system_id: acs_system_id, location_id: location_id}.compact)
+      def list(acs_credential_id: nil, acs_system_id: nil, location_id: nil, space_id: nil)
+        res = @client.post("/acs/entrances/list", {acs_credential_id: acs_credential_id, acs_system_id: acs_system_id, location_id: location_id, space_id: space_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
