@@ -8,8 +8,8 @@ module Seam
         @defaults = defaults
       end
 
-      def create(accepted_providers: nil, automatically_manage_new_devices: nil, custom_metadata: nil, custom_redirect_failure_url: nil, custom_redirect_url: nil, customer_id: nil, device_selection_mode: nil, provider_category: nil, wait_for_device_creation: nil)
-        res = @client.post("/connect_webviews/create", {accepted_providers: accepted_providers, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata, custom_redirect_failure_url: custom_redirect_failure_url, custom_redirect_url: custom_redirect_url, customer_id: customer_id, device_selection_mode: device_selection_mode, provider_category: provider_category, wait_for_device_creation: wait_for_device_creation}.compact)
+      def create(accepted_capabilities: nil, accepted_providers: nil, automatically_manage_new_devices: nil, custom_metadata: nil, custom_redirect_failure_url: nil, custom_redirect_url: nil, customer_id: nil, device_selection_mode: nil, provider_category: nil, wait_for_device_creation: nil)
+        res = @client.post("/connect_webviews/create", {accepted_capabilities: accepted_capabilities, accepted_providers: accepted_providers, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata, custom_redirect_failure_url: custom_redirect_failure_url, custom_redirect_url: custom_redirect_url, customer_id: customer_id, device_selection_mode: device_selection_mode, provider_category: provider_category, wait_for_device_creation: wait_for_device_creation}.compact)
 
         Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webview"])
       end
