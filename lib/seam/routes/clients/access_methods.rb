@@ -15,15 +15,15 @@ module Seam
       end
 
       def get(access_method_id:)
-        @client.post("/access_methods/get", {access_method_id: access_method_id}.compact)
+        res = @client.post("/access_methods/get", {access_method_id: access_method_id}.compact)
 
-        nil
+        Seam::Resources::AccessMethod.load_from_response(res.body["access_method"])
       end
 
       def list(access_grant_id:)
-        @client.post("/access_methods/list", {access_grant_id: access_grant_id}.compact)
+        res = @client.post("/access_methods/list", {access_grant_id: access_grant_id}.compact)
 
-        nil
+        Seam::Resources::AccessMethod.load_from_response(res.body["access_methods"])
       end
     end
   end
