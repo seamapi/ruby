@@ -21,9 +21,9 @@ module Seam
       end
 
       def launch(credential_manager_acs_system_id:, user_identity_id:, acs_credential_pool_id: nil, create_credential_manager_user: nil, credential_manager_acs_user_id: nil)
-        @client.post("/user_identities/enrollment_automations/launch", {credential_manager_acs_system_id: credential_manager_acs_system_id, user_identity_id: user_identity_id, acs_credential_pool_id: acs_credential_pool_id, create_credential_manager_user: create_credential_manager_user, credential_manager_acs_user_id: credential_manager_acs_user_id}.compact)
+        res = @client.post("/user_identities/enrollment_automations/launch", {credential_manager_acs_system_id: credential_manager_acs_system_id, user_identity_id: user_identity_id, acs_credential_pool_id: acs_credential_pool_id, create_credential_manager_user: create_credential_manager_user, credential_manager_acs_user_id: credential_manager_acs_user_id}.compact)
 
-        nil
+        Seam::Resources::EnrollmentAutomation.load_from_response(res.body["enrollment_automation"])
       end
 
       def list(user_identity_id:)

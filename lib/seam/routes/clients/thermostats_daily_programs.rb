@@ -11,9 +11,9 @@ module Seam
       end
 
       def create(device_id:, name:, periods:)
-        @client.post("/thermostats/daily_programs/create", {device_id: device_id, name: name, periods: periods}.compact)
+        res = @client.post("/thermostats/daily_programs/create", {device_id: device_id, name: name, periods: periods}.compact)
 
-        nil
+        Seam::Resources::ThermostatDailyProgram.load_from_response(res.body["thermostat_daily_program"])
       end
 
       def delete(thermostat_daily_program_id:)
