@@ -6,6 +6,9 @@ module Seam
       attr_accessor :display_name, :email_address, :full_name, :phone_number, :user_identity_id, :user_identity_key, :workspace_id
 
       date_accessor :created_at
+
+      include Seam::Resources::ResourceErrorsSupport
+      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end
