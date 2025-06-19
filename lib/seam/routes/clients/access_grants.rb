@@ -31,6 +31,12 @@ module Seam
 
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grants"])
       end
+
+      def update(access_grant_id:, ends_at: nil, starts_at: nil)
+        @client.post("/access_grants/update", {access_grant_id: access_grant_id, ends_at: ends_at, starts_at: starts_at}.compact)
+
+        nil
+      end
     end
   end
 end
