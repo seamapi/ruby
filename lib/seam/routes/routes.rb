@@ -34,6 +34,10 @@ module Seam
       @connected_accounts ||= Seam::Clients::ConnectedAccounts.new(client: @client, defaults: @defaults)
     end
 
+    def customers
+      @customers ||= Seam::Clients::Customers.new(client: @client, defaults: @defaults)
+    end
+
     def devices
       @devices ||= Seam::Clients::Devices.new(client: @client, defaults: @defaults)
     end
