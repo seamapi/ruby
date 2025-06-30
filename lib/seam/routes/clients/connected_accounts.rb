@@ -20,8 +20,8 @@ module Seam
         Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_account"])
       end
 
-      def list(custom_metadata_has: nil, customer_ids: nil, limit: nil, page_cursor: nil, user_identifier_key: nil)
-        res = @client.post("/connected_accounts/list", {custom_metadata_has: custom_metadata_has, customer_ids: customer_ids, limit: limit, page_cursor: page_cursor, user_identifier_key: user_identifier_key}.compact)
+      def list(custom_metadata_has: nil, customer_ids: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
+        res = @client.post("/connected_accounts/list", {custom_metadata_has: custom_metadata_has, customer_ids: customer_ids, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_accounts"])
       end
