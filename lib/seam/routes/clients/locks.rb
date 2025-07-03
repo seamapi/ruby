@@ -10,6 +10,10 @@ module Seam
         @defaults = defaults
       end
 
+      def simulate
+        @simulate ||= Seam::Clients::LocksSimulate.new(client: @client, defaults: @defaults)
+      end
+
       def get(device_id: nil, name: nil)
         res = @client.post("/locks/get", {device_id: device_id, name: name}.compact)
 
