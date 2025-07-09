@@ -44,8 +44,8 @@ module Seam
         nil
       end
 
-      def list
-        res = @client.post("/spaces/list")
+      def list(search: nil)
+        res = @client.post("/spaces/list", {search: search}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["spaces"])
       end
