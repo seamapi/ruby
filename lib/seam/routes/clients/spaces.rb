@@ -20,8 +20,8 @@ module Seam
         nil
       end
 
-      def create(name:, acs_entrance_ids: nil, device_ids: nil)
-        res = @client.post("/spaces/create", {name: name, acs_entrance_ids: acs_entrance_ids, device_ids: device_ids}.compact)
+      def create(name:, acs_entrance_ids: nil, device_ids: nil, space_key: nil)
+        res = @client.post("/spaces/create", {name: name, acs_entrance_ids: acs_entrance_ids, device_ids: device_ids, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["space"])
       end
@@ -32,8 +32,8 @@ module Seam
         nil
       end
 
-      def get(space_id:)
-        res = @client.post("/spaces/get", {space_id: space_id}.compact)
+      def get(space_id: nil, space_key: nil)
+        res = @client.post("/spaces/get", {space_id: space_id, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["space"])
       end
@@ -44,8 +44,8 @@ module Seam
         nil
       end
 
-      def list(search: nil)
-        res = @client.post("/spaces/list", {search: search}.compact)
+      def list(search: nil, space_key: nil)
+        res = @client.post("/spaces/list", {search: search, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["spaces"])
       end
