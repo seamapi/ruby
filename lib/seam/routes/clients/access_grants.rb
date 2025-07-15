@@ -8,8 +8,8 @@ module Seam
         @defaults = defaults
       end
 
-      def create(requested_access_methods:, user_identity_id: nil, user_identity: nil, access_grant_key: nil, acs_entrance_ids: nil, device_ids: nil, ends_at: nil, location: nil, location_ids: nil, space_ids: nil, starts_at: nil)
-        res = @client.post("/access_grants/create", {requested_access_methods: requested_access_methods, user_identity_id: user_identity_id, user_identity: user_identity, access_grant_key: access_grant_key, acs_entrance_ids: acs_entrance_ids, device_ids: device_ids, ends_at: ends_at, location: location, location_ids: location_ids, space_ids: space_ids, starts_at: starts_at}.compact)
+      def create(requested_access_methods:, user_identity_id: nil, user_identity: nil, access_grant_key: nil, acs_entrance_ids: nil, device_ids: nil, ends_at: nil, location: nil, location_ids: nil, name: nil, space_ids: nil, starts_at: nil)
+        res = @client.post("/access_grants/create", {requested_access_methods: requested_access_methods, user_identity_id: user_identity_id, user_identity: user_identity, access_grant_key: access_grant_key, acs_entrance_ids: acs_entrance_ids, device_ids: device_ids, ends_at: ends_at, location: location, location_ids: location_ids, name: name, space_ids: space_ids, starts_at: starts_at}.compact)
 
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
       end
@@ -32,8 +32,8 @@ module Seam
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grants"])
       end
 
-      def update(access_grant_id:, ends_at: nil, starts_at: nil)
-        @client.post("/access_grants/update", {access_grant_id: access_grant_id, ends_at: ends_at, starts_at: starts_at}.compact)
+      def update(access_grant_id:, ends_at: nil, name: nil, starts_at: nil)
+        @client.post("/access_grants/update", {access_grant_id: access_grant_id, ends_at: ends_at, name: name, starts_at: starts_at}.compact)
 
         nil
       end

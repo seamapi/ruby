@@ -62,8 +62,8 @@ module Seam
         nil
       end
 
-      def update(space_id:, name: nil)
-        res = @client.post("/spaces/update", {space_id: space_id, name: name}.compact)
+      def update(acs_entrance_ids: nil, device_ids: nil, name: nil, space_id: nil, space_key: nil)
+        res = @client.post("/spaces/update", {acs_entrance_ids: acs_entrance_ids, device_ids: device_ids, name: name, space_id: space_id, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["space"])
       end
