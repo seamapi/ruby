@@ -26,6 +26,12 @@ module Seam
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
       end
 
+      def get_related(access_grant_ids:, exclude: nil, include: nil)
+        @client.post("/access_grants/get_related", {access_grant_ids: access_grant_ids, exclude: exclude, include: include}.compact)
+
+        nil
+      end
+
       def list(access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, location_id: nil, space_id: nil, user_identity_id: nil)
         res = @client.post("/access_grants/list", {access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, location_id: location_id, space_id: space_id, user_identity_id: user_identity_id}.compact)
 
