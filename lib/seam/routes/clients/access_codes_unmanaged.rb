@@ -26,8 +26,8 @@ module Seam
         Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_code"])
       end
 
-      def list(device_id:, user_identifier_key: nil)
-        res = @client.post("/access_codes/unmanaged/list", {device_id: device_id, user_identifier_key: user_identifier_key}.compact)
+      def list(device_id:, limit: nil, page_cursor: nil, user_identifier_key: nil)
+        res = @client.post("/access_codes/unmanaged/list", {device_id: device_id, limit: limit, page_cursor: page_cursor, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_codes"])
       end
