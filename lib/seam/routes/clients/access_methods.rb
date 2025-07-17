@@ -30,6 +30,12 @@ module Seam
         Seam::Resources::AccessMethod.load_from_response(res.body["access_method"])
       end
 
+      def get_related(access_method_ids:, exclude: nil, include: nil)
+        @client.post("/access_methods/get_related", {access_method_ids: access_method_ids, exclude: exclude, include: include}.compact)
+
+        nil
+      end
+
       def list(access_grant_id:, acs_entrance_id: nil, device_id: nil, space_id: nil)
         res = @client.post("/access_methods/list", {access_grant_id: access_grant_id, acs_entrance_id: acs_entrance_id, device_id: device_id, space_id: space_id}.compact)
 
