@@ -46,6 +46,10 @@ module Seam
       @events ||= Seam::Clients::Events.new(client: @client, defaults: @defaults)
     end
 
+    def instant_keys
+      @instant_keys ||= Seam::Clients::InstantKeys.new(client: @client, defaults: @defaults)
+    end
+
     def locks
       @locks ||= Seam::Clients::Locks.new(client: @client, defaults: @defaults)
     end
