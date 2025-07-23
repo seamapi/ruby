@@ -8,6 +8,12 @@ module Seam
         @defaults = defaults
       end
 
+      def get(instant_key_id:)
+        res = @client.post("/instant_keys/get", {instant_key_id: instant_key_id}.compact)
+
+        Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
+      end
+
       def list(user_identity_id: nil)
         res = @client.post("/instant_keys/list", {user_identity_id: user_identity_id}.compact)
 
