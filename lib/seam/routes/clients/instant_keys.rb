@@ -8,6 +8,12 @@ module Seam
         @defaults = defaults
       end
 
+      def delete(instant_key_id:)
+        @client.post("/instant_keys/delete", {instant_key_id: instant_key_id}.compact)
+
+        nil
+      end
+
       def get(instant_key_id:)
         res = @client.post("/instant_keys/get", {instant_key_id: instant_key_id}.compact)
 

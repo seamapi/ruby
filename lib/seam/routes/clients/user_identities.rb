@@ -8,10 +8,6 @@ module Seam
         @defaults = defaults
       end
 
-      def enrollment_automations
-        @enrollment_automations ||= Seam::Clients::UserIdentitiesEnrollmentAutomations.new(client: @client, defaults: @defaults)
-      end
-
       def add_acs_user(acs_user_id:, user_identity_id:)
         @client.post("/user_identities/add_acs_user", {acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
