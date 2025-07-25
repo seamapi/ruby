@@ -10,6 +10,10 @@ module Seam
         @defaults = defaults
       end
 
+      def daily_programs
+        @daily_programs ||= Seam::Clients::ThermostatsDailyPrograms.new(client: @client, defaults: @defaults)
+      end
+
       def schedules
         @schedules ||= Seam::Clients::ThermostatsSchedules.new(client: @client, defaults: @defaults)
       end
@@ -108,6 +112,14 @@ module Seam
         @client.post("/thermostats/update_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id, climate_preset_mode: climate_preset_mode, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, ecobee_metadata: ecobee_metadata, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting, manual_override_allowed: manual_override_allowed, name: name}.compact)
 
         nil
+      end
+
+      def update_weekly_program(device_id:, friday_program_id: nil, monday_program_id: nil, saturday_program_id: nil, sunday_program_id: nil, thursday_program_id: nil, tuesday_program_id: nil, wednesday_program_id: nil, wait_for_action_attempt: nil)
+        res = @client.post("/thermostats/update_weekly_program", {device_id: device_id, friday_program_id: friday_program_id, monday_program_id: monday_program_id, saturday_program_id: saturday_program_id, sunday_program_id: sunday_program_id, thursday_program_id: thursday_program_id, tuesday_program_id: tuesday_program_id, wednesday_program_id: wednesday_program_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
     end
   end
