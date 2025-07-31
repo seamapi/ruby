@@ -32,8 +32,8 @@ module Seam
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credential"])
       end
 
-      def list(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil, created_before: nil, is_multi_phone_sync_credential: nil, limit: nil)
-        res = @client.post("/acs/credentials/list", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit}.compact)
+      def list(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil, created_before: nil, is_multi_phone_sync_credential: nil, limit: nil, page_cursor: nil)
+        res = @client.post("/acs/credentials/list", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit, page_cursor: page_cursor}.compact)
 
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
       end
