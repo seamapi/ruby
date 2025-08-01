@@ -26,8 +26,8 @@ module Seam
         nil
       end
 
-      def generate_instant_key(user_identity_id:, max_use_count: nil)
-        res = @client.post("/user_identities/generate_instant_key", {user_identity_id: user_identity_id, max_use_count: max_use_count}.compact)
+      def generate_instant_key(user_identity_id:, customization_profile_id: nil, max_use_count: nil)
+        res = @client.post("/user_identities/generate_instant_key", {user_identity_id: user_identity_id, customization_profile_id: customization_profile_id, max_use_count: max_use_count}.compact)
 
         Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
       end
