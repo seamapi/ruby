@@ -3,7 +3,7 @@
 module Seam
   module Resources
     class UnmanagedAccessCode < BaseResource
-      attr_accessor :access_code_id, :code, :device_id, :is_managed, :name, :status, :type
+      attr_accessor :access_code_id, :code, :device_id, :is_managed, :name, :status, :type, :workspace_id
 
       date_accessor :created_at, :ends_at, :starts_at
 
