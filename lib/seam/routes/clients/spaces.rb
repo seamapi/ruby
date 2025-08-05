@@ -38,8 +38,8 @@ module Seam
         Seam::Resources::Space.load_from_response(res.body["space"])
       end
 
-      def get_related(space_ids:, exclude: nil, include: nil)
-        @client.post("/spaces/get_related", {space_ids: space_ids, exclude: exclude, include: include}.compact)
+      def get_related(exclude: nil, include: nil, space_ids: nil, space_keys: nil)
+        @client.post("/spaces/get_related", {exclude: exclude, include: include, space_ids: space_ids, space_keys: space_keys}.compact)
 
         nil
       end
