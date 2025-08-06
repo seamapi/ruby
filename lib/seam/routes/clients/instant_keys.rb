@@ -14,8 +14,8 @@ module Seam
         nil
       end
 
-      def get(instant_key_id:)
-        res = @client.post("/instant_keys/get", {instant_key_id: instant_key_id}.compact)
+      def get(instant_key_id: nil, instant_key_url: nil)
+        res = @client.post("/instant_keys/get", {instant_key_id: instant_key_id, instant_key_url: instant_key_url}.compact)
 
         Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
       end

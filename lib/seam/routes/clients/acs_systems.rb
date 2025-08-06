@@ -14,8 +14,8 @@ module Seam
         Seam::Resources::AcsSystem.load_from_response(res.body["acs_system"])
       end
 
-      def list(connected_account_id: nil)
-        res = @client.post("/acs/systems/list", {connected_account_id: connected_account_id}.compact)
+      def list(connected_account_id: nil, customer_key: nil)
+        res = @client.post("/acs/systems/list", {connected_account_id: connected_account_id, customer_key: customer_key}.compact)
 
         Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
       end

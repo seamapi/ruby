@@ -20,8 +20,8 @@ module Seam
         nil
       end
 
-      def list(access_grant_id: nil, access_method_id: nil, acs_credential_id: nil, acs_entrance_ids: nil, acs_system_id: nil, connected_account_id: nil, limit: nil, location_id: nil, page_cursor: nil, search: nil, space_id: nil)
-        res = @client.post("/acs/entrances/list", {access_grant_id: access_grant_id, access_method_id: access_method_id, acs_credential_id: acs_credential_id, acs_entrance_ids: acs_entrance_ids, acs_system_id: acs_system_id, connected_account_id: connected_account_id, limit: limit, location_id: location_id, page_cursor: page_cursor, search: search, space_id: space_id}.compact)
+      def list(access_grant_id: nil, access_method_id: nil, acs_credential_id: nil, acs_entrance_ids: nil, acs_system_id: nil, connected_account_id: nil, customer_key: nil, limit: nil, location_id: nil, page_cursor: nil, search: nil, space_id: nil)
+        res = @client.post("/acs/entrances/list", {access_grant_id: access_grant_id, access_method_id: access_method_id, acs_credential_id: acs_credential_id, acs_entrance_ids: acs_entrance_ids, acs_system_id: acs_system_id, connected_account_id: connected_account_id, customer_key: customer_key, limit: limit, location_id: location_id, page_cursor: page_cursor, search: search, space_id: space_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
