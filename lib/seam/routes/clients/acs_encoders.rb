@@ -24,8 +24,8 @@ module Seam
         Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoder"])
       end
 
-      def list(acs_system_id: nil, limit: nil, acs_system_ids: nil, acs_encoder_ids: nil)
-        res = @client.post("/acs/encoders/list", {acs_system_id: acs_system_id, limit: limit, acs_system_ids: acs_system_ids, acs_encoder_ids: acs_encoder_ids}.compact)
+      def list(acs_system_id: nil, acs_system_ids: nil, acs_encoder_ids: nil, limit: nil, page_cursor: nil)
+        res = @client.post("/acs/encoders/list", {acs_system_id: acs_system_id, acs_system_ids: acs_system_ids, acs_encoder_ids: acs_encoder_ids, limit: limit, page_cursor: page_cursor}.compact)
 
         Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoders"])
       end
