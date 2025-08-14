@@ -14,8 +14,8 @@ module Seam
         Seam::Resources::MagicLink.load_from_response(res.body["magic_link"])
       end
 
-      def delete_data(access_grant_keys: nil, booking_keys: nil, building_keys: nil, common_area_keys: nil, facility_keys: nil, guest_keys: nil, listing_keys: nil, property_keys: nil, property_listing_keys: nil, reservation_keys: nil, resident_keys: nil, room_keys: nil, space_keys: nil, tenant_keys: nil, unit_keys: nil, user_identity_keys: nil, user_keys: nil)
-        @client.post("/customers/delete_data", {access_grant_keys: access_grant_keys, booking_keys: booking_keys, building_keys: building_keys, common_area_keys: common_area_keys, facility_keys: facility_keys, guest_keys: guest_keys, listing_keys: listing_keys, property_keys: property_keys, property_listing_keys: property_listing_keys, reservation_keys: reservation_keys, resident_keys: resident_keys, room_keys: room_keys, space_keys: space_keys, tenant_keys: tenant_keys, unit_keys: unit_keys, user_identity_keys: user_identity_keys, user_keys: user_keys}.compact)
+      def delete_data(access_grant_keys: nil, booking_keys: nil, building_keys: nil, common_area_keys: nil, customer_keys: nil, facility_keys: nil, guest_keys: nil, listing_keys: nil, property_keys: nil, property_listing_keys: nil, reservation_keys: nil, resident_keys: nil, room_keys: nil, space_keys: nil, tenant_keys: nil, unit_keys: nil, user_identity_keys: nil, user_keys: nil)
+        @client.post("/customers/delete_data", {access_grant_keys: access_grant_keys, booking_keys: booking_keys, building_keys: building_keys, common_area_keys: common_area_keys, customer_keys: customer_keys, facility_keys: facility_keys, guest_keys: guest_keys, listing_keys: listing_keys, property_keys: property_keys, property_listing_keys: property_listing_keys, reservation_keys: reservation_keys, resident_keys: resident_keys, room_keys: room_keys, space_keys: space_keys, tenant_keys: tenant_keys, unit_keys: unit_keys, user_identity_keys: user_identity_keys, user_keys: user_keys}.compact)
 
         nil
       end
