@@ -32,6 +32,12 @@ module Seam
         nil
       end
 
+      def paid_subscription(device_id:, is_expired:)
+        @client.post("/devices/simulate/paid_subscription", {device_id: device_id, is_expired: is_expired}.compact)
+
+        nil
+      end
+
       def remove(device_id:)
         @client.post("/devices/simulate/remove", {device_id: device_id}.compact)
 
