@@ -20,8 +20,8 @@ module Seam
         Seam::Resources::UnmanagedDevice.load_from_response(res.body["devices"])
       end
 
-      def update(device_id:, is_managed:)
-        @client.post("/devices/unmanaged/update", {device_id: device_id, is_managed: is_managed}.compact)
+      def update(device_id:, custom_metadata: nil, is_managed: nil)
+        @client.post("/devices/unmanaged/update", {device_id: device_id, custom_metadata: custom_metadata, is_managed: is_managed}.compact)
 
         nil
       end
