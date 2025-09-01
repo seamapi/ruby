@@ -14,8 +14,8 @@ module Seam
         nil
       end
 
-      def create(access_method:, acs_system_id: nil, acs_user_id: nil, allowed_acs_entrance_ids: nil, assa_abloy_vostio_metadata: nil, code: nil, credential_manager_acs_system_id: nil, ends_at: nil, is_multi_phone_sync_credential: nil, salto_space_metadata: nil, starts_at: nil, user_identity_id: nil, visionline_metadata: nil)
-        res = @client.post("/acs/credentials/create", {access_method: access_method, acs_system_id: acs_system_id, acs_user_id: acs_user_id, allowed_acs_entrance_ids: allowed_acs_entrance_ids, assa_abloy_vostio_metadata: assa_abloy_vostio_metadata, code: code, credential_manager_acs_system_id: credential_manager_acs_system_id, ends_at: ends_at, is_multi_phone_sync_credential: is_multi_phone_sync_credential, salto_space_metadata: salto_space_metadata, starts_at: starts_at, user_identity_id: user_identity_id, visionline_metadata: visionline_metadata}.compact)
+      def create(access_method:, acs_system_id: nil, acs_user_id: nil, allowed_acs_entrance_ids: nil, assa_abloy_vostio_metadata: nil, code: nil, credential_manager_acs_system_id: nil, ends_at: nil, hotek_metadata: nil, is_multi_phone_sync_credential: nil, salto_space_metadata: nil, starts_at: nil, user_identity_id: nil, visionline_metadata: nil)
+        res = @client.post("/acs/credentials/create", {access_method: access_method, acs_system_id: acs_system_id, acs_user_id: acs_user_id, allowed_acs_entrance_ids: allowed_acs_entrance_ids, assa_abloy_vostio_metadata: assa_abloy_vostio_metadata, code: code, credential_manager_acs_system_id: credential_manager_acs_system_id, ends_at: ends_at, hotek_metadata: hotek_metadata, is_multi_phone_sync_credential: is_multi_phone_sync_credential, salto_space_metadata: salto_space_metadata, starts_at: starts_at, user_identity_id: user_identity_id, visionline_metadata: visionline_metadata}.compact)
 
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credential"])
       end
