@@ -10,6 +10,10 @@ module Seam
         @defaults = defaults
       end
 
+      def unmanaged
+        @unmanaged ||= Seam::Clients::AccessMethodsUnmanaged.new(client: @client, defaults: @defaults)
+      end
+
       def delete(access_method_id:)
         @client.post("/access_methods/delete", {access_method_id: access_method_id}.compact)
 

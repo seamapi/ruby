@@ -8,6 +8,10 @@ module Seam
         @defaults = defaults
       end
 
+      def unmanaged
+        @unmanaged ||= Seam::Clients::UserIdentitiesUnmanaged.new(client: @client, defaults: @defaults)
+      end
+
       def add_acs_user(acs_user_id:, user_identity_id: nil, user_identity_key: nil)
         @client.post("/user_identities/add_acs_user", {acs_user_id: acs_user_id, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
