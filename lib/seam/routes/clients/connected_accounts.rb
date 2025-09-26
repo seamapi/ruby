@@ -32,8 +32,8 @@ module Seam
         nil
       end
 
-      def update(connected_account_id:, accepted_capabilities: nil, automatically_manage_new_devices: nil, custom_metadata: nil)
-        @client.post("/connected_accounts/update", {connected_account_id: connected_account_id, accepted_capabilities: accepted_capabilities, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata}.compact)
+      def update(connected_account_id:, accepted_capabilities: nil, automatically_manage_new_devices: nil, custom_metadata: nil, customer_key: nil)
+        @client.post("/connected_accounts/update", {connected_account_id: connected_account_id, accepted_capabilities: accepted_capabilities, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata, customer_key: customer_key}.compact)
 
         nil
       end
