@@ -3,7 +3,7 @@
 module Seam
   module Resources
     class Space < BaseResource
-      attr_accessor :acs_entrance_count, :device_count, :display_name, :name, :space_id, :space_key, :workspace_id
+      attr_accessor :acs_entrance_count, :device_count, :display_name, :name, :parent_space_id, :parent_space_key, :space_id, :space_key, :workspace_id
 
       date_accessor :created_at
     end

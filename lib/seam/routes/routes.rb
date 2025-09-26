@@ -62,6 +62,10 @@ module Seam
       @phones ||= Seam::Clients::Phones.new(client: @client, defaults: @defaults)
     end
 
+    def seam
+      @seam ||= Seam::Clients::Seam.new(client: @client, defaults: @defaults)
+    end
+
     def spaces
       @spaces ||= Seam::Clients::Spaces.new(client: @client, defaults: @defaults)
     end

@@ -20,8 +20,8 @@ module Seam
         nil
       end
 
-      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, facilities: nil, guests: nil, listings: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, spaces: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
-        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, facilities: facilities, guests: guests, listings: listings, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, spaces: spaces, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
+      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, facilities: nil, guests: nil, listings: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, sites: nil, spaces: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
+        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, facilities: facilities, guests: guests, listings: listings, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, sites: sites, spaces: spaces, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
 
         nil
       end
