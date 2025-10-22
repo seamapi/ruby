@@ -48,8 +48,8 @@ module Seam
         nil
       end
 
-      def list(credential_manager_acs_system_id: nil, search: nil)
-        res = @client.post("/user_identities/list", {credential_manager_acs_system_id: credential_manager_acs_system_id, search: search}.compact)
+      def list(created_before: nil, credential_manager_acs_system_id: nil, limit: nil, page_cursor: nil, search: nil)
+        res = @client.post("/user_identities/list", {created_before: created_before, credential_manager_acs_system_id: credential_manager_acs_system_id, limit: limit, page_cursor: page_cursor, search: search}.compact)
 
         Seam::Resources::UserIdentity.load_from_response(res.body["user_identities"])
       end

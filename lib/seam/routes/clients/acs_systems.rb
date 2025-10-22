@@ -25,6 +25,12 @@ module Seam
 
         Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
       end
+
+      def report_devices(acs_system_id:, acs_encoders: nil, acs_entrances: nil)
+        @client.post("/acs/systems/report_devices", {acs_system_id: acs_system_id, acs_encoders: acs_encoders, acs_entrances: acs_entrances}.compact)
+
+        nil
+      end
     end
   end
 end

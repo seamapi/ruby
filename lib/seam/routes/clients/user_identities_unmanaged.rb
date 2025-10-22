@@ -14,8 +14,14 @@ module Seam
         nil
       end
 
-      def list(search: nil)
-        @client.post("/user_identities/unmanaged/list", {search: search}.compact)
+      def list(created_before: nil, limit: nil, page_cursor: nil, search: nil)
+        @client.post("/user_identities/unmanaged/list", {created_before: created_before, limit: limit, page_cursor: page_cursor, search: search}.compact)
+
+        nil
+      end
+
+      def update(is_managed:, user_identity_id:, user_identity_key: nil)
+        @client.post("/user_identities/unmanaged/update", {is_managed: is_managed, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
         nil
       end
