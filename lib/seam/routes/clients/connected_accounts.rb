@@ -8,6 +8,10 @@ module Seam
         @defaults = defaults
       end
 
+      def simulate
+        @simulate ||= Seam::Clients::ConnectedAccountsSimulate.new(client: @client, defaults: @defaults)
+      end
+
       def delete(connected_account_id:, sync: nil)
         @client.post("/connected_accounts/delete", {connected_account_id: connected_account_id, sync: sync}.compact)
 
