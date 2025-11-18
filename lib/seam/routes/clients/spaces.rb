@@ -39,9 +39,9 @@ module Seam
       end
 
       def get_related(exclude: nil, include: nil, space_ids: nil, space_keys: nil)
-        @client.post("/spaces/get_related", {exclude: exclude, include: include, space_ids: space_ids, space_keys: space_keys}.compact)
+        res = @client.post("/spaces/get_related", {exclude: exclude, include: include, space_ids: space_ids, space_keys: space_keys}.compact)
 
-        nil
+        Seam::Resources::Batch.load_from_response(res.body["batch"])
       end
 
       def list(connected_account_id: nil, customer_key: nil, search: nil, space_key: nil)
