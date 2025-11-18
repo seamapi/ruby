@@ -35,9 +35,9 @@ module Seam
       end
 
       def get_related(access_method_ids:, exclude: nil, include: nil)
-        @client.post("/access_methods/get_related", {access_method_ids: access_method_ids, exclude: exclude, include: include}.compact)
+        res = @client.post("/access_methods/get_related", {access_method_ids: access_method_ids, exclude: exclude, include: include}.compact)
 
-        nil
+        Seam::Resources::Batch.load_from_response(res.body["batch"])
       end
 
       def list(access_grant_id:, acs_entrance_id: nil, device_id: nil, space_id: nil)
