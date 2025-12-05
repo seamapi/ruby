@@ -18,8 +18,8 @@ module Seam
         Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      def list(action_attempt_ids:)
-        res = @client.post("/action_attempts/list", {action_attempt_ids: action_attempt_ids}.compact)
+      def list(action_attempt_ids: nil, device_id: nil, limit: nil, page_cursor: nil)
+        res = @client.post("/action_attempts/list", {action_attempt_ids: action_attempt_ids, device_id: device_id, limit: limit, page_cursor: page_cursor}.compact)
 
         Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempts"])
       end
