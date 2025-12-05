@@ -14,8 +14,8 @@ module Seam
         Seam::Resources::SeamEvent.load_from_response(res.body["event"])
       end
 
-      def list(access_code_id: nil, access_code_ids: nil, acs_system_id: nil, acs_system_ids: nil, between: nil, connect_webview_id: nil, connected_account_id: nil, customer_key: nil, device_id: nil, device_ids: nil, event_ids: nil, event_type: nil, event_types: nil, limit: nil, since: nil, unstable_offset: nil)
-        res = @client.post("/events/list", {access_code_id: access_code_id, access_code_ids: access_code_ids, acs_system_id: acs_system_id, acs_system_ids: acs_system_ids, between: between, connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, customer_key: customer_key, device_id: device_id, device_ids: device_ids, event_ids: event_ids, event_type: event_type, event_types: event_types, limit: limit, since: since, unstable_offset: unstable_offset}.compact)
+      def list(access_code_id: nil, access_code_ids: nil, acs_entrance_id: nil, acs_system_id: nil, acs_system_ids: nil, acs_user_id: nil, between: nil, connect_webview_id: nil, connected_account_id: nil, customer_key: nil, device_id: nil, device_ids: nil, event_ids: nil, event_type: nil, event_types: nil, limit: nil, since: nil, unstable_offset: nil, user_identity_id: nil)
+        res = @client.post("/events/list", {access_code_id: access_code_id, access_code_ids: access_code_ids, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, acs_system_ids: acs_system_ids, acs_user_id: acs_user_id, between: between, connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, customer_key: customer_key, device_id: device_id, device_ids: device_ids, event_ids: event_ids, event_type: event_type, event_types: event_types, limit: limit, since: since, unstable_offset: unstable_offset, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::SeamEvent.load_from_response(res.body["events"])
       end
