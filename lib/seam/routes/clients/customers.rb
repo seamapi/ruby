@@ -8,8 +8,8 @@ module Seam
         @defaults = defaults
       end
 
-      def create_portal(customization_profile_id: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, customer_data: nil)
-        res = @client.post("/customers/create_portal", {customization_profile_id: customization_profile_id, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, customer_data: customer_data}.compact)
+      def create_portal(customization_profile_id: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, property_listing_filter: nil, customer_data: nil)
+        res = @client.post("/customers/create_portal", {customization_profile_id: customization_profile_id, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, property_listing_filter: property_listing_filter, customer_data: customer_data}.compact)
 
         Seam::Resources::MagicLink.load_from_response(res.body["magic_link"])
       end
