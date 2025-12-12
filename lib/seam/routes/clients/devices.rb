@@ -34,6 +34,12 @@ module Seam
         Seam::Resources::DeviceProvider.load_from_response(res.body["device_providers"])
       end
 
+      def report_provider_metadata(devices:)
+        @client.post("/devices/report_provider_metadata", {devices: devices}.compact)
+
+        nil
+      end
+
       def update(device_id:, custom_metadata: nil, is_managed: nil, name: nil, properties: nil)
         @client.post("/devices/update", {device_id: device_id, custom_metadata: custom_metadata, is_managed: is_managed, name: name, properties: properties}.compact)
 
