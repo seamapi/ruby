@@ -14,6 +14,12 @@ module Seam
         nil
       end
 
+      def delete(acs_access_group_id:)
+        @client.post("/acs/access_groups/delete", {acs_access_group_id: acs_access_group_id}.compact)
+
+        nil
+      end
+
       def get(acs_access_group_id:)
         res = @client.post("/acs/access_groups/get", {acs_access_group_id: acs_access_group_id}.compact)
 
