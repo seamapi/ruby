@@ -36,8 +36,8 @@ module Seam
         Seam::Resources::Batch.load_from_response(res.body["batch"])
       end
 
-      def list(access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, limit: nil, location_id: nil, page_cursor: nil, reservation_key: nil, space_id: nil, user_identity_id: nil)
-        res = @client.post("/access_grants/list", {access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, space_id: space_id, user_identity_id: user_identity_id}.compact)
+      def list(access_grant_id: nil, access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, limit: nil, location_id: nil, page_cursor: nil, reservation_key: nil, space_id: nil, user_identity_id: nil)
+        res = @client.post("/access_grants/list", {access_grant_id: access_grant_id, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, space_id: space_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grants"])
       end
