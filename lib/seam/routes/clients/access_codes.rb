@@ -46,8 +46,14 @@ module Seam
         Seam::Resources::AccessCode.load_from_response(res.body["access_code"])
       end
 
-      def list(access_code_ids: nil, customer_key: nil, device_id: nil, limit: nil, page_cursor: nil, user_identifier_key: nil)
-        res = @client.post("/access_codes/list", {access_code_ids: access_code_ids, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, user_identifier_key: user_identifier_key}.compact)
+      def get_timeline(access_code_id:, after: nil, before: nil, event_types: nil, limit: nil)
+        @client.post("/access_codes/get_timeline", {access_code_id: access_code_id, after: after, before: before, event_types: event_types, limit: limit}.compact)
+
+        nil
+      end
+
+      def list(access_code_ids: nil, customer_key: nil, device_id: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
+        res = @client.post("/access_codes/list", {access_code_ids: access_code_ids, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::AccessCode.load_from_response(res.body["access_codes"])
       end

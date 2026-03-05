@@ -26,8 +26,8 @@ module Seam
         Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_group"])
       end
 
-      def list(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
-        res = @client.post("/acs/access_groups/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+      def list(acs_system_id: nil, acs_user_id: nil, search: nil, user_identity_id: nil)
+        res = @client.post("/acs/access_groups/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, search: search, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_groups"])
       end
