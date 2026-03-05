@@ -30,8 +30,8 @@ module Seam
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
       end
 
-      def get_related(access_grant_ids:, exclude: nil, include: nil)
-        res = @client.post("/access_grants/get_related", {access_grant_ids: access_grant_ids, exclude: exclude, include: include}.compact)
+      def get_related(access_grant_ids: nil, access_grant_keys: nil, exclude: nil, include: nil)
+        res = @client.post("/access_grants/get_related", {access_grant_ids: access_grant_ids, access_grant_keys: access_grant_keys, exclude: exclude, include: include}.compact)
 
         Seam::Resources::Batch.load_from_response(res.body["batch"])
       end

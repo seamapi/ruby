@@ -8,8 +8,12 @@ module Seam
         @defaults = defaults
       end
 
-      def create_portal(customization_profile_id: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, property_listing_filter: nil, customer_data: nil)
-        res = @client.post("/customers/create_portal", {customization_profile_id: customization_profile_id, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, property_listing_filter: property_listing_filter, customer_data: customer_data}.compact)
+      def reservations
+        @reservations ||= Seam::Clients::CustomersReservations.new(client: @client, defaults: @defaults)
+      end
+
+      def create_portal(customer_resources_filters: nil, customization_profile_id: nil, deep_link: nil, exclude_locale_picker: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, navigation_mode: nil, customer_data: nil)
+        res = @client.post("/customers/create_portal", {customer_resources_filters: customer_resources_filters, customization_profile_id: customization_profile_id, deep_link: deep_link, exclude_locale_picker: exclude_locale_picker, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, navigation_mode: navigation_mode, customer_data: customer_data}.compact)
 
         Seam::Resources::MagicLink.load_from_response(res.body["magic_link"])
       end
