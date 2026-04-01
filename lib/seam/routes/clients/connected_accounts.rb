@@ -12,8 +12,8 @@ module Seam
         @simulate ||= Seam::Clients::ConnectedAccountsSimulate.new(client: @client, defaults: @defaults)
       end
 
-      def delete(connected_account_id:, sync: nil)
-        @client.post("/connected_accounts/delete", {connected_account_id: connected_account_id, sync: sync}.compact)
+      def delete(connected_account_id:)
+        @client.post("/connected_accounts/delete", {connected_account_id: connected_account_id}.compact)
 
         nil
       end
