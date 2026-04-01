@@ -52,7 +52,7 @@ RSpec.describe Seam::Clients::ConnectWebviews do
           accepted_providers: accepted_providers,
           automatically_manage_new_devices: automatically_manage_new_devices,
           custom_redirect_failure_url: custom_redirect_failure_url,
-          custom_redirect_url: custom_redirect_url,
+          custom_redirect_url: custom_redirect_url
         }.to_json
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe Seam::Clients::ConnectWebviews do
         accepted_providers: accepted_providers,
         automatically_manage_new_devices: automatically_manage_new_devices,
         custom_redirect_failure_url: custom_redirect_failure_url,
-        custom_redirect_url: custom_redirect_url,
+        custom_redirect_url: custom_redirect_url
       )
     end
 
