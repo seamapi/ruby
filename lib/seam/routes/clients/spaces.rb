@@ -44,8 +44,8 @@ module Seam
         Seam::Resources::Batch.load_from_response(res.body["batch"])
       end
 
-      def list(connected_account_id: nil, customer_key: nil, search: nil, space_key: nil)
-        res = @client.post("/spaces/list", {connected_account_id: connected_account_id, customer_key: customer_key, search: search, space_key: space_key}.compact)
+      def list(customer_key: nil, search: nil, space_key: nil)
+        res = @client.post("/spaces/list", {customer_key: customer_key, search: search, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["spaces"])
       end

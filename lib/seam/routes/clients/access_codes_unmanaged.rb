@@ -8,14 +8,14 @@ module Seam
         @defaults = defaults
       end
 
-      def convert_to_managed(access_code_id:, allow_external_modification: nil, force: nil, is_external_modification_allowed: nil, sync: nil)
-        @client.post("/access_codes/unmanaged/convert_to_managed", {access_code_id: access_code_id, allow_external_modification: allow_external_modification, force: force, is_external_modification_allowed: is_external_modification_allowed, sync: sync}.compact)
+      def convert_to_managed(access_code_id:, allow_external_modification: nil, force: nil, is_external_modification_allowed: nil)
+        @client.post("/access_codes/unmanaged/convert_to_managed", {access_code_id: access_code_id, allow_external_modification: allow_external_modification, force: force, is_external_modification_allowed: is_external_modification_allowed}.compact)
 
         nil
       end
 
-      def delete(access_code_id:, sync: nil)
-        @client.post("/access_codes/unmanaged/delete", {access_code_id: access_code_id, sync: sync}.compact)
+      def delete(access_code_id:)
+        @client.post("/access_codes/unmanaged/delete", {access_code_id: access_code_id}.compact)
 
         nil
       end
