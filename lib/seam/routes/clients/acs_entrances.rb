@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/helpers/action_attempt"
+
 module Seam
   module Clients
     class AcsEntrances
@@ -30,6 +32,14 @@ module Seam
         res = @client.post("/acs/entrances/list_credentials_with_access", {acs_entrance_id: acs_entrance_id, include_if: include_if}.compact)
 
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
+      end
+
+      def unlock(acs_credential_id:, acs_entrance_id:, wait_for_action_attempt: nil)
+        res = @client.post("/acs/entrances/unlock", {acs_credential_id: acs_credential_id, acs_entrance_id: acs_entrance_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
     end
   end
