@@ -14,6 +14,14 @@ module Seam
         @simulate ||= Seam::Clients::LocksSimulate.new(client: @client, defaults: @defaults)
       end
 
+      def configure_auto_lock(auto_lock_enabled:, device_id:, auto_lock_delay_seconds: nil, wait_for_action_attempt: nil)
+        res = @client.post("/locks/configure_auto_lock", {auto_lock_enabled: auto_lock_enabled, device_id: device_id, auto_lock_delay_seconds: auto_lock_delay_seconds}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+      end
+
       def get(device_id: nil, name: nil)
         res = @client.post("/locks/get", {device_id: device_id, name: name}.compact)
 
