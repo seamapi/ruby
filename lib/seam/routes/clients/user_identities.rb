@@ -60,6 +60,12 @@ module Seam
         Seam::Resources::Device.load_from_response(res.body["devices"])
       end
 
+      def list_accessible_entrances(user_identity_id:)
+        res = @client.post("/user_identities/list_accessible_entrances", {user_identity_id: user_identity_id}.compact)
+
+        Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
+      end
+
       def list_acs_systems(user_identity_id:)
         res = @client.post("/user_identities/list_acs_systems", {user_identity_id: user_identity_id}.compact)
 
