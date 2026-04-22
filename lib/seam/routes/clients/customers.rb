@@ -11,7 +11,7 @@ module Seam
       def create_portal(customer_resources_filters: nil, customization_profile_id: nil, exclude_locale_picker: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, navigation_mode: nil, customer_data: nil)
         res = @client.post("/customers/create_portal", {customer_resources_filters: customer_resources_filters, customization_profile_id: customization_profile_id, exclude_locale_picker: exclude_locale_picker, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, navigation_mode: navigation_mode, customer_data: customer_data}.compact)
 
-        Seam::Resources::MagicLink.load_from_response(res.body["magic_link"])
+        Seam::Resources::CustomerPortal.load_from_response(res.body["customer_portal"])
       end
 
       def delete_data(access_grant_keys: nil, booking_keys: nil, building_keys: nil, common_area_keys: nil, customer_keys: nil, facility_keys: nil, guest_keys: nil, listing_keys: nil, property_keys: nil, property_listing_keys: nil, reservation_keys: nil, resident_keys: nil, room_keys: nil, space_keys: nil, staff_member_keys: nil, tenant_keys: nil, unit_keys: nil, user_identity_keys: nil, user_keys: nil)
