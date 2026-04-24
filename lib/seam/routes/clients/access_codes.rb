@@ -22,8 +22,8 @@ module Seam
         Seam::Resources::AccessCode.load_from_response(res.body["access_code"])
       end
 
-      def create_multiple(device_ids:, allow_external_modification: nil, attempt_for_offline_device: nil, behavior_when_code_cannot_be_shared: nil, code: nil, ends_at: nil, is_external_modification_allowed: nil, name: nil, prefer_native_scheduling: nil, preferred_code_length: nil, starts_at: nil)
-        res = @client.post("/access_codes/create_multiple", {device_ids: device_ids, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, behavior_when_code_cannot_be_shared: behavior_when_code_cannot_be_shared, code: code, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, name: name, prefer_native_scheduling: prefer_native_scheduling, preferred_code_length: preferred_code_length, starts_at: starts_at}.compact)
+      def create_multiple(device_ids:, allow_external_modification: nil, attempt_for_offline_device: nil, behavior_when_code_cannot_be_shared: nil, code: nil, ends_at: nil, is_external_modification_allowed: nil, name: nil, prefer_native_scheduling: nil, preferred_code_length: nil, starts_at: nil, use_backup_access_code_pool: nil)
+        res = @client.post("/access_codes/create_multiple", {device_ids: device_ids, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, behavior_when_code_cannot_be_shared: behavior_when_code_cannot_be_shared, code: code, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, name: name, prefer_native_scheduling: prefer_native_scheduling, preferred_code_length: preferred_code_length, starts_at: starts_at, use_backup_access_code_pool: use_backup_access_code_pool}.compact)
 
         Seam::Resources::AccessCode.load_from_response(res.body["access_codes"])
       end
