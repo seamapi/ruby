@@ -14,6 +14,12 @@ module Seam
         nil
       end
 
+      def add_connected_account(connected_account_id:, space_id:)
+        @client.post("/spaces/add_connected_account", {connected_account_id: connected_account_id, space_id: space_id}.compact)
+
+        nil
+      end
+
       def add_devices(device_ids:, space_id:)
         @client.post("/spaces/add_devices", {device_ids: device_ids, space_id: space_id}.compact)
 
@@ -52,6 +58,12 @@ module Seam
 
       def remove_acs_entrances(acs_entrance_ids:, space_id:)
         @client.post("/spaces/remove_acs_entrances", {acs_entrance_ids: acs_entrance_ids, space_id: space_id}.compact)
+
+        nil
+      end
+
+      def remove_connected_account(connected_account_id:, space_id:)
+        @client.post("/spaces/remove_connected_account", {connected_account_id: connected_account_id, space_id: space_id}.compact)
 
         nil
       end
