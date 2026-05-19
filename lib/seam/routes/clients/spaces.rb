@@ -26,8 +26,8 @@ module Seam
         nil
       end
 
-      def create(name:, acs_entrance_ids: nil, customer_data: nil, customer_key: nil, device_ids: nil, space_key: nil)
-        res = @client.post("/spaces/create", {name: name, acs_entrance_ids: acs_entrance_ids, customer_data: customer_data, customer_key: customer_key, device_ids: device_ids, space_key: space_key}.compact)
+      def create(name:, acs_entrance_ids: nil, connected_account_ids: nil, customer_data: nil, customer_key: nil, device_ids: nil, space_key: nil)
+        res = @client.post("/spaces/create", {name: name, acs_entrance_ids: acs_entrance_ids, connected_account_ids: connected_account_ids, customer_data: customer_data, customer_key: customer_key, device_ids: device_ids, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["space"])
       end
