@@ -37,6 +37,14 @@ module Seam
 
         Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
+
+      def scan_to_assign_credential(acs_encoder_id:, acs_user_id: nil, user_identity_id: nil, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/scan_to_assign_credential", {acs_encoder_id: acs_encoder_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+      end
     end
   end
 end
