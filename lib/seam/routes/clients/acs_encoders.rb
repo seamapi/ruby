@@ -30,16 +30,16 @@ module Seam
         Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoders"])
       end
 
-      def scan_credential(acs_encoder_id:, wait_for_action_attempt: nil)
-        res = @client.post("/acs/encoders/scan_credential", {acs_encoder_id: acs_encoder_id}.compact)
+      def scan_credential(acs_encoder_id:, salto_ks_metadata: nil, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/scan_credential", {acs_encoder_id: acs_encoder_id, salto_ks_metadata: salto_ks_metadata}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
         Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      def scan_to_assign_credential(acs_encoder_id:, acs_user_id: nil, user_identity_id: nil, wait_for_action_attempt: nil)
-        res = @client.post("/acs/encoders/scan_to_assign_credential", {acs_encoder_id: acs_encoder_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+      def scan_to_assign_credential(acs_encoder_id:, acs_user_id: nil, salto_ks_metadata: nil, user_identity_id: nil, wait_for_action_attempt: nil)
+        res = @client.post("/acs/encoders/scan_to_assign_credential", {acs_encoder_id: acs_encoder_id, acs_user_id: acs_user_id, salto_ks_metadata: salto_ks_metadata, user_identity_id: user_identity_id}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
