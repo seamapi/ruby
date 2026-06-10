@@ -14,6 +14,12 @@ module Seam
         @unmanaged ||= Seam::Clients::AccessMethodsUnmanaged.new(client: @client, defaults: @defaults)
       end
 
+      def assign_card(access_method_id:, card_number:)
+        res = @client.post("/access_methods/assign_card", {access_method_id: access_method_id, card_number: card_number}.compact)
+
+        Seam::Resources::AccessMethod.load_from_response(res.body["access_method"])
+      end
+
       def delete(access_method_id: nil, access_grant_id: nil, reservation_key: nil)
         @client.post("/access_methods/delete", {access_method_id: access_method_id, access_grant_id: access_grant_id, reservation_key: reservation_key}.compact)
 
@@ -44,6 +50,14 @@ module Seam
         res = @client.post("/access_methods/list", {access_code_id: access_code_id, access_grant_id: access_grant_id, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, device_id: device_id, space_id: space_id}.compact)
 
         Seam::Resources::AccessMethod.load_from_response(res.body["access_methods"])
+      end
+
+      def unlock_door(access_method_id:, acs_entrance_id:, wait_for_action_attempt: nil)
+        res = @client.post("/access_methods/unlock_door", {access_method_id: access_method_id, acs_entrance_id: acs_entrance_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
     end
   end
