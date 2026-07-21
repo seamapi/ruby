@@ -35,6 +35,12 @@ module Seam
 
         Helpers::ActionAttempt.decide_and_wait(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
+
+      def update(connect_partner_name: nil, connect_webview_customization: nil, is_publishable_key_auth_enabled: nil, is_suspended: nil, name: nil, organization_id: nil)
+        @client.post("/workspaces/update", {connect_partner_name: connect_partner_name, connect_webview_customization: connect_webview_customization, is_publishable_key_auth_enabled: is_publishable_key_auth_enabled, is_suspended: is_suspended, name: name, organization_id: organization_id}.compact)
+
+        nil
+      end
     end
   end
 end

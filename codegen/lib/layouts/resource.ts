@@ -1,12 +1,10 @@
 // Builds the template context for resource files
 // (lib/seam/routes/resources/{snake_name}.rb).
-// Mirrors the output of the nextlove resource.rb.template.ts.
 
+import type { Property } from '@seamapi/blueprint'
 import { pascalCase } from 'change-case'
 
 import { convertCustomResourceName } from '../custom-resource-name-conversions.js'
-import { flattenObjSchema } from '../openapi/flatten-obj-schema.js'
-import type { ObjSchema } from '../openapi/types.js'
 
 export interface ResourceLayoutContext {
   className: string
@@ -20,22 +18,14 @@ export interface ResourceLayoutContext {
 
 export const setResourceLayoutContext = (
   snakeName: string,
-  schema: ObjSchema,
+  properties: Property[],
 ): ResourceLayoutContext => {
-  // TODO: Use resource properties from @seamapi/blueprint once generated output
-  // is allowed to change. Blueprint omits some schemas, reorders others, and
-  // collapses integer to number, so the raw OpenAPI schema is used here to keep
-  // the output identical.
-  const properties = Object.entries(flattenObjSchema(schema).properties).map(
-    ([name, propertySchema]) => ({
-      name,
-      isDateTime:
-        'format' in propertySchema && propertySchema.format === 'date-time',
-    }),
-  )
-
-  const attrs = properties.filter((p) => !p.isDateTime).map((p) => p.name)
-  const dateAttrs = properties.filter((p) => p.isDateTime).map((p) => p.name)
+  const attrs = properties
+    .filter((property) => property.format !== 'datetime')
+    .map((property) => property.name)
+  const dateAttrs = properties
+    .filter((property) => property.format === 'datetime')
+    .map((property) => property.name)
   const noErrorWarningAttrs = attrs.filter(
     (attr) => attr !== 'errors' && attr !== 'warnings',
   )

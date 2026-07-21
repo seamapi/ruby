@@ -2,7 +2,6 @@
 // (lib/seam/routes/clients/{snake_name}.rb).
 // Mirrors the output of the nextlove RubyClient#serialize.
 
-import { endpointsReturningDeprecatedActionAttempt } from '../endpoint-rules.js'
 import {
   type ClientMethod,
   type ClientModel,
@@ -37,10 +36,7 @@ const getMethodLayoutContext = (
   const { methodName, path, parameters, returnResource, returnPath } = method
 
   const hasReturnValue = returnResource != null && returnPath !== ''
-  const returnsDeprecatedActionAttempt =
-    endpointsReturningDeprecatedActionAttempt.includes(path)
-  const canPollActionAttempt =
-    returnPath === 'action_attempt' && !returnsDeprecatedActionAttempt
+  const canPollActionAttempt = returnPath === 'action_attempt'
   const hasParams = parameters.length > 0
 
   const sortedParameters = sortClientMethodParameters(parameters)
@@ -54,13 +50,9 @@ const getMethodLayoutContext = (
     .map((p) => `${p.name}: ${p.name}`)
     .join(', ')}}`
 
-  // These three branches mirror the nextlove serializer and are independent by
-  // design, not mutually exclusive: the resource line renders when there is a
-  // return value that is not polled, and the nil line renders when there is no
-  // return value or the endpoint returns a deprecated action attempt.
   const isResource = hasReturnValue && !canPollActionAttempt
   const isPoll = canPollActionAttempt
-  const isNil = !hasReturnValue || returnsDeprecatedActionAttempt
+  const isNil = !hasReturnValue
 
   return {
     name: methodName,
