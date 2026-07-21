@@ -8,8 +8,8 @@ module Seam
         @defaults = defaults
       end
 
-      def get(device_id: nil, event_id: nil, event_type: nil)
-        res = @client.post("/events/get", {device_id: device_id, event_id: event_id, event_type: event_type}.compact)
+      def get(event_id: nil, device_id: nil, event_type: nil)
+        res = @client.post("/events/get", {event_id: event_id, device_id: device_id, event_type: event_type}.compact)
 
         Seam::Resources::SeamEvent.load_from_response(res.body["event"])
       end

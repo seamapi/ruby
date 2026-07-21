@@ -10,6 +10,10 @@ module Seam
         @defaults = defaults
       end
 
+      def simulate
+        @simulate ||= Seam::Clients::AcsEncodersSimulate.new(client: @client, defaults: @defaults)
+      end
+
       def encode_credential(acs_encoder_id:, access_method_id: nil, acs_credential_id: nil, wait_for_action_attempt: nil)
         res = @client.post("/acs/encoders/encode_credential", {acs_encoder_id: acs_encoder_id, access_method_id: access_method_id, acs_credential_id: acs_credential_id}.compact)
 

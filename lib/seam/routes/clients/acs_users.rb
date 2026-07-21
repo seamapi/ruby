@@ -26,8 +26,8 @@ module Seam
         nil
       end
 
-      def get(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
-        res = @client.post("/acs/users/get", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+      def get(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil)
+        res = @client.post("/acs/users/get", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
       end

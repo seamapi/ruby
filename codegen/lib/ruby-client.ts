@@ -28,20 +28,13 @@ export interface ClientModel {
   childClientIdentifiers: ChildClientIdentifier[]
 }
 
-// Verbatim port of the nextlove parameter comparator. The original expression
-// `(a.position ?? a.required ? 1000 : 9999)` parses as
-// `(a.position ?? a.required) ? 1000 : 9999`, so a parameter with position 0
-// is falsy and lands in the 9999 tier together with the optional parameters.
-// Combined with a stable sort this yields: required parameters first (in schema
-// order), then everything else (in schema order).
-// TODO: Fix the operator precedence so position sorts a parameter first as
-// originally intended, once generated output is allowed to change. Until then,
-// do not "fix" it: the generated output must stay identical.
+// Sorts parameters with an explicit position first, then required parameters,
+// then optional parameters; the sort is stable within each tier.
 export const sortClientMethodParameters = (
   parameters: ClientMethodParameter[],
 ): ClientMethodParameter[] =>
   [...parameters].sort(
     (a, b) =>
-      (a.position ?? a.required ? 1000 : 9999) -
-      (b.position ?? b.required ? 1000 : 9999),
+      (a.position ?? (a.required ?? false ? 1000 : 9999)) -
+      (b.position ?? (b.required ?? false ? 1000 : 9999)),
   )
