@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+module Seam
+  module Resources
+    class {{className}} < BaseResource
+      attr_accessor {{attrAccessors}}
+{{#if hasDateAccessors}}
+
+      date_accessor {{dateAccessors}}
+{{/if}}
+{{#if hasSupportModules}}
+
+{{#if includeErrorsSupport}}
+      include Seam::Resources::ResourceErrorsSupport
+{{/if}}
+{{#if includeWarningsSupport}}
+      include Seam::Resources::ResourceWarningsSupport
+{{/if}}
+{{/if}}
+    end
+  end
+end
