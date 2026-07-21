@@ -40,8 +40,8 @@ module Seam
         nil
       end
 
-      def update(device_id:, custom_metadata: nil, is_managed: nil, name: nil, properties: nil)
-        @client.post("/devices/update", {device_id: device_id, custom_metadata: custom_metadata, is_managed: is_managed, name: name, properties: properties}.compact)
+      def update(device_id:, backup_access_code_pool_enabled: nil, custom_metadata: nil, is_managed: nil, name: nil, properties: nil)
+        @client.post("/devices/update", {device_id: device_id, backup_access_code_pool_enabled: backup_access_code_pool_enabled, custom_metadata: custom_metadata, is_managed: is_managed, name: name, properties: properties}.compact)
 
         nil
       end
