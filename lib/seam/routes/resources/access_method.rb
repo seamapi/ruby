@@ -7,6 +7,7 @@ module Seam
 
       date_accessor :created_at, :issued_at
 
+      include Seam::Resources::ResourceErrorsSupport
       include Seam::Resources::ResourceWarningsSupport
     end
   end
