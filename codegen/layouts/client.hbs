@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+{{#if importActionAttempt}}
+
+require "seam/helpers/action_attempt"
+{{/if}}
+
+module Seam
+  module Clients
+    class {{className}}
+      def initialize(client:, defaults:)
+        @client = client
+        @defaults = defaults
+      end
+{{#each childClients}}
+
+      def {{namespace}}
+        @{{namespace}} ||= Seam::Clients::{{clientName}}.new(client: @client, defaults: @defaults)
+      end
+{{/each}}
+{{#each methods}}
+
+{{> client-method}}
+{{/each}}
+    end
+  end
+end

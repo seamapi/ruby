@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+{{#each customImports}}
+{{this}}
+{{/each}}
+{{#each requires}}
+require_relative "{{this}}"
+{{/each}}
