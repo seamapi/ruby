@@ -158,7 +158,6 @@ const getClients = (blueprint: Blueprint): ClientModel[] => {
   // Namespaces without a route of their own (e.g. /acs) become clients that
   // only expose child clients.
   for (const namespace of blueprint.namespaces) {
-    if (namespace.isUndocumented) continue
     sources.set(namespace.path, {
       name: namespace.name,
       parentPath: namespace.parentPath,
@@ -167,7 +166,6 @@ const getClients = (blueprint: Blueprint): ClientModel[] => {
   }
 
   for (const route of blueprint.routes) {
-    if (route.isUndocumented) continue
     sources.set(route.path, {
       name: route.name,
       parentPath: route.parentPath,
@@ -185,9 +183,7 @@ const getClients = (blueprint: Blueprint): ClientModel[] => {
     clients.set(path, {
       name: pascalCase(namespace),
       namespace,
-      methods: source.endpoints
-        .filter((endpoint) => !endpoint.isUndocumented)
-        .map(createClientMethod),
+      methods: source.endpoints.map(createClientMethod),
       childClientIdentifiers: [],
     })
   }
@@ -209,10 +205,7 @@ const getClientNamespace = (path: string): string =>
   path.slice(1).split('/').join('_')
 
 const getTopLevelClientNamespaces = (blueprint: Blueprint): string[] => {
-  const namespaces = [
-    ...blueprint.namespaces.filter((namespace) => !namespace.isUndocumented),
-    ...blueprint.routes.filter((route) => !route.isUndocumented),
-  ]
+  const namespaces = [...blueprint.namespaces, ...blueprint.routes]
     .filter(({ parentPath }) => parentPath == null)
     .map(({ path }) => getClientNamespace(path))
   return [...new Set(namespaces)].sort()
@@ -224,16 +217,14 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
   return {
     methodName: endpoint.name,
     path: endpoint.path,
-    parameters: endpoint.request.parameters
-      .filter((parameter) => !parameter.isUndocumented)
-      .map((parameter) => ({
-        name: parameter.name,
-        required: parameter.isRequired,
-        position:
-          endpoint.name === 'get' && parameter.name === `${returnPath}_id`
-            ? 0
-            : undefined,
-      })),
+    parameters: endpoint.request.parameters.map((parameter) => ({
+      name: parameter.name,
+      required: parameter.isRequired,
+      position:
+        endpoint.name === 'get' && parameter.name === `${returnPath}_id`
+          ? 0
+          : undefined,
+    })),
     returnPath,
     returnResource,
   }
