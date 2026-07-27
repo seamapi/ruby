@@ -3,7 +3,7 @@
 require "svix/webhook"
 require "svix/errors"
 require_relative "base_resource"
-require_relative "routes/resources/event"
+require_relative "resources/event"
 
 module Seam
   WebhookVerificationError = Svix::WebhookVerificationError

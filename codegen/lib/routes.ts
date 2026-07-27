@@ -33,8 +33,7 @@ interface Metadata {
 }
 
 const routesPath = 'lib/seam/routes'
-const resourcesPath = `${routesPath}/resources`
-const clientsPath = `${routesPath}/clients`
+const resourcesPath = 'lib/seam/resources'
 
 export const routes = (
   files: Metalsmith.Files,
@@ -68,7 +67,7 @@ export const routes = (
 
   const clientNames: string[] = []
   for (const cls of clients.values()) {
-    files[`${clientsPath}/${cls.namespace}.rb`] = {
+    files[`${routesPath}/${cls.namespace}.rb`] = {
       contents: Buffer.from('\n'),
       layout: 'client.hbs',
       ...setClientLayoutContext(cls),
@@ -82,7 +81,7 @@ export const routes = (
     ...setImportsLayoutContext(resourceNames, ['require "seam/base_resource"']),
   }
 
-  files[`${clientsPath}/index.rb`] = {
+  files[`${routesPath}/index.rb`] = {
     contents: Buffer.from('\n'),
     layout: 'imports.hbs',
     ...setImportsLayoutContext(clientNames, []),

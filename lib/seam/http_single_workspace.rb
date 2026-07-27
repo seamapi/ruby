@@ -2,8 +2,8 @@
 
 require_relative "request"
 require_relative "parse_options"
-require_relative "routes/resources/index"
-require_relative "routes/clients/index"
+require_relative "resources/index"
+require_relative "routes/index"
 require_relative "routes/routes"
 require_relative "version"
 require_relative "deep_hash_accessor"
