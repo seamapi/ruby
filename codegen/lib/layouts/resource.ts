@@ -1,5 +1,5 @@
 // Builds the template context for resource files
-// (lib/seam/routes/resources/{snake_name}.rb).
+// (lib/seam/resources/{snake_name}.rb).
 
 import type { Property } from '@seamapi/blueprint'
 import { pascalCase } from 'change-case'

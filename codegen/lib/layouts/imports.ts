@@ -1,5 +1,5 @@
 // Builds the template context for the index files
-// (lib/seam/routes/{clients,resources}/index.rb).
+// (lib/seam/{routes,resources}/index.rb).
 // Mirrors the output of the nextlove get-entity-imports-template.ts.
 
 export interface ImportsLayoutContext {

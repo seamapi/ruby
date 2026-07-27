@@ -5,8 +5,8 @@ require_relative "parse_options"
 require_relative "lts_version"
 require_relative "version"
 require_relative "auth"
-require_relative "routes/resources/index"
-require_relative "routes/clients/index"
+require_relative "resources/index"
+require_relative "routes/index"
 require_relative "routes/routes"
 
 module Seam

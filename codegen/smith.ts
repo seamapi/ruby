@@ -11,7 +11,10 @@ import { helpers, routes } from './lib/index.js'
 
 const rootDir = dirname(fileURLToPath(import.meta.url))
 
-await Promise.all([deleteAsync('./lib/seam/routes')])
+await Promise.all([
+  deleteAsync('./lib/seam/routes'),
+  deleteAsync('./lib/seam/resources'),
+])
 
 const partials = await getHandlebarsPartials(`${rootDir}/layouts/partials`)
 

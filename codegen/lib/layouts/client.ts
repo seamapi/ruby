@@ -1,5 +1,5 @@
 // Builds the template context for client files
-// (lib/seam/routes/clients/{snake_name}.rb).
+// (lib/seam/routes/{snake_name}.rb).
 // Mirrors the output of the nextlove RubyClient#serialize.
 
 import {
