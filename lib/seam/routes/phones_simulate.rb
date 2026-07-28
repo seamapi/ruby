@@ -8,6 +8,12 @@ module Seam
         @defaults = defaults
       end
 
+      # Creates a new simulated phone in a [sandbox workspace](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces). See also [Creating a Simulated Phone for a User Identity](https://docs.seam.co/capability-guides/mobile-access/developing-in-a-sandbox-workspace#creating-a-simulated-phone-for-a-user-identity).
+      # @param user_identity_id ID of the user identity that you want to associate with the simulated phone.
+      # @param assa_abloy_metadata ASSA ABLOY metadata that you want to associate with the simulated phone.
+      # @param custom_sdk_installation_id ID of the custom SDK installation that you want to use for the simulated phone.
+      # @param phone_metadata Metadata that you want to associate with the simulated phone.
+      # @return [Seam::Resources::Phone] OK
       def create_sandbox_phone(user_identity_id:, assa_abloy_metadata: nil, custom_sdk_installation_id: nil, phone_metadata: nil)
         res = @client.post("/phones/simulate/create_sandbox_phone", {user_identity_id: user_identity_id, assa_abloy_metadata: assa_abloy_metadata, custom_sdk_installation_id: custom_sdk_installation_id, phone_metadata: phone_metadata}.compact)
 

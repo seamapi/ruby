@@ -10,6 +10,7 @@ import type {
   Blueprint,
   Endpoint,
   Property,
+  Resource,
   Response,
 } from '@seamapi/blueprint'
 import { pascalCase } from 'change-case'
@@ -54,11 +55,11 @@ export const routes = (
     resourceNames.push(name)
   }
 
-  for (const [name, properties] of getResources(blueprint)) {
+  for (const [name, resource] of getResources(blueprint)) {
     files[`${resourcesPath}/${name}.rb`] = {
       contents: Buffer.from('\n'),
       layout: 'resource.hbs',
-      ...setResourceLayoutContext(name, properties),
+      ...setResourceLayoutContext(name, resource.properties, resource),
     }
     resourceNames.push(name)
   }
@@ -94,42 +95,59 @@ export const routes = (
   }
 }
 
-const getResources = (blueprint: Blueprint): Array<[string, Property[]]> => {
-  const resources = new Map<string, Property[]>()
+type ResourceDocumentation = Pick<
+  Resource,
+  'description' | 'isDeprecated' | 'deprecationMessage'
+>
+
+interface ResourceSource extends ResourceDocumentation {
+  properties: Property[]
+}
+
+const getResources = (
+  blueprint: Blueprint,
+): Array<[string, ResourceSource]> => {
+  const resources = new Map<string, ResourceSource>()
 
   for (const resource of blueprint.resources) {
-    resources.set(resource.resourceType, resource.properties)
+    resources.set(resource.resourceType, resource)
   }
 
   // The event resource only has the properties common to all events, but the
   // SDK exposes a single SeamEvent class, so it needs an accessor for every
   // property of every event variant.
-  const eventProperties = resources.get('event')
-  if (eventProperties != null) {
-    resources.set(
-      'event',
-      mergeProperties([
-        eventProperties,
+  const eventResource = resources.get('event')
+  if (eventResource != null) {
+    resources.set('event', {
+      ...eventResource,
+      properties: mergeProperties([
+        eventResource.properties,
         ...blueprint.events.map((event) => event.properties),
       ]),
-    )
+    })
   }
 
   // Action attempts are one blueprint entry per action type, but the SDK
   // exposes a single ActionAttempt class.
   if (blueprint.actionAttempts.length > 0) {
-    resources.set(
-      'action_attempt',
-      mergeProperties(
+    const resource = blueprint.actionAttempts[0]
+    if (resource == null) throw new Error('Expected an action attempt resource')
+    resources.set('action_attempt', {
+      ...resource,
+      properties: mergeProperties(
         blueprint.actionAttempts.map(
           (actionAttempt) => actionAttempt.properties,
         ),
       ),
-    )
+    })
   }
 
   if (blueprint.pagination != null) {
-    resources.set('pagination', blueprint.pagination.properties)
+    resources.set('pagination', {
+      ...blueprint.pagination,
+      isDeprecated: false,
+      deprecationMessage: '',
+    })
   }
 
   return [...resources.entries()].sort(([a], [b]) => a.localeCompare(b))
@@ -215,9 +233,16 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
 
   return {
     methodName: endpoint.name,
+    description: endpoint.description,
+    isDeprecated: endpoint.isDeprecated,
+    deprecationMessage: endpoint.deprecationMessage,
+    responseDescription: endpoint.response.description,
     path: endpoint.path,
     parameters: endpoint.request.parameters.map((parameter) => ({
       name: parameter.name,
+      description: parameter.description,
+      isDeprecated: parameter.isDeprecated,
+      deprecationMessage: parameter.deprecationMessage,
       required: parameter.isRequired,
       position:
         endpoint.name === 'get' && parameter.name === `${returnPath}_id`

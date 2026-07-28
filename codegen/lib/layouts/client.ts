@@ -9,6 +9,11 @@ import {
 } from '../ruby-client.js'
 
 export interface ClientMethodLayoutContext {
+  description: string
+  isDeprecated: boolean
+  deprecationMessage: string
+  responseDescription: string
+  parameters: ClientMethod['parameters']
   name: string
   hasSignature: boolean
   signatureParams: string
@@ -55,6 +60,11 @@ const getMethodLayoutContext = (
   const isNil = !hasReturnValue
 
   return {
+    description: method.description,
+    isDeprecated: method.isDeprecated,
+    deprecationMessage: method.deprecationMessage,
+    responseDescription: method.responseDescription,
+    parameters: sortedParameters,
     name: methodName,
     hasSignature: signatureParams.length > 0,
     signatureParams,
