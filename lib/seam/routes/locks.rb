@@ -53,7 +53,8 @@ module Seam
       # @param page_cursor Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search String for which to search. Filters returned devices to include all records that satisfy a partial match using `device_id` (full or partial UUID prefix, minimum 4 characters), `connected_account_id`, `display_name`, `custom_metadata` or `location.location_name`.
       # @param space_id ID of the space for which you want to list devices.
-      # @param unstable_location_id Deprecated: Use `space_id`.
+      # @param unstable_location_id
+      # @deprecated unstable_location_id: Use `space_id`.
       # @param user_identifier_key Your own internal user ID for the user for which you want to list devices.
       # @return [Seam::Resources::Device] OK
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil, space_id: nil, unstable_location_id: nil, user_identifier_key: nil)

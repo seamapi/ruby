@@ -38,7 +38,8 @@ module Seam
       # @param connected_account_id ID of the connected account for which you want to retrieve all entrances.
       # @param customer_key Customer key for which you want to list entrances.
       # @param limit Maximum number of records to return per page.
-      # @param location_id Deprecated: Use `space_id`.
+      # @param location_id
+      # @deprecated location_id: Use `space_id`.
       # @param page_cursor Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search String for which to search. Filters returned entrances to include all records that satisfy a partial match using `display_name`.
       # @param space_id ID of the space for which you want to list entrances.

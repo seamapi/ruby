@@ -13,14 +13,19 @@ module Seam
       # Creates a new [workspace](https://docs.seam.co/core-concepts/workspaces).
       # @param name Name of the new workspace.
       # @param company_name Company name for the new workspace.
-      # @param connect_partner_name Connect partner name for the new workspace. Deprecated: Use `company_name` instead.
+      # @param connect_partner_name Connect partner name for the new workspace.
+      # @deprecated connect_partner_name: Use `company_name` instead.
       # @param connect_webview_customization [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) customizations for the new workspace. See also [Customize the Look and Feel of Your Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-look-and-feel-of-your-connect-webviews).
       # @param is_sandbox Indicates whether the new workspace is a [sandbox workspace](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
       # @param organization_id ID of the organization to associate with the new workspace.
-      # @param webview_logo_shape Deprecated: Use `connect_webview_customization.webview_logo_shape` instead.
-      # @param webview_primary_button_color Deprecated: Use `connect_webview_customization.webview_primary_button_color` instead.
-      # @param webview_primary_button_text_color Deprecated: Use `connect_webview_customization.webview_primary_button_text_color` instead.
-      # @param webview_success_message Deprecated: Use `connect_webview_customization.webview_success_message` instead.
+      # @param webview_logo_shape
+      # @deprecated webview_logo_shape: Use `connect_webview_customization.webview_logo_shape` instead.
+      # @param webview_primary_button_color
+      # @deprecated webview_primary_button_color: Use `connect_webview_customization.webview_primary_button_color` instead.
+      # @param webview_primary_button_text_color
+      # @deprecated webview_primary_button_text_color: Use `connect_webview_customization.webview_primary_button_text_color` instead.
+      # @param webview_success_message
+      # @deprecated webview_success_message: Use `connect_webview_customization.webview_success_message` instead.
       # @return [Seam::Resources::Workspace] OK
       def create(name:, company_name: nil, connect_partner_name: nil, connect_webview_customization: nil, is_sandbox: nil, organization_id: nil, webview_logo_shape: nil, webview_primary_button_color: nil, webview_primary_button_text_color: nil, webview_success_message: nil)
         res = @client.post("/workspaces/create", {name: name, company_name: company_name, connect_partner_name: connect_partner_name, connect_webview_customization: connect_webview_customization, is_sandbox: is_sandbox, organization_id: organization_id, webview_logo_shape: webview_logo_shape, webview_primary_button_color: webview_primary_button_color, webview_primary_button_text_color: webview_primary_button_text_color, webview_success_message: webview_success_message}.compact)

@@ -21,8 +21,10 @@ module Seam
       # @param customization_profile_id ID of the customization profile to apply to the Access Grant and its access methods.
       # @param device_ids Set of IDs of the [devices](https://docs.seam.co/api/devices/list) to which access is being granted.
       # @param ends_at Date and time at which the validity of the new grant ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
-      # @param location Deprecated: Create a space first, then reference it using `space_ids`.
-      # @param location_ids Deprecated: Use `space_ids`.
+      # @param location
+      # @deprecated location: Create a space first, then reference it using `space_ids`.
+      # @param location_ids
+      # @deprecated location_ids: Use `space_ids`.
       # @param name Name for the access grant.
       # @param reservation_key Reservation key for the access grant.
       # @param space_ids Set of IDs of existing spaces to which access is being granted.
@@ -75,7 +77,8 @@ module Seam
       # @param customer_key Customer key for which you want to list access grants.
       # @param device_id ID of the device by which you want to filter the list of Access Grants.
       # @param limit Numerical limit on the number of access grants to return.
-      # @param location_id Deprecated: Use `space_id`.
+      # @param location_id
+      # @deprecated location_id: Use `space_id`.
       # @param page_cursor Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param reservation_key Filter Access Grants by reservation_key.
       # @param space_id ID of the space by which you want to filter the list of Access Grants.

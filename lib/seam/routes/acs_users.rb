@@ -23,7 +23,8 @@ module Seam
       # @param full_name Full name of the new access system user.
       # @param access_schedule `starts_at` and `ends_at` timestamps for the new access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
       # @param acs_access_group_ids Array of access group IDs to indicate the access groups to which you want to add the new access system user.
-      # @param email Deprecated: use email_address.
+      # @param email
+      # @deprecated email: use email_address.
       # @param email_address Email address of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
       # @param phone_number Phone number of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
       # @param user_identity_id ID of the user identity with which you want to associate the new access system user.
@@ -131,7 +132,8 @@ module Seam
       # @param access_schedule `starts_at` and `ends_at` timestamps for the access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
       # @param acs_system_id ID of the access system that you want to update. You can only provide acs_system_id with user_identity_id.
       # @param acs_user_id ID of the access system user that you want to update. You can only provide acs_user_id or user_identity_id.
-      # @param email Deprecated: use email_address.
+      # @param email
+      # @deprecated email: use email_address.
       # @param email_address Email address of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
       # @param full_name Full name of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
       # @param hid_acs_system_id ID of the HID access control system associated with the user.

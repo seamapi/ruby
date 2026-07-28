@@ -58,7 +58,8 @@ module Seam
       # @param heating_set_point_celsius Temperature to which the thermostat should heat (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       # @param heating_set_point_fahrenheit Temperature to which the thermostat should heat (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       # @param hvac_mode_setting Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
-      # @param manual_override_allowed Indicates whether a person at the thermostat or using the API can change the thermostat's settings. Deprecated: Use 'thermostat_schedule.is_override_allowed'
+      # @param manual_override_allowed Indicates whether a person at the thermostat or using the API can change the thermostat's settings.
+      # @deprecated manual_override_allowed: Use 'thermostat_schedule.is_override_allowed'
       # @param name User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
       # @return [nil] OK
       def create_climate_preset(climate_preset_key:, device_id:, climate_preset_mode: nil, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, ecobee_metadata: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil, manual_override_allowed: nil, name: nil)
@@ -120,7 +121,8 @@ module Seam
       # @param page_cursor Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search String for which to search. Filters returned devices to include all records that satisfy a partial match using `device_id` (full or partial UUID prefix, minimum 4 characters), `connected_account_id`, `display_name`, `custom_metadata` or `location.location_name`.
       # @param space_id ID of the space for which you want to list devices.
-      # @param unstable_location_id Deprecated: Use `space_id`.
+      # @param unstable_location_id
+      # @deprecated unstable_location_id: Use `space_id`.
       # @param user_identifier_key Your own internal user ID for the user for which you want to list devices.
       # @return [Seam::Resources::Device] OK
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil, space_id: nil, unstable_location_id: nil, user_identifier_key: nil)
@@ -152,7 +154,8 @@ module Seam
 
       # Sets the [fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings) for a specified [thermostat](https://docs.seam.co/capability-guides/thermostats).
       # @param device_id ID of the thermostat device for which you want to set the fan mode.
-      # @param fan_mode Fan mode setting for the thermostat, such as `auto`, `on`, or `circulate`. Deprecated: Use `fan_mode_setting` instead.
+      # @param fan_mode Fan mode setting for the thermostat, such as `auto`, `on`, or `circulate`.
+      # @deprecated fan_mode: Use `fan_mode_setting` instead.
       # @param fan_mode_setting [Fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings) that you want to set for the thermostat.
       # @return [Seam::Resources::ActionAttempt] OK
       def set_fan_mode(device_id:, fan_mode: nil, fan_mode_setting: nil, wait_for_action_attempt: nil)
@@ -203,7 +206,8 @@ module Seam
       # @param heating_set_point_celsius Temperature to which the thermostat should heat (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       # @param heating_set_point_fahrenheit Temperature to which the thermostat should heat (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       # @param hvac_mode_setting Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
-      # @param manual_override_allowed Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions). Deprecated: Use 'thermostat_schedule.is_override_allowed'
+      # @param manual_override_allowed Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
+      # @deprecated manual_override_allowed: Use 'thermostat_schedule.is_override_allowed'
       # @param name User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
       # @return [nil] OK
       def update_climate_preset(climate_preset_key:, device_id:, climate_preset_mode: nil, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, ecobee_metadata: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil, manual_override_allowed: nil, name: nil)

@@ -16,7 +16,8 @@ module Seam
       # @param expires_at Date and time at which the client session should expire, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
       # @param user_identifier_key Your user ID for the user for whom you want to create a client session.
       # @param user_identity_id ID of the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) for which you want to create a client session.
-      # @param user_identity_ids IDs of the [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session. Deprecated: Use `user_identity_id` instead.
+      # @param user_identity_ids IDs of the [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session.
+      # @deprecated user_identity_ids: Use `user_identity_id` instead.
       # @return [Seam::Resources::ClientSession] OK
       def create(connect_webview_ids: nil, connected_account_ids: nil, customer_id: nil, customer_key: nil, expires_at: nil, user_identifier_key: nil, user_identity_id: nil, user_identity_ids: nil)
         res = @client.post("/client_sessions/create", {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, customer_id: customer_id, customer_key: customer_key, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
@@ -49,7 +50,8 @@ module Seam
       # @param expires_at Date and time at which the client session should expire in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. If the client session already exists, this will update the expiration before returning it.
       # @param user_identifier_key Your user ID for the user that you want to associate with the client session (or that is already associated with the existing client session).
       # @param user_identity_id ID of the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session (or that are already associated with the existing client session).
-      # @param user_identity_ids IDs of the [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session. Deprecated: Use `user_identity_id`.
+      # @param user_identity_ids IDs of the [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session.
+      # @deprecated user_identity_ids: Use `user_identity_id`.
       # @return [Seam::Resources::ClientSession] OK
       def get_or_create(connect_webview_ids: nil, connected_account_ids: nil, expires_at: nil, user_identifier_key: nil, user_identity_id: nil, user_identity_ids: nil)
         res = @client.post("/client_sessions/get_or_create", {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
@@ -63,7 +65,8 @@ module Seam
       # @param connected_account_ids IDs of the [connected accounts](https://docs.seam.co/core-concepts/connected-accounts) that you want to associate with the client session.
       # @param user_identifier_key Your user ID for the user that you want to associate with the client session.
       # @param user_identity_id ID of the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session.
-      # @param user_identity_ids IDs of the [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session. Deprecated: Use `user_identity_id`.
+      # @param user_identity_ids IDs of the [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) that you want to associate with the client session.
+      # @deprecated user_identity_ids: Use `user_identity_id`.
       # @return [nil] OK
       def grant_access(client_session_id: nil, connect_webview_ids: nil, connected_account_ids: nil, user_identifier_key: nil, user_identity_id: nil, user_identity_ids: nil)
         @client.post("/client_sessions/grant_access", {client_session_id: client_session_id, connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)

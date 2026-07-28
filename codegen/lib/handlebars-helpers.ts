@@ -33,15 +33,15 @@ export const rubyParamDoc = (
 ): string => {
   const [firstLine = '', ...remainingLines] = parameter.description.split('\n')
   const deprecation = parameter.isDeprecated
-    ? `Deprecated: ${parameter.deprecationMessage}`
-    : ''
-  const firstLineDescription = [firstLine, deprecation]
-    .filter((part) => part !== '')
-    .join(' ')
+    ? [
+        `@deprecated ${parameter.name}: ${parameter.deprecationMessage}`.trimEnd(),
+      ]
+    : []
   return comment(
     [
-      `@param ${parameter.name} ${firstLineDescription}`.trimEnd(),
+      `@param ${parameter.name} ${firstLine}`.trimEnd(),
       ...remainingLines,
+      ...deprecation,
     ],
     indentation,
   )
