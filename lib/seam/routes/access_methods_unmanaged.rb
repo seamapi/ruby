@@ -9,15 +9,15 @@ module Seam
       end
 
       def get(access_method_id:)
-        @client.post("/access_methods/unmanaged/get", {access_method_id: access_method_id}.compact)
+        res = @client.post("/access_methods/unmanaged/get", {access_method_id: access_method_id}.compact)
 
-        nil
+        Seam::Resources::UnmanagedAccessMethod.load_from_response(res.body["access_method"])
       end
 
       def list(access_grant_id:, acs_entrance_id: nil, device_id: nil, space_id: nil)
-        @client.post("/access_methods/unmanaged/list", {access_grant_id: access_grant_id, acs_entrance_id: acs_entrance_id, device_id: device_id, space_id: space_id}.compact)
+        res = @client.post("/access_methods/unmanaged/list", {access_grant_id: access_grant_id, acs_entrance_id: acs_entrance_id, device_id: device_id, space_id: space_id}.compact)
 
-        nil
+        Seam::Resources::UnmanagedAccessMethod.load_from_response(res.body["access_methods"])
       end
     end
   end
