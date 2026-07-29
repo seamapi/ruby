@@ -2,9 +2,24 @@
 
 module Seam
   module Resources
+    # Represents an unmanaged user identity. Unmanaged user identities do not have keys.
     class UnmanagedUserIdentity < BaseResource
-      attr_accessor :acs_user_ids, :display_name, :email_address, :full_name, :phone_number, :user_identity_id, :workspace_id
+      # Array of access system user IDs associated with the user identity.
+      attr_accessor :acs_user_ids
+      # Display name for the user identity.
+      attr_accessor :display_name
+      # Unique email address for the user identity.
+      attr_accessor :email_address
+      # Full name of the user associated with the user identity.
+      attr_accessor :full_name
+      # Unique phone number for the user identity in [E.164 format](https://www.itu.int/rec/T-REC-E.164/en) (for example, +15555550100).
+      attr_accessor :phone_number
+      # ID of the user identity.
+      attr_accessor :user_identity_id
+      # ID of the workspace that contains the user identity.
+      attr_accessor :workspace_id
 
+      # Date and time at which the user identity was created.
       date_accessor :created_at
 
       include Seam::Resources::ResourceErrorsSupport

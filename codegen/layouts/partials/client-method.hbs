@@ -1,3 +1,13 @@
+{{#if description}}
+{{{rubyDoc description 6}}}
+{{/if}}
+{{#each parameters}}
+{{{rubyParamDoc this 6}}}
+{{/each}}
+{{{rubyReturnDoc returnResource responseDescription 6}}}
+{{#if isDeprecated}}
+{{{rubyDeprecatedDoc this 6}}}
+{{/if}}
       def {{name}}{{#if hasSignature}}({{signatureParams}}){{/if}}
         {{#if usesRes}}res = {{/if}}@client.post("{{path}}"{{#if hasParams}}, {{bodyParams}}.compact{{/if}})
 {{#if isResource}}

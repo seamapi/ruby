@@ -4,12 +4,19 @@
 
 export interface ClientMethodParameter {
   name: string
+  description: string
+  isDeprecated: boolean
+  deprecationMessage: string
   required?: boolean | undefined
   position?: number | undefined
 }
 
 export interface ClientMethod {
   methodName: string
+  description: string
+  isDeprecated: boolean
+  deprecationMessage: string
+  responseDescription: string
   path: string
   parameters: ClientMethodParameter[]
   returnResource: string | null

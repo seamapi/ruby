@@ -8,17 +8,28 @@ import { convertCustomResourceName } from '../custom-resource-name-conversions.j
 
 export interface ResourceLayoutContext {
   className: string
-  attrAccessors: string
-  hasDateAccessors: boolean
-  dateAccessors: string
+  resource: Documented
+  accessors: Array<Property & Documented>
+  dateAccessors: Array<Property & Documented>
   hasSupportModules: boolean
   includeErrorsSupport: boolean
   includeWarningsSupport: boolean
 }
 
+interface Documented {
+  description: string
+  isDeprecated: boolean
+  deprecationMessage: string
+}
+
 export const setResourceLayoutContext = (
   snakeName: string,
   properties: Property[],
+  resource: {
+    description: string
+    isDeprecated: boolean
+    deprecationMessage: string
+  },
 ): ResourceLayoutContext => {
   const attrs = properties
     .filter((property) => property.format !== 'datetime')
@@ -35,9 +46,13 @@ export const setResourceLayoutContext = (
 
   return {
     className: pascalCase(convertCustomResourceName(snakeName)),
-    attrAccessors: noErrorWarningAttrs.map((attr) => `:${attr}`).join(', '),
-    hasDateAccessors: dateAttrs.length > 0,
-    dateAccessors: dateAttrs.map((attr) => `:${attr}`).join(', '),
+    resource,
+    accessors: properties
+      .filter((property) => noErrorWarningAttrs.includes(property.name))
+      .map((property) => property),
+    dateAccessors: properties
+      .filter((property) => dateAttrs.includes(property.name))
+      .map((property) => property),
     hasSupportModules: includeErrorsSupport || includeWarningsSupport,
     includeErrorsSupport,
     includeWarningsSupport,

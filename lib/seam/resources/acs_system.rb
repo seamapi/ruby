@@ -2,9 +2,49 @@
 
 module Seam
   module Resources
+    # Represents an [access control system](https://docs.seam.co/low-level-apis/access-systems).
+    #
+    # Within an `acs_system`, create [`acs_user`s](https://docs.seam.co/api/acs/users/object) and [`acs_credential`s](https://docs.seam.co/api/acs/credentials/object) to grant access to the `acs_user`s.
+    #
+    # For details about the resources associated with an access control system, see the [access control systems namespace](https://docs.seam.co/api/acs).
     class AcsSystem < BaseResource
-      attr_accessor :acs_access_group_count, :acs_system_id, :acs_user_count, :connected_account_id, :connected_account_ids, :default_credential_manager_acs_system_id, :external_type, :external_type_display_name, :image_alt_text, :image_url, :is_credential_manager, :location, :name, :system_type, :system_type_display_name, :visionline_metadata, :workspace_id
+      # Number of access groups in the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :acs_access_group_count
+      # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :acs_system_id
+      # Number of users in the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :acs_user_count
+      # ID of the connected account associated with the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :connected_account_id
+      # IDs of the [connected accounts](https://docs.seam.co/core-concepts/connected-accounts) associated with the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # @deprecated Use `connected_account_id`.
+      attr_accessor :connected_account_ids
+      # ID of the default credential manager `acs_system` for this [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :default_credential_manager_acs_system_id
+      # Brand-specific terminology for the [access control system](https://docs.seam.co/low-level-apis/access-systems) type.
+      attr_accessor :external_type
+      # Display name that corresponds to the brand-specific terminology for the [access control system](https://docs.seam.co/low-level-apis/access-systems) type.
+      attr_accessor :external_type_display_name
+      # Alternative text for the [access control system](https://docs.seam.co/low-level-apis/access-systems) image.
+      attr_accessor :image_alt_text
+      # URL for the image that represents the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :image_url
+      # Indicates whether the `acs_system` is a credential manager.
+      attr_accessor :is_credential_manager
+      # Location information for the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :location
+      # Name of the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :name
+      # @deprecated Use `external_type`.
+      attr_accessor :system_type
+      # @deprecated Use `external_type_display_name`.
+      attr_accessor :system_type_display_name
+      # Visionline-specific metadata for the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :visionline_metadata
+      # ID of the workspace that contains the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      attr_accessor :workspace_id
 
+      # Date and time at which the [access control system](https://docs.seam.co/low-level-apis/access-systems) was created.
       date_accessor :created_at
 
       include Seam::Resources::ResourceErrorsSupport
