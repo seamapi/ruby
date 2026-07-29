@@ -47,7 +47,7 @@ const getMethodLayoutContext = (
   const sortedParameters = sortClientMethodParameters(parameters)
 
   const signatureParams = sortedParameters
-    .map((p) => `${p.name}${p.required ?? false ? ':' : ': nil'}`)
+    .map((p) => `${p.name}${(p.required ?? false) ? ':' : ': nil'}`)
     .concat(canPollActionAttempt ? ['wait_for_action_attempt: nil'] : [])
     .join(', ')
 

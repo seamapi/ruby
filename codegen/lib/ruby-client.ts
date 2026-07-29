@@ -42,6 +42,6 @@ export const sortClientMethodParameters = (
 ): ClientMethodParameter[] =>
   [...parameters].sort(
     (a, b) =>
-      (a.position ?? (a.required ?? false ? 1000 : 9999)) -
-      (b.position ?? (b.required ?? false ? 1000 : 9999)),
+      (a.position ?? ((a.required ?? false) ? 1000 : 9999)) -
+      (b.position ?? ((b.required ?? false) ? 1000 : 9999)),
   )

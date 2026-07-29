@@ -2,7 +2,7 @@ ARG VARIANT="3"
 
 FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
 
-ARG NODE_VERSION="20"
+ARG NODE_VERSION="24"
 
 # https://github.com/microsoft/vscode-dev-containers/blob/main/containers/go/.devcontainer/base.Dockerfile
 ENV USERNAME=vscode
