@@ -2,14 +2,22 @@
 
 module Seam
   module Resources
+    class InstantKeyCustomization < BaseResource
+      # URL of the logo displayed on the Instant Key.
+      attr_accessor :logo_url
+      # Primary color used in the Instant Key UI.
+      attr_accessor :primary_color
+      # Secondary color used in the Instant Key UI.
+      attr_accessor :secondary_color
+    end
+
     # Represents a Seam Instant Key. For issuing Bluetooth mobile keys, Instant Keys are the fastest way to share access. With a single API call, you can create a mobile key and send it through text or email or embed it in your own app.
     #
     # There’s no app to install, nor account to create. Your user just taps a link and gets a lightweight, native-feeling experience using iOS App Clip or Instant Apps on Android. Further, Instant Keys work offline, so even in areas with poor cellular or Wi-Fi, like elevator banks or concrete-walled hallways, the Instant Keys still work.
     class InstantKey < BaseResource
+      resource_accessor :customization, InstantKeyCustomization
       # ID of the client session associated with the Instant Key.
       attr_accessor :client_session_id
-      # Customization applied to the Instant Key UI.
-      attr_accessor :customization
       # ID of the customization profile associated with the Instant Key.
       attr_accessor :customization_profile_id
       # ID of the Instant Key.

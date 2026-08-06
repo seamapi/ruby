@@ -2,6 +2,29 @@
 
 module Seam
   module Resources
+{{#each nestedClasses}}
+    class {{className}} < BaseResource
+{{#each accessors}}
+{{#if description}}
+{{{rubyDoc description 6}}}
+{{/if}}
+      attr_accessor :{{name}}
+{{/each}}
+{{#each dateAccessors}}
+{{#if description}}
+{{{rubyDoc description 6}}}
+{{/if}}
+      date_accessor :{{name}}
+{{/each}}
+{{#each resourceAccessors}}
+      resource_accessor :{{name}}, {{className}}
+{{/each}}
+{{#each resourceListAccessors}}
+      resource_list_accessor :{{name}}, {{className}}
+{{/each}}
+    end
+
+{{/each}}
 {{#if resource.description}}
 {{{rubyDoc resource.description 4}}}
 {{/if}}
@@ -9,6 +32,12 @@ module Seam
 {{{rubyDeprecatedDoc resource 4}}}
 {{/if}}
     class {{className}} < BaseResource
+{{#each resourceAccessors}}
+      resource_accessor :{{name}}, {{className}}
+{{/each}}
+{{#each resourceListAccessors}}
+      resource_list_accessor :{{name}}, {{className}}
+{{/each}}
 {{#each accessors}}
 {{#if description}}
 {{{rubyDoc description 6}}}

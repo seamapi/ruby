@@ -21,6 +21,7 @@ import { setClientLayoutContext } from './layouts/client.js'
 import { setImportsLayoutContext } from './layouts/imports.js'
 import { setResourceLayoutContext } from './layouts/resource.js'
 import { setRoutesFileLayoutContext } from './layouts/routes-file.js'
+import { mergeProperties } from './merge-properties.js'
 import type { ClientMethod, ClientModel } from './ruby-client.js'
 import {
   resourceErrorRb,
@@ -151,16 +152,6 @@ const getResources = (
   }
 
   return [...resources.entries()].sort(([a], [b]) => a.localeCompare(b))
-}
-
-const mergeProperties = (propertyLists: Property[][]): Property[] => {
-  const merged = new Map<string, Property>()
-  for (const properties of propertyLists) {
-    for (const property of properties) {
-      if (!merged.has(property.name)) merged.set(property.name, property)
-    }
-  }
-  return [...merged.values()].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 interface ClientSource {

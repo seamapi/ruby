@@ -2,15 +2,131 @@
 
 module Seam
   module Resources
+    class SeamEventAccessCodeErrors < BaseResource
+      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+      attr_accessor :error_code
+      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Date and time at which Seam created the error.
+      date_accessor :created_at
+    end
+
+    class SeamEventAccessCodeWarnings < BaseResource
+      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+      attr_accessor :warning_code
+      # Date and time at which Seam created the warning.
+      date_accessor :created_at
+    end
+
+    class SeamEventAcsSystemErrors < BaseResource
+      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+      attr_accessor :error_code
+      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Date and time at which Seam created the error.
+      date_accessor :created_at
+    end
+
+    class SeamEventAcsSystemWarnings < BaseResource
+      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+      attr_accessor :warning_code
+      # Date and time at which Seam created the warning.
+      date_accessor :created_at
+    end
+
+    class SeamEventChangedProperties < BaseResource
+      # Previous value of the property, or null if not set.
+      attr_accessor :from
+      # Name of the property that changed (e.g. `code`).
+      attr_accessor :property
+      # New value of the property, or null if cleared.
+      attr_accessor :to
+    end
+
+    class SeamEventConnectedAccountErrors < BaseResource
+      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+      attr_accessor :error_code
+      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Date and time at which Seam created the error.
+      date_accessor :created_at
+    end
+
+    class SeamEventConnectedAccountWarnings < BaseResource
+      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+      attr_accessor :warning_code
+      # Date and time at which Seam created the warning.
+      date_accessor :created_at
+    end
+
+    class SeamEventDeviceErrors < BaseResource
+      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+      attr_accessor :error_code
+      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Date and time at which Seam created the error.
+      date_accessor :created_at
+    end
+
+    class SeamEventDeviceWarnings < BaseResource
+      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+      attr_accessor :message
+      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+      attr_accessor :warning_code
+      # Date and time at which Seam created the warning.
+      date_accessor :created_at
+    end
+
+    class SeamEventFrom < BaseResource
+      # Previous name of the access code.
+      attr_accessor :name
+    end
+
+    class SeamEventReason < BaseResource
+      # Human-readable explanation of why access was denied.
+      attr_accessor :message
+      # Normalized reason a lock denied access. Provider-agnostic; not all providers report every value.
+      attr_accessor :reason_code
+    end
+
+    class SeamEventRequestedMutations < BaseResource
+      # Previous property values before the requested change. Keys depend on the mutation type. Absent for non-property mutations like `deleting`.
+      attr_accessor :from
+      # Code identifying the type of mutation requested, such as `updating_name`, `updating_code`, `updating_time_frame`, or `deleting`.
+      attr_accessor :mutation_code
+      # New property values after the requested change. Keys depend on the mutation type. Absent for non-property mutations like `deleting`.
+      attr_accessor :to
+    end
+
+    class SeamEventTo < BaseResource
+      # New name of the access code.
+      attr_accessor :name
+    end
+
     class SeamEvent < BaseResource
-      # Errors associated with the access code.
-      attr_accessor :access_code_errors
+      resource_accessor :from, SeamEventFrom
+      resource_accessor :reason, SeamEventReason
+      resource_accessor :to, SeamEventTo
+      resource_list_accessor :access_code_errors, SeamEventAccessCodeErrors
+      resource_list_accessor :access_code_warnings, SeamEventAccessCodeWarnings
+      resource_list_accessor :acs_system_errors, SeamEventAcsSystemErrors
+      resource_list_accessor :acs_system_warnings, SeamEventAcsSystemWarnings
+      resource_list_accessor :changed_properties, SeamEventChangedProperties
+      resource_list_accessor :connected_account_errors, SeamEventConnectedAccountErrors
+      resource_list_accessor :connected_account_warnings, SeamEventConnectedAccountWarnings
+      resource_list_accessor :device_errors, SeamEventDeviceErrors
+      resource_list_accessor :device_warnings, SeamEventDeviceWarnings
+      resource_list_accessor :requested_mutations, SeamEventRequestedMutations
       # ID of the affected access code.
       attr_accessor :access_code_id
       # Whether the access code is managed by Seam (true) or unmanaged (false). Only present when access_code_id is set.
       attr_accessor :access_code_is_managed
-      # Warnings associated with the access code.
-      attr_accessor :access_code_warnings
       # ID of the affected Access Grant.
       attr_accessor :access_grant_id
       # IDs of the access grants associated with this access method.
@@ -31,12 +147,8 @@ module Seam
       attr_accessor :acs_entrance_id
       # IDs of all ACS entrances currently attached to the space.
       attr_accessor :acs_entrance_ids
-      # Errors associated with the access control system.
-      attr_accessor :acs_system_errors
       # ID of the access system.
       attr_accessor :acs_system_id
-      # Warnings associated with the access control system.
-      attr_accessor :acs_system_warnings
       # ID of the affected access system user.
       attr_accessor :acs_user_id
       # ID of the affected action attempt.
@@ -53,8 +165,6 @@ module Seam
       attr_accessor :battery_status
       # Human-readable reason for the change (e.g. `ongoing code auto-renewed`).
       attr_accessor :change_reason
-      # List of properties that changed on the access code.
-      attr_accessor :changed_properties
       # ID of the affected client session.
       attr_accessor :client_session_id
       # Key of the climate preset that was activated.
@@ -65,14 +175,10 @@ module Seam
       attr_accessor :connect_webview_id
       # Custom metadata of the connected account, present when connected_account_id is provided.
       attr_accessor :connected_account_custom_metadata
-      # Errors associated with the connected account.
-      attr_accessor :connected_account_errors
       # ID of the connected account associated with the affected access code.
       attr_accessor :connected_account_id
       # undocumented: Unreleased.
       attr_accessor :connected_account_type
-      # Warnings associated with the connected account.
-      attr_accessor :connected_account_warnings
       # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       attr_accessor :cooling_set_point_celsius
       # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
@@ -87,16 +193,12 @@ module Seam
       attr_accessor :desired_temperature_fahrenheit
       # Custom metadata of the device, present when device_id is provided.
       attr_accessor :device_custom_metadata
-      # Errors associated with the device.
-      attr_accessor :device_errors
       # ID of the device associated with the affected access code.
       attr_accessor :device_id
       # IDs of all devices currently attached to the space.
       attr_accessor :device_ids
       # Name of the deleted device, captured at deletion time. The device record no longer exists when this event fires, so the name is preserved here. Null when the device had no resolvable name.
       attr_accessor :device_name
-      # Warnings associated with the device.
-      attr_accessor :device_warnings
       # The new end time for the access grant.
       attr_accessor :ends_at
       # Error code associated with the disconnection event, if any.
@@ -110,8 +212,6 @@ module Seam
       attr_accessor :event_type
       # Desired [fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
       attr_accessor :fan_mode_setting
-      # Previous access code name configuration.
-      attr_accessor :from
       # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       attr_accessor :heating_set_point_celsius
       # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
@@ -150,10 +250,6 @@ module Seam
       attr_accessor :noise_threshold_name
       # Metadata from Noiseaware.
       attr_accessor :noiseaware_metadata
-      # Why access was denied, when the provider reports a determinable cause. Omitted when unknown.
-      attr_accessor :reason
-      # Array of mutations requested on the access code, each containing the mutation type and from/to values.
-      attr_accessor :requested_mutations
       # ID of the affected space.
       attr_accessor :space_id
       # Unique key for the space within the workspace.
@@ -168,8 +264,6 @@ module Seam
       attr_accessor :temperature_fahrenheit
       # ID of the thermostat schedule that prompted the affected climate preset to be activated.
       attr_accessor :thermostat_schedule_id
-      # New access code name configuration.
-      attr_accessor :to
       # Upper temperature limit, in °C, defined by the set threshold.
       attr_accessor :upper_limit_celsius
       # Upper temperature limit, in °F, defined by the set threshold.

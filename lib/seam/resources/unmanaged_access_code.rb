@@ -2,6 +2,25 @@
 
 module Seam
   module Resources
+    class UnmanagedAccessCodeDormakabaOracodeMetadata < BaseResource
+      # Indicates whether the stay can be cancelled via the Dormakaba Oracode API.
+      attr_accessor :is_cancellable
+      # Indicates whether early check-in is available for this stay.
+      attr_accessor :is_early_checkin_able
+      # Indicates whether the stay can be extended via the Dormakaba Oracode API.
+      attr_accessor :is_extendable
+      # Indicates whether the access code can be overridden. When false, the maximum number of overrides has been reached.
+      attr_accessor :is_overridable
+      # Dormakaba Oracode site name associated with this access code.
+      attr_accessor :site_name
+      # Dormakaba Oracode stay ID associated with this access code.
+      attr_accessor :stay_id
+      # Dormakaba Oracode user level ID associated with this access code.
+      attr_accessor :user_level_id
+      # Dormakaba Oracode user level name associated with this access code.
+      attr_accessor :user_level_name
+    end
+
     # Represents an [unmanaged smart lock access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes).
     #
     # An access code is a code used for a keypad or pinpad device. Unlike physical keys, which can easily be lost or duplicated, PIN codes can be customized, tracked, and altered on the fly.
@@ -14,6 +33,7 @@ module Seam
     #
     # - [Kwikset](https://docs.seam.co/device-and-system-integration-guides/kwikset-locks)
     class UnmanagedAccessCode < BaseResource
+      resource_accessor :dormakaba_oracode_metadata, UnmanagedAccessCodeDormakabaOracodeMetadata
       # Unique identifier for the access code.
       attr_accessor :access_code_id
       # Indicates that Seam cannot convert this unmanaged access code to a managed access code. Some providers do not support management of unmanaged access codes through API integrations.
@@ -24,8 +44,6 @@ module Seam
       attr_accessor :code
       # Unique identifier for the device associated with the access code.
       attr_accessor :device_id
-      # Metadata for a dormakaba Oracode unmanaged access code. Only present for unmanaged access codes from dormakaba Oracode devices.
-      attr_accessor :dormakaba_oracode_metadata
       # Indicates that Seam does not manage the access code.
       attr_accessor :is_managed
       # Name of the access code. Enables administrators and users to identify the access code easily, especially when there are numerous access codes. Note that the name provided on Seam is used to identify the code on Seam and is not necessarily the name that will appear in the lock provider's app or on the device. This is because lock providers may have constraints on names, such as length, uniqueness, or characters that can be used. In addition, some lock providers may break down names into components such as `first_name` and `last_name`. To provide a consistent experience, Seam identifies the code on Seam by its name but may modify the name that appears on the lock provider's app or on the device. For example, Seam may add additional characters or truncate the name to meet provider constraints. To help your users identify codes set by Seam, Seam provides the name exactly as it appears on the lock provider's app or on the device as a separate property called `appearance`. This is an object with a `name` property and, optionally, `first_name` and `last_name` properties (for providers that break down a name into components).
