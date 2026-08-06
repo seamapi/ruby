@@ -17,7 +17,7 @@ module Seam
       attr_reader :client, :defaults
 
       def initialize(client: nil, api_key: nil, personal_access_token: nil, workspace_id: nil, endpoint: nil,
-        wait_for_action_attempt: true, faraday_options: {}, faraday_retry_options: {})
+        wait_for_action_attempt: true, timeout: nil, faraday_options: {}, faraday_retry_options: {})
         @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
 
         # A client carries its own endpoint and authorization, so the auth
@@ -28,7 +28,8 @@ module Seam
           @endpoint = options[:endpoint]
           @auth_headers = options[:auth_headers]
 
-          Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options, faraday_retry_options)
+          Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options, faraday_retry_options,
+            timeout: timeout)
         end
 
         initialize_routes(client: @client, defaults: @defaults)
@@ -42,14 +43,14 @@ module Seam
         Paginator.new(request, params)
       end
 
-      def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, faraday_options: {}, faraday_retry_options: {})
+      def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, timeout: nil, faraday_options: {}, faraday_retry_options: {})
         new(api_key: api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt,
-          faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
+          timeout: timeout, faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
       end
 
-      def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: true, faraday_options: {}, faraday_retry_options: {})
+      def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: true, timeout: nil, faraday_options: {}, faraday_retry_options: {})
         new(personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint,
-          wait_for_action_attempt: wait_for_action_attempt, faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
+          wait_for_action_attempt: wait_for_action_attempt, timeout: timeout, faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
       end
     end
   end

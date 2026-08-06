@@ -2,6 +2,7 @@
 
 require "faraday"
 require "faraday/retry"
+require_relative "default_timeout"
 require_relative "lts_version"
 require_relative "version"
 require_relative "paginator"
@@ -9,10 +10,15 @@ require_relative "paginator"
 module Seam
   module Http
     module Request
-      def self.create_faraday_client(endpoint, auth_headers, faraday_options = {}, faraday_retry_options = {})
+      def self.create_faraday_client(endpoint, auth_headers, faraday_options = {}, faraday_retry_options = {},
+        timeout: nil)
+        timeout ||= Seam::DEFAULT_TIMEOUT
+
         default_options = {
           url: endpoint,
-          headers: auth_headers.merge(default_headers)
+          headers: auth_headers.merge(default_headers),
+          # open_timeout bounds the connect phase, which timeout does not cover.
+          request: {timeout: timeout, open_timeout: timeout}
         }
 
         options = deep_merge(default_options, faraday_options)

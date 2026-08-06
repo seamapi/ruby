@@ -381,6 +381,7 @@ the constructor takes some advanced options that affect behavior.
 seam = Seam.new(
   api_key: "your-api-key",
   endpoint: "https://example.com",
+  timeout: 30,
   faraday_options: {},
   faraday_retry_options: {}
 )
@@ -392,6 +393,7 @@ these options may be passed in as keyword arguments.
 ```ruby
 seam = Seam.from_api_key("some-api-key",
   endpoint: "https://example.com",
+  timeout: 30,
   faraday_options: {},
   faraday_retry_options: {})
 ```
@@ -402,6 +404,27 @@ Some contexts may need to override the API endpoint,
 e.g., testing or proxy setups. This option corresponds to the [Faraday](https://lostisland.github.io/faraday/#/) `url` setting.
 
 Either pass the `endpoint` option, or set the `SEAM_ENDPOINT` environment variable.
+
+#### Setting the request timeout
+
+Requests time out after 30 seconds by default.
+Pass the `timeout` option, in seconds, to override this:
+
+```ruby
+seam = Seam.new(api_key: "your-api-key", timeout: 60)
+```
+
+The value sets both the Faraday `timeout` and `open_timeout`.
+Either may be set independently via `faraday_options`, which takes precedence:
+
+```ruby
+seam = Seam.new(
+  api_key: "your-api-key",
+  faraday_options: {request: {timeout: 60, open_timeout: 5}}
+)
+```
+
+A request that exceeds the timeout raises `Faraday::TimeoutError`.
 
 #### Configuring the Faraday Client
 
