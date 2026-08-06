@@ -14,10 +14,20 @@ RSpec.describe Seam::Http::SingleWorkspace do
       expect(seam.defaults.wait_for_action_attempt).to be false
     end
 
-    # Seam.from_api_key defaults wait_for_action_attempt to false while Seam.new
-    # defaults it to true. The JavaScript SDK waits by default in both cases.
-    it "does not wait when constructed with from_api_key" do
+    it "waits for action attempts when constructed with from_api_key" do
       seam = Seam.from_api_key("seam_some_api_key")
+
+      expect(seam.defaults.wait_for_action_attempt).to be true
+    end
+
+    it "waits for action attempts when constructed with from_personal_access_token" do
+      seam = Seam.from_personal_access_token("seam_at_token", "workspace_123")
+
+      expect(seam.defaults.wait_for_action_attempt).to be true
+    end
+
+    it "can be turned off with from_api_key" do
+      seam = Seam.from_api_key("seam_some_api_key", wait_for_action_attempt: false)
 
       expect(seam.defaults.wait_for_action_attempt).to be false
     end

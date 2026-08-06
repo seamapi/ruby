@@ -32,6 +32,26 @@ RSpec.describe Seam::Helpers::ActionAttempt, :fake do
     expect(action_attempt.status).to eq("success")
   end
 
+  it "waits by default when built with from_api_key" do
+    seam = Seam.from_api_key(seed["seam_apikey1_token"], endpoint: endpoint)
+
+    action_attempt = seam.locks.unlock_door(device_id: seed["august_device_1"])
+
+    expect(action_attempt.status).to eq("success")
+  end
+
+  it "waits by default when built with from_personal_access_token" do
+    seam = Seam.from_personal_access_token(
+      seed["seam_at1_token"],
+      seed["seed_workspace_1"],
+      endpoint: endpoint
+    )
+
+    action_attempt = seam.locks.unlock_door(device_id: seed["august_device_1"])
+
+    expect(action_attempt.status).to eq("success")
+  end
+
   it "waits when set on the method call" do
     action_attempt = seam.locks.unlock_door(
       device_id: seed["august_device_1"],

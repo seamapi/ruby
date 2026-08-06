@@ -42,12 +42,12 @@ module Seam
         Paginator.new(request, params)
       end
 
-      def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: false, faraday_options: {}, faraday_retry_options: {})
+      def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, faraday_options: {}, faraday_retry_options: {})
         new(api_key: api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt,
           faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
       end
 
-      def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: false, faraday_options: {}, faraday_retry_options: {})
+      def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: true, faraday_options: {}, faraday_retry_options: {})
         new(personal_access_token: personal_access_token, workspace_id: workspace_id, endpoint: endpoint,
           wait_for_action_attempt: wait_for_action_attempt, faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
       end
