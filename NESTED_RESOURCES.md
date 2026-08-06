@@ -7,7 +7,7 @@ wrong answer and should land on its own.** P2 is the nested types/docs parity
 work. P3 is a design decision, not a defect.
 
 Ruby is in a more defensible position than the Python SDK — it ships no RBS, no
-sorbet, no `.rbi`, so unlike Python it never *claims* a type it then violates.
+sorbet, no `.rbi`, so unlike Python it never _claims_ a type it then violates.
 Top-level properties are genuinely well documented via YARD comments on each
 `attr_accessor`. The gaps below are about nested shapes and a handful of real
 bugs.
@@ -24,12 +24,12 @@ lib/seam/resources/** linguist-generated
 lib/seam/routes/**    linguist-generated
 ```
 
-| File | Status |
-|---|---|
-| `lib/seam/base_resource.rb` | **hand-written** — edit directly |
-| `lib/seam/deep_hash_accessor.rb` | **hand-written** — edit directly |
-| `lib/seam/resources/*.rb` (Device, AccessCode, …) | generated from `codegen/layouts/resource.hbs` |
-| `lib/seam/resources/resource_error.rb`, `resource_warning.rb`, `resource_errors_support.rb`, `resource_warnings_support.rb` | **generated from TypeScript string literals** in `codegen/lib/static-resources.ts` — *not* from a `.hbs` template. Editing the `.rb` will not stick. |
+| File                                                                                                                        | Status                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lib/seam/base_resource.rb`                                                                                                 | **hand-written** — edit directly                                                                                                                     |
+| `lib/seam/deep_hash_accessor.rb`                                                                                            | **hand-written** — edit directly                                                                                                                     |
+| `lib/seam/resources/*.rb` (Device, AccessCode, …)                                                                           | generated from `codegen/layouts/resource.hbs`                                                                                                        |
+| `lib/seam/resources/resource_error.rb`, `resource_warning.rb`, `resource_errors_support.rb`, `resource_warnings_support.rb` | **generated from TypeScript string literals** in `codegen/lib/static-resources.ts` — _not_ from a `.hbs` template. Editing the `.rb` will not stick. |
 
 Template context is built in `codegen/lib/layouts/resource.ts`. Regenerate with
 `npm run generate` (`postgenerate` runs `rake format` → `standard:fix`).
@@ -81,7 +81,7 @@ that asymmetry.
 
 ### P1b — values are re-allocated on every access
 
-`process_value` runs *inside* the singleton method body, so each call rebuilds the
+`process_value` runs _inside_ the singleton method body, so each call rebuilds the
 `DeepHashAccessor` tree. Hence `a.nested.equal?(a.nested)` is `false`, and deep
 access in a loop re-allocates every time.
 
@@ -155,7 +155,7 @@ completion for any nested property.
 
 The generated resource files confirm there is zero structural knowledge of nested
 shapes. In all of `lib/seam/resources/device.rb`, the only mention of a nested
-field name is incidental prose in a *different* property's comment:
+field name is incidental prose in a _different_ property's comment:
 
 ```ruby
 # Display name of the device, defaults to nickname (if it is set) or
@@ -266,7 +266,7 @@ release. Do not bundle it in.
 ## Out of scope
 
 - **Date handling improvements.** `date_accessor` re-parses with `Time.parse` on
-  *every* read (no memoization), and a malformed string raises at read time rather
+  _every_ read (no memoization), and a malformed string raises at read time rather
   than at construction — a late, hard-to-trace failure. It also defines a reader
   only, so `device.created_at = x` raises `NoMethodError` while every other
   property is a full `attr_accessor`. All real, all separate.
