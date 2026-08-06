@@ -12,7 +12,8 @@ RSpec.describe Seam::DeepHashAccessor do
         city: "San Francisco",
         country: "USA"
       },
-      hobbies: %w[reading cycling]
+      hobbies: %w[reading cycling],
+      pets: [{name: "Rex", species: "dog"}]
     }
   end
 
@@ -35,6 +36,11 @@ RSpec.describe Seam::DeepHashAccessor do
   describe "array handling" do
     it "returns arrays as is for simple types" do
       expect(accessor.hobbies).to eq(%w[reading cycling])
+    end
+
+    it "wraps hashes inside arrays" do
+      expect(accessor.pets.first).to be_a(described_class)
+      expect(accessor.pets.first.name).to eq("Rex")
     end
   end
 
