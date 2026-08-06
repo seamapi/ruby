@@ -42,11 +42,6 @@ RSpec.describe Seam::Http::SingleWorkspace, :fake do
 
   describe "client option" do
     it "reuses a Faraday client from another instance" do
-      # initialize parses the auth options before it considers the client, so a
-      # client cannot be supplied on its own the way SeamHttp.fromClient allows
-      # in the JavaScript SDK.
-      pending "the client option still requires an api_key or personal_access_token"
-
       seam = described_class.new(
         client: described_class.new(
           api_key: seed["seam_apikey1_token"],
