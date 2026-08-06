@@ -1,46 +1,70 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-
-RSpec.describe Seam::Http::SingleWorkspace do
-  let(:api_key) { "seam_test_api_key" }
-  let(:endpoint) { "https://example.com/api" }
-  let(:faraday_options) do
-    {
-      headers: {"Custom-Header" => "Test-Value"},
-      request: {timeout: 30}
-    }
-  end
-
-  describe "client options" do
-    it "passes faraday_options to the Faraday client" do
-      expect(Faraday).to receive(:new).with(
-        hash_including(
-          headers: hash_including("Custom-Header" => "Test-Value"),
-          request: {timeout: 30}
-        )
-      ).and_call_original
-
-      client = described_class.new(
-        api_key: api_key,
+RSpec.describe Seam::Http::SingleWorkspace, :fake do
+  describe "faraday_options" do
+    it "merges custom options into the Faraday client" do
+      seam = described_class.new(
+        api_key: seed["seam_apikey1_token"],
         endpoint: endpoint,
-        faraday_options: faraday_options
+        faraday_options: {
+          headers: {"Custom-Header" => "Test-Value"},
+          request: {timeout: 30}
+        }
       )
 
-      expect(client).to be_a(Seam::Http::SingleWorkspace)
+      expect(seam.client.headers["Custom-Header"]).to eq("Test-Value")
+      expect(seam.client.options.timeout).to eq(30)
     end
 
-    it "merges faraday_options with default options" do
-      client = described_class.new(
-        api_key: api_key,
+    it "keeps the auth and SDK headers when custom headers are given" do
+      seam = described_class.new(
+        api_key: seed["seam_apikey1_token"],
         endpoint: endpoint,
-        faraday_options: faraday_options
+        faraday_options: {headers: {"Custom-Header" => "Test-Value"}}
       )
 
-      faraday_client = client.instance_variable_get(:@client)
-      expect(faraday_client.headers["Custom-Header"]).to eq("Test-Value")
-      expect(faraday_client.options.timeout).to eq(30)
-      expect(faraday_client.headers["Authorization"]).to eq("Bearer #{api_key}")
+      expect(seam.client.headers["Authorization"]).to eq("Bearer #{seed["seam_apikey1_token"]}")
+      expect(seam.client.headers["seam-sdk-name"]).to eq("seamapi/ruby")
+    end
+
+    it "still authorizes requests against the server" do
+      seam = described_class.new(
+        api_key: seed["seam_apikey1_token"],
+        endpoint: endpoint,
+        faraday_options: {headers: {"Custom-Header" => "Test-Value"}}
+      )
+
+      device = seam.devices.get(device_id: seed["august_device_1"])
+
+      expect(device.device_id).to eq(seed["august_device_1"])
+    end
+  end
+
+  describe "client option" do
+    it "reuses a Faraday client from another instance" do
+      # initialize parses the auth options before it considers the client, so a
+      # client cannot be supplied on its own the way SeamHttp.fromClient allows
+      # in the JavaScript SDK.
+      pending "the client option still requires an api_key or personal_access_token"
+
+      seam = described_class.new(
+        client: described_class.new(
+          api_key: seed["seam_apikey1_token"],
+          endpoint: endpoint
+        ).client
+      )
+
+      device = seam.devices.get(device_id: seed["august_device_1"])
+
+      expect(device.workspace_id).to eq(seed["seed_workspace_1"])
+      expect(device.device_id).to eq(seed["august_device_1"])
+    end
+
+    it "can be used to make requests directly" do
+      response = seam.client.post("/devices/get", {device_id: seed["august_device_1"]})
+
+      expect(response.status).to eq(200)
+      expect(response.body["device"]["device_id"]).to eq(seed["august_device_1"])
     end
   end
 end

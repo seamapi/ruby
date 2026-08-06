@@ -1,18 +1,8 @@
 # frozen_string_literal: true
 
-require "spec_helper"
 require "seam/paginator"
 
-RSpec.describe Seam::Paginator do
-  around do |example|
-    with_fake_seam_connect do |seam, _endpoint, _seed|
-      @seam = seam
-      example.run
-    end
-  end
-
-  let(:seam) { @seam }
-
+RSpec.describe Seam::Paginator, :fake do
   describe "#first_page" do
     it "fetches the first page of results and pagination info" do
       paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 2})
@@ -49,6 +39,7 @@ RSpec.describe Seam::Paginator do
 
     it "raises ArgumentError if next_page_cursor is nil or empty" do
       paginator = seam.create_paginator(seam.connected_accounts.method(:list), {limit: 2})
+
       expect { paginator.next_page(nil) }.to raise_error(ArgumentError, /nil or empty next_page_cursor/)
       expect { paginator.next_page("") }.to raise_error(ArgumentError, /nil or empty next_page_cursor/)
     end
@@ -81,6 +72,15 @@ RSpec.describe Seam::Paginator do
       expect(collected_accounts.size).to be > 1
       expect(collected_accounts.size).to eq(total_accounts)
       expect(collected_accounts.first).to be_a(Seam::Resources::ConnectedAccount)
+    end
+  end
+
+  describe "#initialize" do
+    it "requires a Method and a Hash" do
+      expect { seam.create_paginator("not-a-method") }.to raise_error(ArgumentError, /must be a Method/)
+      expect do
+        seam.create_paginator(seam.connected_accounts.method(:list), "not-a-hash")
+      end.to raise_error(ArgumentError, /must be a Hash/)
     end
   end
 end

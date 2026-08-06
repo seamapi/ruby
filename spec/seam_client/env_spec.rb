@@ -1,97 +1,95 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Http do
-  before(:each) do
-    cleanup_env
-  end
-
-  after(:each) do
-    cleanup_env
-  end
-
+RSpec.describe Seam::Http, :fake do
+  # Each example needs a clean environment, so the variables the SDK reads are
+  # cleared before and after every one of them.
   def cleanup_env
-    ENV.delete("SEAM_API_KEY")
-    ENV.delete("SEAM_ENDPOINT")
-    ENV.delete("SEAM_API_URL")
+    %w[SEAM_API_KEY SEAM_ENDPOINT SEAM_API_URL].each { |name| ENV.delete(name) }
   end
 
-  let(:device_hash) { {device_id: "123"} }
+  before { cleanup_env }
+
+  after { cleanup_env }
 
   describe "#initialize" do
-    it "uses SEAM_API_KEY environment variable" do
-      ENV["SEAM_API_KEY"] = "seam_some_api_key"
-      seam = Seam.new
+    it "uses the SEAM_API_KEY environment variable" do
+      ENV["SEAM_API_KEY"] = seed["seam_apikey1_token"]
 
-      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
-      devices = seam.devices.list
-      expect(devices.length).to be > 0
+      device = Seam.new(endpoint: endpoint).devices.get(device_id: seed["august_device_1"])
+
+      expect(device.workspace_id).to eq(seed["seed_workspace_1"])
+      expect(device.device_id).to eq(seed["august_device_1"])
     end
 
-    it "api_key option overrides environment variables" do
+    it "prefers the api_key option over the environment" do
       ENV["SEAM_API_KEY"] = "some-invalid-api-key-1"
-      seam = Seam.new(api_key: "seam_some_api_key")
 
-      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
-      devices = seam.devices.list
-      expect(devices.length).to be > 0
+      device = Seam.new(api_key: seed["seam_apikey1_token"], endpoint: endpoint)
+        .devices.get(device_id: seed["august_device_1"])
+
+      expect(device.device_id).to eq(seed["august_device_1"])
     end
 
-    it "requires api_key when passed no argument" do
+    it "requires an api_key when passed no argument" do
       expect do
         Seam.new
       end.to raise_error(Seam::Http::Options::SeamInvalidOptionsError, /api_key/)
     end
 
-    it "uses SEAM_ENDPOINT environment variable first" do
+    it "prefers SEAM_ENDPOINT over SEAM_API_URL" do
       ENV["SEAM_API_URL"] = "https://example.com"
-      ENV["SEAM_ENDPOINT"] = Seam::DEFAULT_ENDPOINT
-      seam = Seam.new(api_key: "seam_some_api_key")
+      ENV["SEAM_ENDPOINT"] = endpoint
 
-      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
-      devices = seam.devices.list
-      expect(devices.length).to be > 0
+      device = Seam.new(api_key: seed["seam_apikey1_token"])
+        .devices.get(device_id: seed["august_device_1"])
+
+      expect(device.device_id).to eq(seed["august_device_1"])
     end
 
-    it "uses SEAM_API_URL environment variable as fallback" do
-      ENV["SEAM_API_URL"] = Seam::DEFAULT_ENDPOINT
-      seam = Seam.new(api_key: "seam_some_api_key")
+    it "falls back to the SEAM_API_URL environment variable" do
+      ENV["SEAM_API_URL"] = endpoint
 
-      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
-      devices = seam.devices.list
-      expect(devices.length).to be > 0
+      device = Seam.new(api_key: seed["seam_apikey1_token"])
+        .devices.get(device_id: seed["august_device_1"])
+
+      expect(device.device_id).to eq(seed["august_device_1"])
     end
 
-    it "endpoint option overrides environment variables" do
+    it "prefers the endpoint option over the environment" do
       ENV["SEAM_API_URL"] = "https://example.com"
       ENV["SEAM_ENDPOINT"] = "https://example.com"
-      seam = Seam.new(api_key: "seam_some_api_key", endpoint: Seam::DEFAULT_ENDPOINT)
 
-      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
-      devices = seam.devices.list
-      expect(devices.length).to be > 0
+      device = Seam.new(api_key: seed["seam_apikey1_token"], endpoint: endpoint)
+        .devices.get(device_id: seed["august_device_1"])
+
+      expect(device.device_id).to eq(seed["august_device_1"])
     end
+  end
 
-    it "uses SEAM_ENDPOINT environment variable with from_api_key" do
+  describe ".from_api_key" do
+    it "uses the SEAM_ENDPOINT environment variable" do
       ENV["SEAM_API_URL"] = "https://example.com"
-      ENV["SEAM_ENDPOINT"] = Seam::DEFAULT_ENDPOINT
-      seam = Seam.from_api_key("seam_some_api_key")
+      ENV["SEAM_ENDPOINT"] = endpoint
 
-      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
-      devices = seam.devices.list
-      expect(devices.length).to be > 0
+      device = Seam.from_api_key(seed["seam_apikey1_token"])
+        .devices.get(device_id: seed["august_device_1"])
+
+      expect(device.device_id).to eq(seed["august_device_1"])
     end
+  end
 
-    it "ignores SEAM_API_KEY environment variable with personal access token" do
-      ENV["SEAM_API_KEY"] = "seam_some_api_key"
+  describe ".from_personal_access_token" do
+    it "ignores the SEAM_API_KEY environment variable" do
+      ENV["SEAM_API_KEY"] = "some-invalid-api-key-2"
 
-      seam = Seam.from_personal_access_token(
-        "seam_at1_token",
-        "workspace_123"
-      )
+      device = Seam.from_personal_access_token(
+        seed["seam_at1_token"],
+        seed["seed_workspace_1"],
+        endpoint: endpoint
+      ).devices.get(device_id: seed["august_device_1"])
 
-      stub_seam_request(:post, "/devices/list", {devices: [device_hash]})
-      devices = seam.devices.list
-      expect(devices.length).to be > 0
+      expect(device.workspace_id).to eq(seed["seed_workspace_1"])
+      expect(device.device_id).to eq(seed["august_device_1"])
     end
   end
 end
