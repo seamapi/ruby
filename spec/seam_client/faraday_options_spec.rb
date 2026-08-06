@@ -8,12 +8,12 @@ RSpec.describe Seam::Http::SingleWorkspace, :fake do
         endpoint: endpoint,
         faraday_options: {
           headers: {"Custom-Header" => "Test-Value"},
-          request: {timeout: 30}
+          request: {timeout: 45}
         }
       )
 
       expect(seam.client.headers["Custom-Header"]).to eq("Test-Value")
-      expect(seam.client.options.timeout).to eq(30)
+      expect(seam.client.options.timeout).to eq(45)
     end
 
     it "keeps the auth and SDK headers when custom headers are given" do
