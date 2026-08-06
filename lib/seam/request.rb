@@ -2,7 +2,7 @@
 
 require "faraday"
 require "faraday/retry"
-require_relative "default_timeout"
+require_relative "defaults"
 require_relative "lts_version"
 require_relative "version"
 require_relative "paginator"
