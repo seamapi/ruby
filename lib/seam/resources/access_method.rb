@@ -2,8 +2,30 @@
 
 module Seam
   module Resources
+    class AccessMethodFrom < BaseResource
+      # Previous device IDs where access was provisioned.
+      attr_accessor :device_ids
+    end
+
+    class AccessMethodTo < BaseResource
+      # New device IDs where access is being provisioned.
+      attr_accessor :device_ids
+    end
+
+    class AccessMethodPendingMutations < BaseResource
+      # Detailed description of the mutation.
+      attr_accessor :message
+      # Mutation code to indicate that Seam is in the process of provisioning access for this access method on new devices.
+      attr_accessor :mutation_code
+      # Date and time at which the mutation was created.
+      date_accessor :created_at
+      resource_accessor :from, AccessMethodFrom
+      resource_accessor :to, AccessMethodTo
+    end
+
     # Represents an access method for an Access Grant. Access methods describe the modes of access, such as PIN codes, plastic cards, and mobile keys. For a mobile key, the access method also stores the URL for the associated Instant Key.
     class AccessMethod < BaseResource
+      resource_list_accessor :pending_mutations, AccessMethodPendingMutations
       # ID of the access method.
       attr_accessor :access_method_id
       # Token of the client session associated with the access method.
@@ -28,8 +50,6 @@ module Seam
       attr_accessor :is_ready_for_encoding
       # Access method mode. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
       attr_accessor :mode
-      # Pending mutations for the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant). Indicates operations that are in progress.
-      attr_accessor :pending_mutations
       # ID of the Seam workspace associated with the access method.
       attr_accessor :workspace_id
 

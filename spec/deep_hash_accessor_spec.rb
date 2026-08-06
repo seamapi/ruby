@@ -30,6 +30,21 @@ RSpec.describe Seam::DeepHashAccessor do
       expect(accessor.address.street).to eq("123 Main St")
       expect(accessor.address.city).to eq("San Francisco")
     end
+
+    it "reuses processed nested values" do
+      expect(accessor.address).to equal(accessor.address)
+    end
+  end
+
+  describe "subscript access" do
+    it "accepts string and symbol keys" do
+      expect(accessor["name"]).to eq(accessor.name)
+      expect(accessor[:name]).to eq(accessor.name)
+    end
+
+    it "returns nil for an unknown key" do
+      expect(accessor[:non_existent_key]).to be_nil
+    end
   end
 
   describe "array handling" do

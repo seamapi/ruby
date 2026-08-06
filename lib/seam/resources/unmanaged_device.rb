@@ -2,8 +2,65 @@
 
 module Seam
   module Resources
+    class UnmanagedDeviceLocation < BaseResource
+      # Name of the device location.
+      attr_accessor :location_name
+      # Time zone of the device location.
+      attr_accessor :time_zone
+      # Time zone of the device location.
+      attr_accessor :timezone
+    end
+
+    class UnmanagedDeviceBattery < BaseResource
+      attr_accessor :level
+    end
+
+    class UnmanagedDeviceAccessoryKeypad < BaseResource
+      # Indicates if an accessory keypad is connected to the device.
+      attr_accessor :is_connected
+      resource_accessor :battery, UnmanagedDeviceBattery
+    end
+
+    class UnmanagedDeviceModel < BaseResource
+      attr_accessor :accessory_keypad_supported
+      # Indicates whether the device can connect a accessory keypad.
+      attr_accessor :can_connect_accessory_keypad
+      # Display name of the device model.
+      attr_accessor :display_name
+      # Indicates whether the device has a built in accessory keypad.
+      attr_accessor :has_built_in_keypad
+      # Display name that corresponds to the manufacturer-specific terminology for the device.
+      attr_accessor :manufacturer_display_name
+      attr_accessor :offline_access_codes_supported
+      attr_accessor :online_access_codes_supported
+    end
+
+    class UnmanagedDeviceProperties < BaseResource
+      # Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.
+      attr_accessor :battery_level
+      # Alt text for the device image.
+      attr_accessor :image_alt_text
+      # Image URL for the device.
+      attr_accessor :image_url
+      # Manufacturer of the device. When a device, such as a smart lock, is connected through a smart hub, the manufacturer of the device might be different from that of the smart hub.
+      attr_accessor :manufacturer
+      # Name of the device.
+      attr_accessor :name
+      # Indicates whether it is currently possible to use offline access codes for the device.
+      attr_accessor :offline_access_codes_enabled
+      # Indicates whether the device is online.
+      attr_accessor :online
+      # Indicates whether it is currently possible to use online access codes for the device.
+      attr_accessor :online_access_codes_enabled
+      resource_accessor :accessory_keypad, UnmanagedDeviceAccessoryKeypad
+      resource_accessor :battery, UnmanagedDeviceBattery
+      resource_accessor :model, UnmanagedDeviceModel
+    end
+
     # Represents an [unmanaged device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices). An unmanaged device has a limited set of visible properties and a subset of supported events. You cannot control an unmanaged device. Any [access codes](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) on an unmanaged device are unmanaged. To control an unmanaged device with Seam, [convert it to a managed device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices#convert-an-unmanaged-device-to-managed).
     class UnmanagedDevice < BaseResource
+      resource_accessor :location, UnmanagedDeviceLocation
+      resource_accessor :properties, UnmanagedDeviceProperties
       # Indicates whether the lock supports configuring automatic locking.
       attr_accessor :can_configure_auto_lock
       # Indicates whether the thermostat supports cooling.
@@ -56,10 +113,6 @@ module Seam
       attr_accessor :device_type
       # Indicates that Seam does not manage the device.
       attr_accessor :is_managed
-      # Location information for the device.
-      attr_accessor :location
-      # properties of the device.
-      attr_accessor :properties
       # Unique identifier for the Seam workspace associated with the device.
       attr_accessor :workspace_id
 
