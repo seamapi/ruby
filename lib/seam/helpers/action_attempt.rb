@@ -6,14 +6,23 @@ module Seam
   module Helpers
     module ActionAttempt
       def self.decide_and_wait(action_attempt, client, wait_for_action_attempt)
-        if wait_for_action_attempt == true
-          return wait_until_finished(action_attempt, client)
-        elsif wait_for_action_attempt.is_a?(Hash)
-          return wait_until_finished(action_attempt, client, timeout: wait_for_action_attempt[:timeout],
-            polling_interval: wait_for_action_attempt[:polling_interval])
-        end
+        return wait_until_finished(action_attempt, client) if wait_for_action_attempt == true
 
-        action_attempt
+        options = wait_options(wait_for_action_attempt)
+        return action_attempt if options.nil?
+
+        wait_until_finished(action_attempt, client, timeout: options[:timeout],
+          polling_interval: options[:polling_interval])
+      end
+
+      # The client wraps its defaults in a DeepHashAccessor, so the hash form of
+      # this option reaches here as an accessor when it comes from the client
+      # and as a plain Hash when it comes from the method call.
+      def self.wait_options(wait_for_action_attempt)
+        case wait_for_action_attempt
+        when Hash then wait_for_action_attempt
+        when Seam::DeepHashAccessor then wait_for_action_attempt.to_h
+        end
       end
 
       def self.wait_until_finished(action_attempt, client, timeout: nil, polling_interval: nil)

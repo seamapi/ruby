@@ -42,11 +42,6 @@ RSpec.describe Seam::Helpers::ActionAttempt, :fake do
   end
 
   it "can be set to a hash of options on the client" do
-    # SingleWorkspace wraps its defaults in a DeepHashAccessor, so the hash form
-    # of this option no longer satisfies the is_a?(Hash) check in
-    # Helpers::ActionAttempt.decide_and_wait and the client never waits.
-    pending "the hash form of the client default is wrapped in a DeepHashAccessor"
-
     seam = Seam.new(
       api_key: seed["seam_apikey1_token"],
       endpoint: endpoint,

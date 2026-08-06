@@ -13,6 +13,10 @@ module Seam
       instance_variable_get(:"@#{key}")
     end
 
+    def to_h
+      @data
+    end
+
     private
 
     def create_accessor_methods
