@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "default_endpoint"
+require_relative "defaults"
 
 module Seam
   module Http
