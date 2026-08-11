@@ -17,7 +17,6 @@ module Seam
         default_options = {
           url: endpoint,
           headers: auth_headers.merge(default_headers),
-          # open_timeout bounds the connect phase, which timeout does not cover.
           request: {timeout: timeout, open_timeout: timeout}
         }
 
