@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    seam (2.133.1)
+    seam (2.134.0)
       faraday (~> 2.7)
       faraday-retry (~> 2.2)
       svix (~> 1.30)
