@@ -37,15 +37,6 @@ module Seam
 {{/if}}
       date_accessor :{{name}}
 {{/each}}
-{{#if hasSupportModules}}
-
-{{#if includeErrorsSupport}}
-      include Seam::Resources::ResourceErrorsSupport
-{{/if}}
-{{#if includeWarningsSupport}}
-      include Seam::Resources::ResourceWarningsSupport
-{{/if}}
-{{/if}}
     end
   end
 end

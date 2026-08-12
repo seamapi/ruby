@@ -15,6 +15,15 @@ module Seam
         date_accessor :starts_at
       end
 
+      class Errors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
       class PendingMutations < BaseResource
         class From < BaseResource
           # Old entrance ID.
@@ -55,8 +64,19 @@ module Seam
         date_accessor :created_at
       end
 
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
       resource_accessor :access_schedule, AccessSchedule
+      resource_list_accessor :errors, Errors
       resource_list_accessor :pending_mutations, PendingMutations
+      resource_list_accessor :warnings, Warnings
       # @deprecated Use `external_type`.
       attr_accessor :access_group_type
       # @deprecated Use `external_type_display_name`.
@@ -82,9 +102,6 @@ module Seam
 
       # Date and time at which the access group was created.
       date_accessor :created_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

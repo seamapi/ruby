@@ -68,6 +68,13 @@ module Seam
             attr_accessor :override_guest_acs_entrance_ids
           end
 
+          class Errors < BaseResource
+            attr_accessor :error_code
+            attr_accessor :message
+            # Date and time at which Seam created the error.
+            date_accessor :created_at
+          end
+
           class VisionlineMetadata < BaseResource
             # Indicates whether the credential should auto-join. For an auto-join credential, Seam automatically issues an override card if there are no other cards and a joiner card if there are existing cards on the doors.
             attr_accessor :auto_join
@@ -87,8 +94,19 @@ module Seam
             attr_accessor :joiner_acs_credential_ids
           end
 
+          class Warnings < BaseResource
+            # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+            attr_accessor :message
+            # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+            attr_accessor :warning_code
+            # Date and time at which Seam created the warning.
+            date_accessor :created_at
+          end
+
           resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
           resource_accessor :visionline_metadata, VisionlineMetadata
+          resource_list_accessor :errors, Errors
+          resource_list_accessor :warnings, Warnings
           # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
           attr_accessor :access_method
           # ID of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
@@ -109,8 +127,6 @@ module Seam
           attr_accessor :display_name
           # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
           attr_accessor :ends_at
-          # Errors associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
-          attr_accessor :errors
           # Brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
           attr_accessor :external_type
           # Display name that corresponds to the brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
@@ -130,8 +146,6 @@ module Seam
           attr_accessor :starts_at
           # ID of the [user identity](https://docs.seam.co/api/user_identities) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
           attr_accessor :user_identity_id
-          # Warnings associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
-          attr_accessor :warnings
           # ID of the workspace that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
           attr_accessor :workspace_id
           # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was created.
@@ -155,6 +169,15 @@ module Seam
           attr_accessor :key_issuing_request_id
           # IDs of the guest entrances to override in the Vostio access system.
           attr_accessor :override_guest_acs_entrance_ids
+        end
+
+        class Errors < BaseResource
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          date_accessor :created_at
         end
 
         class PendingMutations < BaseResource
@@ -201,11 +224,25 @@ module Seam
           attr_accessor :joiner_acs_credential_ids
         end
 
+        class Warnings < BaseResource
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          attr_accessor :message
+          # ID of the original access method from which this backup access method was split, if applicable.
+          attr_accessor :original_access_method_id
+          attr_accessor :warning_code
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          attr_accessor :warning_message
+          # Date and time at which Seam created the warning.
+          date_accessor :created_at
+        end
+
         resource_accessor :acs_credential_on_encoder, AcsCredentialOnEncoder
         resource_accessor :acs_credential_on_seam, AcsCredentialOnSeam
         resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
         resource_accessor :visionline_metadata, VisionlineMetadata
+        resource_list_accessor :errors, Errors
         resource_list_accessor :pending_mutations, PendingMutations
+        resource_list_accessor :warnings, Warnings
         # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
         attr_accessor :access_method
         # ID of the access method.
@@ -230,7 +267,6 @@ module Seam
         attr_accessor :display_name
         # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
         attr_accessor :ends_at
-        attr_accessor :errors
         # Brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
         attr_accessor :external_type
         # Display name that corresponds to the brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
@@ -262,7 +298,6 @@ module Seam
         attr_accessor :starts_at
         # ID of the [user identity](https://docs.seam.co/api/user_identities) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
         attr_accessor :user_identity_id
-        attr_accessor :warnings
         attr_accessor :was_confirmed_by_device
         attr_accessor :workspace_id
         date_accessor :created_at

@@ -4,6 +4,35 @@ module Seam
   module Resources
     # Represents a [connected account](https://docs.seam.co/core-concepts/connected-accounts). A connected account is an external third-party account to which your user has authorized Seam to get access, for example, an August account with a list of door locks.
     class ConnectedAccount < BaseResource
+      class Errors < BaseResource
+        class SaltoKsMetadata < BaseResource
+          class Sites < BaseResource
+            # ID of a Salto site associated with the connected account that has an error.
+            attr_accessor :site_id
+            # Name of a Salto site associated with the connected account that has an error.
+            attr_accessor :site_name
+            # Subscription limit of site users for a Salto site associated with the connected account that has an error.
+            attr_accessor :site_user_subscription_limit
+            # Count of subscribed site users for a Salto site associated with the connected account that has an error.
+            attr_accessor :subscribed_site_user_count
+          end
+
+          resource_list_accessor :sites, Sites
+        end
+
+        resource_accessor :salto_ks_metadata, SaltoKsMetadata
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Indicates whether the error is related to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
+        attr_accessor :is_bridge_error
+        # Indicates whether the error is related specifically to the connected account.
+        attr_accessor :is_connected_account_error
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
       class UserIdentifier < BaseResource
         # API URL for the user identifier associated with the connected account.
         attr_accessor :api_url
@@ -17,7 +46,34 @@ module Seam
         attr_accessor :username
       end
 
+      class Warnings < BaseResource
+        class SaltoKsMetadata < BaseResource
+          class Sites < BaseResource
+            # ID of a Salto site associated with the connected account that has a warning.
+            attr_accessor :site_id
+            # Name of a Salto site associated with the connected account that has a warning.
+            attr_accessor :site_name
+            # Subscription limit of site users for a Salto site associated with the connected account that has a warning.
+            attr_accessor :site_user_subscription_limit
+            # Count of subscribed site users for a Salto site associated with the connected account that has a warning.
+            attr_accessor :subscribed_site_user_count
+          end
+
+          resource_list_accessor :sites, Sites
+        end
+
+        resource_accessor :salto_ks_metadata, SaltoKsMetadata
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
       resource_accessor :user_identifier, UserIdentifier
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :warnings, Warnings
       # List of capabilities that were accepted during the account connection process.
       attr_accessor :accepted_capabilities
       # Type of connected account.
@@ -49,9 +105,6 @@ module Seam
 
       # Date and time at which the connected account was created.
       date_accessor :created_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

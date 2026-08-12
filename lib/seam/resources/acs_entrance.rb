@@ -72,6 +72,15 @@ module Seam
         attr_accessor :access_point_profile
       end
 
+      class Errors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
       class HotekMetadata < BaseResource
         # Display name of the entrance.
         attr_accessor :common_area_name
@@ -141,6 +150,15 @@ module Seam
         attr_accessor :door_name
       end
 
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
       resource_accessor :akiles_metadata, AkilesMetadata
       resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
       resource_accessor :avigilon_alta_metadata, AvigilonAltaMetadata
@@ -152,6 +170,8 @@ module Seam
       resource_accessor :salto_ks_metadata, SaltoKsMetadata
       resource_accessor :salto_space_metadata, SaltoSpaceMetadata
       resource_accessor :visionline_metadata, VisionlineMetadata
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :warnings, Warnings
       # ID of the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
       attr_accessor :acs_entrance_id
       # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems) that contains the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
@@ -177,9 +197,6 @@ module Seam
 
       # Date and time at which the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) was created.
       date_accessor :created_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

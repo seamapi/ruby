@@ -4,6 +4,15 @@ module Seam
   module Resources
     # Represents an unmanaged access method. Unmanaged access methods do not have client sessions, instant keys, customization profiles, or keys.
     class UnmanagedAccessMethod < BaseResource
+      class Errors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
       class PendingMutations < BaseResource
         class From < BaseResource
           attr_accessor :device_ids
@@ -30,7 +39,20 @@ module Seam
         date_accessor :created_at
       end
 
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # ID of the original access method from which this backup access method was split, if applicable.
+        attr_accessor :original_access_method_id
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      resource_list_accessor :errors, Errors
       resource_list_accessor :pending_mutations, PendingMutations
+      resource_list_accessor :warnings, Warnings
       # ID of the access method.
       attr_accessor :access_method_id
       # The actual PIN code for code access methods.
@@ -57,9 +79,6 @@ module Seam
 
       # Date and time at which the access method was issued.
       date_accessor :issued_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

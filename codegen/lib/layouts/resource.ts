@@ -26,9 +26,6 @@ export interface ResourceLayoutContext {
   resource: Documented
   accessors: Array<Property & Documented>
   dateAccessors: Array<Property & Documented>
-  hasSupportModules: boolean
-  includeErrorsSupport: boolean
-  includeWarningsSupport: boolean
   nestedClasses: ResourceClass[]
   resourceAccessors: ResourceAccessor[]
   resourceListAccessors: ResourceAccessor[]
@@ -85,9 +82,6 @@ const buildClass = (
   const takenClassNames = new Set<string>()
 
   for (const property of classProperties) {
-    // Errors and warnings are provided by the resource support modules.
-    if (property.name === 'errors' || property.name === 'warnings') continue
-
     const nestedProperties = getNestedProperties(property)
     if (nestedProperties == null) continue
 
@@ -153,10 +147,6 @@ export const setResourceLayoutContext = (
     deprecationMessage: string
   },
 ): ResourceLayoutContext => {
-  const attrs = properties.map((property) => property.name)
-  const includeErrorsSupport = attrs.includes('errors')
-  const includeWarningsSupport = attrs.includes('warnings')
-
   const className = pascalCase(convertCustomResourceName(snakeName))
   const rootClass = buildClass(
     className,
@@ -168,13 +158,8 @@ export const setResourceLayoutContext = (
   return {
     className,
     resource,
-    accessors: rootClass.accessors.filter(
-      (property) => property.name !== 'errors' && property.name !== 'warnings',
-    ),
+    accessors: rootClass.accessors,
     dateAccessors: rootClass.dateAccessors,
-    hasSupportModules: includeErrorsSupport || includeWarningsSupport,
-    includeErrorsSupport,
-    includeWarningsSupport,
     nestedClasses: rootClass.nestedClasses,
     resourceAccessors: rootClass.resourceAccessors,
     resourceListAccessors: rootClass.resourceListAccessors,

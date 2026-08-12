@@ -24,6 +24,19 @@ module Seam
         attr_accessor :provider_category
       end
 
+      class Errors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Indicates whether the error is related to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
+        attr_accessor :is_bridge_error
+        attr_accessor :is_connected_account_error
+        attr_accessor :is_device_error
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
       class Location < BaseResource
         # Name of the device location.
         attr_accessor :location_name
@@ -731,12 +744,20 @@ module Seam
         end
 
         class ActiveThermostatSchedule < BaseResource
+          class Errors < BaseResource
+            # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+            attr_accessor :error_code
+            # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+            attr_accessor :message
+            # Date and time at which Seam created the error.
+            date_accessor :created_at
+          end
+
+          resource_list_accessor :errors, Errors
           # Key of the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) to use for the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
           attr_accessor :climate_preset_key
           # ID of the desired [thermostat](https://docs.seam.co/capability-guides/thermostats) device.
           attr_accessor :device_id
-          # Errors associated with the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
-          attr_accessor :errors
           # Indicates whether a person at the thermostat can change the thermostat's settings after the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts.
           attr_accessor :is_override_allowed
           # Number of minutes for which a person at the thermostat can change the thermostat's settings after the activation of the scheduled [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets). See also [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
@@ -1090,10 +1111,25 @@ module Seam
         attr_accessor :thermostat_daily_program_period_precision_minutes
       end
 
+      class Warnings < BaseResource
+        # Number of active access codes on the device when the warning was set.
+        attr_accessor :active_access_code_count
+        # Maximum number of active access codes supported by the device.
+        attr_accessor :max_active_access_code_count
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
       resource_accessor :device_manufacturer, DeviceManufacturer
       resource_accessor :device_provider, DeviceProvider
       resource_accessor :location, Location
       resource_accessor :properties, Properties
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :warnings, Warnings
       # Indicates whether the lock supports configuring automatic locking.
       attr_accessor :can_configure_auto_lock
       # Indicates whether the thermostat supports cooling.
@@ -1157,9 +1193,6 @@ module Seam
 
       # Date and time at which the device object was created.
       date_accessor :created_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

@@ -31,6 +31,37 @@ module Seam
         attr_accessor :user_level_name
       end
 
+      class Errors < BaseResource
+        class ModifiedFields < BaseResource
+          # The name of the field that was changed (e.g. `code`, `starts_at`, `ends_at`).
+          attr_accessor :field
+          # The previous value of the field.
+          attr_accessor :from
+          # The new value of the field.
+          attr_accessor :to
+        end
+
+        resource_list_accessor :modified_fields, ModifiedFields
+        # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device.
+        attr_accessor :change_type
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Indicates that this is an access code error.
+        attr_accessor :is_access_code_error
+        # Indicates whether the error is related to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
+        attr_accessor :is_bridge_error
+        attr_accessor :is_connected_account_error
+        attr_accessor :is_device_error
+        # ID of the managed access code that conflicts with this managed access code, when Seam can identify it.
+        attr_accessor :managed_access_code_id
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # ID of the unmanaged access code that conflicts with this managed access code, when Seam can identify it.
+        attr_accessor :unmanaged_access_code_id
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
       class PendingMutations < BaseResource
         class From < BaseResource
           # Previous PIN code.
@@ -65,8 +96,31 @@ module Seam
         date_accessor :scheduled_at
       end
 
+      class Warnings < BaseResource
+        class ModifiedFields < BaseResource
+          # The name of the field that was changed (e.g. `code`, `starts_at`, `ends_at`).
+          attr_accessor :field
+          # The previous value of the field.
+          attr_accessor :from
+          # The new value of the field.
+          attr_accessor :to
+        end
+
+        resource_list_accessor :modified_fields, ModifiedFields
+        # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device.
+        attr_accessor :change_type
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
       resource_accessor :dormakaba_oracode_metadata, DormakabaOracodeMetadata
+      resource_list_accessor :errors, Errors
       resource_list_accessor :pending_mutations, PendingMutations
+      resource_list_accessor :warnings, Warnings
       # Unique identifier for the access code.
       attr_accessor :access_code_id
       # Code used for access. Typically, a numeric or alphanumeric string.
@@ -110,9 +164,6 @@ module Seam
 
       # Date and time at which the time-bound access code becomes active.
       date_accessor :starts_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

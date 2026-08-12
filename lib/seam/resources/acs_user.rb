@@ -15,6 +15,14 @@ module Seam
         date_accessor :starts_at
       end
 
+      class Errors < BaseResource
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
       class PendingMutations < BaseResource
         class From < BaseResource
           # Old access group ID.
@@ -79,10 +87,20 @@ module Seam
         attr_accessor :user_id
       end
 
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
       resource_accessor :access_schedule, AccessSchedule
       resource_accessor :salto_ks_metadata, SaltoKsMetadata
       resource_accessor :salto_space_metadata, SaltoSpaceMetadata
+      resource_list_accessor :errors, Errors
       resource_list_accessor :pending_mutations, PendingMutations
+      resource_list_accessor :warnings, Warnings
       # ID of the [access system](https://docs.seam.co/low-level-apis/access-systems) that contains the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
       attr_accessor :acs_system_id
       # ID of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
@@ -122,9 +140,6 @@ module Seam
 
       # Date and time at which the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was created.
       date_accessor :created_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

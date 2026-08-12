@@ -52,7 +52,14 @@ module Seam
 
       def self.resource_list_accessor(attr, resource_class)
         resource_list_accessors[attr.to_s] = resource_class
-        attr_accessor attr
+        attr_writer attr
+
+        # A list the response omits, sends as null, or sends as some other type
+        # reads as empty rather than nil, so callers can always iterate.
+        define_method(attr) do
+          value = instance_variable_get(:"@#{attr}")
+          value.is_a?(Array) ? value : []
+        end
       end
 
       def self.resource_accessors
