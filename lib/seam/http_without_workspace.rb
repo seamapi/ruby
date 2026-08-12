@@ -47,7 +47,6 @@ module Seam
           faraday_retry_options: faraday_retry_options
         )
       end
-
     end
 
     class WorkspacesProxy
