@@ -2,28 +2,28 @@
 
 module Seam
   module Resources
-    class SpaceCustomerData < BaseResource
-      # Postal address for the space.
-      attr_accessor :address
-      # Default check-in time for reservations at the space, as HH:mm or HH:mm:ss.
-      attr_accessor :default_checkin_time
-      # Default check-out time for reservations at the space, as HH:mm or HH:mm:ss.
-      attr_accessor :default_checkout_time
-      # IANA time zone for the space, e.g. America/Los_Angeles.
-      attr_accessor :time_zone
-    end
-
-    class SpaceGeolocation < BaseResource
-      # Latitude of the space, in decimal degrees.
-      attr_accessor :latitude
-      # Longitude of the space, in decimal degrees.
-      attr_accessor :longitude
-    end
-
     # Represents a space that is a logical grouping of devices and entrances. You can assign access to an entire space, thereby making granting access more efficient.
     class Space < BaseResource
-      resource_accessor :customer_data, SpaceCustomerData
-      resource_accessor :geolocation, SpaceGeolocation
+      class CustomerData < BaseResource
+        # Postal address for the space.
+        attr_accessor :address
+        # Default check-in time for reservations at the space, as HH:mm or HH:mm:ss.
+        attr_accessor :default_checkin_time
+        # Default check-out time for reservations at the space, as HH:mm or HH:mm:ss.
+        attr_accessor :default_checkout_time
+        # IANA time zone for the space, e.g. America/Los_Angeles.
+        attr_accessor :time_zone
+      end
+
+      class Geolocation < BaseResource
+        # Latitude of the space, in decimal degrees.
+        attr_accessor :latitude
+        # Longitude of the space, in decimal degrees.
+        attr_accessor :longitude
+      end
+
+      resource_accessor :customer_data, CustomerData
+      resource_accessor :geolocation, Geolocation
       # Number of entrances in the space.
       attr_accessor :acs_entrance_count
       # Customer key associated with the space.

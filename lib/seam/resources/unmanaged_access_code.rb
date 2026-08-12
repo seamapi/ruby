@@ -2,25 +2,6 @@
 
 module Seam
   module Resources
-    class UnmanagedAccessCodeDormakabaOracodeMetadata < BaseResource
-      # Indicates whether the stay can be cancelled via the Dormakaba Oracode API.
-      attr_accessor :is_cancellable
-      # Indicates whether early check-in is available for this stay.
-      attr_accessor :is_early_checkin_able
-      # Indicates whether the stay can be extended via the Dormakaba Oracode API.
-      attr_accessor :is_extendable
-      # Indicates whether the access code can be overridden. When false, the maximum number of overrides has been reached.
-      attr_accessor :is_overridable
-      # Dormakaba Oracode site name associated with this access code.
-      attr_accessor :site_name
-      # Dormakaba Oracode stay ID associated with this access code.
-      attr_accessor :stay_id
-      # Dormakaba Oracode user level ID associated with this access code.
-      attr_accessor :user_level_id
-      # Dormakaba Oracode user level name associated with this access code.
-      attr_accessor :user_level_name
-    end
-
     # Represents an [unmanaged smart lock access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes).
     #
     # An access code is a code used for a keypad or pinpad device. Unlike physical keys, which can easily be lost or duplicated, PIN codes can be customized, tracked, and altered on the fly.
@@ -33,7 +14,26 @@ module Seam
     #
     # - [Kwikset](https://docs.seam.co/device-and-system-integration-guides/kwikset-locks)
     class UnmanagedAccessCode < BaseResource
-      resource_accessor :dormakaba_oracode_metadata, UnmanagedAccessCodeDormakabaOracodeMetadata
+      class DormakabaOracodeMetadata < BaseResource
+        # Indicates whether the stay can be cancelled via the Dormakaba Oracode API.
+        attr_accessor :is_cancellable
+        # Indicates whether early check-in is available for this stay.
+        attr_accessor :is_early_checkin_able
+        # Indicates whether the stay can be extended via the Dormakaba Oracode API.
+        attr_accessor :is_extendable
+        # Indicates whether the access code can be overridden. When false, the maximum number of overrides has been reached.
+        attr_accessor :is_overridable
+        # Dormakaba Oracode site name associated with this access code.
+        attr_accessor :site_name
+        # Dormakaba Oracode stay ID associated with this access code.
+        attr_accessor :stay_id
+        # Dormakaba Oracode user level ID associated with this access code.
+        attr_accessor :user_level_id
+        # Dormakaba Oracode user level name associated with this access code.
+        attr_accessor :user_level_name
+      end
+
+      resource_accessor :dormakaba_oracode_metadata, DormakabaOracodeMetadata
       # Unique identifier for the access code.
       attr_accessor :access_code_id
       # Indicates that Seam cannot convert this unmanaged access code to a managed access code. Some providers do not support management of unmanaged access codes through API integrations.

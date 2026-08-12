@@ -2,32 +2,32 @@
 
 module Seam
   module Resources
-    class PhoneEndpoints < BaseResource
-      # ID of the associated endpoint.
-      attr_accessor :endpoint_id
-      # Indicated whether the endpoint is active.
-      attr_accessor :is_active
-    end
-
-    class PhoneAssaAbloyCredentialServiceMetadata < BaseResource
-      # Indicates whether the credential service has active endpoints associated with the phone.
-      attr_accessor :has_active_endpoint
-      resource_list_accessor :endpoints, PhoneEndpoints
-    end
-
-    class PhoneSaltoSpaceCredentialServiceMetadata < BaseResource
-      # Indicates whether the credential service has an active associated phone.
-      attr_accessor :has_active_phone
-    end
-
-    class PhoneProperties < BaseResource
-      resource_accessor :assa_abloy_credential_service_metadata, PhoneAssaAbloyCredentialServiceMetadata
-      resource_accessor :salto_space_credential_service_metadata, PhoneSaltoSpaceCredentialServiceMetadata
-    end
-
     # Represents an app user's mobile phone.
     class Phone < BaseResource
-      resource_accessor :properties, PhoneProperties
+      class Properties < BaseResource
+        class AssaAbloyCredentialServiceMetadata < BaseResource
+          class Endpoints < BaseResource
+            # ID of the associated endpoint.
+            attr_accessor :endpoint_id
+            # Indicated whether the endpoint is active.
+            attr_accessor :is_active
+          end
+
+          resource_list_accessor :endpoints, Endpoints
+          # Indicates whether the credential service has active endpoints associated with the phone.
+          attr_accessor :has_active_endpoint
+        end
+
+        class SaltoSpaceCredentialServiceMetadata < BaseResource
+          # Indicates whether the credential service has an active associated phone.
+          attr_accessor :has_active_phone
+        end
+
+        resource_accessor :assa_abloy_credential_service_metadata, AssaAbloyCredentialServiceMetadata
+        resource_accessor :salto_space_credential_service_metadata, SaltoSpaceCredentialServiceMetadata
+      end
+
+      resource_accessor :properties, Properties
       # Optional [custom metadata](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) for the phone.
       attr_accessor :custom_metadata
       # ID of the phone.

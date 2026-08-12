@@ -2,127 +2,127 @@
 
 module Seam
   module Resources
-    class SeamEventAccessCodeErrors < BaseResource
-      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
-      attr_accessor :error_code
-      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Date and time at which Seam created the error.
-      date_accessor :created_at
-    end
-
-    class SeamEventAccessCodeWarnings < BaseResource
-      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
-      attr_accessor :warning_code
-      # Date and time at which Seam created the warning.
-      date_accessor :created_at
-    end
-
-    class SeamEventAcsSystemErrors < BaseResource
-      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
-      attr_accessor :error_code
-      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Date and time at which Seam created the error.
-      date_accessor :created_at
-    end
-
-    class SeamEventAcsSystemWarnings < BaseResource
-      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
-      attr_accessor :warning_code
-      # Date and time at which Seam created the warning.
-      date_accessor :created_at
-    end
-
-    class SeamEventChangedProperties < BaseResource
-      # Previous value of the property, or null if not set.
-      attr_accessor :from
-      # Name of the property that changed (e.g. `code`).
-      attr_accessor :property
-      # New value of the property, or null if cleared.
-      attr_accessor :to
-    end
-
-    class SeamEventConnectedAccountErrors < BaseResource
-      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
-      attr_accessor :error_code
-      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Date and time at which Seam created the error.
-      date_accessor :created_at
-    end
-
-    class SeamEventConnectedAccountWarnings < BaseResource
-      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
-      attr_accessor :warning_code
-      # Date and time at which Seam created the warning.
-      date_accessor :created_at
-    end
-
-    class SeamEventDeviceErrors < BaseResource
-      # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
-      attr_accessor :error_code
-      # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Date and time at which Seam created the error.
-      date_accessor :created_at
-    end
-
-    class SeamEventDeviceWarnings < BaseResource
-      # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
-      attr_accessor :message
-      # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
-      attr_accessor :warning_code
-      # Date and time at which Seam created the warning.
-      date_accessor :created_at
-    end
-
-    class SeamEventFrom < BaseResource
-      # Previous name of the access code.
-      attr_accessor :name
-    end
-
-    class SeamEventReason < BaseResource
-      # Human-readable explanation of why access was denied.
-      attr_accessor :message
-      # Normalized reason a lock denied access. Provider-agnostic; not all providers report every value.
-      attr_accessor :reason_code
-    end
-
-    class SeamEventRequestedMutations < BaseResource
-      # Previous property values before the requested change. Keys depend on the mutation type. Absent for non-property mutations like `deleting`.
-      attr_accessor :from
-      # Code identifying the type of mutation requested, such as `updating_name`, `updating_code`, `updating_time_frame`, or `deleting`.
-      attr_accessor :mutation_code
-      # New property values after the requested change. Keys depend on the mutation type. Absent for non-property mutations like `deleting`.
-      attr_accessor :to
-    end
-
-    class SeamEventTo < BaseResource
-      # New name of the access code.
-      attr_accessor :name
-    end
-
     class SeamEvent < BaseResource
-      resource_accessor :from, SeamEventFrom
-      resource_accessor :reason, SeamEventReason
-      resource_accessor :to, SeamEventTo
-      resource_list_accessor :access_code_errors, SeamEventAccessCodeErrors
-      resource_list_accessor :access_code_warnings, SeamEventAccessCodeWarnings
-      resource_list_accessor :acs_system_errors, SeamEventAcsSystemErrors
-      resource_list_accessor :acs_system_warnings, SeamEventAcsSystemWarnings
-      resource_list_accessor :changed_properties, SeamEventChangedProperties
-      resource_list_accessor :connected_account_errors, SeamEventConnectedAccountErrors
-      resource_list_accessor :connected_account_warnings, SeamEventConnectedAccountWarnings
-      resource_list_accessor :device_errors, SeamEventDeviceErrors
-      resource_list_accessor :device_warnings, SeamEventDeviceWarnings
-      resource_list_accessor :requested_mutations, SeamEventRequestedMutations
+      class AccessCodeErrors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class AccessCodeWarnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      class AcsSystemErrors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class AcsSystemWarnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      class ChangedProperties < BaseResource
+        # Previous value of the property, or null if not set.
+        attr_accessor :from
+        # Name of the property that changed (e.g. `code`).
+        attr_accessor :property
+        # New value of the property, or null if cleared.
+        attr_accessor :to
+      end
+
+      class ConnectedAccountErrors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class ConnectedAccountWarnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      class DeviceErrors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class DeviceWarnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      class From < BaseResource
+        # Previous name of the access code.
+        attr_accessor :name
+      end
+
+      class Reason < BaseResource
+        # Human-readable explanation of why access was denied.
+        attr_accessor :message
+        # Normalized reason a lock denied access. Provider-agnostic; not all providers report every value.
+        attr_accessor :reason_code
+      end
+
+      class RequestedMutations < BaseResource
+        # Previous property values before the requested change. Keys depend on the mutation type. Absent for non-property mutations like `deleting`.
+        attr_accessor :from
+        # Code identifying the type of mutation requested, such as `updating_name`, `updating_code`, `updating_time_frame`, or `deleting`.
+        attr_accessor :mutation_code
+        # New property values after the requested change. Keys depend on the mutation type. Absent for non-property mutations like `deleting`.
+        attr_accessor :to
+      end
+
+      class To < BaseResource
+        # New name of the access code.
+        attr_accessor :name
+      end
+
+      resource_accessor :from, From
+      resource_accessor :reason, Reason
+      resource_accessor :to, To
+      resource_list_accessor :access_code_errors, AccessCodeErrors
+      resource_list_accessor :access_code_warnings, AccessCodeWarnings
+      resource_list_accessor :acs_system_errors, AcsSystemErrors
+      resource_list_accessor :acs_system_warnings, AcsSystemWarnings
+      resource_list_accessor :changed_properties, ChangedProperties
+      resource_list_accessor :connected_account_errors, ConnectedAccountErrors
+      resource_list_accessor :connected_account_warnings, ConnectedAccountWarnings
+      resource_list_accessor :device_errors, DeviceErrors
+      resource_list_accessor :device_warnings, DeviceWarnings
+      resource_list_accessor :requested_mutations, RequestedMutations
       # ID of the affected access code.
       attr_accessor :access_code_id
       # Whether the access code is managed by Seam (true) or unmanaged (false). Only present when access_code_id is set.

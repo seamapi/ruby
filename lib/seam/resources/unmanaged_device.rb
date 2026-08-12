@@ -2,65 +2,79 @@
 
 module Seam
   module Resources
-    class UnmanagedDeviceLocation < BaseResource
-      # Name of the device location.
-      attr_accessor :location_name
-      # Time zone of the device location.
-      attr_accessor :time_zone
-      # Time zone of the device location.
-      attr_accessor :timezone
-    end
-
-    class UnmanagedDeviceBattery < BaseResource
-      attr_accessor :level
-    end
-
-    class UnmanagedDeviceAccessoryKeypad < BaseResource
-      # Indicates if an accessory keypad is connected to the device.
-      attr_accessor :is_connected
-      resource_accessor :battery, UnmanagedDeviceBattery
-    end
-
-    class UnmanagedDeviceModel < BaseResource
-      attr_accessor :accessory_keypad_supported
-      # Indicates whether the device can connect a accessory keypad.
-      attr_accessor :can_connect_accessory_keypad
-      # Display name of the device model.
-      attr_accessor :display_name
-      # Indicates whether the device has a built in accessory keypad.
-      attr_accessor :has_built_in_keypad
-      # Display name that corresponds to the manufacturer-specific terminology for the device.
-      attr_accessor :manufacturer_display_name
-      attr_accessor :offline_access_codes_supported
-      attr_accessor :online_access_codes_supported
-    end
-
-    class UnmanagedDeviceProperties < BaseResource
-      # Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.
-      attr_accessor :battery_level
-      # Alt text for the device image.
-      attr_accessor :image_alt_text
-      # Image URL for the device.
-      attr_accessor :image_url
-      # Manufacturer of the device. When a device, such as a smart lock, is connected through a smart hub, the manufacturer of the device might be different from that of the smart hub.
-      attr_accessor :manufacturer
-      # Name of the device.
-      attr_accessor :name
-      # Indicates whether it is currently possible to use offline access codes for the device.
-      attr_accessor :offline_access_codes_enabled
-      # Indicates whether the device is online.
-      attr_accessor :online
-      # Indicates whether it is currently possible to use online access codes for the device.
-      attr_accessor :online_access_codes_enabled
-      resource_accessor :accessory_keypad, UnmanagedDeviceAccessoryKeypad
-      resource_accessor :battery, UnmanagedDeviceBattery
-      resource_accessor :model, UnmanagedDeviceModel
-    end
-
     # Represents an [unmanaged device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices). An unmanaged device has a limited set of visible properties and a subset of supported events. You cannot control an unmanaged device. Any [access codes](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) on an unmanaged device are unmanaged. To control an unmanaged device with Seam, [convert it to a managed device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices#convert-an-unmanaged-device-to-managed).
     class UnmanagedDevice < BaseResource
-      resource_accessor :location, UnmanagedDeviceLocation
-      resource_accessor :properties, UnmanagedDeviceProperties
+      class Location < BaseResource
+        # Name of the device location.
+        attr_accessor :location_name
+        # Time zone of the device location.
+        attr_accessor :time_zone
+        # Time zone of the device location.
+        # @deprecated Use `time_zone` instead.
+        attr_accessor :timezone
+      end
+
+      class Properties < BaseResource
+        class AccessoryKeypad < BaseResource
+          class Battery < BaseResource
+            attr_accessor :level
+          end
+
+          resource_accessor :battery, Battery
+          # Indicates if an accessory keypad is connected to the device.
+          attr_accessor :is_connected
+        end
+
+        class Battery < BaseResource
+          # Battery charge level as a value between 0 and 1, inclusive.
+          attr_accessor :level
+          # Represents the current status of the battery charge level. Values are `critical`, which indicates an extremely low level, suggesting imminent shutdown or an urgent need for charging; `low`, which signifies that the battery is under the preferred threshold and should be charged soon; `good`, which denotes a satisfactory charge level, adequate for normal use without the immediate need for recharging; and `full`, which represents a battery that is fully charged, providing the maximum duration of usage.
+          attr_accessor :status
+        end
+
+        class Model < BaseResource
+          # @deprecated use device.properties.model.can_connect_accessory_keypad
+          attr_accessor :accessory_keypad_supported
+          # Indicates whether the device can connect a accessory keypad.
+          attr_accessor :can_connect_accessory_keypad
+          # Display name of the device model.
+          attr_accessor :display_name
+          # Indicates whether the device has a built in accessory keypad.
+          attr_accessor :has_built_in_keypad
+          # Display name that corresponds to the manufacturer-specific terminology for the device.
+          attr_accessor :manufacturer_display_name
+          # @deprecated use device.can_program_offline_access_codes.
+          attr_accessor :offline_access_codes_supported
+          # @deprecated use device.can_program_online_access_codes.
+          attr_accessor :online_access_codes_supported
+        end
+
+        resource_accessor :accessory_keypad, AccessoryKeypad
+        resource_accessor :battery, Battery
+        resource_accessor :model, Model
+        # Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.
+        attr_accessor :battery_level
+        # Alt text for the device image.
+        attr_accessor :image_alt_text
+        # Image URL for the device.
+        attr_accessor :image_url
+        # Manufacturer of the device. When a device, such as a smart lock, is connected through a smart hub, the manufacturer of the device might be different from that of the smart hub.
+        attr_accessor :manufacturer
+        # Name of the device.
+        # @deprecated use device.display_name instead
+        attr_accessor :name
+        # Indicates whether it is currently possible to use offline access codes for the device.
+        # @deprecated use device.can_program_offline_access_codes
+        attr_accessor :offline_access_codes_enabled
+        # Indicates whether the device is online.
+        attr_accessor :online
+        # Indicates whether it is currently possible to use online access codes for the device.
+        # @deprecated use device.can_program_online_access_codes
+        attr_accessor :online_access_codes_enabled
+      end
+
+      resource_accessor :location, Location
+      resource_accessor :properties, Properties
       # Indicates whether the lock supports configuring automatic locking.
       attr_accessor :can_configure_auto_lock
       # Indicates whether the thermostat supports cooling.

@@ -2,48 +2,6 @@
 
 module Seam
   module Resources
-    class AccessCodeDormakabaOracodeMetadata < BaseResource
-      # Indicates whether the stay can be cancelled via the Dormakaba Oracode API.
-      attr_accessor :is_cancellable
-      # Indicates whether early check-in is available for this stay.
-      attr_accessor :is_early_checkin_able
-      # Indicates whether the stay can be extended via the Dormakaba Oracode API.
-      attr_accessor :is_extendable
-      # Indicates whether the access code can be overridden. When false, the maximum number of overrides has been reached.
-      attr_accessor :is_overridable
-      # Dormakaba Oracode site name associated with this access code.
-      attr_accessor :site_name
-      # Dormakaba Oracode stay ID associated with this access code.
-      attr_accessor :stay_id
-      # Dormakaba Oracode user level ID associated with this access code.
-      attr_accessor :user_level_id
-      # Dormakaba Oracode user level name associated with this access code.
-      attr_accessor :user_level_name
-    end
-
-    class AccessCodeFrom < BaseResource
-      # Previous PIN code.
-      attr_accessor :code
-    end
-
-    class AccessCodeTo < BaseResource
-      # New PIN code.
-      attr_accessor :code
-    end
-
-    class AccessCodePendingMutations < BaseResource
-      # Detailed description of the mutation.
-      attr_accessor :message
-      # Mutation code to indicate that Seam is in the process of setting an access code on the device.
-      attr_accessor :mutation_code
-      # Date and time at which the mutation was created.
-      date_accessor :created_at
-      # Date and time at which Seam will attempt to program this access code on the device.
-      date_accessor :scheduled_at
-      resource_accessor :from, AccessCodeFrom
-      resource_accessor :to, AccessCodeTo
-    end
-
     # Represents a smart lock [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes).
     #
     # An access code is a code used for a keypad or pinpad device. Unlike physical keys, which can easily be lost or duplicated, PIN codes can be customized, tracked, and altered on the fly. Using the Seam Access Code API, you can easily generate access codes on the hundreds of door lock models with which we integrate.
@@ -54,8 +12,50 @@ module Seam
     #
     # For granting a person access to a space, [Access Grants](https://docs.seam.co/use-cases/granting-access) are the default and recommended approach and work across both standalone smart locks and access systems. Use the lower-level Access Codes API directly only when you specifically need to manage individual PIN codes.
     class AccessCode < BaseResource
-      resource_accessor :dormakaba_oracode_metadata, AccessCodeDormakabaOracodeMetadata
-      resource_list_accessor :pending_mutations, AccessCodePendingMutations
+      class DormakabaOracodeMetadata < BaseResource
+        # Indicates whether the stay can be cancelled via the Dormakaba Oracode API.
+        attr_accessor :is_cancellable
+        # Indicates whether early check-in is available for this stay.
+        attr_accessor :is_early_checkin_able
+        # Indicates whether the stay can be extended via the Dormakaba Oracode API.
+        attr_accessor :is_extendable
+        # Indicates whether the access code can be overridden. When false, the maximum number of overrides has been reached.
+        attr_accessor :is_overridable
+        # Dormakaba Oracode site name associated with this access code.
+        attr_accessor :site_name
+        # Dormakaba Oracode stay ID associated with this access code.
+        attr_accessor :stay_id
+        # Dormakaba Oracode user level ID associated with this access code.
+        attr_accessor :user_level_id
+        # Dormakaba Oracode user level name associated with this access code.
+        attr_accessor :user_level_name
+      end
+
+      class PendingMutations < BaseResource
+        class From < BaseResource
+          # Previous PIN code.
+          attr_accessor :code
+        end
+
+        class To < BaseResource
+          # New PIN code.
+          attr_accessor :code
+        end
+
+        resource_accessor :from, From
+        resource_accessor :to, To
+        # Detailed description of the mutation.
+        attr_accessor :message
+        # Mutation code to indicate that Seam is in the process of setting an access code on the device.
+        attr_accessor :mutation_code
+        # Date and time at which the mutation was created.
+        date_accessor :created_at
+        # Date and time at which Seam will attempt to program this access code on the device.
+        date_accessor :scheduled_at
+      end
+
+      resource_accessor :dormakaba_oracode_metadata, DormakabaOracodeMetadata
+      resource_list_accessor :pending_mutations, PendingMutations
       # Unique identifier for the access code.
       attr_accessor :access_code_id
       # Code used for access. Typically, a numeric or alphanumeric string.

@@ -2,22 +2,22 @@
 
 module Seam
   module Resources
-    class ConnectedAccountUserIdentifier < BaseResource
-      # API URL for the user identifier associated with the connected account.
-      attr_accessor :api_url
-      # Email address of the user identifier associated with the connected account.
-      attr_accessor :email
-      # Indicates whether the user identifier associated with the connected account is exclusive.
-      attr_accessor :exclusive
-      # Phone number of the user identifier associated with the connected account.
-      attr_accessor :phone
-      # Username of the user identifier associated with the connected account.
-      attr_accessor :username
-    end
-
     # Represents a [connected account](https://docs.seam.co/core-concepts/connected-accounts). A connected account is an external third-party account to which your user has authorized Seam to get access, for example, an August account with a list of door locks.
     class ConnectedAccount < BaseResource
-      resource_accessor :user_identifier, ConnectedAccountUserIdentifier
+      class UserIdentifier < BaseResource
+        # API URL for the user identifier associated with the connected account.
+        attr_accessor :api_url
+        # Email address of the user identifier associated with the connected account.
+        attr_accessor :email
+        # Indicates whether the user identifier associated with the connected account is exclusive.
+        attr_accessor :exclusive
+        # Phone number of the user identifier associated with the connected account.
+        attr_accessor :phone
+        # Username of the user identifier associated with the connected account.
+        attr_accessor :username
+      end
+
+      resource_accessor :user_identifier, UserIdentifier
       # List of capabilities that were accepted during the account connection process.
       attr_accessor :accepted_capabilities
       # Type of connected account.

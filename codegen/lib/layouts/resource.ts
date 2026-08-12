@@ -9,12 +9,16 @@ import { mergeProperties } from '../merge-properties.js'
 
 type ResourceAccessor = Property & Documented & { className: string }
 
-interface NestedClass {
+export interface ResourceClass {
   className: string
+  indent: string
+  bodyIndent: string
+  docIndent: number
   accessors: Array<Property & Documented>
   dateAccessors: Array<Property & Documented>
   resourceAccessors: ResourceAccessor[]
   resourceListAccessors: ResourceAccessor[]
+  nestedClasses: ResourceClass[]
 }
 
 export interface ResourceLayoutContext {
@@ -25,7 +29,7 @@ export interface ResourceLayoutContext {
   hasSupportModules: boolean
   includeErrorsSupport: boolean
   includeWarningsSupport: boolean
-  nestedClasses: NestedClass[]
+  nestedClasses: ResourceClass[]
   resourceAccessors: ResourceAccessor[]
   resourceListAccessors: ResourceAccessor[]
 }
@@ -34,6 +38,110 @@ interface Documented {
   description: string
   isDeprecated: boolean
   deprecationMessage: string
+}
+
+// Resource classes open inside `module Seam; module Resources`.
+const rootIndentation = 4
+
+// Nested classes are named after their property, so an unusually deep shape is
+// far more likely to be an accidental cycle than a real schema.
+const maxNestingDepth = 16
+
+// Constants a nested class must not shadow, since generated code resolves them
+// from the enclosing lexical scope.
+const reservedClassNames = new Set(['BaseResource', 'Resources', 'Seam'])
+
+const getNestedProperties = (property: Property): Property[] | undefined => {
+  if (property.format === 'object') return property.properties
+  if (property.format === 'list' && property.itemFormat === 'object') {
+    return property.itemProperties
+  }
+  if (
+    property.format === 'list' &&
+    property.itemFormat === 'discriminated_object'
+  ) {
+    return mergeProperties(
+      property.variants.map((variant) => variant.properties),
+    )
+  }
+  return undefined
+}
+
+const buildClass = (
+  className: string,
+  classProperties: Property[],
+  path: string,
+  indentation: number,
+): ResourceClass => {
+  if (indentation > rootIndentation + 2 * maxNestingDepth) {
+    throw new Error(
+      `Nested resource classes exceeded a depth of ${maxNestingDepth} at ${path}. This usually means the schema is cyclic.`,
+    )
+  }
+
+  const nestedClasses: ResourceClass[] = []
+  const resourceAccessors: ResourceAccessor[] = []
+  const resourceListAccessors: ResourceAccessor[] = []
+  const takenClassNames = new Set<string>()
+
+  for (const property of classProperties) {
+    // Errors and warnings are provided by the resource support modules.
+    if (property.name === 'errors' || property.name === 'warnings') continue
+
+    const nestedProperties = getNestedProperties(property)
+    if (nestedProperties == null) continue
+
+    // Each class scopes its own nested classes, so the property name alone
+    // names them unambiguously.
+    const nestedClassName = pascalCase(property.name)
+    const nestedPath = `${path}.${property.name}`
+
+    if (reservedClassNames.has(nestedClassName)) {
+      throw new Error(
+        `The ${nestedPath} property would generate a nested class named ${nestedClassName}, which shadows a constant the generated code depends on.`,
+      )
+    }
+
+    if (takenClassNames.has(nestedClassName)) {
+      throw new Error(
+        `The ${nestedPath} property would generate a second nested class named ${nestedClassName} inside ${className}.`,
+      )
+    }
+    takenClassNames.add(nestedClassName)
+
+    const destination =
+      property.format === 'list' ? resourceListAccessors : resourceAccessors
+    destination.push({ ...property, className: nestedClassName })
+    nestedClasses.push(
+      buildClass(
+        nestedClassName,
+        nestedProperties,
+        nestedPath,
+        indentation + 2,
+      ),
+    )
+  }
+
+  const typedNames = new Set(
+    [...resourceAccessors, ...resourceListAccessors].map(({ name }) => name),
+  )
+
+  return {
+    className,
+    indent: ' '.repeat(indentation),
+    bodyIndent: ' '.repeat(indentation + 2),
+    docIndent: indentation + 2,
+    accessors: classProperties.filter(
+      (property) =>
+        property.format !== 'datetime' && !typedNames.has(property.name),
+    ),
+    dateAccessors: classProperties.filter(
+      (property) => property.format === 'datetime',
+    ),
+    resourceAccessors,
+    resourceListAccessors,
+    nestedClasses,
+  }
 }
 
 export const setResourceLayoutContext = (
@@ -45,104 +153,30 @@ export const setResourceLayoutContext = (
     deprecationMessage: string
   },
 ): ResourceLayoutContext => {
-  const attrs = properties
-    .filter((property) => property.format !== 'datetime')
-    .map((property) => property.name)
-  const dateAttrs = properties
-    .filter((property) => property.format === 'datetime')
-    .map((property) => property.name)
-  const noErrorWarningAttrs = attrs.filter(
-    (attr) => attr !== 'errors' && attr !== 'warnings',
-  )
-
+  const attrs = properties.map((property) => property.name)
   const includeErrorsSupport = attrs.includes('errors')
   const includeWarningsSupport = attrs.includes('warnings')
 
-  const rootClassName = pascalCase(convertCustomResourceName(snakeName))
-  const nestedClasses = new Map<string, NestedClass>()
-
-  const buildClass = (
-    className: string,
-    classProperties: Property[],
-  ): NestedClass => {
-    const resourceAccessors: ResourceAccessor[] = []
-    const resourceListAccessors: ResourceAccessor[] = []
-
-    for (const property of classProperties) {
-      if (property.name === 'errors' || property.name === 'warnings') continue
-
-      let nestedProperties: Property[] | undefined
-      let destination = resourceAccessors
-      if (property.format === 'object') {
-        nestedProperties = property.properties
-      } else if (
-        property.format === 'list' &&
-        property.itemFormat === 'object'
-      ) {
-        nestedProperties = property.itemProperties
-        destination = resourceListAccessors
-      } else if (
-        property.format === 'list' &&
-        property.itemFormat === 'discriminated_object'
-      ) {
-        nestedProperties = mergeProperties(
-          property.variants.map((variant) => variant.properties),
-        )
-        destination = resourceListAccessors
-      }
-
-      if (nestedProperties == null) continue
-      const nestedClassName = `${rootClassName}${pascalCase(property.name)}`
-      destination.push({ ...property, className: nestedClassName })
-      if (!nestedClasses.has(nestedClassName)) {
-        const nestedClass = buildClass(nestedClassName, nestedProperties)
-        nestedClasses.set(nestedClassName, nestedClass)
-      }
-    }
-
-    const typedNames = new Set(
-      [...resourceAccessors, ...resourceListAccessors].map(({ name }) => name),
-    )
-    return {
-      className,
-      accessors: classProperties.filter(
-        (property) =>
-          property.format !== 'datetime' && !typedNames.has(property.name),
-      ),
-      dateAccessors: classProperties.filter(
-        (property) => property.format === 'datetime',
-      ),
-      resourceAccessors,
-      resourceListAccessors,
-    }
-  }
-
-  const parentClass = buildClass(rootClassName, properties)
-  const parentTypedNames = new Set(
-    [
-      ...parentClass.resourceAccessors,
-      ...parentClass.resourceListAccessors,
-    ].map(({ name }) => name),
+  const className = pascalCase(convertCustomResourceName(snakeName))
+  const rootClass = buildClass(
+    className,
+    properties,
+    snakeName,
+    rootIndentation,
   )
 
   return {
-    className: rootClassName,
+    className,
     resource,
-    accessors: properties
-      .filter(
-        (property) =>
-          noErrorWarningAttrs.includes(property.name) &&
-          !parentTypedNames.has(property.name),
-      )
-      .map((property) => property),
-    dateAccessors: properties
-      .filter((property) => dateAttrs.includes(property.name))
-      .map((property) => property),
+    accessors: rootClass.accessors.filter(
+      (property) => property.name !== 'errors' && property.name !== 'warnings',
+    ),
+    dateAccessors: rootClass.dateAccessors,
     hasSupportModules: includeErrorsSupport || includeWarningsSupport,
     includeErrorsSupport,
     includeWarningsSupport,
-    nestedClasses: [...nestedClasses.values()],
-    resourceAccessors: parentClass.resourceAccessors,
-    resourceListAccessors: parentClass.resourceListAccessors,
+    nestedClasses: rootClass.nestedClasses,
+    resourceAccessors: rootClass.resourceAccessors,
+    resourceListAccessors: rootClass.resourceListAccessors,
   }
 }

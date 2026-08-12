@@ -1,0 +1,30 @@
+{{indent}}class {{className}} < BaseResource
+{{#each nestedClasses}}
+{{> resource-class}}
+{{/each}}
+{{#each resourceAccessors}}
+{{../bodyIndent}}resource_accessor :{{name}}, {{className}}
+{{/each}}
+{{#each resourceListAccessors}}
+{{../bodyIndent}}resource_list_accessor :{{name}}, {{className}}
+{{/each}}
+{{#each accessors}}
+{{#if description}}
+{{{rubyDoc description ../docIndent}}}
+{{/if}}
+{{#if isDeprecated}}
+{{{rubyDeprecatedDoc this ../docIndent}}}
+{{/if}}
+{{../bodyIndent}}attr_accessor :{{name}}
+{{/each}}
+{{#each dateAccessors}}
+{{#if description}}
+{{{rubyDoc description ../docIndent}}}
+{{/if}}
+{{#if isDeprecated}}
+{{{rubyDeprecatedDoc this ../docIndent}}}
+{{/if}}
+{{../bodyIndent}}date_accessor :{{name}}
+{{/each}}
+{{indent}}end
+

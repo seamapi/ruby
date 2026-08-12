@@ -2,28 +2,28 @@
 
 module Seam
   module Resources
-    class AcsSystemLocation < BaseResource
-      # Time zone in which the [access control system](https://docs.seam.co/low-level-apis/access-systems) is located.
-      attr_accessor :time_zone
-    end
-
-    class AcsSystemVisionlineMetadata < BaseResource
-      # IP address or hostname of the main Visionline server relative to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge) on the local network.
-      attr_accessor :lan_address
-      # Keyset loaded into a reader. Mobile keys and reader administration tools securely authenticate only with readers programmed with a matching keyset.
-      attr_accessor :mobile_access_uuid
-      # Unique ID assigned by the ASSA ABLOY licensing team that identifies each hotel in your credential manager.
-      attr_accessor :system_id
-    end
-
     # Represents an [access control system](https://docs.seam.co/low-level-apis/access-systems).
     #
     # Within an `acs_system`, create [`acs_user`s](https://docs.seam.co/api/acs/users/object) and [`acs_credential`s](https://docs.seam.co/api/acs/credentials/object) to grant access to the `acs_user`s.
     #
     # For details about the resources associated with an access control system, see the [access control systems namespace](https://docs.seam.co/api/acs).
     class AcsSystem < BaseResource
-      resource_accessor :location, AcsSystemLocation
-      resource_accessor :visionline_metadata, AcsSystemVisionlineMetadata
+      class Location < BaseResource
+        # Time zone in which the [access control system](https://docs.seam.co/low-level-apis/access-systems) is located.
+        attr_accessor :time_zone
+      end
+
+      class VisionlineMetadata < BaseResource
+        # IP address or hostname of the main Visionline server relative to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge) on the local network.
+        attr_accessor :lan_address
+        # Keyset loaded into a reader. Mobile keys and reader administration tools securely authenticate only with readers programmed with a matching keyset.
+        attr_accessor :mobile_access_uuid
+        # Unique ID assigned by the ASSA ABLOY licensing team that identifies each hotel in your credential manager.
+        attr_accessor :system_id
+      end
+
+      resource_accessor :location, Location
+      resource_accessor :visionline_metadata, VisionlineMetadata
       # Number of access groups in the [access control system](https://docs.seam.co/low-level-apis/access-systems).
       attr_accessor :acs_access_group_count
       # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems).
