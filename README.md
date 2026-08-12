@@ -32,7 +32,8 @@ accurate and fully typed.
     - [Resume pagination](#resume-pagination)
     - [Iterate over all resources](#iterate-over-all-resources)
     - [Return all resources across all pages as a list](#return-all-resources-across-all-pages-as-a-list)
-  - [Interacting with Multiple Workspaces](#interacting-with-multiple-workspaces)
+  - [Requests without a Workspace in scope](#requests-without-a-workspace-in-scope)
+    - [Personal Access Token](#personal-access-token-1)
   - [Webhooks](#webhooks)
   - [Advanced Usage](#advanced-usage)
     - [Additional Options](#additional-options)
@@ -314,18 +315,27 @@ paginator = seam.create_paginator(seam.devices.method(:list), {limit: 20})
 all_devices = paginator.flatten_to_list
 ```
 
-### Interacting with Multiple Workspaces
+### Requests without a Workspace in scope
 
-Some Seam API endpoints interact with multiple workspaces. The `Seam::Http::SeamMultiWorkspace` client is not bound to a specific workspace and may use those endpoints with a personal access token authentication method.
+Some Seam API endpoints do not require a workspace in scope.
+The `Seam::Http::WithoutWorkspace` client is not bound to a specific workspace
+and may use those endpoints with a personal access token authentication method.
 
-A Personal Access Token is scoped to a Seam Console user. Obtain one from the Seam Console.
+#### Personal Access Token
+
+A Personal Access Token is scoped to a Seam Console user.
+Obtain one from the Seam Console.
 
 ```ruby
-# Pass as an option to the constructor
-seam = Seam::Http::SeamMultiWorkspace.new(personal_access_token: "your-personal-access-token")
+# Pass as a keyword argument to the constructor
+seam = Seam::Http::WithoutWorkspace.new(
+  personal_access_token: "your-personal-access-token"
+)
 
 # Use the factory method
-seam = Seam::Http::SeamMultiWorkspace.from_personal_access_token("your-personal-access-token")
+seam = Seam::Http::WithoutWorkspace.from_personal_access_token(
+  "your-personal-access-token"
+)
 
 # List workspaces authorized for this Personal Access Token
 workspaces = seam.workspaces.list

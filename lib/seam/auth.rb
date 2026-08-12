@@ -86,7 +86,7 @@ module Seam
         }
       end
 
-      def self.get_auth_headers_for_multi_workspace_personal_access_token(personal_access_token)
+      def self.get_auth_headers_for_without_workspace_personal_access_token(personal_access_token)
         if Auth.jwt?(personal_access_token)
           raise SeamInvalidTokenError.new(
             "A JWT cannot be used as a personal_access_token"

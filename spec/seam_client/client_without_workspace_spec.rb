@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Http::MultiWorkspace, :fake do
+RSpec.describe Seam::Http::WithoutWorkspace, :fake do
   describe ".from_personal_access_token" do
     it "returns an instance authorized with the personal access token" do
       seam = described_class.from_personal_access_token(
