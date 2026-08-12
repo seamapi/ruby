@@ -17,21 +17,39 @@ module Seam
 
       class PendingMutations < BaseResource
         class From < BaseResource
+          # Old access group ID.
+          attr_accessor :acs_access_group_id
+          # Previous credential ID.
+          attr_accessor :acs_credential_id
           # Email address of the access system user.
           attr_accessor :email_address
           # Full name of the access system user.
           attr_accessor :full_name
+          attr_accessor :is_suspended
           # Phone number of the access system user.
           attr_accessor :phone_number
+          # Starting time for the access schedule.
+          date_accessor :ends_at
+          # Starting time for the access schedule.
+          date_accessor :starts_at
         end
 
         class To < BaseResource
+          # New access group ID.
+          attr_accessor :acs_access_group_id
+          # New credential ID.
+          attr_accessor :acs_credential_id
           # Email address of the access system user.
           attr_accessor :email_address
           # Full name of the access system user.
           attr_accessor :full_name
+          attr_accessor :is_suspended
           # Phone number of the access system user.
           attr_accessor :phone_number
+          # Starting time for the access schedule.
+          date_accessor :ends_at
+          # Starting time for the access schedule.
+          date_accessor :starts_at
         end
 
         resource_accessor :from, From

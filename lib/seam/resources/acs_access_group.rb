@@ -17,13 +17,29 @@ module Seam
 
       class PendingMutations < BaseResource
         class From < BaseResource
+          # Old entrance ID.
+          attr_accessor :acs_entrance_id
+          # Old user ID.
+          attr_accessor :acs_user_id
           # Name of the access group.
           attr_accessor :name
+          # Ending time for the access schedule.
+          date_accessor :ends_at
+          # Starting time for the access schedule.
+          date_accessor :starts_at
         end
 
         class To < BaseResource
+          # New entrance ID.
+          attr_accessor :acs_entrance_id
+          # New user ID.
+          attr_accessor :acs_user_id
           # Name of the access group.
           attr_accessor :name
+          # Ending time for the access schedule.
+          date_accessor :ends_at
+          # Starting time for the access schedule.
+          date_accessor :starts_at
         end
 
         resource_accessor :from, From

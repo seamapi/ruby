@@ -8,11 +8,19 @@ module Seam
         class From < BaseResource
           # Previous device IDs where access was provisioned.
           attr_accessor :device_ids
+          # Previous end time for access.
+          date_accessor :ends_at
+          # Previous start time for access.
+          date_accessor :starts_at
         end
 
         class To < BaseResource
           # New device IDs where access is being provisioned.
           attr_accessor :device_ids
+          # New end time for access.
+          date_accessor :ends_at
+          # New start time for access.
+          date_accessor :starts_at
         end
 
         resource_accessor :from, From

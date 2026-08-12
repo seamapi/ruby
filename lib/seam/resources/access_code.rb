@@ -35,11 +35,23 @@ module Seam
         class From < BaseResource
           # Previous PIN code.
           attr_accessor :code
+          # Previous access code name.
+          attr_accessor :name
+          # Previous end time for the access code.
+          date_accessor :ends_at
+          # Previous start time for the access code.
+          date_accessor :starts_at
         end
 
         class To < BaseResource
           # New PIN code.
           attr_accessor :code
+          # New access code name.
+          attr_accessor :name
+          # New end time for the access code.
+          date_accessor :ends_at
+          # New start time for the access code.
+          date_accessor :starts_at
         end
 
         resource_accessor :from, From
