@@ -2,7 +2,7 @@
 
 require_relative "seam/lts_version"
 require_relative "seam/http"
-require_relative "seam/http_multi_workspace"
+require_relative "seam/http_without_workspace"
 require_relative "seam/webhook"
 require_relative "seam/wait_for_action_attempt"
 
