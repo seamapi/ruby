@@ -6,7 +6,6 @@ module Seam
     class UnmanagedAccessMethod < BaseResource
       class PendingMutations < BaseResource
         class From < BaseResource
-          # Previous device IDs where access was provisioned.
           attr_accessor :device_ids
           # Previous end time for access.
           date_accessor :ends_at
@@ -15,7 +14,6 @@ module Seam
         end
 
         class To < BaseResource
-          # New device IDs where access is being provisioned.
           attr_accessor :device_ids
           # New end time for access.
           date_accessor :ends_at
@@ -27,7 +25,6 @@ module Seam
         resource_accessor :to, To
         # Detailed description of the mutation.
         attr_accessor :message
-        # Mutation code to indicate that Seam is in the process of provisioning access for this access method on new devices.
         attr_accessor :mutation_code
         # Date and time at which the mutation was created.
         date_accessor :created_at

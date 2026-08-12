@@ -7,7 +7,6 @@ module Seam
       class Error < BaseResource
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         attr_accessor :message
-        # Type of the error.
         attr_accessor :type
       end
 
@@ -223,17 +222,14 @@ module Seam
         attr_accessor :card_number
         # Token of the client session associated with the access method.
         attr_accessor :client_session_token
-        # Access (PIN) code for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
         attr_accessor :code
         # ID of the [connected account](https://docs.seam.co/core-concepts/connected-accounts) to which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
         attr_accessor :connected_account_id
         # ID of the customization profile associated with the access method.
         attr_accessor :customization_profile_id
-        # Display name that corresponds to the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
         attr_accessor :display_name
         # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
         attr_accessor :ends_at
-        # Errors associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
         attr_accessor :errors
         # Brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
         attr_accessor :external_type
@@ -245,10 +241,10 @@ module Seam
         attr_accessor :is_assignment_required
         # Indicates whether encoding with an card encoder is required to issue or reissue the plastic card associated with the access method.
         attr_accessor :is_encoding_required
-        # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been encoded onto a card.
         attr_accessor :is_issued
         # Indicates whether the latest state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
         attr_accessor :is_latest_desired_state_synced_with_provider
+        # Indicates whether Seam manages the credential.
         attr_accessor :is_managed
         # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://docs.seam.co/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
         attr_accessor :is_multi_phone_sync_credential
@@ -266,15 +262,10 @@ module Seam
         attr_accessor :starts_at
         # ID of the [user identity](https://docs.seam.co/api/user_identities) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
         attr_accessor :user_identity_id
-        # Warnings related to scanning the credential, such as mismatches between the credential data currently encoded on the card and the corresponding data stored on Seam and the access system.
         attr_accessor :warnings
-        # Indicates whether the device confirmed that the lock action occurred.
         attr_accessor :was_confirmed_by_device
-        # ID of the workspace that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
         attr_accessor :workspace_id
-        # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was created.
         date_accessor :created_at
-        # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was encoded onto a card.
         date_accessor :issued_at
         # Date and time at which the state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
         date_accessor :latest_desired_state_synced_with_provider_at
@@ -284,7 +275,6 @@ module Seam
       resource_accessor :result, Result
       # ID of the action attempt.
       attr_accessor :action_attempt_id
-      # Action attempt to track the status of locking a door.
       attr_accessor :action_type
       attr_accessor :status
     end

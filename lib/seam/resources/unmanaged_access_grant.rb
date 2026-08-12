@@ -31,7 +31,6 @@ module Seam
         attr_accessor :access_method_ids
         # Detailed description of the mutation.
         attr_accessor :message
-        # Mutation code to indicate that Seam is in the process of updating the spaces (devices) associated with this access grant.
         attr_accessor :mutation_code
         # Date and time at which the mutation was created.
         date_accessor :created_at

@@ -48,7 +48,6 @@ module Seam
         attr_accessor :acs_user_id
         # Detailed description of the mutation.
         attr_accessor :message
-        # Mutation code to indicate that Seam is in the process of pushing an access group creation to the integrated access system.
         attr_accessor :mutation_code
         # Whether the user is scheduled to be added to or removed from this access group.
         attr_accessor :variant

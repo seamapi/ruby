@@ -58,7 +58,6 @@ module Seam
         resource_accessor :to, To
         # Detailed description of the mutation.
         attr_accessor :message
-        # Mutation code to indicate that Seam is in the process of setting an access code on the device.
         attr_accessor :mutation_code
         # Date and time at which the mutation was created.
         date_accessor :created_at

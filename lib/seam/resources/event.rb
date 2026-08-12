@@ -135,7 +135,6 @@ module Seam
       resource_list_accessor :device_errors, DeviceErrors
       resource_list_accessor :device_warnings, DeviceWarnings
       resource_list_accessor :requested_mutations, RequestedMutations
-      # ID of the affected access code.
       attr_accessor :access_code_id
       # Whether the access code is managed by Seam (true) or unmanaged (false). Only present when access_code_id is set.
       attr_accessor :access_code_is_managed
@@ -155,15 +154,10 @@ module Seam
       attr_accessor :acs_credential_id
       # ID of the affected encoder.
       attr_accessor :acs_encoder_id
-      # ID of the affected [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
       attr_accessor :acs_entrance_id
-      # IDs of all ACS entrances currently attached to the space.
       attr_accessor :acs_entrance_ids
-      # ID of the access system.
       attr_accessor :acs_system_id
-      # ID of the affected access system user.
       attr_accessor :acs_user_id
-      # ID of the affected action attempt.
       attr_accessor :action_attempt_id
       # Type of the action.
       attr_accessor :action_type
@@ -181,13 +175,9 @@ module Seam
       attr_accessor :client_session_id
       # Key of the climate preset that was activated.
       attr_accessor :climate_preset_key
-      # Code for the affected access code.
       attr_accessor :code
-      # ID of the Connect Webview associated with the event.
       attr_accessor :connect_webview_id
-      # Custom metadata of the connected account, present when connected_account_id is provided.
       attr_accessor :connected_account_custom_metadata
-      # ID of the connected account associated with the affected access code.
       attr_accessor :connected_account_id
       # undocumented: Unreleased.
       attr_accessor :connected_account_type
@@ -195,7 +185,6 @@ module Seam
       attr_accessor :cooling_set_point_celsius
       # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       attr_accessor :cooling_set_point_fahrenheit
-      # The customer key associated with this connected account, if any.
       attr_accessor :customer_key
       # Human-readable description of the change and its source.
       attr_accessor :description
@@ -203,13 +192,9 @@ module Seam
       attr_accessor :desired_temperature_celsius
       # Desired temperature, in °F, defined by the affected thermostat's cooling or heating set point.
       attr_accessor :desired_temperature_fahrenheit
-      # Custom metadata of the device, present when device_id is provided.
       attr_accessor :device_custom_metadata
-      # ID of the device associated with the affected access code.
       attr_accessor :device_id
-      # IDs of all devices currently attached to the space.
       attr_accessor :device_ids
-      # Name of the deleted device, captured at deletion time. The device record no longer exists when this event fires, so the name is preserved here. Null when the device had no resolvable name.
       attr_accessor :device_name
       # The new end time for the access grant.
       attr_accessor :ends_at
@@ -221,6 +206,7 @@ module Seam
       attr_accessor :event_description
       # ID of the event.
       attr_accessor :event_id
+      # Type of the event.
       attr_accessor :event_type
       # Desired [fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
       attr_accessor :fan_mode_setting
@@ -230,21 +216,17 @@ module Seam
       attr_accessor :heating_set_point_fahrenheit
       # Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
       attr_accessor :hvac_mode_setting
-      # URL to a thumbnail image captured at the time of activation.
       attr_accessor :image_url
       # Indicates whether the code is a backup code (only present when mode is 'code' and a backup code was used).
       attr_accessor :is_backup_code
       # Indicates whether the climate preset that was activated is the fallback climate preset for the thermostat.
       attr_accessor :is_fallback_climate_preset
-      # Whether the lock action was performed over Bluetooth by a remote client (such as the provider's mobile app), rather than a direct physical interaction or a Seam-initiated remote action.
       attr_accessor :is_via_bluetooth
-      # Whether the lock action was performed by an NFC credential tap (such as an Apple Home Key or an NFC key fob) presented to the lock, rather than a direct physical interaction or a Seam-initiated remote action.
       attr_accessor :is_via_nfc
       # Lower temperature limit, in °C, defined by the set threshold.
       attr_accessor :lower_limit_celsius
       # Lower temperature limit, in °F, defined by the set threshold.
       attr_accessor :lower_limit_fahrenheit
-      # Method by which the lock was locked. `keycode`: an access code was used (see `access_code_id`). `manual`: a physical action such as a thumbturn or button press. `remote`: a remote action via an app, Bluetooth, or the Seam API (see `action_attempt_id` if Seam-initiated; see `is_via_bluetooth` or `is_via_nfc` for the transport). `automatic`: triggered automatically, for example by an auto-relock timer. `unknown`: could not be determined.
       attr_accessor :method
       # Metadata from Minut.
       attr_accessor :minut_metadata
@@ -280,11 +262,7 @@ module Seam
       attr_accessor :upper_limit_celsius
       # Upper temperature limit, in °F, defined by the set threshold.
       attr_accessor :upper_limit_fahrenheit
-      # undocumented: Unreleased.
-      #       ---
-      #       ID of the user identity associated with the lock event.
       attr_accessor :user_identity_id
-      # URL to a short video clip captured at the time of activation.
       attr_accessor :video_url
       # ID of the workspace associated with the event.
       attr_accessor :workspace_id
