@@ -9,6 +9,15 @@ module Seam
 {{{rubyDeprecatedDoc resource 4}}}
 {{/if}}
     class {{className}} < BaseResource
+{{#each nestedClasses}}
+{{> resource-class}}
+{{/each}}
+{{#each resourceAccessors}}
+      resource_accessor :{{name}}, {{className}}
+{{/each}}
+{{#each resourceListAccessors}}
+      resource_list_accessor :{{name}}, {{className}}
+{{/each}}
 {{#each accessors}}
 {{#if description}}
 {{{rubyDoc description 6}}}
@@ -28,15 +37,6 @@ module Seam
 {{/if}}
       date_accessor :{{name}}
 {{/each}}
-{{#if hasSupportModules}}
-
-{{#if includeErrorsSupport}}
-      include Seam::Resources::ResourceErrorsSupport
-{{/if}}
-{{#if includeWarningsSupport}}
-      include Seam::Resources::ResourceWarningsSupport
-{{/if}}
-{{/if}}
     end
   end
 end

@@ -10,6 +10,60 @@ module Seam
     #
     # For granting a person access to a space, [Access Grants](https://docs.seam.co/use-cases/granting-access) are the default and recommended approach. Use the lower-level ACS credential API directly only when you specifically need to manage individual credentials.
     class AcsCredential < BaseResource
+      class AssaAbloyVostioMetadata < BaseResource
+        # Indicates whether the credential should auto-join. For an auto-join credential, Seam automatically issues an override card if there are no other cards and a joiner card if there are existing cards on the doors.
+        attr_accessor :auto_join
+        # Names of the doors to which to grant access in the Vostio access system.
+        attr_accessor :door_names
+        # Endpoint ID in the Vostio access system.
+        attr_accessor :endpoint_id
+        # Key ID in the Vostio access system.
+        attr_accessor :key_id
+        # Key issuing request ID in the Vostio access system.
+        attr_accessor :key_issuing_request_id
+        # IDs of the guest entrances to override in the Vostio access system.
+        attr_accessor :override_guest_acs_entrance_ids
+      end
+
+      class Errors < BaseResource
+        attr_accessor :error_code
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class VisionlineMetadata < BaseResource
+        # Indicates whether the credential should auto-join. For an auto-join credential, Seam automatically issues an override card if there are no other cards and a joiner card if there are existing cards on the doors.
+        attr_accessor :auto_join
+        # Card function type in the Visionline access system.
+        attr_accessor :card_function_type
+        # ID of the card in the Visionline access system.
+        attr_accessor :card_id
+        # Common entrance IDs in the Visionline access system.
+        attr_accessor :common_acs_entrance_ids
+        # ID of the credential in the Visionline access system.
+        attr_accessor :credential_id
+        # Guest entrance IDs in the Visionline access system.
+        attr_accessor :guest_acs_entrance_ids
+        # Indicates whether the credential is valid.
+        attr_accessor :is_valid
+        # IDs of the credentials to which you want to join.
+        attr_accessor :joiner_acs_credential_ids
+      end
+
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
+      resource_accessor :visionline_metadata, VisionlineMetadata
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :warnings, Warnings
       # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
       attr_accessor :access_method
       # ID of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
@@ -20,8 +74,6 @@ module Seam
       attr_accessor :acs_system_id
       # ID of the [ACS user](https://docs.seam.co/low-level-apis/access-systems/user-management) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
       attr_accessor :acs_user_id
-      # Vostio-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
-      attr_accessor :assa_abloy_vostio_metadata
       # Number of the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
       attr_accessor :card_number
       # Access (PIN) code for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
@@ -52,8 +104,6 @@ module Seam
       attr_accessor :starts_at
       # ID of the [user identity](https://docs.seam.co/api/user_identities) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
       attr_accessor :user_identity_id
-      # Visionline-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
-      attr_accessor :visionline_metadata
       # ID of the workspace that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
       attr_accessor :workspace_id
 
@@ -65,9 +115,6 @@ module Seam
 
       # Date and time at which the state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
       date_accessor :latest_desired_state_synced_with_provider_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

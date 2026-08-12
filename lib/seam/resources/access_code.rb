@@ -12,6 +12,115 @@ module Seam
     #
     # For granting a person access to a space, [Access Grants](https://docs.seam.co/use-cases/granting-access) are the default and recommended approach and work across both standalone smart locks and access systems. Use the lower-level Access Codes API directly only when you specifically need to manage individual PIN codes.
     class AccessCode < BaseResource
+      class DormakabaOracodeMetadata < BaseResource
+        # Indicates whether the stay can be cancelled via the Dormakaba Oracode API.
+        attr_accessor :is_cancellable
+        # Indicates whether early check-in is available for this stay.
+        attr_accessor :is_early_checkin_able
+        # Indicates whether the stay can be extended via the Dormakaba Oracode API.
+        attr_accessor :is_extendable
+        # Indicates whether the access code can be overridden. When false, the maximum number of overrides has been reached.
+        attr_accessor :is_overridable
+        # Dormakaba Oracode site name associated with this access code.
+        attr_accessor :site_name
+        # Dormakaba Oracode stay ID associated with this access code.
+        attr_accessor :stay_id
+        # Dormakaba Oracode user level ID associated with this access code.
+        attr_accessor :user_level_id
+        # Dormakaba Oracode user level name associated with this access code.
+        attr_accessor :user_level_name
+      end
+
+      class Errors < BaseResource
+        class ModifiedFields < BaseResource
+          # The name of the field that was changed (e.g. `code`, `starts_at`, `ends_at`).
+          attr_accessor :field
+          # The previous value of the field.
+          attr_accessor :from
+          # The new value of the field.
+          attr_accessor :to
+        end
+
+        resource_list_accessor :modified_fields, ModifiedFields
+        # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device.
+        attr_accessor :change_type
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Indicates that this is an access code error.
+        attr_accessor :is_access_code_error
+        # Indicates whether the error is related to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
+        attr_accessor :is_bridge_error
+        attr_accessor :is_connected_account_error
+        attr_accessor :is_device_error
+        # ID of the managed access code that conflicts with this managed access code, when Seam can identify it.
+        attr_accessor :managed_access_code_id
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # ID of the unmanaged access code that conflicts with this managed access code, when Seam can identify it.
+        attr_accessor :unmanaged_access_code_id
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class PendingMutations < BaseResource
+        class From < BaseResource
+          # Previous PIN code.
+          attr_accessor :code
+          # Previous access code name.
+          attr_accessor :name
+          # Previous end time for the access code.
+          date_accessor :ends_at
+          # Previous start time for the access code.
+          date_accessor :starts_at
+        end
+
+        class To < BaseResource
+          # New PIN code.
+          attr_accessor :code
+          # New access code name.
+          attr_accessor :name
+          # New end time for the access code.
+          date_accessor :ends_at
+          # New start time for the access code.
+          date_accessor :starts_at
+        end
+
+        resource_accessor :from, From
+        resource_accessor :to, To
+        # Detailed description of the mutation.
+        attr_accessor :message
+        attr_accessor :mutation_code
+        # Date and time at which the mutation was created.
+        date_accessor :created_at
+        # Date and time at which Seam will attempt to program this access code on the device.
+        date_accessor :scheduled_at
+      end
+
+      class Warnings < BaseResource
+        class ModifiedFields < BaseResource
+          # The name of the field that was changed (e.g. `code`, `starts_at`, `ends_at`).
+          attr_accessor :field
+          # The previous value of the field.
+          attr_accessor :from
+          # The new value of the field.
+          attr_accessor :to
+        end
+
+        resource_list_accessor :modified_fields, ModifiedFields
+        # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device.
+        attr_accessor :change_type
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      resource_accessor :dormakaba_oracode_metadata, DormakabaOracodeMetadata
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :pending_mutations, PendingMutations
+      resource_list_accessor :warnings, Warnings
       # Unique identifier for the access code.
       attr_accessor :access_code_id
       # Code used for access. Typically, a numeric or alphanumeric string.
@@ -20,8 +129,6 @@ module Seam
       attr_accessor :common_code_key
       # Unique identifier for the device associated with the access code.
       attr_accessor :device_id
-      # Metadata for a dormakaba Oracode managed access code. Only present for access codes from dormakaba Oracode devices.
-      attr_accessor :dormakaba_oracode_metadata
       # Indicates whether the access code is a backup code.
       attr_accessor :is_backup
       # Indicates whether a backup access code is available for use if the primary access code is lost or compromised.
@@ -40,8 +147,6 @@ module Seam
       attr_accessor :is_waiting_for_code_assignment
       # Name of the access code. Enables administrators and users to identify the access code easily, especially when there are numerous access codes. Note that the name provided on Seam is used to identify the code on Seam and is not necessarily the name that will appear in the lock provider's app or on the device. This is because lock providers may have constraints on names, such as length, uniqueness, or characters that can be used. In addition, some lock providers may break down names into components such as `first_name` and `last_name`. To provide a consistent experience, Seam identifies the code on Seam by its name but may modify the name that appears on the lock provider's app or on the device. For example, Seam may add additional characters or truncate the name to meet provider constraints. To help your users identify codes set by Seam, Seam provides the name exactly as it appears on the lock provider's app or on the device as a separate property called `appearance`. This is an object with a `name` property and, optionally, `first_name` and `last_name` properties (for providers that break down a name into components).
       attr_accessor :name
-      # Collection of pending mutations for the access code. Indicates changes that Seam is in the process of pushing to the device.
-      attr_accessor :pending_mutations
       # Identifier of the pulled backup access code. Used to associate the pulled backup access code with the original access code.
       attr_accessor :pulled_backup_access_code_id
       # Current status of the access code within the operational lifecycle. Values are `setting`, a transitional phase that indicates that the code is being configured or activated; `set`, which indicates that the code is active and operational; `unset`, which indicates a deactivated or unused state, either before activation or after deliberate deactivation; `removing`, which indicates a transitional period in which the code is being deleted or made inactive; and `unknown`, which indicates an indeterminate state, due to reasons such as system errors or incomplete data, that highlights a potential need for system review or troubleshooting. See also [Lifecycle of Access Codes](https://docs.seam.co/low-level-apis/smart-locks/access-codes/lifecycle-of-access-codes).
@@ -59,9 +164,6 @@ module Seam
 
       # Date and time at which the time-bound access code becomes active.
       date_accessor :starts_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

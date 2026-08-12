@@ -4,6 +4,55 @@ module Seam
   module Resources
     # Represents an access method for an Access Grant. Access methods describe the modes of access, such as PIN codes, plastic cards, and mobile keys. For a mobile key, the access method also stores the URL for the associated Instant Key.
     class AccessMethod < BaseResource
+      class Errors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class PendingMutations < BaseResource
+        class From < BaseResource
+          attr_accessor :device_ids
+          # Previous end time for access.
+          date_accessor :ends_at
+          # Previous start time for access.
+          date_accessor :starts_at
+        end
+
+        class To < BaseResource
+          attr_accessor :device_ids
+          # New end time for access.
+          date_accessor :ends_at
+          # New start time for access.
+          date_accessor :starts_at
+        end
+
+        resource_accessor :from, From
+        resource_accessor :to, To
+        # Detailed description of the mutation.
+        attr_accessor :message
+        attr_accessor :mutation_code
+        # Date and time at which the mutation was created.
+        date_accessor :created_at
+      end
+
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # ID of the original access method from which this backup access method was split, if applicable.
+        attr_accessor :original_access_method_id
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :pending_mutations, PendingMutations
+      resource_list_accessor :warnings, Warnings
       # ID of the access method.
       attr_accessor :access_method_id
       # Token of the client session associated with the access method.
@@ -28,8 +77,6 @@ module Seam
       attr_accessor :is_ready_for_encoding
       # Access method mode. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
       attr_accessor :mode
-      # Pending mutations for the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant). Indicates operations that are in progress.
-      attr_accessor :pending_mutations
       # ID of the Seam workspace associated with the access method.
       attr_accessor :workspace_id
 
@@ -38,9 +85,6 @@ module Seam
 
       # Date and time at which the access method was issued.
       date_accessor :issued_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

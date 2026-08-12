@@ -4,6 +4,30 @@ module Seam
   module Resources
     # Represents an unmanaged user identity. Unmanaged user identities do not have keys.
     class UnmanagedUserIdentity < BaseResource
+      class Errors < BaseResource
+        # ID of the access system that the user identity is associated with.
+        attr_accessor :acs_system_id
+        # ID of the access system user that has an issue.
+        attr_accessor :acs_user_id
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :warnings, Warnings
       # Array of access system user IDs associated with the user identity.
       attr_accessor :acs_user_ids
       # Display name for the user identity.
@@ -21,9 +45,6 @@ module Seam
 
       # Date and time at which the user identity was created.
       date_accessor :created_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

@@ -8,12 +8,79 @@ module Seam
     #
     # To learn whether your access control system supports access groups, see the corresponding [system integration guide](https://docs.seam.co/device-and-system-integration-guides#access-control-systems).
     class AcsAccessGroup < BaseResource
+      class AccessSchedule < BaseResource
+        # Date and time at which the user's access ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        date_accessor :ends_at
+        # Date and time at which the user's access starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        date_accessor :starts_at
+      end
+
+      class Errors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      class PendingMutations < BaseResource
+        class From < BaseResource
+          # Old entrance ID.
+          attr_accessor :acs_entrance_id
+          # Old user ID.
+          attr_accessor :acs_user_id
+          # Name of the access group.
+          attr_accessor :name
+          # Ending time for the access schedule.
+          date_accessor :ends_at
+          # Starting time for the access schedule.
+          date_accessor :starts_at
+        end
+
+        class To < BaseResource
+          # New entrance ID.
+          attr_accessor :acs_entrance_id
+          # New user ID.
+          attr_accessor :acs_user_id
+          # Name of the access group.
+          attr_accessor :name
+          # Ending time for the access schedule.
+          date_accessor :ends_at
+          # Starting time for the access schedule.
+          date_accessor :starts_at
+        end
+
+        resource_accessor :from, From
+        resource_accessor :to, To
+        # ID of the user involved in the scheduled change.
+        attr_accessor :acs_user_id
+        # Detailed description of the mutation.
+        attr_accessor :message
+        attr_accessor :mutation_code
+        # Whether the user is scheduled to be added to or removed from this access group.
+        attr_accessor :variant
+        # Date and time at which the mutation was created.
+        date_accessor :created_at
+      end
+
+      class Warnings < BaseResource
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        date_accessor :created_at
+      end
+
+      resource_accessor :access_schedule, AccessSchedule
+      resource_list_accessor :errors, Errors
+      resource_list_accessor :pending_mutations, PendingMutations
+      resource_list_accessor :warnings, Warnings
       # @deprecated Use `external_type`.
       attr_accessor :access_group_type
       # @deprecated Use `external_type_display_name`.
       attr_accessor :access_group_type_display_name
-      # `starts_at` and `ends_at` timestamps for the access group's access.
-      attr_accessor :access_schedule
       # ID of the access group.
       attr_accessor :acs_access_group_id
       # ID of the access control system that contains the access group.
@@ -30,16 +97,11 @@ module Seam
       attr_accessor :is_managed
       # Name of the access group.
       attr_accessor :name
-      # Collection of pending mutations for the access group. Represents operations that have been requested but not yet completed on the integrated access system.
-      attr_accessor :pending_mutations
       # ID of the workspace that contains the access group.
       attr_accessor :workspace_id
 
       # Date and time at which the access group was created.
       date_accessor :created_at
-
-      include Seam::Resources::ResourceErrorsSupport
-      include Seam::Resources::ResourceWarningsSupport
     end
   end
 end

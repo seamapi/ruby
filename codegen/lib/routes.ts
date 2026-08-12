@@ -21,13 +21,8 @@ import { setClientLayoutContext } from './layouts/client.js'
 import { setImportsLayoutContext } from './layouts/imports.js'
 import { setResourceLayoutContext } from './layouts/resource.js'
 import { setRoutesFileLayoutContext } from './layouts/routes-file.js'
+import { mergeProperties } from './merge-properties.js'
 import type { ClientMethod, ClientModel } from './ruby-client.js'
-import {
-  resourceErrorRb,
-  resourceErrorsSupportRb,
-  resourceWarningRb,
-  resourceWarningsSupportRb,
-} from './static-resources.js'
 
 interface Metadata {
   blueprint: Blueprint
@@ -43,17 +38,6 @@ export const routes = (
   const { blueprint } = metalsmith.metadata() as Metadata
 
   const resourceNames: string[] = []
-
-  const staticResources: Array<[string, string]> = [
-    ['resource_error', resourceErrorRb],
-    ['resource_warning', resourceWarningRb],
-    ['resource_errors_support', resourceErrorsSupportRb],
-    ['resource_warnings_support', resourceWarningsSupportRb],
-  ]
-  for (const [name, contents] of staticResources) {
-    files[`${resourcesPath}/${name}.rb`] = { contents: Buffer.from(contents) }
-    resourceNames.push(name)
-  }
 
   for (const [name, resource] of getResources(blueprint)) {
     files[`${resourcesPath}/${name}.rb`] = {
@@ -151,16 +135,6 @@ const getResources = (
   }
 
   return [...resources.entries()].sort(([a], [b]) => a.localeCompare(b))
-}
-
-const mergeProperties = (propertyLists: Property[][]): Property[] => {
-  const merged = new Map<string, Property>()
-  for (const properties of propertyLists) {
-    for (const property of properties) {
-      if (!merged.has(property.name)) merged.set(property.name, property)
-    }
-  }
-  return [...merged.values()].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 interface ClientSource {

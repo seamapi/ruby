@@ -4,6 +4,16 @@ module Seam
   module Resources
     # Represents a [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) that activates a configured [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) on a [thermostat](https://docs.seam.co/capability-guides/thermostats) at a specified starting time and deactivates the climate preset at a specified ending time.
     class ThermostatSchedule < BaseResource
+      class Errors < BaseResource
+        # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        attr_accessor :error_code
+        # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        attr_accessor :message
+        # Date and time at which Seam created the error.
+        date_accessor :created_at
+      end
+
+      resource_list_accessor :errors, Errors
       # Key of the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) to use for the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
       attr_accessor :climate_preset_key
       # ID of the desired [thermostat](https://docs.seam.co/capability-guides/thermostats) device.
@@ -27,8 +37,6 @@ module Seam
 
       # Date and time at which the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
       date_accessor :starts_at
-
-      include Seam::Resources::ResourceErrorsSupport
     end
   end
 end

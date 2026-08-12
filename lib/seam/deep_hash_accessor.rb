@@ -10,7 +10,12 @@ module Seam
     end
 
     def [](key)
-      instance_variable_get(:"@#{key}")
+      # Subscript access is Hash-like and returns nil for unknown keys, while
+      # method access continues to raise NoMethodError.
+      name = key.to_s
+      return nil unless respond_to?(name)
+
+      public_send(name)
     end
 
     def to_h
@@ -21,9 +26,8 @@ module Seam
 
     def create_accessor_methods
       @data.each do |key, value|
-        define_singleton_method(key) do
-          process_value(value)
-        end
+        processed = process_value(value)
+        define_singleton_method(key) { processed }
       end
     end
 
