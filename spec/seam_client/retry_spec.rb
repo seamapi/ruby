@@ -71,6 +71,7 @@ RSpec.describe Seam::Http::Request do
     end
 
     it "retries retryable responses for idempotent methods by default" do
+      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       stub_request(:get, url)
         .to_return(service_unavailable)
         .to_return(devices)
@@ -82,6 +83,7 @@ RSpec.describe Seam::Http::Request do
     end
 
     it "applies exponential backoff with jitter by default" do
+      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       retry_delays = []
       stub_request(:get, url)
         .to_return(service_unavailable)
@@ -100,6 +102,7 @@ RSpec.describe Seam::Http::Request do
     end
 
     it "retries connection failures by default" do
+      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       stub_request(:get, url)
         .to_raise(Faraday::ConnectionFailed.new("connection refused"))
         .then.to_return(devices)
@@ -111,6 +114,7 @@ RSpec.describe Seam::Http::Request do
     end
 
     it "retries timeouts by default" do
+      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       stub_request(:get, url)
         .to_raise(Faraday::TimeoutError.new("timed out"))
         .then.to_return(devices)
