@@ -67,6 +67,10 @@ module Seam
       # @param space_key [String, nil] Unique key of the space that you want to get.
       # @return [Seam::Resources::Space] OK
       def get(space_id: nil, space_key: nil)
+        if space_id.nil? && space_key.nil?
+          raise TypeError, "At least one parameter is required for /spaces/get"
+        end
+
         res = @client.post("/spaces/get", {space_id: space_id, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["space"])
@@ -79,6 +83,10 @@ module Seam
       # @param space_keys [Array<String>, nil] Keys of the spaces that you want to get along with their related resources.
       # @return [Seam::Resources::Batch] OK
       def get_related(exclude: nil, include: nil, space_ids: nil, space_keys: nil)
+        if exclude.nil? && include.nil? && space_ids.nil? && space_keys.nil?
+          raise TypeError, "At least one parameter is required for /spaces/get_related"
+        end
+
         res = @client.post("/spaces/get_related", {exclude: exclude, include: include, space_ids: space_ids, space_keys: space_keys}.compact)
 
         Seam::Resources::Batch.load_from_response(res.body["batch"])

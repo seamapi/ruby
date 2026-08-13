@@ -33,6 +33,10 @@ module Seam
       # @return [Seam::Resources::Device] OK
       # @deprecated Use `/devices/get` instead.
       def get(device_id: nil, name: nil)
+        if device_id.nil? && name.nil?
+          raise TypeError, "At least one parameter is required for /locks/get"
+        end
+
         res = @client.post("/locks/get", {device_id: device_id, name: name}.compact)
 
         Seam::Resources::Device.load_from_response(res.body["device"])

@@ -17,6 +17,10 @@ module Seam
       # @param name [String, nil] Name of the unmanaged device that you want to get.
       # @return [Seam::Resources::UnmanagedDevice] OK
       def get(device_id: nil, name: nil)
+        if device_id.nil? && name.nil?
+          raise TypeError, "At least one parameter is required for /devices/unmanaged/get"
+        end
+
         res = @client.post("/devices/unmanaged/get", {device_id: device_id, name: name}.compact)
 
         Seam::Resources::UnmanagedDevice.load_from_response(res.body["device"])

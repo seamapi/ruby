@@ -30,6 +30,10 @@ module Seam
       # @param email [String, nil] Email address associated with the connected account that you want to get.
       # @return [Seam::Resources::ConnectedAccount] OK
       def get(connected_account_id: nil, email: nil)
+        if connected_account_id.nil? && email.nil?
+          raise TypeError, "At least one parameter is required for /connected_accounts/get"
+        end
+
         res = @client.post("/connected_accounts/get", {connected_account_id: connected_account_id, email: email}.compact)
 
         Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_account"])

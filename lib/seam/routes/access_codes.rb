@@ -110,6 +110,10 @@ module Seam
       # @param device_id [String, nil] ID of the device containing the access code that you want to get. You must specify either `access_code_id` or both `device_id` and `code`.
       # @return [Seam::Resources::AccessCode] OK
       def get(access_code_id: nil, code: nil, device_id: nil)
+        if access_code_id.nil? && code.nil? && device_id.nil?
+          raise TypeError, "At least one parameter is required for /access_codes/get"
+        end
+
         res = @client.post("/access_codes/get", {access_code_id: access_code_id, code: code, device_id: device_id}.compact)
 
         Seam::Resources::AccessCode.load_from_response(res.body["access_code"])
@@ -130,6 +134,10 @@ module Seam
       # @param user_identifier_key [String, nil] Your user ID for the user by which to filter access codes.
       # @return [Seam::Resources::AccessCode] OK
       def list(access_code_ids: nil, access_grant_id: nil, access_grant_key: nil, access_method_id: nil, customer_key: nil, device_id: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
+        if access_code_ids.nil? && access_grant_id.nil? && access_grant_key.nil? && access_method_id.nil? && customer_key.nil? && device_id.nil? && limit.nil? && page_cursor.nil? && search.nil? && user_identifier_key.nil?
+          raise TypeError, "At least one parameter is required for /access_codes/list"
+        end
+
         res = @client.post("/access_codes/list", {access_code_ids: access_code_ids, access_grant_id: access_grant_id, access_grant_key: access_grant_key, access_method_id: access_method_id, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::AccessCode.load_from_response(res.body["access_codes"])

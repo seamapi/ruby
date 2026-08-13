@@ -41,6 +41,10 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity that you want to delete. You must provide either acs_user_id or user_identity_id. If you provide user_identity_id, you must also provide acs_system_id.
       # @return [nil] OK
       def delete(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
+        if acs_system_id.nil? && acs_user_id.nil? && user_identity_id.nil?
+          raise TypeError, "At least one parameter is required for /acs/users/delete"
+        end
+
         @client.post("/acs/users/delete", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
@@ -52,6 +56,10 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity that you want to get. You can only provide acs_user_id or user_identity_id.
       # @return [Seam::Resources::AcsUser] OK
       def get(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil)
+        if acs_user_id.nil? && acs_system_id.nil? && user_identity_id.nil?
+          raise TypeError, "At least one parameter is required for /acs/users/get"
+        end
+
         res = @client.post("/acs/users/get", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
@@ -79,6 +87,10 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity for whom you want to list accessible entrances. You can only provide acs_user_id or user_identity_id.
       # @return [Seam::Resources::AcsEntrance] OK
       def list_accessible_entrances(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
+        if acs_system_id.nil? && acs_user_id.nil? && user_identity_id.nil?
+          raise TypeError, "At least one parameter is required for /acs/users/list_accessible_entrances"
+        end
+
         res = @client.post("/acs/users/list_accessible_entrances", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
@@ -101,6 +113,10 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity for whom you want to revoke access. You can only provide acs_user_id or user_identity_id.
       # @return [nil] OK
       def revoke_access_to_all_entrances(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
+        if acs_system_id.nil? && acs_user_id.nil? && user_identity_id.nil?
+          raise TypeError, "At least one parameter is required for /acs/users/revoke_access_to_all_entrances"
+        end
+
         @client.post("/acs/users/revoke_access_to_all_entrances", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
@@ -112,6 +128,10 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity that you want to suspend. You can only provide acs_user_id or the combination of acs_system_id and user_identity_id.
       # @return [nil] OK
       def suspend(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
+        if acs_system_id.nil? && acs_user_id.nil? && user_identity_id.nil?
+          raise TypeError, "At least one parameter is required for /acs/users/suspend"
+        end
+
         @client.post("/acs/users/suspend", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
@@ -123,6 +143,10 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity that you want to unsuspend. You can only provide acs_user_id or the combination of acs_system_id and user_identity_id.
       # @return [nil] OK
       def unsuspend(acs_system_id: nil, acs_user_id: nil, user_identity_id: nil)
+        if acs_system_id.nil? && acs_user_id.nil? && user_identity_id.nil?
+          raise TypeError, "At least one parameter is required for /acs/users/unsuspend"
+        end
+
         @client.post("/acs/users/unsuspend", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
@@ -141,6 +165,10 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity that you want to update. You can only provide acs_user_id or user_identity_id. If you provide user_identity_id, you must also provide acs_system_id.
       # @return [nil] OK
       def update(access_schedule: nil, acs_system_id: nil, acs_user_id: nil, email: nil, email_address: nil, full_name: nil, hid_acs_system_id: nil, phone_number: nil, user_identity_id: nil)
+        if access_schedule.nil? && acs_system_id.nil? && acs_user_id.nil? && email.nil? && email_address.nil? && full_name.nil? && hid_acs_system_id.nil? && phone_number.nil? && user_identity_id.nil?
+          raise TypeError, "At least one parameter is required for /acs/users/update"
+        end
+
         @client.post("/acs/users/update", {access_schedule: access_schedule, acs_system_id: acs_system_id, acs_user_id: acs_user_id, email: email, email_address: email_address, full_name: full_name, hid_acs_system_id: hid_acs_system_id, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
 
         nil

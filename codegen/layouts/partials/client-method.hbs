@@ -9,7 +9,12 @@
 {{{rubyDeprecatedDoc this 6}}}
 {{/if}}
       def {{name}}{{#if hasSignature}}({{signatureParams}}){{/if}}
-        {{#if usesRes}}res = {{/if}}@client.post("{{path}}"{{#if hasParams}}, {{bodyParams}}.compact{{/if}})
+{{#if requiresAtLeastOneParameter}}
+        if {{#each parameters}}{{name}}.nil?{{#unless @last}} && {{/unless}}{{/each}}
+          raise TypeError, "At least one parameter is required for {{path}}"
+        end
+
+{{/if}}        {{#if usesRes}}res = {{/if}}@client.post("{{path}}"{{#if hasParams}}, {{bodyParams}}.compact{{/if}})
 {{#if isResource}}
 
         Seam::Resources::{{returnResource}}.load_from_response(res.body["{{returnPath}}"])

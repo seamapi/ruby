@@ -69,6 +69,10 @@ module Seam
       # @deprecated user_identity_ids: Use `user_identity_id`.
       # @return [nil] OK
       def grant_access(client_session_id: nil, connect_webview_ids: nil, connected_account_ids: nil, user_identifier_key: nil, user_identity_id: nil, user_identity_ids: nil)
+        if client_session_id.nil? && connect_webview_ids.nil? && connected_account_ids.nil? && user_identifier_key.nil? && user_identity_id.nil? && user_identity_ids.nil?
+          raise TypeError, "At least one parameter is required for /client_sessions/grant_access"
+        end
+
         @client.post("/client_sessions/grant_access", {client_session_id: client_session_id, connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
 
         nil

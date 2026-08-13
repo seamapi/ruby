@@ -65,6 +65,10 @@ module Seam
       # @param user_identity_key [String, nil]
       # @return [Seam::Resources::UserIdentity] OK
       def get(user_identity_id: nil, user_identity_key: nil)
+        if user_identity_id.nil? && user_identity_key.nil?
+          raise TypeError, "At least one parameter is required for /user_identities/get"
+        end
+
         res = @client.post("/user_identities/get", {user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
         Seam::Resources::UserIdentity.load_from_response(res.body["user_identity"])
