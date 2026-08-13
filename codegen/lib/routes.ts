@@ -22,6 +22,7 @@ import { setImportsLayoutContext } from './layouts/imports.js'
 import { setResourceLayoutContext } from './layouts/resource.js'
 import { setRoutesFileLayoutContext } from './layouts/routes-file.js'
 import { mergeProperties } from './merge-properties.js'
+import { rubyParameterType } from './handlebars-helpers.js'
 import type { ClientMethod, ClientModel } from './ruby-client.js'
 
 interface Metadata {
@@ -217,6 +218,7 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
       description: parameter.description,
       isDeprecated: parameter.isDeprecated,
       deprecationMessage: parameter.deprecationMessage,
+      rubyType: rubyParameterType(parameter),
       required: parameter.isRequired,
       position:
         endpoint.name === 'get' && parameter.name === `${returnPath}_id`
