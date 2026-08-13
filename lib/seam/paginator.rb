@@ -74,7 +74,7 @@ module Seam
     end
   end
 
-  Pagination = Struct.new(:has_next_page, :next_page_cursor, :next_page_url, keyword_init: true) do
+  Pagination = Struct.new(:has_next_page, :next_page_cursor, :next_page_url) do
     def self.from_hash(hash)
       return nil unless hash.is_a?(Hash) && !hash.empty?
 
