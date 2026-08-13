@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative "seam/null"
+require_relative "seam/url_search_params"
+require_relative "seam/url_search_params_serializer"
 require_relative "seam/http"
 require_relative "seam/http_without_workspace"
 require_relative "seam/webhook"

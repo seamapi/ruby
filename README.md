@@ -43,6 +43,7 @@ accurate and fully typed.
     - [Configuring the Faraday Client](#configuring-the-faraday-client)
     - [Using the Faraday Client](#using-the-faraday-client)
     - [Overriding the Client](#overriding-the-client)
+    - [URL search params serialization](#url-search-params-serialization)
 - [Development and Testing](#development-and-testing)
   - [Quickstart](#quickstart)
   - [Source code](#source-code)
@@ -488,6 +489,39 @@ devices = seam.client.get("/devices/list").body["devices"]
 
 A Faraday compatible client may be provided to create a `Seam` instance.
 This API is used internally and is not directly supported.
+
+#### URL search params serialization
+
+The SDK serializes query params with a Ruby port of
+[@seamapi/url-search-params-serializer][serializer],
+which the Seam API parses with
+[@seamapi/url-search-params-parser][parser].
+The output is byte-for-byte identical to the TypeScript implementation:
+WHATWG `application/x-www-form-urlencoded` encoding,
+`URLSearchParams.sort()` ordering, and ECMAScript number formatting.
+
+The serializer is exported for callers making requests
+with their own HTTP client:
+
+```ruby
+require "seam"
+
+Seam.serialize_url_search_params(
+  device_ids: ["device-1", "device-2"],
+  custom_metadata_has: {internal_account_id: "user-1"},
+  limit: 10
+)
+# => "custom_metadata_has.internal_account_id=user-1&device_ids=device-1&device_ids=device-2&limit=10"
+```
+
+Use `Seam.update_url_search_params` to merge params into an existing
+`Seam::UrlSearchParams` collection, e.g. for a URL that already has a query.
+Parameters that cannot be represented in the standard raise a
+`Seam::UnserializableParamError` before any request is sent,
+with the offending parameter name available as `param_name`.
+
+[serializer]: https://github.com/seamapi/url-search-params-serializer
+[parser]: https://github.com/seamapi/url-search-params-parser
 
 ## Development and Testing
 
