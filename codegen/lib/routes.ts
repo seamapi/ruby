@@ -17,12 +17,12 @@ import { pascalCase } from 'change-case'
 import type Metalsmith from 'metalsmith'
 
 import { convertCustomResourceName } from './custom-resource-name-conversions.js'
+import { rubyParameterType } from './handlebars-helpers.js'
 import { setClientLayoutContext } from './layouts/client.js'
 import { setImportsLayoutContext } from './layouts/imports.js'
 import { setResourceLayoutContext } from './layouts/resource.js'
 import { setRoutesFileLayoutContext } from './layouts/routes-file.js'
 import { mergeProperties } from './merge-properties.js'
-import { rubyParameterType } from './handlebars-helpers.js'
 import type { ClientMethod, ClientModel } from './ruby-client.js'
 
 interface Metadata {
