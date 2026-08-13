@@ -93,6 +93,10 @@ RSpec.describe "Seam.serialize_url_search_params" do
     expect(serialize({a: true, b: false})).to eq("a=true&b=false")
   end
 
+  it "encodes multi-byte and astral characters in keys and values" do
+    expect(serialize({"\u{1F600}" => "café"})).to eq("%F0%9F%98%80=caf%C3%A9")
+  end
+
   describe "numbers" do
     it "serializes integers with full decimal digits at arbitrary precision" do
       expect(serialize({n: 123456789123456789123456789})).to eq("n=123456789123456789123456789")
@@ -122,6 +126,12 @@ RSpec.describe "Seam.serialize_url_search_params" do
     it "serializes the shortest round-tripping digits" do
       expect(serialize({n: 0.1 + 0.2})).to eq("n=0.30000000000000004")
       expect(serialize({n: 123.456})).to eq("n=123.456")
+    end
+
+    it "formats exponents like ECMAScript, signed and without zero padding" do
+      expect(serialize({n: 1.5e22})).to eq("n=1.5e%2B22")
+      expect(serialize({n: 5e-324})).to eq("n=5e-324")
+      expect(serialize({n: 1.7976931348623157e308})).to eq("n=1.7976931348623157e%2B308")
     end
 
     it "rejects NaN and infinities with their own messages" do

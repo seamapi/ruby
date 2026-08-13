@@ -47,7 +47,6 @@ accurate and fully typed.
     - [URL search params serialization](#url-search-params-serialization)
 - [Development and Testing](#development-and-testing)
   - [Quickstart](#quickstart)
-  - [URL search params conformance](#url-search-params-conformance)
   - [Source code](#source-code)
   - [Requirements](#requirements)
   - [Publishing](#publishing)
@@ -585,22 +584,6 @@ $ bundle exec rake -T
 ```
 
 [rake]: https://ruby.github.io/rake/
-
-### URL search params conformance
-
-The URL search params serializer is verified byte for byte against the
-TypeScript reference implementation over a generated fixture of hand-built,
-structural-fuzz, and float-fuzz cases, and round-tripped through
-[@seamapi/url-search-params-parser][parser] in strict mode.
-The harness needs Node and the reference implementation,
-which gem consumers should not,
-so it lives in `dev/conformance` outside the shipped gem.
-Run it with
-
-```
-$ npm install
-$ dev/conformance/run
-```
 
 ### Source code
 
