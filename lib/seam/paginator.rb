@@ -11,6 +11,9 @@ module Seam
     def initialize(request, params = {})
       raise ArgumentError, "request must be a Method" unless request.is_a?(Method)
       raise ArgumentError, "params must be a Hash" unless params.is_a?(Hash)
+      unless request.parameters.any? { |_, name| name == :page_cursor }
+        raise ArgumentError, "request does not support pagination"
+      end
 
       @request = request
       @params = params.transform_keys(&:to_sym)
