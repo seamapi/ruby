@@ -35,8 +35,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "parse_gemspec-cli", "~> 1.0"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "simplecov", "~> 0.21"
+  spec.add_development_dependency "simplecov", "~> 1.1"
   spec.add_development_dependency "simplecov-console", "~> 0.9"
   spec.add_development_dependency "standard", "~> 1.3"
-  spec.add_development_dependency "webmock", "~> 3.24.0"
+  spec.add_development_dependency "webmock", "~> 3.26.2"
 end
