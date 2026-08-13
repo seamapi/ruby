@@ -39,6 +39,7 @@ accurate and fully typed.
     - [Additional Options](#additional-options)
     - [Setting the endpoint](#setting-the-endpoint)
     - [Setting the request timeout](#setting-the-request-timeout)
+    - [Retry behavior](#retry-behavior)
     - [Configuring the Faraday Client](#configuring-the-faraday-client)
     - [Using the Faraday Client](#using-the-faraday-client)
     - [Overriding the Client](#overriding-the-client)
