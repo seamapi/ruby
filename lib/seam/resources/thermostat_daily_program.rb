@@ -6,22 +6,31 @@ module Seam
     class ThermostatDailyProgram < BaseResource
       class Periods < BaseResource
         # Key of the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) to activate at the `starts_at_time`.
+        # @return [String]
         attr_accessor :climate_preset_key
         # Time at which the thermostat daily program period starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        # @return [String]
         attr_accessor :starts_at_time
       end
 
+      # Array of thermostat daily program periods.
+      # @return [Array<Periods>]
       resource_list_accessor :periods, Periods
       # ID of the thermostat device on which the thermostat daily program is configured.
+      # @return [String]
       attr_accessor :device_id
       # User-friendly name to identify the thermostat daily program.
+      # @return [String, nil]
       attr_accessor :name
       # ID of the thermostat daily program.
+      # @return [String]
       attr_accessor :thermostat_daily_program_id
       # ID of the workspace that contains the thermostat daily program.
+      # @return [String]
       attr_accessor :workspace_id
 
       # Date and time at which the thermostat daily program was created.
+      # @return [Time]
       date_accessor :created_at
     end
   end

@@ -9,7 +9,7 @@ module Seam
       end
 
       # Simulates connecting a device to Seam. Only applicable for [sandbox devices](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces). See also [Testing Your App Against Device Disconnection and Removal](https://docs.seam.co/core-concepts/devices/testing-your-app-against-device-disconnection-and-removal).
-      # @param device_id ID of the device that you want to simulate connecting to Seam.
+      # @param device_id [String] ID of the device that you want to simulate connecting to Seam.
       # @return [nil] OK
       def connect(device_id:)
         @client.post("/devices/simulate/connect", {device_id: device_id}.compact)
@@ -21,7 +21,7 @@ module Seam
       # Only applicable for sandbox workspaces and currently
       # implemented for August and TTLock locks.
       # This will clear the `hub_disconnected` error on the device.
-      # @param device_id ID of the device whose hub you want to reconnect.
+      # @param device_id [String] ID of the device whose hub you want to reconnect.
       # @return [nil] OK
       def connect_to_hub(device_id:)
         @client.post("/devices/simulate/connect_to_hub", {device_id: device_id}.compact)
@@ -30,7 +30,7 @@ module Seam
       end
 
       # Simulates disconnecting a device from Seam. Only applicable for [sandbox devices](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces). See also [Testing Your App Against Device Disconnection and Removal](https://docs.seam.co/core-concepts/devices/testing-your-app-against-device-disconnection-and-removal).
-      # @param device_id ID of the device that you want to simulate disconnecting from Seam.
+      # @param device_id [String] ID of the device that you want to simulate disconnecting from Seam.
       # @return [nil] OK
       def disconnect(device_id:)
         @client.post("/devices/simulate/disconnect", {device_id: device_id}.compact)
@@ -43,7 +43,7 @@ module Seam
       # implemented for August, TTLock, and IglooHome devices.
       # This will set the `hub_disconnected` error on the device, or mark the
       # IglooHome bridge offline in sandbox.
-      # @param device_id ID of the device whose hub you want to disconnect.
+      # @param device_id [String] ID of the device whose hub you want to disconnect.
       # @return [nil] OK
       def disconnect_from_hub(device_id:)
         @client.post("/devices/simulate/disconnect_from_hub", {device_id: device_id}.compact)
@@ -54,8 +54,8 @@ module Seam
       # Toggle the simulated Nuki Smart Hosting subscription for a device (sandbox only).
       # Send `is_expired: true` to simulate an expired subscription, or `false` to simulate an active subscription.
       # The actual device error is created/cleared by the poller after this state change.
-      # @param device_id
-      # @param is_expired
+      # @param device_id [String]
+      # @param is_expired [Boolean]
       # @return [nil] OK
       def paid_subscription(device_id:, is_expired:)
         @client.post("/devices/simulate/paid_subscription", {device_id: device_id, is_expired: is_expired}.compact)
@@ -64,7 +64,7 @@ module Seam
       end
 
       # Simulates removing a device from Seam. Only applicable for [sandbox devices](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces). See also [Testing Your App Against Device Disconnection and Removal](https://docs.seam.co/core-concepts/devices/testing-your-app-against-device-disconnection-and-removal).
-      # @param device_id ID of the device that you want to simulate removing from Seam.
+      # @param device_id [String] ID of the device that you want to simulate removing from Seam.
       # @return [nil] OK
       def remove(device_id:)
         @client.post("/devices/simulate/remove", {device_id: device_id}.compact)
