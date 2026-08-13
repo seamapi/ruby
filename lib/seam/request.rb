@@ -23,7 +23,11 @@ module Seam
 
         default_faraday_retry_options = {
           max: 2,
-          backoff_factor: 2
+          interval: 0.2,
+          interval_randomness: 0.2,
+          backoff_factor: 2,
+          exceptions: Faraday::Retry::Middleware::DEFAULT_EXCEPTIONS + [Faraday::ConnectionFailed],
+          retry_statuses: [429] + (500..599).to_a
         }
 
         faraday_retry_options = default_faraday_retry_options.merge(faraday_retry_options)
