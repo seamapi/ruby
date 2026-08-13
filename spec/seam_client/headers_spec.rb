@@ -6,9 +6,8 @@ RSpec.describe Seam::Http::Request do
   let(:device_id) { "device_id_1234" }
 
   it "sends the SDK and auth headers" do
-    stub = stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/get")
+    stub = stub_request(:get, "#{Seam::DEFAULT_ENDPOINT}/devices/get?device_id=#{device_id}")
       .with(
-        body: {device_id: device_id}.to_json,
         headers: {
           "Authorization" => "Bearer seam_some_api_key",
           "Content-Type" => "application/json",
@@ -31,7 +30,7 @@ RSpec.describe Seam::Http::Request do
   end
 
   it "sends the workspace header with a personal access token" do
-    stub = stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/get")
+    stub = stub_request(:get, "#{Seam::DEFAULT_ENDPOINT}/devices/get?device_id=#{device_id}")
       .with(
         headers: {
           "Authorization" => "Bearer seam_at_token",
