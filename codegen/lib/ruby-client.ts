@@ -14,6 +14,7 @@ export interface ClientMethodParameter {
 
 export interface ClientMethod {
   methodName: string
+  httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   description: string
   isDeprecated: boolean
   deprecationMessage: string
