@@ -25,7 +25,7 @@ GEM
       logger
     faraday-net_http (3.3.0)
       net-http
-    faraday-retry (2.2.1)
+    faraday-retry (2.4.0)
       faraday (~> 2.0)
     gem-release (2.2.2)
     hashdiff (1.1.2)
