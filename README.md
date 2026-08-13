@@ -39,6 +39,7 @@ accurate and fully typed.
     - [Additional Options](#additional-options)
     - [Setting the endpoint](#setting-the-endpoint)
     - [Setting the request timeout](#setting-the-request-timeout)
+    - [Retry behavior](#retry-behavior)
     - [Configuring the Faraday Client](#configuring-the-faraday-client)
     - [Using the Faraday Client](#using-the-faraday-client)
     - [Overriding the Client](#overriding-the-client)
@@ -442,6 +443,17 @@ seam = Seam.new(
 ```
 
 A request that exceeds the timeout raises `Faraday::TimeoutError`.
+
+#### Retry behavior
+
+By default, the SDK makes up to three attempts: the initial request and two
+retries. Retries are limited to `GET`, `HEAD`, `OPTIONS`, `PUT`, and `DELETE`
+requests that fail because of a transport error, timeout, HTTP 429 response, or
+HTTP 5xx response. `POST` and `PATCH` requests are not retried.
+
+Retries use exponential backoff with jitter: approximately 200–240 ms before
+the first retry and 400–480 ms before the second. A longer `Retry-After` header
+is honored. The request timeout is reset for each attempt.
 
 #### Configuring the Faraday Client
 

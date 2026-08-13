@@ -69,6 +69,57 @@ RSpec.describe Seam::Http::Request do
       expect { seam.devices.list }.to raise_error(Seam::Http::ApiError)
       expect(a_request(:post, url)).to have_been_made.times(1)
     end
+
+    it "retries retryable responses for idempotent methods by default" do
+      stub_request(:get, url)
+        .to_return(service_unavailable)
+        .to_return(devices)
+
+      seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
+
+      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(a_request(:get, url)).to have_been_made.times(2)
+    end
+
+    it "applies exponential backoff with jitter by default" do
+      retry_delays = []
+      stub_request(:get, url)
+        .to_return(service_unavailable)
+        .to_return(service_unavailable)
+        .to_return(devices)
+      allow_any_instance_of(Faraday::Retry::Middleware).to receive(:sleep)
+
+      seam = Seam.new(
+        api_key: "seam_some_api_key",
+        faraday_retry_options: {retry_block: ->(**args) { retry_delays << args[:will_retry_in] }}
+      )
+
+      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(retry_delays[0]).to be_between(0.2, 0.24)
+      expect(retry_delays[1]).to be_between(0.4, 0.44)
+    end
+
+    it "retries connection failures by default" do
+      stub_request(:get, url)
+        .to_raise(Faraday::ConnectionFailed.new("connection refused"))
+        .then.to_return(devices)
+
+      seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
+
+      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(a_request(:get, url)).to have_been_made.times(2)
+    end
+
+    it "retries timeouts by default" do
+      stub_request(:get, url)
+        .to_raise(Faraday::TimeoutError.new("timed out"))
+        .then.to_return(devices)
+
+      seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
+
+      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(a_request(:get, url)).to have_been_made.times(2)
+    end
   end
 
   describe "a workspace outage", :fake do
