@@ -1,4 +1,4 @@
-ARG VARIANT="3"
+ARG VARIANT="4"
 
 FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
 

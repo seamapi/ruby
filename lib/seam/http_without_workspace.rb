@@ -78,12 +78,12 @@ module Seam
         @workspaces = workspaces
       end
 
-      def list(**kwargs)
-        @workspaces.list(**kwargs)
+      def list(**)
+        @workspaces.list(**)
       end
 
-      def create(**kwargs)
-        @workspaces.create(**kwargs)
+      def create(**)
+        @workspaces.create(**)
       end
     end
 
