@@ -40,6 +40,8 @@ module Seam
       class Location < BaseResource
         # Name of the device location.
         attr_accessor :location_name
+        # Name of the room within the device location, when the provider reports one.
+        attr_accessor :room_name
         # Time zone of the device location.
         attr_accessor :time_zone
         # Time zone of the device location.
@@ -191,9 +193,6 @@ module Seam
         end
 
         class DormakabaOracodeMetadata < BaseResource
-          class DeviceId < BaseResource
-          end
-
           class PredefinedTimeSlots < BaseResource
             # Check in time for a time slot for a dormakaba Oracode device.
             attr_accessor :check_in_time
@@ -217,8 +216,9 @@ module Seam
             attr_accessor :prefix
           end
 
-          resource_accessor :device_id, DeviceId
           resource_list_accessor :predefined_time_slots, PredefinedTimeSlots
+          # Device ID for a dormakaba Oracode device.
+          attr_accessor :device_id
           # Door ID for a dormakaba Oracode device.
           attr_accessor :door_id
           # Indicates whether a door is wireless for a dormakaba Oracode device.
@@ -439,6 +439,10 @@ module Seam
           attr_accessor :display_name
           # Device ID for a Google Nest device.
           attr_accessor :nest_device_id
+          # ID of the Google Nest structure containing the device.
+          attr_accessor :nest_structure_id
+          # Name of the Google Nest structure containing the device. The device owner sets this value.
+          attr_accessor :structure_name
         end
 
         class NoiseawareMetadata < BaseResource
@@ -556,6 +560,8 @@ module Seam
           attr_accessor :device_name
           # Set to true when the device does not support the /dual-setpoints API endpoint.
           attr_accessor :dual_setpoints_not_supported
+          # Enforced setpoint range in Celsius for a Sensi device, derived from an OutOfRange API error.
+          attr_accessor :enforced_setpoint_range_celsius
           # Product type for a Sensi device.
           attr_accessor :product_type
         end
@@ -674,6 +680,17 @@ module Seam
           attr_accessor :product_name
           # Product type for a Wyze device.
           attr_accessor :product_type
+        end
+
+        class YacanMetadata < BaseResource
+          # Device ID for a Yacan device.
+          attr_accessor :device_id
+          # Device name for a Yacan device.
+          attr_accessor :device_name
+          # Device type for a Yacan device.
+          attr_accessor :device_type
+          # Serial number for a Yacan device.
+          attr_accessor :serial_number
         end
 
         class CodeConstraints < BaseResource
@@ -997,6 +1014,7 @@ module Seam
         resource_accessor :ultraloq_metadata, UltraloqMetadata
         resource_accessor :visionline_metadata, VisionlineMetadata
         resource_accessor :wyze_metadata, WyzeMetadata
+        resource_accessor :yacan_metadata, YacanMetadata
         resource_accessor :keypad_battery, KeypadBattery
         resource_accessor :active_thermostat_schedule, ActiveThermostatSchedule
         resource_accessor :current_climate_setting, CurrentClimateSetting

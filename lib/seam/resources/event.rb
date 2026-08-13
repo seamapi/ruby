@@ -156,7 +156,9 @@ module Seam
       attr_accessor :acs_encoder_id
       attr_accessor :acs_entrance_id
       attr_accessor :acs_entrance_ids
+      # ID of the access system.
       attr_accessor :acs_system_id
+      # ID of the affected access system user.
       attr_accessor :acs_user_id
       attr_accessor :action_attempt_id
       # Type of the action.
@@ -179,8 +181,6 @@ module Seam
       attr_accessor :connect_webview_id
       attr_accessor :connected_account_custom_metadata
       attr_accessor :connected_account_id
-      # undocumented: Unreleased.
-      attr_accessor :connected_account_type
       # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       attr_accessor :cooling_set_point_celsius
       # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
@@ -262,7 +262,6 @@ module Seam
       attr_accessor :upper_limit_celsius
       # Upper temperature limit, in °F, defined by the set threshold.
       attr_accessor :upper_limit_fahrenheit
-      attr_accessor :user_identity_id
       attr_accessor :video_url
       # ID of the workspace associated with the event.
       attr_accessor :workspace_id

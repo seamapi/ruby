@@ -20,6 +20,8 @@ module Seam
       class Location < BaseResource
         # Name of the device location.
         attr_accessor :location_name
+        # Name of the room within the device location, when the provider reports one.
+        attr_accessor :room_name
         # Time zone of the device location.
         attr_accessor :time_zone
         # Time zone of the device location.

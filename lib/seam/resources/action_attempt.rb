@@ -53,6 +53,11 @@ module Seam
         end
 
         class AcsCredentialOnSeam < BaseResource
+          class AkilesMetadata < BaseResource
+            # ID of the Akiles member PIN.
+            attr_accessor :member_pin_id
+          end
+
           class AssaAbloyVostioMetadata < BaseResource
             # Indicates whether the credential should auto-join. For an auto-join credential, Seam automatically issues an override card if there are no other cards and a joiner card if there are existing cards on the doors.
             attr_accessor :auto_join
@@ -99,10 +104,15 @@ module Seam
             attr_accessor :message
             # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
             attr_accessor :warning_code
+            # The PIN code that was assigned instead.
+            attr_accessor :new_code
+            # The originally requested PIN code that could not be used.
+            attr_accessor :original_code
             # Date and time at which Seam created the warning.
             date_accessor :created_at
           end
 
+          resource_accessor :akiles_metadata, AkilesMetadata
           resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
           resource_accessor :visionline_metadata, VisionlineMetadata
           resource_list_accessor :errors, Errors
@@ -154,6 +164,11 @@ module Seam
           date_accessor :issued_at
           # Date and time at which the state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
           date_accessor :latest_desired_state_synced_with_provider_at
+        end
+
+        class AkilesMetadata < BaseResource
+          # ID of the Akiles member PIN.
+          attr_accessor :member_pin_id
         end
 
         class AssaAbloyVostioMetadata < BaseResource
@@ -227,8 +242,12 @@ module Seam
         class Warnings < BaseResource
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           attr_accessor :message
+          # The PIN code that was assigned instead.
+          attr_accessor :new_code
           # ID of the original access method from which this backup access method was split, if applicable.
           attr_accessor :original_access_method_id
+          # The originally requested PIN code that could not be used.
+          attr_accessor :original_code
           attr_accessor :warning_code
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           attr_accessor :warning_message
@@ -238,11 +257,13 @@ module Seam
 
         resource_accessor :acs_credential_on_encoder, AcsCredentialOnEncoder
         resource_accessor :acs_credential_on_seam, AcsCredentialOnSeam
+        resource_accessor :akiles_metadata, AkilesMetadata
         resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
         resource_accessor :visionline_metadata, VisionlineMetadata
         resource_list_accessor :errors, Errors
         resource_list_accessor :pending_mutations, PendingMutations
         resource_list_accessor :warnings, Warnings
+        attr_accessor :access_code
         # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
         attr_accessor :access_method
         # ID of the access method.
@@ -292,6 +313,7 @@ module Seam
         attr_accessor :is_ready_for_encoding
         # Access method mode. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
         attr_accessor :mode
+        attr_accessor :noise_threshold
         # ID of the parent [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
         attr_accessor :parent_acs_credential_id
         # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.

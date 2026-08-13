@@ -10,6 +10,11 @@ module Seam
     #
     # For granting a person access to a space, [Access Grants](https://docs.seam.co/use-cases/granting-access) are the default and recommended approach. Use the lower-level ACS credential API directly only when you specifically need to manage individual credentials.
     class AcsCredential < BaseResource
+      class AkilesMetadata < BaseResource
+        # ID of the Akiles member PIN.
+        attr_accessor :member_pin_id
+      end
+
       class AssaAbloyVostioMetadata < BaseResource
         # Indicates whether the credential should auto-join. For an auto-join credential, Seam automatically issues an override card if there are no other cards and a joiner card if there are existing cards on the doors.
         attr_accessor :auto_join
@@ -54,12 +59,17 @@ module Seam
       class Warnings < BaseResource
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         attr_accessor :message
+        # The PIN code that was assigned instead.
+        attr_accessor :new_code
+        # The originally requested PIN code that could not be used.
+        attr_accessor :original_code
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         date_accessor :created_at
       end
 
+      resource_accessor :akiles_metadata, AkilesMetadata
       resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
       resource_accessor :visionline_metadata, VisionlineMetadata
       resource_list_accessor :errors, Errors
