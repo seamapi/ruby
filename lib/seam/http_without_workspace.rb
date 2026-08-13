@@ -14,12 +14,16 @@ module Seam
     class WithoutWorkspace
       attr_reader :client, :defaults
 
-      def initialize(personal_access_token:, endpoint: nil, wait_for_action_attempt: true, timeout: nil,
+      def initialize(personal_access_token: nil, endpoint: nil, wait_for_action_attempt: true, timeout: nil,
         faraday_options: {}, faraday_retry_options: {})
         @wait_for_action_attempt = wait_for_action_attempt
         @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
-        @endpoint = Http::Options.get_endpoint(endpoint)
-        @auth_headers = Http::Auth.get_auth_headers_for_without_workspace_personal_access_token(personal_access_token)
+
+        options = Http::Options.parse_without_workspace_options(personal_access_token: personal_access_token,
+          endpoint: endpoint)
+        @endpoint = options[:endpoint]
+        @auth_headers = options[:auth_headers]
+
         @client = Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
           faraday_retry_options, timeout: timeout)
       end
