@@ -22,6 +22,10 @@ module Seam
       # @param instant_key_url [String, nil] URL of the instant key to get.
       # @return [Seam::Resources::InstantKey] OK
       def get(instant_key_id: nil, instant_key_url: nil)
+        if instant_key_id.nil? && instant_key_url.nil?
+          raise TypeError, "At least one parameter is required for /instant_keys/get"
+        end
+
         res = @client.post("/instant_keys/get", {instant_key_id: instant_key_id, instant_key_url: instant_key_url}.compact)
 
         Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])

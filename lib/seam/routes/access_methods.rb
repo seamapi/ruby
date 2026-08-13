@@ -32,6 +32,10 @@ module Seam
       # @param reservation_key [String, nil] Reservation key of the access grant whose access methods should be deleted.
       # @return [nil] OK
       def delete(access_method_id: nil, access_grant_id: nil, reservation_key: nil)
+        if access_method_id.nil? && access_grant_id.nil? && reservation_key.nil?
+          raise TypeError, "At least one parameter is required for /access_methods/delete"
+        end
+
         @client.post("/access_methods/delete", {access_method_id: access_method_id, access_grant_id: access_grant_id, reservation_key: reservation_key}.compact)
 
         nil
@@ -80,6 +84,10 @@ module Seam
       # @param space_id [String, nil] ID of the space by which to filter the returned access methods. Must be combined with `access_grant_id`, `access_grant_key`, or `acs_entrance_id`.
       # @return [Seam::Resources::AccessMethod] OK
       def list(access_code_id: nil, access_grant_id: nil, access_grant_key: nil, acs_entrance_id: nil, device_id: nil, limit: nil, page_cursor: nil, space_id: nil)
+        if access_code_id.nil? && access_grant_id.nil? && access_grant_key.nil? && acs_entrance_id.nil? && device_id.nil? && limit.nil? && page_cursor.nil? && space_id.nil?
+          raise TypeError, "At least one parameter is required for /access_methods/list"
+        end
+
         res = @client.post("/access_methods/list", {access_code_id: access_code_id, access_grant_id: access_grant_id, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, device_id: device_id, limit: limit, page_cursor: page_cursor, space_id: space_id}.compact)
 
         Seam::Resources::AccessMethod.load_from_response(res.body["access_methods"])

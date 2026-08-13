@@ -23,6 +23,10 @@ module Seam
       # @param name [String, nil] Name of the device that you want to get.
       # @return [Seam::Resources::Device] OK
       def get(device_id: nil, name: nil)
+        if device_id.nil? && name.nil?
+          raise TypeError, "At least one parameter is required for /devices/get"
+        end
+
         res = @client.post("/devices/get", {device_id: device_id, name: name}.compact)
 
         Seam::Resources::Device.load_from_response(res.body["device"])

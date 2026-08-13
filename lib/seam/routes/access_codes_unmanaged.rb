@@ -41,6 +41,10 @@ module Seam
       # @param device_id [String, nil] ID of the device containing the unmanaged access code that you want to get. You must specify either `access_code_id` or both `device_id` and `code`.
       # @return [Seam::Resources::UnmanagedAccessCode] OK
       def get(access_code_id: nil, code: nil, device_id: nil)
+        if access_code_id.nil? && code.nil? && device_id.nil?
+          raise TypeError, "At least one parameter is required for /access_codes/unmanaged/get"
+        end
+
         res = @client.post("/access_codes/unmanaged/get", {access_code_id: access_code_id, code: code, device_id: device_id}.compact)
 
         Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_code"])
