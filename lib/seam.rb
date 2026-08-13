@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "seam/lts_version"
 require_relative "seam/http"
 require_relative "seam/http_without_workspace"
 require_relative "seam/webhook"
@@ -18,9 +17,5 @@ module Seam
 
   def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: true, timeout: nil)
     Seam::Http.from_personal_access_token(personal_access_token, workspace_id, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, timeout: timeout)
-  end
-
-  def self.lts_version
-    Seam::LTS_VERSION
   end
 end

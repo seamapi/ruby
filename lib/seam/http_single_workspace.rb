@@ -35,10 +35,6 @@ module Seam
         initialize_routes(client: @client, defaults: @defaults)
       end
 
-      def lts_version
-        Seam::LTS_VERSION
-      end
-
       def create_paginator(request, params = {})
         Paginator.new(request, params)
       end

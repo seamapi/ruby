@@ -3,7 +3,6 @@
 require "faraday"
 require "faraday/retry"
 require_relative "defaults"
-require_relative "lts_version"
 require_relative "version"
 require_relative "paginator"
 
@@ -43,8 +42,7 @@ module Seam
           "User-Agent" => "seam-ruby/#{Seam::VERSION}",
           "Content-Type" => "application/json",
           :"seam-sdk-name" => "seamapi/ruby",
-          :"seam-sdk-version" => Seam::VERSION,
-          :"seam-lts-version" => Seam::LTS_VERSION
+          :"seam-sdk-version" => Seam::VERSION
         }
       end
 

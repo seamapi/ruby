@@ -14,7 +14,6 @@ RSpec.describe Seam::Http::Request do
           "Content-Type" => "application/json",
           "seam-sdk-name" => "seamapi/ruby",
           "seam-sdk-version" => Seam::VERSION,
-          "seam-lts-version" => Seam::LTS_VERSION,
           "User-Agent" => "seam-ruby/#{Seam::VERSION}"
         }
       )
@@ -49,10 +48,5 @@ RSpec.describe Seam::Http::Request do
     seam.devices.get(device_id: device_id)
 
     expect(stub).to have_been_requested
-  end
-
-  it "exposes the LTS version on the module and the client" do
-    expect(Seam.lts_version).to eq(Seam::LTS_VERSION)
-    expect(Seam.new(api_key: "seam_some_api_key").lts_version).to eq(Seam::LTS_VERSION)
   end
 end

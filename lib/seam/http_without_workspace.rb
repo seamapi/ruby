@@ -2,7 +2,6 @@
 
 require_relative "request"
 require_relative "parse_options"
-require_relative "lts_version"
 require_relative "version"
 require_relative "auth"
 require_relative "resources/index"
@@ -26,14 +25,6 @@ module Seam
 
         @client = Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
           faraday_retry_options, timeout: timeout)
-      end
-
-      def self.lts_version
-        Seam::LTS_VERSION
-      end
-
-      def lts_version
-        Seam::LTS_VERSION
       end
 
       def workspaces
