@@ -13,31 +13,43 @@ module Seam
     # See also [Get Started with React](https://docs.seam.co/ui-components/overview/getting-started-with-seam-components/get-started-with-react-components-and-client-session-tokens).
     class ClientSession < BaseResource
       # ID of the client session.
+      # @return [String]
       attr_accessor :client_session_id
       # IDs of the [Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews) associated with the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
+      # @return [Array<String>]
       attr_accessor :connect_webview_ids
       # IDs of the [connected accounts](https://docs.seam.co/core-concepts/connected-accounts) associated with the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
+      # @return [Array<String>]
       attr_accessor :connected_account_ids
       # Customer key associated with the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
+      # @return [String, nil]
       attr_accessor :customer_key
       # Number of devices associated with the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
+      # @return [Float]
       attr_accessor :device_count
       # Client session token associated with the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
+      # @return [String]
       attr_accessor :token
       # Your user ID for the user associated with the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
+      # @return [String, nil]
       attr_accessor :user_identifier_key
       # ID of the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) associated with the client session.
+      # @return [String, nil]
       attr_accessor :user_identity_id
       # IDs of the [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) associated with the client session.
+      # @return [Array<String>]
       # @deprecated Use `user_identity_id` instead.
       attr_accessor :user_identity_ids
       # ID of the workspace associated with the client session.
+      # @return [String]
       attr_accessor :workspace_id
 
       # Date and time at which the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens) was created.
+      # @return [Time]
       date_accessor :created_at
 
       # Date and time at which the [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens) expires.
+      # @return [Time]
       date_accessor :expires_at
     end
   end

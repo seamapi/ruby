@@ -10,97 +10,142 @@ module Seam
     class AcsAccessGroup < BaseResource
       class AccessSchedule < BaseResource
         # Date and time at which the user's access ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        # @return [Time, nil]
         date_accessor :ends_at
         # Date and time at which the user's access starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        # @return [Time]
         date_accessor :starts_at
       end
 
       class Errors < BaseResource
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        # @return [String]
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        # @return [String]
         attr_accessor :message
         # Date and time at which Seam created the error.
+        # @return [Time]
         date_accessor :created_at
       end
 
       class PendingMutations < BaseResource
         class From < BaseResource
           # Old entrance ID.
+          # @return [String, nil]
           attr_accessor :acs_entrance_id
           # Old user ID.
+          # @return [String, nil]
           attr_accessor :acs_user_id
           # Name of the access group.
+          # @return [String, nil]
           attr_accessor :name
           # Ending time for the access schedule.
+          # @return [Time, nil]
           date_accessor :ends_at
           # Starting time for the access schedule.
+          # @return [Time, nil]
           date_accessor :starts_at
         end
 
         class To < BaseResource
           # New entrance ID.
+          # @return [String, nil]
           attr_accessor :acs_entrance_id
           # New user ID.
+          # @return [String, nil]
           attr_accessor :acs_user_id
           # Name of the access group.
+          # @return [String, nil]
           attr_accessor :name
           # Ending time for the access schedule.
+          # @return [Time, nil]
           date_accessor :ends_at
           # Starting time for the access schedule.
+          # @return [Time, nil]
           date_accessor :starts_at
         end
 
+        # @return [From]
         resource_accessor :from, From
+        # @return [To]
         resource_accessor :to, To
         # ID of the user involved in the scheduled change.
+        # @return [String]
         attr_accessor :acs_user_id
         # Detailed description of the mutation.
+        # @return [String]
         attr_accessor :message
+        # @return [String]
         attr_accessor :mutation_code
         # Whether the user is scheduled to be added to or removed from this access group.
+        # @return [String]
         attr_accessor :variant
         # Date and time at which the mutation was created.
+        # @return [Time]
         date_accessor :created_at
       end
 
       class Warnings < BaseResource
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        # @return [String]
         attr_accessor :message
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        # @return [String]
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
+        # @return [Time]
         date_accessor :created_at
       end
 
+      # `starts_at` and `ends_at` timestamps for the access group's access.
+      # @return [AccessSchedule, nil]
       resource_accessor :access_schedule, AccessSchedule
+      # Errors associated with the `acs_access_group`.
+      # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
+      # Collection of pending mutations for the access group. Represents operations that have been requested but not yet completed on the integrated access system.
+      # @return [Array<PendingMutations>]
       resource_list_accessor :pending_mutations, PendingMutations
+      # Warnings associated with the `acs_access_group`.
+      # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
+      # @return [String]
       # @deprecated Use `external_type`.
       attr_accessor :access_group_type
+      # @return [String]
       # @deprecated Use `external_type_display_name`.
       attr_accessor :access_group_type_display_name
       # ID of the access group.
+      # @return [String]
       attr_accessor :acs_access_group_id
       # ID of the access control system that contains the access group.
+      # @return [String]
       attr_accessor :acs_system_id
       # ID of the connected account that contains the access group.
+      # @return [String]
       attr_accessor :connected_account_id
       # Display name for the access group.
+      # @return [String]
       attr_accessor :display_name
       # Brand-specific terminology for the access group type.
+      # @return [String]
       attr_accessor :external_type
       # Display name that corresponds to the brand-specific terminology for the access group type.
+      # @return [String]
       attr_accessor :external_type_display_name
       # Indicates whether Seam manages the access group.
+      # @return [Boolean]
       attr_accessor :is_managed
       # Name of the access group.
+      # @return [String]
       attr_accessor :name
       # ID of the workspace that contains the access group.
+      # @return [String]
       attr_accessor :workspace_id
 
       # Date and time at which the access group was created.
+      # @return [Time]
       date_accessor :created_at
     end
   end

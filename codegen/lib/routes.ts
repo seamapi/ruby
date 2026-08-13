@@ -17,6 +17,7 @@ import { pascalCase } from 'change-case'
 import type Metalsmith from 'metalsmith'
 
 import { convertCustomResourceName } from './custom-resource-name-conversions.js'
+import { rubyParameterType } from './handlebars-helpers.js'
 import { setClientLayoutContext } from './layouts/client.js'
 import { setImportsLayoutContext } from './layouts/imports.js'
 import { setResourceLayoutContext } from './layouts/resource.js'
@@ -217,6 +218,7 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
       description: parameter.description,
       isDeprecated: parameter.isDeprecated,
       deprecationMessage: parameter.deprecationMessage,
+      rubyType: rubyParameterType(parameter),
       required: parameter.isRequired,
       position:
         endpoint.name === 'get' && parameter.name === `${returnPath}_id`

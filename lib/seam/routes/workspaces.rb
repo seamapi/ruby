@@ -11,20 +11,20 @@ module Seam
       end
 
       # Creates a new [workspace](https://docs.seam.co/core-concepts/workspaces).
-      # @param name Name of the new workspace.
-      # @param company_name Company name for the new workspace.
-      # @param connect_partner_name Connect partner name for the new workspace.
+      # @param name [String] Name of the new workspace.
+      # @param company_name [String, nil] Company name for the new workspace.
+      # @param connect_partner_name [String, nil] Connect partner name for the new workspace.
       # @deprecated connect_partner_name: Use `company_name` instead.
-      # @param connect_webview_customization [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) customizations for the new workspace. See also [Customize the Look and Feel of Your Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-look-and-feel-of-your-connect-webviews).
-      # @param is_sandbox Indicates whether the new workspace is a [sandbox workspace](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
-      # @param organization_id ID of the organization to associate with the new workspace.
-      # @param webview_logo_shape
+      # @param connect_webview_customization [Hash, nil] [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) customizations for the new workspace. See also [Customize the Look and Feel of Your Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-look-and-feel-of-your-connect-webviews).
+      # @param is_sandbox [Boolean, nil] Indicates whether the new workspace is a [sandbox workspace](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
+      # @param organization_id [String, nil] ID of the organization to associate with the new workspace.
+      # @param webview_logo_shape [String, nil]
       # @deprecated webview_logo_shape: Use `connect_webview_customization.webview_logo_shape` instead.
-      # @param webview_primary_button_color
+      # @param webview_primary_button_color [String, nil]
       # @deprecated webview_primary_button_color: Use `connect_webview_customization.webview_primary_button_color` instead.
-      # @param webview_primary_button_text_color
+      # @param webview_primary_button_text_color [String, nil]
       # @deprecated webview_primary_button_text_color: Use `connect_webview_customization.webview_primary_button_text_color` instead.
-      # @param webview_success_message
+      # @param webview_success_message [String, nil]
       # @deprecated webview_success_message: Use `connect_webview_customization.webview_success_message` instead.
       # @return [Seam::Resources::Workspace] OK
       def create(name:, company_name: nil, connect_partner_name: nil, connect_webview_customization: nil, is_sandbox: nil, organization_id: nil, webview_logo_shape: nil, webview_primary_button_color: nil, webview_primary_button_text_color: nil, webview_success_message: nil)
@@ -60,12 +60,12 @@ module Seam
       end
 
       # Updates the [workspace](https://docs.seam.co/core-concepts/workspaces) associated with the authentication value.
-      # @param connect_partner_name Connect partner name for the workspace.
-      # @param connect_webview_customization [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) customizations for the workspace. See also [Customize the Look and Feel of Your Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-look-and-feel-of-your-connect-webviews).
-      # @param is_publishable_key_auth_enabled Indicates whether publishable key authentication is enabled for this workspace.
-      # @param is_suspended Indicates whether the workspace is suspended.
-      # @param name Name of the workspace.
-      # @param organization_id ID of the organization to assign the workspace to. The authenticated user must be the owner of the workspace and an admin of the target organization.
+      # @param connect_partner_name [String, nil] Connect partner name for the workspace.
+      # @param connect_webview_customization [Hash, nil] [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) customizations for the workspace. See also [Customize the Look and Feel of Your Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-look-and-feel-of-your-connect-webviews).
+      # @param is_publishable_key_auth_enabled [Boolean, nil] Indicates whether publishable key authentication is enabled for this workspace.
+      # @param is_suspended [Boolean, nil] Indicates whether the workspace is suspended.
+      # @param name [String, nil] Name of the workspace.
+      # @param organization_id [String, nil] ID of the organization to assign the workspace to. The authenticated user must be the owner of the workspace and an admin of the target organization.
       # @return [nil] OK
       def update(connect_partner_name: nil, connect_webview_customization: nil, is_publishable_key_auth_enabled: nil, is_suspended: nil, name: nil, organization_id: nil)
         @client.post("/workspaces/update", {connect_partner_name: connect_partner_name, connect_webview_customization: connect_webview_customization, is_publishable_key_auth_enabled: is_publishable_key_auth_enabled, is_suspended: is_suspended, name: name, organization_id: organization_id}.compact)

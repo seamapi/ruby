@@ -7,6 +7,7 @@ export interface ClientMethodParameter {
   description: string
   isDeprecated: boolean
   deprecationMessage: string
+  rubyType?: string
   required?: boolean | undefined
   position?: number | undefined
 }

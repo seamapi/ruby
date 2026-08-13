@@ -11,9 +11,9 @@ module Seam
       end
 
       # Creates a new thermostat daily program. A daily program consists of a set of periods, where each period includes a start time and the key of a configured climate preset. Once you have defined a daily program, you can assign it to one or more days within a weekly program.
-      # @param device_id ID of the thermostat device for which you want to create a daily program.
-      # @param name Name of the thermostat daily program.
-      # @param periods Array of thermostat daily program periods.
+      # @param device_id [String] ID of the thermostat device for which you want to create a daily program.
+      # @param name [String] Name of the thermostat daily program.
+      # @param periods [Array<Hash>] Array of thermostat daily program periods.
       # @return [Seam::Resources::ThermostatDailyProgram] OK
       def create(device_id:, name:, periods:)
         res = @client.post("/thermostats/daily_programs/create", {device_id: device_id, name: name, periods: periods}.compact)
@@ -22,7 +22,7 @@ module Seam
       end
 
       # Deletes a thermostat daily program.
-      # @param thermostat_daily_program_id ID of the thermostat daily program that you want to delete.
+      # @param thermostat_daily_program_id [String] ID of the thermostat daily program that you want to delete.
       # @return [nil] OK
       def delete(thermostat_daily_program_id:)
         @client.post("/thermostats/daily_programs/delete", {thermostat_daily_program_id: thermostat_daily_program_id}.compact)
@@ -31,9 +31,9 @@ module Seam
       end
 
       # Updates a specified thermostat daily program. The periods that you specify overwrite any existing periods for the daily program.
-      # @param name Name of the thermostat daily program that you want to update.
-      # @param periods Array of thermostat daily program periods. The periods that you specify overwrite any existing periods for the daily program.
-      # @param thermostat_daily_program_id ID of the thermostat daily program that you want to update.
+      # @param name [String] Name of the thermostat daily program that you want to update.
+      # @param periods [Array<Hash>] Array of thermostat daily program periods. The periods that you specify overwrite any existing periods for the daily program.
+      # @param thermostat_daily_program_id [String] ID of the thermostat daily program that you want to update.
       # @return [Seam::Resources::ActionAttempt] OK
       def update(name:, periods:, thermostat_daily_program_id:, wait_for_action_attempt: nil)
         res = @client.post("/thermostats/daily_programs/update", {name: name, periods: periods, thermostat_daily_program_id: thermostat_daily_program_id}.compact)

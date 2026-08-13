@@ -10,6 +10,8 @@ interface MergedDocs {
   description: string
   isDeprecated: boolean
   deprecationMessage: string
+  isOptional: boolean
+  isNullable: boolean
 }
 
 // Each variant documents a property for its own case, which is accurate there
@@ -34,6 +36,11 @@ const mergeDocs = (occurrences: Property[]): MergedDocs => {
     // is never dropped just because another variant omits it.
     isDeprecated: deprecated != null,
     deprecationMessage: deprecated?.deprecationMessage ?? '',
+    // A property is optional on the merged shape when any variant can omit it.
+    // Likewise, nullability must not be lost when the first occurrence is
+    // non-nullable.
+    isOptional: occurrences.some(({ isOptional }) => isOptional),
+    isNullable: occurrences.some(({ isNullable }) => isNullable),
   }
 }
 

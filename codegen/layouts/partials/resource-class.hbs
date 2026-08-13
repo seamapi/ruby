@@ -3,15 +3,24 @@
 {{> resource-class}}
 {{/each}}
 {{#each resourceAccessors}}
+{{#if description}}
+{{{rubyDoc description ../docIndent}}}
+{{/if}}
+{{../bodyIndent}}# @return [{{rubyResourceType this}}]
 {{../bodyIndent}}resource_accessor :{{name}}, {{className}}
 {{/each}}
 {{#each resourceListAccessors}}
+{{#if description}}
+{{{rubyDoc description ../docIndent}}}
+{{/if}}
+{{../bodyIndent}}# @return [{{rubyResourceType this}}]
 {{../bodyIndent}}resource_list_accessor :{{name}}, {{className}}
 {{/each}}
 {{#each accessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
+{{../bodyIndent}}# @return [{{rubyPropertyType this}}]
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this ../docIndent}}}
 {{/if}}
@@ -21,6 +30,7 @@
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
+{{../bodyIndent}}# @return [{{rubyPropertyType this}}]
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this ../docIndent}}}
 {{/if}}

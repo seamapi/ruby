@@ -9,16 +9,21 @@ module Seam
     # Seam hosts these flows, handling everything from account connection and device mapping to full-featured device control.
     class CustomerPortal < BaseResource
       # Customer key for the customer portal.
+      # @return [String]
       attr_accessor :customer_key
       # URL for the customer portal.
+      # @return [String]
       attr_accessor :url
       # ID of the workspace associated with the customer portal.
+      # @return [String]
       attr_accessor :workspace_id
 
       # Date and time at which the customer portal link was created.
+      # @return [Time]
       date_accessor :created_at
 
       # Date and time at which the customer portal link expires.
+      # @return [Time]
       date_accessor :expires_at
     end
   end

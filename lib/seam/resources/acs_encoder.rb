@@ -19,26 +19,37 @@ module Seam
     class AcsEncoder < BaseResource
       class Errors < BaseResource
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+        # @return [String]
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+        # @return [String]
         attr_accessor :message
         # Date and time at which Seam created the error.
+        # @return [Time]
         date_accessor :created_at
       end
 
+      # Errors associated with the [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
       # ID of the [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # @return [String]
       attr_accessor :acs_encoder_id
       # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems) that contains the [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # @return [String]
       attr_accessor :acs_system_id
       # ID of the connected account that contains the [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # @return [String]
       attr_accessor :connected_account_id
       # Display name for the [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # @return [String]
       attr_accessor :display_name
       # ID of the workspace that contains the [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # @return [String]
       attr_accessor :workspace_id
 
       # Date and time at which the [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners) was created.
+      # @return [Time]
       date_accessor :created_at
     end
   end
