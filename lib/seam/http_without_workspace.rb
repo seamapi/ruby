@@ -13,18 +13,47 @@ module Seam
     class WithoutWorkspace
       attr_reader :client, :defaults
 
-      def initialize(personal_access_token: nil, endpoint: nil, wait_for_action_attempt: true, timeout: nil,
-        faraday_options: {}, faraday_retry_options: {})
+      OPTION_NOT_PROVIDED = Object.new.freeze
+      private_constant :OPTION_NOT_PROVIDED
+
+      def initialize(client: nil, personal_access_token: OPTION_NOT_PROVIDED, endpoint: OPTION_NOT_PROVIDED,
+        wait_for_action_attempt: OPTION_NOT_PROVIDED, timeout: OPTION_NOT_PROVIDED,
+        faraday_options: OPTION_NOT_PROVIDED, faraday_retry_options: OPTION_NOT_PROVIDED)
+        supplied_options = {
+          personal_access_token: personal_access_token,
+          endpoint: endpoint,
+          wait_for_action_attempt: wait_for_action_attempt,
+          timeout: timeout,
+          faraday_options: faraday_options,
+          faraday_retry_options: faraday_retry_options
+        }.reject { |_, value| value.equal?(OPTION_NOT_PROVIDED) }
+        invalid_options = supplied_options.keys - [:wait_for_action_attempt]
+
+        if client && invalid_options.any?
+          raise Http::Options::SeamInvalidOptionsError.new(
+            "The client option cannot be used with any other option, but received: #{supplied_options.keys.join(", ")}"
+          )
+        end
+
+        wait_for_action_attempt = true if wait_for_action_attempt.equal?(OPTION_NOT_PROVIDED)
         @wait_for_action_attempt = wait_for_action_attempt
         @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
 
-        options = Http::Options.parse_without_workspace_options(personal_access_token: personal_access_token,
-          endpoint: endpoint)
-        @endpoint = options[:endpoint]
-        @auth_headers = options[:auth_headers]
+        @client = client || begin
+          personal_access_token = nil if personal_access_token.equal?(OPTION_NOT_PROVIDED)
+          endpoint = nil if endpoint.equal?(OPTION_NOT_PROVIDED)
+          timeout = nil if timeout.equal?(OPTION_NOT_PROVIDED)
+          faraday_options = {} if faraday_options.equal?(OPTION_NOT_PROVIDED)
+          faraday_retry_options = {} if faraday_retry_options.equal?(OPTION_NOT_PROVIDED)
 
-        @client = Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
-          faraday_retry_options, timeout: timeout)
+          options = Http::Options.parse_without_workspace_options(personal_access_token: personal_access_token,
+            endpoint: endpoint)
+          @endpoint = options[:endpoint]
+          @auth_headers = options[:auth_headers]
+
+          Http::Request.create_faraday_client(@endpoint, @auth_headers, faraday_options,
+            faraday_retry_options, timeout: timeout)
+        end
       end
 
       def workspaces
