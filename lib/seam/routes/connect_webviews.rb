@@ -38,7 +38,7 @@ module Seam
       # @param connect_webview_id [String] ID of the Connect Webview that you want to delete.
       # @return [nil] OK
       def delete(connect_webview_id:)
-        @client.post("/connect_webviews/delete", {connect_webview_id: connect_webview_id}.compact)
+        @client.delete("/connect_webviews/delete", {connect_webview_id: connect_webview_id}.compact)
 
         nil
       end
@@ -49,7 +49,7 @@ module Seam
       # @param connect_webview_id [String] ID of the Connect Webview that you want to get.
       # @return [Seam::Resources::ConnectWebview] OK
       def get(connect_webview_id:)
-        res = @client.post("/connect_webviews/get", {connect_webview_id: connect_webview_id}.compact)
+        res = @client.get("/connect_webviews/get", {connect_webview_id: connect_webview_id}.compact)
 
         Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webview"])
       end

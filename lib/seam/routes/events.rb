@@ -18,7 +18,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /events/get"
         end
 
-        res = @client.post("/events/get", {event_id: event_id, device_id: device_id, event_type: event_type}.compact)
+        res = @client.get("/events/get", {event_id: event_id, device_id: device_id, event_type: event_type}.compact)
 
         Seam::Resources::SeamEvent.load_from_response(res.body["event"])
       end

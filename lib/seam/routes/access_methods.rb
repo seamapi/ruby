@@ -36,7 +36,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /access_methods/delete"
         end
 
-        @client.post("/access_methods/delete", {access_method_id: access_method_id, access_grant_id: access_grant_id, reservation_key: reservation_key}.compact)
+        @client.delete("/access_methods/delete", {access_method_id: access_method_id, access_grant_id: access_grant_id, reservation_key: reservation_key}.compact)
 
         nil
       end
@@ -57,7 +57,7 @@ module Seam
       # @param access_method_id [String] ID of access method to get.
       # @return [Seam::Resources::AccessMethod] OK
       def get(access_method_id:)
-        res = @client.post("/access_methods/get", {access_method_id: access_method_id}.compact)
+        res = @client.get("/access_methods/get", {access_method_id: access_method_id}.compact)
 
         Seam::Resources::AccessMethod.load_from_response(res.body["access_method"])
       end
@@ -88,7 +88,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /access_methods/list"
         end
 
-        res = @client.post("/access_methods/list", {access_code_id: access_code_id, access_grant_id: access_grant_id, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, device_id: device_id, limit: limit, page_cursor: page_cursor, space_id: space_id}.compact)
+        res = @client.get("/access_methods/list", {access_code_id: access_code_id, access_grant_id: access_grant_id, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, device_id: device_id, limit: limit, page_cursor: page_cursor, space_id: space_id}.compact)
 
         Seam::Resources::AccessMethod.load_from_response(res.body["access_methods"])
       end

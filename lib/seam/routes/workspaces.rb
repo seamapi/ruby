@@ -36,7 +36,7 @@ module Seam
       # Returns the [workspace](https://docs.seam.co/core-concepts/workspaces) associated with the authentication value.
       # @return [Seam::Resources::Workspace] OK
       def get
-        res = @client.post("/workspaces/get")
+        res = @client.get("/workspaces/get")
 
         Seam::Resources::Workspace.load_from_response(res.body["workspace"])
       end
@@ -44,7 +44,7 @@ module Seam
       # Returns a list of [workspaces](https://docs.seam.co/core-concepts/workspaces) associated with the authentication value.
       # @return [Seam::Resources::Workspace] OK
       def list
-        res = @client.post("/workspaces/list")
+        res = @client.get("/workspaces/list")
 
         Seam::Resources::Workspace.load_from_response(res.body["workspaces"])
       end
@@ -68,7 +68,7 @@ module Seam
       # @param organization_id [String, nil] ID of the organization to assign the workspace to. The authenticated user must be the owner of the workspace and an admin of the target organization.
       # @return [nil] OK
       def update(connect_partner_name: nil, connect_webview_customization: nil, is_publishable_key_auth_enabled: nil, is_suspended: nil, name: nil, organization_id: nil)
-        @client.post("/workspaces/update", {connect_partner_name: connect_partner_name, connect_webview_customization: connect_webview_customization, is_publishable_key_auth_enabled: is_publishable_key_auth_enabled, is_suspended: is_suspended, name: name, organization_id: organization_id}.compact)
+        @client.patch("/workspaces/update", {connect_partner_name: connect_partner_name, connect_webview_customization: connect_webview_customization, is_publishable_key_auth_enabled: is_publishable_key_auth_enabled, is_suspended: is_suspended, name: name, organization_id: organization_id}.compact)
 
         nil
       end

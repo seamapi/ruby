@@ -14,7 +14,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity to whom you want to assign a credential. You can only provide one of acs_user_id or user_identity_id. If the ACS system contains an ACS user with the same `email_address` or `phone_number` as the user identity that you specify, they are linked, and the credential belongs to the ACS user. If the ACS system does not have a corresponding ACS user, one is created.
       # @return [nil] OK
       def assign(acs_credential_id:, acs_user_id: nil, user_identity_id: nil)
-        @client.post("/acs/credentials/assign", {acs_credential_id: acs_credential_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        @client.patch("/acs/credentials/assign", {acs_credential_id: acs_credential_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -44,7 +44,7 @@ module Seam
       # @param acs_credential_id [String] ID of the credential that you want to delete.
       # @return [nil] OK
       def delete(acs_credential_id:)
-        @client.post("/acs/credentials/delete", {acs_credential_id: acs_credential_id}.compact)
+        @client.delete("/acs/credentials/delete", {acs_credential_id: acs_credential_id}.compact)
 
         nil
       end
@@ -53,7 +53,7 @@ module Seam
       # @param acs_credential_id [String] ID of the credential that you want to get.
       # @return [Seam::Resources::AcsCredential] OK
       def get(acs_credential_id:)
-        res = @client.post("/acs/credentials/get", {acs_credential_id: acs_credential_id}.compact)
+        res = @client.get("/acs/credentials/get", {acs_credential_id: acs_credential_id}.compact)
 
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credential"])
       end
@@ -69,7 +69,7 @@ module Seam
       # @param search [String, nil] String for which to search. Filters returned credentials to include all records that satisfy a partial match using `display_name`, `code`, `card_number`, `acs_user_id` or `acs_credential_id`.
       # @return [Seam::Resources::AcsCredential] OK
       def list(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil, created_before: nil, is_multi_phone_sync_credential: nil, limit: nil, page_cursor: nil, search: nil)
-        res = @client.post("/acs/credentials/list", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit, page_cursor: page_cursor, search: search}.compact)
+        res = @client.get("/acs/credentials/list", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit, page_cursor: page_cursor, search: search}.compact)
 
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
       end
@@ -78,7 +78,7 @@ module Seam
       # @param acs_credential_id [String] ID of the credential for which you want to retrieve all entrances to which the credential grants access.
       # @return [Seam::Resources::AcsEntrance] OK
       def list_accessible_entrances(acs_credential_id:)
-        res = @client.post("/acs/credentials/list_accessible_entrances", {acs_credential_id: acs_credential_id}.compact)
+        res = @client.get("/acs/credentials/list_accessible_entrances", {acs_credential_id: acs_credential_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
@@ -89,7 +89,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity from which you want to unassign a credential. You can only provide one of acs_user_id or user_identity_id.
       # @return [nil] OK
       def unassign(acs_credential_id:, acs_user_id: nil, user_identity_id: nil)
-        @client.post("/acs/credentials/unassign", {acs_credential_id: acs_credential_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        @client.patch("/acs/credentials/unassign", {acs_credential_id: acs_credential_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -100,7 +100,7 @@ module Seam
       # @param ends_at [Time, nil] Replacement date and time at which the validity of the credential ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after the `starts_at` value that you set when creating the credential.
       # @return [nil] OK
       def update(acs_credential_id:, code: nil, ends_at: nil)
-        @client.post("/acs/credentials/update", {acs_credential_id: acs_credential_id, code: code, ends_at: ends_at}.compact)
+        @client.patch("/acs/credentials/update", {acs_credential_id: acs_credential_id, code: code, ends_at: ends_at}.compact)
 
         nil
       end

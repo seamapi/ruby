@@ -21,7 +21,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /devices/unmanaged/get"
         end
 
-        res = @client.post("/devices/unmanaged/get", {device_id: device_id, name: name}.compact)
+        res = @client.get("/devices/unmanaged/get", {device_id: device_id, name: name}.compact)
 
         Seam::Resources::UnmanagedDevice.load_from_response(res.body["device"])
       end
@@ -56,7 +56,7 @@ module Seam
       # @param is_managed [Boolean, nil] Indicates whether the device is managed. Set this parameter to `true` to convert an unmanaged device to managed.
       # @return [nil] OK
       def update(device_id:, custom_metadata: nil, is_managed: nil)
-        @client.post("/devices/unmanaged/update", {device_id: device_id, custom_metadata: custom_metadata, is_managed: is_managed}.compact)
+        @client.patch("/devices/unmanaged/update", {device_id: device_id, custom_metadata: custom_metadata, is_managed: is_managed}.compact)
 
         nil
       end

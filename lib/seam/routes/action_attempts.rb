@@ -14,7 +14,7 @@ module Seam
       # @param action_attempt_id [String] ID of the action attempt that you want to get.
       # @return [Seam::Resources::ActionAttempt] OK
       def get(action_attempt_id:, wait_for_action_attempt: nil)
-        res = @client.post("/action_attempts/get", {action_attempt_id: action_attempt_id}.compact)
+        res = @client.get("/action_attempts/get", {action_attempt_id: action_attempt_id}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 

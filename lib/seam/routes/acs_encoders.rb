@@ -31,7 +31,7 @@ module Seam
       # @param acs_encoder_id [String] ID of the encoder that you want to get.
       # @return [Seam::Resources::AcsEncoder] OK
       def get(acs_encoder_id:)
-        res = @client.post("/acs/encoders/get", {acs_encoder_id: acs_encoder_id}.compact)
+        res = @client.get("/acs/encoders/get", {acs_encoder_id: acs_encoder_id}.compact)
 
         Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoder"])
       end

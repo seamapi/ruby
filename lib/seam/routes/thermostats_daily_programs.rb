@@ -25,7 +25,7 @@ module Seam
       # @param thermostat_daily_program_id [String] ID of the thermostat daily program that you want to delete.
       # @return [nil] OK
       def delete(thermostat_daily_program_id:)
-        @client.post("/thermostats/daily_programs/delete", {thermostat_daily_program_id: thermostat_daily_program_id}.compact)
+        @client.delete("/thermostats/daily_programs/delete", {thermostat_daily_program_id: thermostat_daily_program_id}.compact)
 
         nil
       end
@@ -36,7 +36,7 @@ module Seam
       # @param thermostat_daily_program_id [String] ID of the thermostat daily program that you want to update.
       # @return [Seam::Resources::ActionAttempt] OK
       def update(name:, periods:, thermostat_daily_program_id:, wait_for_action_attempt: nil)
-        res = @client.post("/thermostats/daily_programs/update", {name: name, periods: periods, thermostat_daily_program_id: thermostat_daily_program_id}.compact)
+        res = @client.patch("/thermostats/daily_programs/update", {name: name, periods: periods, thermostat_daily_program_id: thermostat_daily_program_id}.compact)
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 

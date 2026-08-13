@@ -19,7 +19,7 @@ module Seam
       # @param is_external_modification_allowed [Boolean, nil] Indicates whether [external modification](https://docs.seam.co/low-level-apis/smart-locks/access-codes#external-modification) of the access code is allowed.
       # @return [nil] OK
       def convert_to_managed(access_code_id:, allow_external_modification: nil, force: nil, is_external_modification_allowed: nil)
-        @client.post("/access_codes/unmanaged/convert_to_managed", {access_code_id: access_code_id, allow_external_modification: allow_external_modification, force: force, is_external_modification_allowed: is_external_modification_allowed}.compact)
+        @client.patch("/access_codes/unmanaged/convert_to_managed", {access_code_id: access_code_id, allow_external_modification: allow_external_modification, force: force, is_external_modification_allowed: is_external_modification_allowed}.compact)
 
         nil
       end
@@ -28,7 +28,7 @@ module Seam
       # @param access_code_id [String] ID of the unmanaged access code that you want to delete.
       # @return [nil] OK
       def delete(access_code_id:)
-        @client.post("/access_codes/unmanaged/delete", {access_code_id: access_code_id}.compact)
+        @client.delete("/access_codes/unmanaged/delete", {access_code_id: access_code_id}.compact)
 
         nil
       end
@@ -45,7 +45,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /access_codes/unmanaged/get"
         end
 
-        res = @client.post("/access_codes/unmanaged/get", {access_code_id: access_code_id, code: code, device_id: device_id}.compact)
+        res = @client.get("/access_codes/unmanaged/get", {access_code_id: access_code_id, code: code, device_id: device_id}.compact)
 
         Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_code"])
       end
@@ -58,7 +58,7 @@ module Seam
       # @param user_identifier_key [String, nil] Your user ID for the user by which to filter unmanaged access codes.
       # @return [Seam::Resources::UnmanagedAccessCode] OK
       def list(device_id:, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
-        res = @client.post("/access_codes/unmanaged/list", {device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
+        res = @client.get("/access_codes/unmanaged/list", {device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_codes"])
       end
@@ -71,7 +71,7 @@ module Seam
       # @param is_external_modification_allowed [Boolean, nil] Indicates whether [external modification](https://docs.seam.co/low-level-apis/smart-locks/access-codes#external-modification) of the code is allowed.
       # @return [nil] OK
       def update(access_code_id:, is_managed:, allow_external_modification: nil, force: nil, is_external_modification_allowed: nil)
-        @client.post("/access_codes/unmanaged/update", {access_code_id: access_code_id, is_managed: is_managed, allow_external_modification: allow_external_modification, force: force, is_external_modification_allowed: is_external_modification_allowed}.compact)
+        @client.patch("/access_codes/unmanaged/update", {access_code_id: access_code_id, is_managed: is_managed, allow_external_modification: allow_external_modification, force: force, is_external_modification_allowed: is_external_modification_allowed}.compact)
 
         nil
       end

@@ -20,7 +20,7 @@ module Seam
       # @param connected_account_id [String] ID of the connected account that you want to delete.
       # @return [nil] OK
       def delete(connected_account_id:)
-        @client.post("/connected_accounts/delete", {connected_account_id: connected_account_id}.compact)
+        @client.delete("/connected_accounts/delete", {connected_account_id: connected_account_id}.compact)
 
         nil
       end
@@ -34,7 +34,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /connected_accounts/get"
         end
 
-        res = @client.post("/connected_accounts/get", {connected_account_id: connected_account_id, email: email}.compact)
+        res = @client.get("/connected_accounts/get", {connected_account_id: connected_account_id, email: email}.compact)
 
         Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_account"])
       end
@@ -72,7 +72,7 @@ module Seam
       # @param display_name [String, nil] Human-readable name for the connected account, shown in the dashboard. For example, `Booking from Airbnb House 1`.
       # @return [nil] OK
       def update(connected_account_id:, accepted_capabilities: nil, automatically_manage_new_devices: nil, custom_metadata: nil, customer_key: nil, display_name: nil)
-        @client.post("/connected_accounts/update", {connected_account_id: connected_account_id, accepted_capabilities: accepted_capabilities, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata, customer_key: customer_key, display_name: display_name}.compact)
+        @client.patch("/connected_accounts/update", {connected_account_id: connected_account_id, accepted_capabilities: accepted_capabilities, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata, customer_key: customer_key, display_name: display_name}.compact)
 
         nil
       end

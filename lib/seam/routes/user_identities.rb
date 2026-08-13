@@ -22,7 +22,7 @@ module Seam
       # @param user_identity_key [String, nil] Key of the user identity to which you want to add an access system user.
       # @return [nil] OK
       def add_acs_user(acs_user_id:, user_identity_id: nil, user_identity_key: nil)
-        @client.post("/user_identities/add_acs_user", {acs_user_id: acs_user_id, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
+        @client.put("/user_identities/add_acs_user", {acs_user_id: acs_user_id, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
         nil
       end
@@ -44,7 +44,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity that you want to delete.
       # @return [nil] OK
       def delete(user_identity_id:)
-        @client.post("/user_identities/delete", {user_identity_id: user_identity_id}.compact)
+        @client.delete("/user_identities/delete", {user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -69,7 +69,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /user_identities/get"
         end
 
-        res = @client.post("/user_identities/get", {user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
+        res = @client.get("/user_identities/get", {user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
         Seam::Resources::UserIdentity.load_from_response(res.body["user_identity"])
       end
@@ -79,7 +79,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity that you want to grant access to a device.
       # @return [nil] OK
       def grant_access_to_device(device_id:, user_identity_id:)
-        @client.post("/user_identities/grant_access_to_device", {device_id: device_id, user_identity_id: user_identity_id}.compact)
+        @client.put("/user_identities/grant_access_to_device", {device_id: device_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -102,7 +102,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity for which you want to retrieve all accessible devices.
       # @return [Seam::Resources::Device] OK
       def list_accessible_devices(user_identity_id:)
-        res = @client.post("/user_identities/list_accessible_devices", {user_identity_id: user_identity_id}.compact)
+        res = @client.get("/user_identities/list_accessible_devices", {user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::Device.load_from_response(res.body["devices"])
       end
@@ -111,7 +111,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity for which you want to retrieve all accessible entrances.
       # @return [Seam::Resources::AcsEntrance] OK
       def list_accessible_entrances(user_identity_id:)
-        res = @client.post("/user_identities/list_accessible_entrances", {user_identity_id: user_identity_id}.compact)
+        res = @client.get("/user_identities/list_accessible_entrances", {user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
@@ -120,7 +120,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity for which you want to retrieve all access systems.
       # @return [Seam::Resources::AcsSystem] OK
       def list_acs_systems(user_identity_id:)
-        res = @client.post("/user_identities/list_acs_systems", {user_identity_id: user_identity_id}.compact)
+        res = @client.get("/user_identities/list_acs_systems", {user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
       end
@@ -129,7 +129,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity for which you want to retrieve all access system users.
       # @return [Seam::Resources::AcsUser] OK
       def list_acs_users(user_identity_id:)
-        res = @client.post("/user_identities/list_acs_users", {user_identity_id: user_identity_id}.compact)
+        res = @client.get("/user_identities/list_acs_users", {user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
       end
@@ -139,7 +139,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity from which you want to remove an access system user.
       # @return [nil] OK
       def remove_acs_user(acs_user_id:, user_identity_id:)
-        @client.post("/user_identities/remove_acs_user", {acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        @client.delete("/user_identities/remove_acs_user", {acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -149,7 +149,7 @@ module Seam
       # @param user_identity_id [String] ID of the user identity from which you want to revoke access to a device.
       # @return [nil] OK
       def revoke_access_to_device(device_id:, user_identity_id:)
-        @client.post("/user_identities/revoke_access_to_device", {device_id: device_id, user_identity_id: user_identity_id}.compact)
+        @client.delete("/user_identities/revoke_access_to_device", {device_id: device_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -162,7 +162,7 @@ module Seam
       # @param user_identity_key [String, nil] Unique key for the user identity.
       # @return [nil] OK
       def update(user_identity_id:, email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
-        @client.post("/user_identities/update", {user_identity_id: user_identity_id, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
+        @client.patch("/user_identities/update", {user_identity_id: user_identity_id, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
 
         nil
       end
