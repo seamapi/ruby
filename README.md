@@ -121,6 +121,9 @@ Obtain one from the Seam Console.
 A workspace ID must be provided when using this method and all requests will be scoped to that workspace.
 
 ```ruby
+# Set the `SEAM_PERSONAL_ACCESS_TOKEN` and `SEAM_WORKSPACE_ID` environment variables
+seam = Seam.new
+
 # Pass as an option to the constructor
 seam = Seam.new(
   personal_access_token: "your-personal-access-token",
@@ -327,6 +330,9 @@ A Personal Access Token is scoped to a Seam Console user.
 Obtain one from the Seam Console.
 
 ```ruby
+# Set the `SEAM_PERSONAL_ACCESS_TOKEN` environment variable
+seam = Seam::Http::WithoutWorkspace.new
+
 # Pass as a keyword argument to the constructor
 seam = Seam::Http::WithoutWorkspace.new(
   personal_access_token: "your-personal-access-token"
