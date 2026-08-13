@@ -17,6 +17,7 @@ require "seam"
 require "webmock/rspec"
 
 require "support/fake_seam_connect"
+require "support/raw_request_recorder"
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
@@ -38,4 +39,5 @@ RSpec.configure do |config|
   end
 
   config.include_context "with fake seam connect", fake: true
+  config.include_context "with raw request recorder", recorder: true
 end

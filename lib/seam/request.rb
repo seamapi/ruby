@@ -5,9 +5,54 @@ require "faraday/retry"
 require_relative "defaults"
 require_relative "version"
 require_relative "paginator"
+require_relative "url_search_params_serializer"
 
 module Seam
   module Http
+    # The Faraday params encoder that applies the Seam URL search params
+    # serializer to query params, so requests go out with the exact encoding,
+    # ordering, and number formatting the Seam API parses. Faraday builds the
+    # query string by calling this encoder after resolving the request path
+    # against the base URL, so the serialized query is emitted verbatim.
+    #
+    # Faraday's own encoders would silently disagree with the standard: the
+    # default NestedParamsEncoder turns {ids: []} into "ids%5B%5D" (a bare
+    # "ids[]" with no "="), which the API reads as no filter at all instead of
+    # an empty one.
+    module UrlSearchParamsEncoder
+      # Pairs decoded from a query string already present in the request
+      # path. Wrapping them lets {encode} pass them through verbatim instead
+      # of re-serializing them: a caller who built their own query string has
+      # chosen their own representation.
+      Decoded = Struct.new(:values)
+
+      def self.encode(params)
+        search_params = Seam::UrlSearchParams.new
+        map_params = {}
+
+        params.each do |name, value|
+          if value.is_a?(Decoded)
+            value.values.each { |element| search_params.append(name, element) }
+          else
+            map_params[name] = value
+          end
+        end
+
+        Seam.update_url_search_params(search_params, map_params)
+        search_params.to_s
+      end
+
+      # Called by Faraday when a request path carries its own query string.
+      def self.decode(query)
+        return {} if query.nil? || query.empty?
+
+        pairs = URI.decode_www_form(query.encode(Encoding::UTF_8))
+        pairs.each_with_object({}) do |(name, value), decoded|
+          (decoded[name] ||= Decoded.new([])).values << value
+        end
+      end
+    end
+
     module Request
       def self.create_faraday_client(endpoint, auth_headers, faraday_options = {}, faraday_retry_options = {},
         timeout: nil)
@@ -16,7 +61,11 @@ module Seam
         default_options = {
           url: endpoint,
           headers: auth_headers.merge(default_headers),
-          request: {timeout: timeout, open_timeout: timeout}
+          request: {
+            timeout: timeout,
+            open_timeout: timeout,
+            params_encoder: UrlSearchParamsEncoder
+          }
         }
 
         options = deep_merge(default_options, faraday_options)
@@ -33,6 +82,7 @@ module Seam
         faraday_retry_options = default_faraday_retry_options.merge(faraday_retry_options)
 
         Faraday.new(options) do |builder|
+          builder.use ReplaceNullMiddleware
           builder.request :json
           builder.use Seam::PaginationMiddleware
           builder.response :json
@@ -94,6 +144,18 @@ module Seam
           rescue JSON::ParserError
             false
           end
+        end
+      end
+
+      # Replaces every {Seam::NULL} sentinel in a JSON request body with nil,
+      # so it serializes to JSON null. Runs before the :json request
+      # middleware and copies the body rather than mutating the caller's
+      # payload.
+      class ReplaceNullMiddleware < Faraday::Middleware
+        def on_request(env)
+          return unless env.body.is_a?(Hash) || env.body.is_a?(Array)
+
+          env.body = Seam.replace_null(env.body)
         end
       end
 

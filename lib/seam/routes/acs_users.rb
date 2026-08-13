@@ -69,7 +69,7 @@ module Seam
       # @param acs_system_id [String, nil] ID of the `acs_system` for which you want to retrieve all access system users.
       # @param created_before [Time, nil] Timestamp by which to limit returned access system users. Returns users created before this timestamp.
       # @param limit [Integer, nil] Maximum number of records to return per page.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned access system users to include all records that satisfy a partial match using `full_name`, `phone_number`, `email_address`, `acs_user_id`, `user_identity_id`, `user_identity_full_name` or `user_identity_phone_number`.
       # @param user_identity_email_address [String, nil] Email address of the user identity for which you want to retrieve all access system users.
       # @param user_identity_id [String, nil] ID of the user identity for which you want to retrieve all access system users.
@@ -153,7 +153,7 @@ module Seam
       end
 
       # Updates the properties of a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
-      # @param access_schedule [Hash, nil] `starts_at` and `ends_at` timestamps for the access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
+      # @param access_schedule [Hash, Seam::Null, nil] `starts_at` and `ends_at` timestamps for the access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
       # @param acs_system_id [String, nil] ID of the access system that you want to update. You can only provide acs_system_id with user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user that you want to update. You can only provide acs_user_id or user_identity_id.
       # @param email [String, nil]

@@ -80,7 +80,7 @@ module Seam
       # @param acs_entrance_id [String, nil] ID of the entrance for which you want to retrieve all access methods that grant access to it.
       # @param device_id [String, nil] ID of the device by which to filter the returned access methods. Must be combined with `access_grant_id`, `access_grant_key`, or `acs_entrance_id`.
       # @param limit [Integer, nil] Maximum number of records to return per page.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param space_id [String, nil] ID of the space by which to filter the returned access methods. Must be combined with `access_grant_id`, `access_grant_key`, or `acs_entrance_id`.
       # @return [Seam::Resources::AccessMethod] OK
       def list(access_code_id: nil, access_grant_id: nil, access_grant_key: nil, acs_entrance_id: nil, device_id: nil, limit: nil, page_cursor: nil, space_id: nil)

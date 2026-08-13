@@ -44,10 +44,10 @@ module Seam
       # @param device_types [Array<String>, nil] Array of device types for which you want to list devices.
       # @param limit [Float, nil] Numerical limit on the number of devices to return.
       # @param manufacturer [String, nil] Manufacturer for which you want to list devices.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned devices to include all records that satisfy a partial match using `device_id` (full or partial UUID prefix, minimum 4 characters), `connected_account_id`, `display_name`, `custom_metadata` or `location.location_name`.
       # @param space_id [String, nil] ID of the space for which you want to list devices.
-      # @param unstable_location_id [String, nil]
+      # @param unstable_location_id [String, Seam::Null, nil]
       # @deprecated unstable_location_id: Use `space_id`.
       # @param user_identifier_key [String, nil] Your own internal user ID for the user for which you want to list devices.
       # @return [Seam::Resources::Device] OK
@@ -86,7 +86,7 @@ module Seam
       # @param backup_access_code_pool_enabled [Boolean, nil] Indicates whether the device's [backup access code pool](https://docs.seam.co/low-level-apis/smart-locks/access-codes/backup-access-codes) is enabled. Set to `false` to disable the pool: Seam stops refilling it and removes any backup codes that have not yet been pulled into active use.
       # @param custom_metadata [Hash, nil] Custom metadata that you want to associate with the device. Supports up to 50 JSON key:value pairs. [Adding custom metadata to a device](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) enables you to store custom information, like customer details or internal IDs from your application. Then, you can [filter devices by the desired metadata](https://docs.seam.co/core-concepts/devices/filtering-devices-by-custom-metadata).
       # @param is_managed [Boolean, nil] Indicates whether the device is managed. To unmanage a device, set `is_managed` to `false`.
-      # @param name [String, nil] Name for the device.
+      # @param name [String, Seam::Null, nil] Name for the device.
       # @param properties [Hash, nil]
       # @return [nil] OK
       def update(device_id:, backup_access_code_pool_enabled: nil, custom_metadata: nil, is_managed: nil, name: nil, properties: nil)

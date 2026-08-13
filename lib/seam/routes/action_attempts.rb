@@ -25,7 +25,7 @@ module Seam
       # @param action_attempt_ids [Array<String>, nil] IDs of the action attempts that you want to retrieve.
       # @param device_id [String, nil] ID of the device to filter action attempts by.
       # @param limit [Integer, nil] Maximum number of records to return per page.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @return [Seam::Resources::ActionAttempt] OK
       def list(action_attempt_ids: nil, device_id: nil, limit: nil, page_cursor: nil)
         res = @client.post("/action_attempts/list", {action_attempt_ids: action_attempt_ids, device_id: device_id, limit: limit, page_cursor: page_cursor}.compact)

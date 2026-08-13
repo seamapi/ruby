@@ -53,7 +53,7 @@ module Seam
       # Returns a list of all [unmanaged access codes](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes).
       # @param device_id [String] ID of the device for which you want to list unmanaged access codes.
       # @param limit [Float, nil] Numerical limit on the number of unmanaged access codes to return.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned access codes to include all records that satisfy a partial match using `name`, `code` or `access_code_id`.
       # @param user_identifier_key [String, nil] Your user ID for the user by which to filter unmanaged access codes.
       # @return [Seam::Resources::UnmanagedAccessCode] OK

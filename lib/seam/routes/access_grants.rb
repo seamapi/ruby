@@ -20,12 +20,12 @@ module Seam
       # @param acs_entrance_ids [Array<String>, nil] Set of IDs of the [entrances](https://docs.seam.co/api/acs/systems/list) to which access is being granted.
       # @param customization_profile_id [String, nil] ID of the customization profile to apply to the Access Grant and its access methods.
       # @param device_ids [Array<String>, nil] Set of IDs of the [devices](https://docs.seam.co/api/devices/list) to which access is being granted.
-      # @param ends_at [String, nil] Date and time at which the validity of the new grant ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
+      # @param ends_at [String, Seam::Null, nil] Date and time at which the validity of the new grant ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
       # @param location [Hash, nil]
       # @deprecated location: Create a space first, then reference it using `space_ids`.
       # @param location_ids [Array<String>, nil]
       # @deprecated location_ids: Use `space_ids`.
-      # @param name [String, nil] Name for the access grant.
+      # @param name [String, Seam::Null, nil] Name for the access grant.
       # @param reservation_key [String, nil] Reservation key for the access grant.
       # @param space_ids [Array<String>, nil] Set of IDs of existing spaces to which access is being granted.
       # @param space_keys [Array<String>, nil] Set of keys of existing spaces to which access is being granted.
@@ -79,7 +79,7 @@ module Seam
       # Gets an Access Grant.
       # @param access_code_id [String, nil] ID of the access code by which you want to filter the list of Access Grants.
       # @param access_grant_ids [Array<String>, nil] IDs of the access grants to retrieve.
-      # @param access_grant_key [String, nil] Filter Access Grants by access_grant_key. Use null to filter for Access Grants without an access_grant_key.
+      # @param access_grant_key [String, Seam::Null, nil] Filter Access Grants by access_grant_key. Use null to filter for Access Grants without an access_grant_key.
       # @param acs_entrance_id [String, nil] ID of the entrance by which you want to filter the list of Access Grants.
       # @param acs_system_id [String, nil] ID of the access system by which you want to filter the list of Access Grants.
       # @param customer_key [String, nil] Customer key for which you want to list access grants.
@@ -87,7 +87,7 @@ module Seam
       # @param limit [Float, nil] Numerical limit on the number of access grants to return.
       # @param location_id [String, nil]
       # @deprecated location_id: Use `space_id`.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param reservation_key [String, nil] Filter Access Grants by reservation_key.
       # @param space_id [String, nil] ID of the space by which you want to filter the list of Access Grants.
       # @param user_identity_id [String, nil] ID of user identity by which you want to filter the list of Access Grants.
@@ -111,8 +111,8 @@ module Seam
       # Updates an existing Access Grant's time window.
       # @param access_grant_id [String, nil] ID of the Access Grant to update. Provide either `access_grant_id` or `access_grant_key`.
       # @param access_grant_key [String, nil] Key of the Access Grant to update. Provide either `access_grant_id` or `access_grant_key`.
-      # @param ends_at [Time, nil] Date and time at which the validity of the grant ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
-      # @param name [String, nil] Display name for the access grant.
+      # @param ends_at [Time, Seam::Null, nil] Date and time at which the validity of the grant ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
+      # @param name [String, Seam::Null, nil] Display name for the access grant.
       # @param starts_at [Time, nil] Date and time at which the validity of the grant starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
       # @return [nil] OK
       def update(access_grant_id: nil, access_grant_key: nil, ends_at: nil, name: nil, starts_at: nil)

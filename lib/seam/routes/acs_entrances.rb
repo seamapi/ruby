@@ -38,9 +38,9 @@ module Seam
       # @param connected_account_id [String, nil] ID of the connected account for which you want to retrieve all entrances.
       # @param customer_key [String, nil] Customer key for which you want to list entrances.
       # @param limit [Integer, nil] Maximum number of records to return per page.
-      # @param location_id [String, nil]
+      # @param location_id [String, Seam::Null, nil]
       # @deprecated location_id: Use `space_id`.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned entrances to include all records that satisfy a partial match using `display_name`.
       # @param space_id [String, nil] ID of the space for which you want to list entrances.
       # @return [Seam::Resources::AcsEntrance] OK

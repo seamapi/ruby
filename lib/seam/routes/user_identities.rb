@@ -29,10 +29,10 @@ module Seam
 
       # Creates a new [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
       # @param acs_system_ids [Array<String>, nil] List of access system IDs to associate with the new user identity through access system users. If there's no user with the same email address or phone number in the specified access systems, a new access system user is created. If there is an existing user with the same email or phone number in the specified access systems, the user is linked to the user identity.
-      # @param email_address [String, nil] Unique email address for the new user identity.
-      # @param full_name [String, nil] Full name of the user associated with the new user identity.
-      # @param phone_number [String, nil] Unique phone number for the new user identity in E.164 format (for example, +15555550100).
-      # @param user_identity_key [String, nil] Unique key for the new user identity.
+      # @param email_address [String, Seam::Null, nil] Unique email address for the new user identity.
+      # @param full_name [String, Seam::Null, nil] Full name of the user associated with the new user identity.
+      # @param phone_number [String, Seam::Null, nil] Unique phone number for the new user identity in E.164 format (for example, +15555550100).
+      # @param user_identity_key [String, Seam::Null, nil] Unique key for the new user identity.
       # @return [Seam::Resources::UserIdentity] OK
       def create(acs_system_ids: nil, email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
         res = @client.post("/user_identities/create", {acs_system_ids: acs_system_ids, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
@@ -88,7 +88,7 @@ module Seam
       # @param created_before [Time, nil] Timestamp by which to limit returned user identities. Returns user identities created before this timestamp.
       # @param credential_manager_acs_system_id [String, nil] `acs_system_id` of the credential manager by which you want to filter the list of user identities.
       # @param limit [Integer, nil] Maximum number of records to return per page.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned user identities to include all records that satisfy a partial match using `full_name`, `phone_number`, `email_address` or `user_identity_id`.
       # @param user_identity_ids [Array<String>, nil] Array of user identity IDs by which to filter the list of user identities.
       # @return [Seam::Resources::UserIdentity] OK
@@ -156,10 +156,10 @@ module Seam
 
       # Updates a specified [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
       # @param user_identity_id [String] ID of the user identity that you want to update.
-      # @param email_address [String, nil] Unique email address for the user identity.
-      # @param full_name [String, nil] Full name of the user associated with the user identity.
-      # @param phone_number [String, nil] Unique phone number for the user identity.
-      # @param user_identity_key [String, nil] Unique key for the user identity.
+      # @param email_address [String, Seam::Null, nil] Unique email address for the user identity.
+      # @param full_name [String, Seam::Null, nil] Full name of the user associated with the user identity.
+      # @param phone_number [String, Seam::Null, nil] Unique phone number for the user identity.
+      # @param user_identity_key [String, Seam::Null, nil] Unique key for the user identity.
       # @return [nil] OK
       def update(user_identity_id:, email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
         @client.patch("/user_identities/update", {user_identity_id: user_identity_id, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)

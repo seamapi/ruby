@@ -27,6 +27,7 @@ accurate and fully typed.
     - [API Key](#api-key)
     - [Personal Access Token](#personal-access-token)
   - [Action Attempts](#action-attempts)
+  - [Setting a value to null](#setting-a-value-to-null)
   - [Pagination](#pagination)
     - [Manually fetch pages with the next_page_cursor](#manually-fetch-pages-with-the-next_page_cursor)
     - [Resume pagination](#resume-pagination)
@@ -226,6 +227,35 @@ rescue Seam::ActionAttemptTimeoutError
   puts "Door took too long to unlock"
 end
 ```
+
+### Setting a value to null
+
+The Seam API distinguishes three states for an updatable parameter:
+omitted (leave the stored value unchanged), null (unset the stored value),
+and a value (set it).
+
+Ruby's `nil` means omitted.
+The SDK removes `nil` parameters from the request entirely,
+so passing `nil` never unsets a value.
+To unset a value, pass the `Seam::NULL` sentinel,
+which the SDK sends as JSON `null` in request bodies
+and as an empty value in query strings:
+
+```ruby
+require "seam"
+
+seam = Seam.new
+
+# Leaves ends_at unchanged.
+seam.access_grants.update(access_grant_id: access_grant_id, ends_at: nil)
+
+# Unsets ends_at so the grant no longer expires.
+seam.access_grants.update(access_grant_id: access_grant_id, ends_at: Seam::NULL)
+```
+
+Only pass `Seam::NULL` for parameters the API documents as nullable.
+Generated methods document nullable parameters
+with `Seam::Null` in their `@param` types, e.g. `[String, Seam::Null, nil]`.
 
 ### Pagination
 
