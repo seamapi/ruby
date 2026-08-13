@@ -37,7 +37,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /locks/get"
         end
 
-        res = @client.post("/locks/get", {device_id: device_id, name: name}.compact)
+        res = @client.get("/locks/get", {device_id: device_id, name: name}.compact)
 
         Seam::Resources::Device.load_from_response(res.body["device"])
       end

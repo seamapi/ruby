@@ -13,7 +13,7 @@ module Seam
       # @param acs_user_id [String] ID of the access system user that you want to add to an access group.
       # @return [nil] OK
       def add_to_access_group(acs_access_group_id:, acs_user_id:)
-        @client.post("/acs/users/add_to_access_group", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id}.compact)
+        @client.put("/acs/users/add_to_access_group", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id}.compact)
 
         nil
       end
@@ -45,7 +45,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /acs/users/delete"
         end
 
-        @client.post("/acs/users/delete", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        @client.delete("/acs/users/delete", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -60,7 +60,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /acs/users/get"
         end
 
-        res = @client.post("/acs/users/get", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id}.compact)
+        res = @client.get("/acs/users/get", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
       end
@@ -76,7 +76,7 @@ module Seam
       # @param user_identity_phone_number [String, nil] Phone number of the user identity for which you want to retrieve all access system users, in [E.164 format](https://www.itu.int/rec/T-REC-E.164/en) (for example, `+15555550100`).
       # @return [Seam::Resources::AcsUser] OK
       def list(acs_system_id: nil, created_before: nil, limit: nil, page_cursor: nil, search: nil, user_identity_email_address: nil, user_identity_id: nil, user_identity_phone_number: nil)
-        res = @client.post("/acs/users/list", {acs_system_id: acs_system_id, created_before: created_before, limit: limit, page_cursor: page_cursor, search: search, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact)
+        res = @client.get("/acs/users/list", {acs_system_id: acs_system_id, created_before: created_before, limit: limit, page_cursor: page_cursor, search: search, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
       end
@@ -91,7 +91,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /acs/users/list_accessible_entrances"
         end
 
-        res = @client.post("/acs/users/list_accessible_entrances", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        res = @client.get("/acs/users/list_accessible_entrances", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
@@ -102,7 +102,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity that you want to remove from an access group. You can only provide acs_user_id or user_identity_id.
       # @return [nil] OK
       def remove_from_access_group(acs_access_group_id:, acs_user_id: nil, user_identity_id: nil)
-        @client.post("/acs/users/remove_from_access_group", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        @client.delete("/acs/users/remove_from_access_group", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -169,7 +169,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /acs/users/update"
         end
 
-        @client.post("/acs/users/update", {access_schedule: access_schedule, acs_system_id: acs_system_id, acs_user_id: acs_user_id, email: email, email_address: email_address, full_name: full_name, hid_acs_system_id: hid_acs_system_id, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
+        @client.patch("/acs/users/update", {access_schedule: access_schedule, acs_system_id: acs_system_id, acs_user_id: acs_user_id, email: email, email_address: email_address, full_name: full_name, hid_acs_system_id: hid_acs_system_id, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
 
         nil
       end

@@ -13,7 +13,7 @@ module Seam
       # @param space_id [String] ID of the space to which you want to add entrances.
       # @return [nil] OK
       def add_acs_entrances(acs_entrance_ids:, space_id:)
-        @client.post("/spaces/add_acs_entrances", {acs_entrance_ids: acs_entrance_ids, space_id: space_id}.compact)
+        @client.put("/spaces/add_acs_entrances", {acs_entrance_ids: acs_entrance_ids, space_id: space_id}.compact)
 
         nil
       end
@@ -23,7 +23,7 @@ module Seam
       # @param space_id [String] ID of the space to which you want to add the connected account.
       # @return [nil] OK
       def add_connected_account(connected_account_id:, space_id:)
-        @client.post("/spaces/add_connected_account", {connected_account_id: connected_account_id, space_id: space_id}.compact)
+        @client.put("/spaces/add_connected_account", {connected_account_id: connected_account_id, space_id: space_id}.compact)
 
         nil
       end
@@ -33,7 +33,7 @@ module Seam
       # @param space_id [String] ID of the space to which you want to add devices.
       # @return [nil] OK
       def add_devices(device_ids:, space_id:)
-        @client.post("/spaces/add_devices", {device_ids: device_ids, space_id: space_id}.compact)
+        @client.put("/spaces/add_devices", {device_ids: device_ids, space_id: space_id}.compact)
 
         nil
       end
@@ -57,7 +57,7 @@ module Seam
       # @param space_id [String] ID of the space that you want to delete.
       # @return [nil] OK
       def delete(space_id:)
-        @client.post("/spaces/delete", {space_id: space_id}.compact)
+        @client.delete("/spaces/delete", {space_id: space_id}.compact)
 
         nil
       end
@@ -71,7 +71,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /spaces/get"
         end
 
-        res = @client.post("/spaces/get", {space_id: space_id, space_key: space_key}.compact)
+        res = @client.get("/spaces/get", {space_id: space_id, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["space"])
       end
@@ -100,7 +100,7 @@ module Seam
       # @param space_key [String, nil] Filter spaces by space_key.
       # @return [Seam::Resources::Space] OK
       def list(customer_key: nil, limit: nil, page_cursor: nil, search: nil, space_key: nil)
-        res = @client.post("/spaces/list", {customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, space_key: space_key}.compact)
+        res = @client.get("/spaces/list", {customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["spaces"])
       end
@@ -120,7 +120,7 @@ module Seam
       # @param space_id [String] ID of the space from which you want to remove the connected account.
       # @return [nil] OK
       def remove_connected_account(connected_account_id:, space_id:)
-        @client.post("/spaces/remove_connected_account", {connected_account_id: connected_account_id, space_id: space_id}.compact)
+        @client.delete("/spaces/remove_connected_account", {connected_account_id: connected_account_id, space_id: space_id}.compact)
 
         nil
       end
@@ -144,7 +144,7 @@ module Seam
       # @param space_key [String, nil] Unique key of the space that you want to update.
       # @return [Seam::Resources::Space] OK
       def update(acs_entrance_ids: nil, customer_data: nil, device_ids: nil, name: nil, space_id: nil, space_key: nil)
-        res = @client.post("/spaces/update", {acs_entrance_ids: acs_entrance_ids, customer_data: customer_data, device_ids: device_ids, name: name, space_id: space_id, space_key: space_key}.compact)
+        res = @client.patch("/spaces/update", {acs_entrance_ids: acs_entrance_ids, customer_data: customer_data, device_ids: device_ids, name: name, space_id: space_id, space_key: space_key}.compact)
 
         Seam::Resources::Space.load_from_response(res.body["space"])
       end

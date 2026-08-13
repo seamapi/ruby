@@ -12,7 +12,7 @@ module Seam
       # @param access_grant_id [String] ID of unmanaged Access Grant to get.
       # @return [Seam::Resources::UnmanagedAccessGrant] OK
       def get(access_grant_id:)
-        res = @client.post("/access_grants/unmanaged/get", {access_grant_id: access_grant_id}.compact)
+        res = @client.get("/access_grants/unmanaged/get", {access_grant_id: access_grant_id}.compact)
 
         Seam::Resources::UnmanagedAccessGrant.load_from_response(res.body["access_grant"])
       end
@@ -26,7 +26,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of user identity by which you want to filter the list of unmanaged Access Grants.
       # @return [Seam::Resources::UnmanagedAccessGrant] OK
       def list(acs_entrance_id: nil, acs_system_id: nil, limit: nil, page_cursor: nil, reservation_key: nil, user_identity_id: nil)
-        res = @client.post("/access_grants/unmanaged/list", {acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, limit: limit, page_cursor: page_cursor, reservation_key: reservation_key, user_identity_id: user_identity_id}.compact)
+        res = @client.get("/access_grants/unmanaged/list", {acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, limit: limit, page_cursor: page_cursor, reservation_key: reservation_key, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::UnmanagedAccessGrant.load_from_response(res.body["access_grants"])
       end
@@ -41,7 +41,7 @@ module Seam
       # @param access_grant_key [String, nil] Unique key for the access grant. If not provided, the existing key will be preserved.
       # @return [nil] OK
       def update(access_grant_id:, is_managed:, access_grant_key: nil)
-        @client.post("/access_grants/unmanaged/update", {access_grant_id: access_grant_id, is_managed: is_managed, access_grant_key: access_grant_key}.compact)
+        @client.patch("/access_grants/unmanaged/update", {access_grant_id: access_grant_id, is_managed: is_managed, access_grant_key: access_grant_key}.compact)
 
         nil
       end

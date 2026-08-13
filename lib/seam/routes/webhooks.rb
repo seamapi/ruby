@@ -22,7 +22,7 @@ module Seam
       # @param webhook_id [String] ID of the webhook that you want to delete.
       # @return [nil] OK
       def delete(webhook_id:)
-        @client.post("/webhooks/delete", {webhook_id: webhook_id}.compact)
+        @client.delete("/webhooks/delete", {webhook_id: webhook_id}.compact)
 
         nil
       end
@@ -31,7 +31,7 @@ module Seam
       # @param webhook_id [String] ID of the webhook that you want to get.
       # @return [Seam::Resources::Webhook] OK
       def get(webhook_id:)
-        res = @client.post("/webhooks/get", {webhook_id: webhook_id}.compact)
+        res = @client.get("/webhooks/get", {webhook_id: webhook_id}.compact)
 
         Seam::Resources::Webhook.load_from_response(res.body["webhook"])
       end
@@ -39,7 +39,7 @@ module Seam
       # Returns a list of all [webhooks](https://docs.seam.co/developer-tools/webhooks).
       # @return [Seam::Resources::Webhook] OK
       def list
-        res = @client.post("/webhooks/list")
+        res = @client.get("/webhooks/list")
 
         Seam::Resources::Webhook.load_from_response(res.body["webhooks"])
       end
@@ -49,7 +49,7 @@ module Seam
       # @param webhook_id [String] ID of the webhook that you want to update.
       # @return [nil] OK
       def update(event_types:, webhook_id:)
-        @client.post("/webhooks/update", {event_types: event_types, webhook_id: webhook_id}.compact)
+        @client.put("/webhooks/update", {event_types: event_types, webhook_id: webhook_id}.compact)
 
         nil
       end

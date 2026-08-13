@@ -27,7 +27,7 @@ module Seam
       # @param thermostat_schedule_id [String] ID of the thermostat schedule that you want to delete.
       # @return [nil] OK
       def delete(thermostat_schedule_id:)
-        @client.post("/thermostats/schedules/delete", {thermostat_schedule_id: thermostat_schedule_id}.compact)
+        @client.delete("/thermostats/schedules/delete", {thermostat_schedule_id: thermostat_schedule_id}.compact)
 
         nil
       end
@@ -36,7 +36,7 @@ module Seam
       # @param thermostat_schedule_id [String] ID of the thermostat schedule that you want to get.
       # @return [Seam::Resources::ThermostatSchedule] OK
       def get(thermostat_schedule_id:)
-        res = @client.post("/thermostats/schedules/get", {thermostat_schedule_id: thermostat_schedule_id}.compact)
+        res = @client.get("/thermostats/schedules/get", {thermostat_schedule_id: thermostat_schedule_id}.compact)
 
         Seam::Resources::ThermostatSchedule.load_from_response(res.body["thermostat_schedule"])
       end
@@ -46,7 +46,7 @@ module Seam
       # @param user_identifier_key [String, nil] User identifier key by which to filter the list of returned thermostat schedules.
       # @return [Seam::Resources::ThermostatSchedule] OK
       def list(device_id:, user_identifier_key: nil)
-        res = @client.post("/thermostats/schedules/list", {device_id: device_id, user_identifier_key: user_identifier_key}.compact)
+        res = @client.get("/thermostats/schedules/list", {device_id: device_id, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::ThermostatSchedule.load_from_response(res.body["thermostat_schedules"])
       end
@@ -61,7 +61,7 @@ module Seam
       # @param starts_at [String, nil] Date and time at which the thermostat schedule starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
       # @return [nil] OK
       def update(thermostat_schedule_id:, climate_preset_key: nil, ends_at: nil, is_override_allowed: nil, max_override_period_minutes: nil, name: nil, starts_at: nil)
-        @client.post("/thermostats/schedules/update", {thermostat_schedule_id: thermostat_schedule_id, climate_preset_key: climate_preset_key, ends_at: ends_at, is_override_allowed: is_override_allowed, max_override_period_minutes: max_override_period_minutes, name: name, starts_at: starts_at}.compact)
+        @client.patch("/thermostats/schedules/update", {thermostat_schedule_id: thermostat_schedule_id, climate_preset_key: climate_preset_key, ends_at: ends_at, is_override_allowed: is_override_allowed, max_override_period_minutes: max_override_period_minutes, name: name, starts_at: starts_at}.compact)
 
         nil
       end

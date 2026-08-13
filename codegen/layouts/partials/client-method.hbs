@@ -14,7 +14,7 @@
           raise TypeError, "At least one parameter is required for {{path}}"
         end
 
-{{/if}}        {{#if usesRes}}res = {{/if}}@client.post("{{path}}"{{#if hasParams}}, {{bodyParams}}.compact{{/if}})
+{{/if}}        {{#if usesRes}}res = {{/if}}@client.{{httpMethod}}("{{path}}"{{#if hasParams}}, {{bodyParams}}.compact{{/if}})
 {{#if isResource}}
 
         Seam::Resources::{{returnResource}}.load_from_response(res.body["{{returnPath}}"])

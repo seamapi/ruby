@@ -14,7 +14,7 @@ module Seam
       # @param acs_entrance_id [String] ID of the entrance that you want to get.
       # @return [Seam::Resources::AcsEntrance] OK
       def get(acs_entrance_id:)
-        res = @client.post("/acs/entrances/get", {acs_entrance_id: acs_entrance_id}.compact)
+        res = @client.get("/acs/entrances/get", {acs_entrance_id: acs_entrance_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrance"])
       end

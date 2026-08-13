@@ -41,7 +41,7 @@ module Seam
       # @param access_grant_id [String] ID of Access Grant to delete.
       # @return [nil] OK
       def delete(access_grant_id:)
-        @client.post("/access_grants/delete", {access_grant_id: access_grant_id}.compact)
+        @client.delete("/access_grants/delete", {access_grant_id: access_grant_id}.compact)
 
         nil
       end
@@ -55,7 +55,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /access_grants/get"
         end
 
-        res = @client.post("/access_grants/get", {access_grant_id: access_grant_id, access_grant_key: access_grant_key}.compact)
+        res = @client.get("/access_grants/get", {access_grant_id: access_grant_id, access_grant_key: access_grant_key}.compact)
 
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
       end
@@ -120,7 +120,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /access_grants/update"
         end
 
-        @client.post("/access_grants/update", {access_grant_id: access_grant_id, access_grant_key: access_grant_key, ends_at: ends_at, name: name, starts_at: starts_at}.compact)
+        @client.patch("/access_grants/update", {access_grant_id: access_grant_id, access_grant_key: access_grant_key, ends_at: ends_at, name: name, starts_at: starts_at}.compact)
 
         nil
       end

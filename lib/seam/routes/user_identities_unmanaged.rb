@@ -12,7 +12,7 @@ module Seam
       # @param user_identity_id [String] ID of the unmanaged user identity that you want to get.
       # @return [Seam::Resources::UnmanagedUserIdentity] OK
       def get(user_identity_id:)
-        res = @client.post("/user_identities/unmanaged/get", {user_identity_id: user_identity_id}.compact)
+        res = @client.get("/user_identities/unmanaged/get", {user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::UnmanagedUserIdentity.load_from_response(res.body["user_identity"])
       end
@@ -24,7 +24,7 @@ module Seam
       # @param search [String, nil] String for which to search. Filters returned unmanaged user identities to include all records that satisfy a partial match using `full_name`, `phone_number`, `email_address`,  `user_identity_id` or `acs_system_id`.
       # @return [Seam::Resources::UnmanagedUserIdentity] OK
       def list(created_before: nil, limit: nil, page_cursor: nil, search: nil)
-        res = @client.post("/user_identities/unmanaged/list", {created_before: created_before, limit: limit, page_cursor: page_cursor, search: search}.compact)
+        res = @client.get("/user_identities/unmanaged/list", {created_before: created_before, limit: limit, page_cursor: page_cursor, search: search}.compact)
 
         Seam::Resources::UnmanagedUserIdentity.load_from_response(res.body["user_identities"])
       end
@@ -37,7 +37,7 @@ module Seam
       # @param user_identity_key [String, nil] Unique key for the user identity. If not provided, the existing key will be preserved.
       # @return [nil] OK
       def update(is_managed:, user_identity_id:, user_identity_key: nil)
-        @client.post("/user_identities/unmanaged/update", {is_managed: is_managed, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
+        @client.patch("/user_identities/unmanaged/update", {is_managed: is_managed, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
         nil
       end

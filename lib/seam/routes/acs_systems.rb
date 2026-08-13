@@ -12,7 +12,7 @@ module Seam
       # @param acs_system_id [String] ID of the access system that you want to get.
       # @return [Seam::Resources::AcsSystem] OK
       def get(acs_system_id:)
-        res = @client.post("/acs/systems/get", {acs_system_id: acs_system_id}.compact)
+        res = @client.get("/acs/systems/get", {acs_system_id: acs_system_id}.compact)
 
         Seam::Resources::AcsSystem.load_from_response(res.body["acs_system"])
       end
@@ -25,7 +25,7 @@ module Seam
       # @param search [String, nil] String for which to search. Filters returned access systems to include all records that satisfy a partial match using `name` or `acs_system_id`.
       # @return [Seam::Resources::AcsSystem] OK
       def list(connected_account_id: nil, customer_key: nil, search: nil)
-        res = @client.post("/acs/systems/list", {connected_account_id: connected_account_id, customer_key: customer_key, search: search}.compact)
+        res = @client.get("/acs/systems/list", {connected_account_id: connected_account_id, customer_key: customer_key, search: search}.compact)
 
         Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
       end
@@ -36,7 +36,7 @@ module Seam
       # @param acs_system_id [String] ID of the access system for which you want to retrieve all compatible credential manager systems.
       # @return [Seam::Resources::AcsSystem] OK
       def list_compatible_credential_manager_acs_systems(acs_system_id:)
-        res = @client.post("/acs/systems/list_compatible_credential_manager_acs_systems", {acs_system_id: acs_system_id}.compact)
+        res = @client.get("/acs/systems/list_compatible_credential_manager_acs_systems", {acs_system_id: acs_system_id}.compact)
 
         Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
       end

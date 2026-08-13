@@ -20,7 +20,7 @@ module Seam
       # @deprecated user_identity_ids: Use `user_identity_id` instead.
       # @return [Seam::Resources::ClientSession] OK
       def create(connect_webview_ids: nil, connected_account_ids: nil, customer_id: nil, customer_key: nil, expires_at: nil, user_identifier_key: nil, user_identity_id: nil, user_identity_ids: nil)
-        res = @client.post("/client_sessions/create", {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, customer_id: customer_id, customer_key: customer_key, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
+        res = @client.put("/client_sessions/create", {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, customer_id: customer_id, customer_key: customer_key, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
 
         Seam::Resources::ClientSession.load_from_response(res.body["client_session"])
       end
@@ -29,7 +29,7 @@ module Seam
       # @param client_session_id [String] ID of the client session that you want to delete.
       # @return [nil] OK
       def delete(client_session_id:)
-        @client.post("/client_sessions/delete", {client_session_id: client_session_id}.compact)
+        @client.delete("/client_sessions/delete", {client_session_id: client_session_id}.compact)
 
         nil
       end
@@ -39,7 +39,7 @@ module Seam
       # @param user_identifier_key [String, nil] User identifier key associated with the client session that you want to get.
       # @return [Seam::Resources::ClientSession] OK
       def get(client_session_id: nil, user_identifier_key: nil)
-        res = @client.post("/client_sessions/get", {client_session_id: client_session_id, user_identifier_key: user_identifier_key}.compact)
+        res = @client.get("/client_sessions/get", {client_session_id: client_session_id, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::ClientSession.load_from_response(res.body["client_session"])
       end
@@ -73,7 +73,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /client_sessions/grant_access"
         end
 
-        @client.post("/client_sessions/grant_access", {client_session_id: client_session_id, connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
+        @client.patch("/client_sessions/grant_access", {client_session_id: client_session_id, connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
 
         nil
       end
@@ -86,7 +86,7 @@ module Seam
       # @param without_user_identifier_key [Boolean, nil] Indicates whether to retrieve only client sessions without associated user identifier keys.
       # @return [Seam::Resources::ClientSession] OK
       def list(client_session_id: nil, connect_webview_id: nil, user_identifier_key: nil, user_identity_id: nil, without_user_identifier_key: nil)
-        res = @client.post("/client_sessions/list", {client_session_id: client_session_id, connect_webview_id: connect_webview_id, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, without_user_identifier_key: without_user_identifier_key}.compact)
+        res = @client.get("/client_sessions/list", {client_session_id: client_session_id, connect_webview_id: connect_webview_id, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, without_user_identifier_key: without_user_identifier_key}.compact)
 
         Seam::Resources::ClientSession.load_from_response(res.body["client_sessions"])
       end

@@ -12,7 +12,7 @@ module Seam
       # @param instant_key_id [String] ID of the Instant Key that you want to delete.
       # @return [nil] OK
       def delete(instant_key_id:)
-        @client.post("/instant_keys/delete", {instant_key_id: instant_key_id}.compact)
+        @client.delete("/instant_keys/delete", {instant_key_id: instant_key_id}.compact)
 
         nil
       end
@@ -26,7 +26,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /instant_keys/get"
         end
 
-        res = @client.post("/instant_keys/get", {instant_key_id: instant_key_id, instant_key_url: instant_key_url}.compact)
+        res = @client.get("/instant_keys/get", {instant_key_id: instant_key_id, instant_key_url: instant_key_url}.compact)
 
         Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
       end
@@ -35,7 +35,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity by which you want to filter the list of Instant Keys.
       # @return [Seam::Resources::InstantKey] OK
       def list(user_identity_id: nil)
-        res = @client.post("/instant_keys/list", {user_identity_id: user_identity_id}.compact)
+        res = @client.get("/instant_keys/list", {user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::InstantKey.load_from_response(res.body["instant_keys"])
       end

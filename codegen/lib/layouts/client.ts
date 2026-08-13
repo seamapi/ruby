@@ -25,6 +25,7 @@ export interface ClientMethodLayoutContext {
   isResource: boolean
   isPoll: boolean
   isNil: boolean
+  httpMethod: string
   returnResource: string
   returnPath: string
 }
@@ -39,7 +40,14 @@ export interface ClientLayoutContext {
 const getMethodLayoutContext = (
   method: ClientMethod,
 ): ClientMethodLayoutContext => {
-  const { methodName, path, parameters, returnResource, returnPath } = method
+  const {
+    methodName,
+    path,
+    parameters,
+    returnResource,
+    returnPath,
+    httpMethod,
+  } = method
 
   const hasReturnValue = returnResource != null && returnPath !== ''
   const canPollActionAttempt = returnPath === 'action_attempt'
@@ -73,6 +81,7 @@ const getMethodLayoutContext = (
     hasParams,
     bodyParams,
     path,
+    httpMethod: httpMethod.toLowerCase(),
     usesRes: isResource || isPoll,
     isResource,
     isPoll,

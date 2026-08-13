@@ -73,7 +73,7 @@ module Seam
       # @param device_id [String] ID of the thermostat device for which you want to delete a climate preset.
       # @return [nil] OK
       def delete_climate_preset(climate_preset_key:, device_id:)
-        @client.post("/thermostats/delete_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id}.compact)
+        @client.delete("/thermostats/delete_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id}.compact)
 
         nil
       end
@@ -179,7 +179,7 @@ module Seam
       # @param upper_limit_fahrenheit [Float, nil] Upper temperature limit in in °C. Seam alerts you if the reported temperature is higher than this value. You can specify either `upper_limit` but not both.
       # @return [nil] OK
       def set_temperature_threshold(device_id:, lower_limit_celsius: nil, lower_limit_fahrenheit: nil, upper_limit_celsius: nil, upper_limit_fahrenheit: nil)
-        @client.post("/thermostats/set_temperature_threshold", {device_id: device_id, lower_limit_celsius: lower_limit_celsius, lower_limit_fahrenheit: lower_limit_fahrenheit, upper_limit_celsius: upper_limit_celsius, upper_limit_fahrenheit: upper_limit_fahrenheit}.compact)
+        @client.patch("/thermostats/set_temperature_threshold", {device_id: device_id, lower_limit_celsius: lower_limit_celsius, lower_limit_fahrenheit: lower_limit_fahrenheit, upper_limit_celsius: upper_limit_celsius, upper_limit_fahrenheit: upper_limit_fahrenheit}.compact)
 
         nil
       end
@@ -200,7 +200,7 @@ module Seam
       # @param name [String, nil] User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
       # @return [nil] OK
       def update_climate_preset(climate_preset_key:, device_id:, climate_preset_mode: nil, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, ecobee_metadata: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil, manual_override_allowed: nil, name: nil)
-        @client.post("/thermostats/update_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id, climate_preset_mode: climate_preset_mode, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, ecobee_metadata: ecobee_metadata, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting, manual_override_allowed: manual_override_allowed, name: name}.compact)
+        @client.patch("/thermostats/update_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id, climate_preset_mode: climate_preset_mode, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, ecobee_metadata: ecobee_metadata, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting, manual_override_allowed: manual_override_allowed, name: name}.compact)
 
         nil
       end

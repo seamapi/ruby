@@ -14,7 +14,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of the desired user identity that you want to add to an access group. You can only provide one of acs_user_id or user_identity_id. If the ACS system contains an ACS user with the same `email_address` or `phone_number` as the user identity that you specify, they are linked, and the access group membership belongs to the ACS user. If the ACS system does not have a corresponding ACS user, one is created.
       # @return [nil] OK
       def add_user(acs_access_group_id:, acs_user_id: nil, user_identity_id: nil)
-        @client.post("/acs/access_groups/add_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        @client.put("/acs/access_groups/add_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end
@@ -23,7 +23,7 @@ module Seam
       # @param acs_access_group_id [String] ID of the access group that you want to delete.
       # @return [nil] OK
       def delete(acs_access_group_id:)
-        @client.post("/acs/access_groups/delete", {acs_access_group_id: acs_access_group_id}.compact)
+        @client.delete("/acs/access_groups/delete", {acs_access_group_id: acs_access_group_id}.compact)
 
         nil
       end
@@ -32,7 +32,7 @@ module Seam
       # @param acs_access_group_id [String] ID of the access group that you want to get.
       # @return [Seam::Resources::AcsAccessGroup] OK
       def get(acs_access_group_id:)
-        res = @client.post("/acs/access_groups/get", {acs_access_group_id: acs_access_group_id}.compact)
+        res = @client.get("/acs/access_groups/get", {acs_access_group_id: acs_access_group_id}.compact)
 
         Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_group"])
       end
@@ -44,7 +44,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity for which you want to retrieve all access groups.
       # @return [Seam::Resources::AcsAccessGroup] OK
       def list(acs_system_id: nil, acs_user_id: nil, search: nil, user_identity_id: nil)
-        res = @client.post("/acs/access_groups/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, search: search, user_identity_id: user_identity_id}.compact)
+        res = @client.get("/acs/access_groups/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, search: search, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_groups"])
       end
@@ -53,7 +53,7 @@ module Seam
       # @param acs_access_group_id [String] ID of the access group for which you want to retrieve all accessible entrances.
       # @return [Seam::Resources::AcsEntrance] OK
       def list_accessible_entrances(acs_access_group_id:)
-        res = @client.post("/acs/access_groups/list_accessible_entrances", {acs_access_group_id: acs_access_group_id}.compact)
+        res = @client.get("/acs/access_groups/list_accessible_entrances", {acs_access_group_id: acs_access_group_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
@@ -62,7 +62,7 @@ module Seam
       # @param acs_access_group_id [String] ID of the access group for which you want to retrieve all access system users.
       # @return [Seam::Resources::AcsUser] OK
       def list_users(acs_access_group_id:)
-        res = @client.post("/acs/access_groups/list_users", {acs_access_group_id: acs_access_group_id}.compact)
+        res = @client.get("/acs/access_groups/list_users", {acs_access_group_id: acs_access_group_id}.compact)
 
         Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
       end
@@ -73,7 +73,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of the user identity associated with the user that you want to remove from an access group.
       # @return [nil] OK
       def remove_user(acs_access_group_id:, acs_user_id: nil, user_identity_id: nil)
-        @client.post("/acs/access_groups/remove_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
+        @client.delete("/acs/access_groups/remove_user", {acs_access_group_id: acs_access_group_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
         nil
       end

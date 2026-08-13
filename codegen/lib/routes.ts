@@ -208,6 +208,7 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
 
   return {
     methodName: endpoint.name,
+    httpMethod: endpoint.request.preferredMethod,
     description: endpoint.description,
     isDeprecated: endpoint.isDeprecated,
     deprecationMessage: endpoint.deprecationMessage,

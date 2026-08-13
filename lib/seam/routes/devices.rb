@@ -27,7 +27,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /devices/get"
         end
 
-        res = @client.post("/devices/get", {device_id: device_id, name: name}.compact)
+        res = @client.get("/devices/get", {device_id: device_id, name: name}.compact)
 
         Seam::Resources::Device.load_from_response(res.body["device"])
       end
@@ -65,7 +65,7 @@ module Seam
       # @param provider_category [String, nil] Category for which you want to list providers.
       # @return [Seam::Resources::DeviceProvider] OK
       def list_device_providers(provider_category: nil)
-        res = @client.post("/devices/list_device_providers", {provider_category: provider_category}.compact)
+        res = @client.get("/devices/list_device_providers", {provider_category: provider_category}.compact)
 
         Seam::Resources::DeviceProvider.load_from_response(res.body["device_providers"])
       end
@@ -90,7 +90,7 @@ module Seam
       # @param properties [Hash, nil]
       # @return [nil] OK
       def update(device_id:, backup_access_code_pool_enabled: nil, custom_metadata: nil, is_managed: nil, name: nil, properties: nil)
-        @client.post("/devices/update", {device_id: device_id, backup_access_code_pool_enabled: backup_access_code_pool_enabled, custom_metadata: custom_metadata, is_managed: is_managed, name: name, properties: properties}.compact)
+        @client.patch("/devices/update", {device_id: device_id, backup_access_code_pool_enabled: backup_access_code_pool_enabled, custom_metadata: custom_metadata, is_managed: is_managed, name: name, properties: properties}.compact)
 
         nil
       end
