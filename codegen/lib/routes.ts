@@ -212,6 +212,9 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
     isDeprecated: endpoint.isDeprecated,
     deprecationMessage: endpoint.deprecationMessage,
     responseDescription: endpoint.response.description,
+    requiresAtLeastOneParameter:
+      endpoint.request.hasRequiredParameters &&
+      endpoint.request.parameters.every(({ isRequired }) => !isRequired),
     path: endpoint.path,
     parameters: endpoint.request.parameters.map((parameter) => ({
       name: parameter.name,

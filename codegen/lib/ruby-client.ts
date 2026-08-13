@@ -18,6 +18,7 @@ export interface ClientMethod {
   isDeprecated: boolean
   deprecationMessage: string
   responseDescription: string
+  requiresAtLeastOneParameter: boolean
   path: string
   parameters: ClientMethodParameter[]
   returnResource: string | null

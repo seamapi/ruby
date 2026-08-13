@@ -13,6 +13,7 @@ export interface ClientMethodLayoutContext {
   isDeprecated: boolean
   deprecationMessage: string
   responseDescription: string
+  requiresAtLeastOneParameter: boolean
   parameters: ClientMethod['parameters']
   name: string
   hasSignature: boolean
@@ -64,6 +65,7 @@ const getMethodLayoutContext = (
     isDeprecated: method.isDeprecated,
     deprecationMessage: method.deprecationMessage,
     responseDescription: method.responseDescription,
+    requiresAtLeastOneParameter: method.requiresAtLeastOneParameter,
     parameters: sortedParameters,
     name: methodName,
     hasSignature: signatureParams.length > 0,
