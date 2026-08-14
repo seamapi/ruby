@@ -5,12 +5,11 @@ require "uri"
 module Seam
   # A mutable, ordered list of name/value string pairs modeling the parts of
   # the WHATWG URLSearchParams interface that the Seam URL search params
-  # serializer needs. A name may repeat, which is how arrays are represented.
+  # serializer needs.
   class UrlSearchParams
     include Enumerable
 
-    # @param init [String, Hash, Enumerable, nil] An optional query string
-    #   (with or without a leading +?+), hash, or sequence of name/value pairs.
+    # @param init [String, Hash, Enumerable, nil]
     def initialize(init = nil)
       @pairs = []
       return if init.nil?
@@ -26,14 +25,11 @@ module Seam
       end
     end
 
-    # Adds a pair, keeping any existing pairs with the same name.
     def append(name, value)
       @pairs << [name.to_s, value.to_s]
       nil
     end
 
-    # Replaces the value of the first pair with the given name in place,
-    # deleting the rest, or appends the pair if the name is absent.
     def set(name, value)
       name = name.to_s
       replaced = false
@@ -48,14 +44,12 @@ module Seam
       nil
     end
 
-    # @return [String, nil] The value of the first pair with the given name.
     def get(name)
       name = name.to_s
       @pairs.each { |pair_name, value| return value if pair_name == name }
       nil
     end
 
-    # @return [Array<String>] The values of all pairs with the given name.
     def get_all(name)
       name = name.to_s
       @pairs.filter_map { |pair_name, value| value if pair_name == name }
@@ -66,15 +60,12 @@ module Seam
       @pairs.any? { |pair_name, _| pair_name == name }
     end
 
-    # Removes all pairs with the given name.
     def delete(name)
       name = name.to_s
       @pairs.reject! { |pair_name, _| pair_name == name }
       nil
     end
 
-    # Stably sorts pairs by name in UTF-16 code unit order, like
-    # URLSearchParams#sort.
     def sort!
       @pairs = @pairs.each_with_index.sort_by do |(name, _), index|
         [name.encode(Encoding::UTF_16BE).b, index]
@@ -98,16 +89,12 @@ module Seam
       @pairs.empty?
     end
 
-    # @return [String] The pairs as an application/x-www-form-urlencoded
-    #   query string with no leading +?+.
     def to_s
       @pairs.map do |name, value|
         "#{self.class.encode_component(name)}=#{self.class.encode_component(value)}"
       end.join("&")
     end
 
-    # Encodes a string with the WHATWG application/x-www-form-urlencoded
-    # serializer.
     def self.encode_component(string)
       URI.encode_www_form_component(string.encode(Encoding::UTF_8))
     end

@@ -139,9 +139,6 @@ module Seam
         end
       end
 
-      # Replaces every {Seam::NULL} sentinel in a request body with nil, so
-      # it serializes to JSON null. Must run before the :json request
-      # middleware.
       class ReplaceNullMiddleware < Faraday::Middleware
         def on_request(env)
           return unless env.body.is_a?(Hash) || env.body.is_a?(Array)

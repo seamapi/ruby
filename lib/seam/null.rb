@@ -16,12 +16,8 @@ module Seam
     end
   end
 
-  # Sentinel for an explicit JSON null.
-  #
-  # The Seam API distinguishes three states for a parameter: absent (leave the
-  # stored value unchanged), null (unset the stored value), and a value (set
-  # it). Ruby's +nil+ means absent; +Seam::NULL+ means null. Only use it for
-  # parameters the API documents as nullable. In a query string it serializes
-  # as +name=+ and in a JSON body as +"name": null+.
+  # Sentinel for an explicit JSON null: +nil+ omits a parameter, +Seam::NULL+
+  # unsets its stored value. Only for parameters the API documents as
+  # nullable.
   NULL = Null.instance
 end

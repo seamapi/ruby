@@ -6,10 +6,7 @@ require_relative "null"
 require_relative "url_search_params"
 
 module Seam
-  # Raised when a parameter cannot be serialized to a URL query string,
-  # before any request is sent.
   class UnserializableParamError < StandardError
-    # @return [String] The name of the parameter that could not be serialized.
     attr_reader :param_name
 
     def initialize(param_name, reason)
@@ -18,9 +15,6 @@ module Seam
     end
   end
 
-  # Returns a copy of the value with every {Seam::NULL} sentinel replaced by
-  # +nil+, recursing into hashes and arrays, so the sentinel serializes to
-  # JSON null in request bodies. Never mutates the given value.
   def self.replace_null(value)
     case value
     when Seam::Null then nil
@@ -33,18 +27,11 @@ module Seam
   # Serializes parameters to a URL query string following the
   # @seamapi/url-search-params-serializer standard:
   # https://github.com/seamapi/url-search-params-serializer
-  #
-  # The SDK itself serializes with {Seam.serialize_url_search_params} and
-  # {Seam.update_url_search_params}, which enable strict mode; the base
-  # serializer here keeps strict off by default.
   module UrlSearchParamsSerializer
-    # @param params [Hash] Parameter names mapped to values. Nested hashes
-    #   join their keys with +.+, arrays repeat the name, +nil+ values are
-    #   omitted, and {Seam::NULL} serializes as an empty value.
-    # @param strict [Boolean] Whether to add +_strict=true+ to non-empty
-    #   query strings, telling the Seam API to use strict, schema-aware
-    #   parsing.
-    # @return [String] The query string with no leading +?+.
+    # @param params [Hash]
+    # @param strict [Boolean] Whether to add +_strict=true+ to a non-empty
+    #   query string
+    # @return [String] The query string, without a leading +?+
     # @raise [UnserializableParamError]
     def self.serialize_url_search_params(params, strict: false)
       search_params = UrlSearchParams.new
@@ -53,13 +40,12 @@ module Seam
     end
 
     # Serializes parameters into an existing {UrlSearchParams} collection,
-    # preserving pairs it does not overwrite, then sorts the collection. Use
-    # this to merge Seam parameters into a URL that already has a query.
+    # preserving pairs it does not overwrite.
     #
     # @param search_params [UrlSearchParams]
     # @param params [Hash]
     # @param strict [Boolean] Whether to add +_strict=true+ when the
-    #   resulting collection is non-empty.
+    #   resulting collection is non-empty
     # @return [nil]
     # @raise [UnserializableParamError]
     def self.update_url_search_params(search_params, params, strict: false)
@@ -190,8 +176,7 @@ module Seam
     end
 
     # Returns the shortest round-tripping decimal digits of a positive float
-    # (trailing zeros stripped) and the position of the decimal point
-    # relative to the first digit, parsed from Float#to_s.
+    # and the position of the decimal point relative to the first digit.
     def self.shortest_decimal(value)
       repr = value.to_s
 
@@ -213,9 +198,7 @@ module Seam
       [digits.sub(/0+\z/, ""), point]
     end
 
-    # Formats a time exactly like JavaScript's Date#toISOString: UTC,
-    # millisecond precision with sub-millisecond digits truncated, a literal
-    # Z, and the expanded six-digit form for years outside 0000..9999.
+    # Formats a time exactly like JavaScript's Date#toISOString.
     def self.serialize_time(time)
       utc = time.getutc
       year = if utc.year.between?(0, 9999)

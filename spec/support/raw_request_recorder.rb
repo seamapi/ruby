@@ -6,7 +6,6 @@ require "socket"
 # body.
 class RawRequestRecorder
   RecordedRequest = Struct.new(:method, :target, :body) do
-    # The raw query string, exactly as it appeared on the request line.
     def query
       _, query = target.split("?", 2)
       query
