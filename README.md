@@ -44,7 +44,7 @@ accurate and fully typed.
     - [Configuring the Faraday Client](#configuring-the-faraday-client)
     - [Using the Faraday Client](#using-the-faraday-client)
     - [Overriding the Client](#overriding-the-client)
-    - [URL search params serialization](#url-search-params-serialization)
+    - [Serializing URL search params](#serializing-url-search-params)
 - [Development and Testing](#development-and-testing)
   - [Quickstart](#quickstart)
   - [Source code](#source-code)
@@ -520,44 +520,59 @@ devices = seam.client.get("/devices/list").body["devices"]
 A Faraday compatible client may be provided to create a `Seam` instance.
 This API is used internally and is not directly supported.
 
-#### URL search params serialization
+#### Serializing URL search params
 
-The SDK serializes query params with a Ruby port of
-[@seamapi/url-search-params-serializer][serializer],
-which the Seam API parses with
-[@seamapi/url-search-params-parser][parser].
-The output is byte-for-byte identical to the TypeScript implementation:
-WHATWG `application/x-www-form-urlencoded` encoding,
-`URLSearchParams.sort()` ordering, and ECMAScript number formatting.
+The Seam API parses URL search params as complex types.
+If you call it with your own HTTP client,
+`Seam.serialize_url_search_params` is exported for that purpose.
+The `_strict=true` parameter is added to any non-empty query
+so the Seam API uses strict, schema-aware parsing.
+A query with no serializable params remains empty.
 
-The serializer is exported for callers making requests
-with their own HTTP client:
+```ruby
+require "net/http"
+require "seam"
+
+uri = URI("https://connect.getseam.com/devices/list")
+uri.query = Seam.serialize_url_search_params({device_ids: ["device1", "device2"]})
+
+Net::HTTP.get(uri, {"Authorization" => "Bearer your-api-key"})
+```
+
+The serialization defines the name and value of each search param,
+where every value is a string.
+`Seam::UrlSearchParams` holds those pairs and renders the query string,
+as [URLSearchParams] does for the [reference implementation]:
 
 ```ruby
 require "seam"
 
-Seam.serialize_url_search_params(
-  device_ids: ["device-1", "device-2"],
-  custom_metadata_has: {internal_account_id: "user-1"},
-  limit: 10
-)
-# => "custom_metadata_has.internal_account_id=user-1&device_ids=device-1&device_ids=device-2&limit=10&_strict=true"
+search_params = Seam::UrlSearchParams.new
+
+Seam.update_url_search_params(search_params, {device_ids: ["device1", "device2"]})
+
+search_params.to_a
+# => [["device_ids", "device1"], ["device_ids", "device2"], ["_strict", "true"]]
+
+search_params.to_s
+# => "device_ids=device1&device_ids=device2&_strict=true"
 ```
 
-> [!NOTE]
-> The `_strict=true` parameter is added to any non-empty query
-> so the Seam API uses strict, schema-aware parsing.
-> A query with no serializable params remains empty.
-> The base serializer without it is available as
-> `Seam::UrlSearchParamsSerializer.serialize_url_search_params`.
+Pass either the query string or the pairs to your HTTP client.
+A client may percent-encode a few characters differently
+than `URLSearchParams` does,
+which the Seam API reads as the same params either way.
 
-Use `Seam.update_url_search_params` to merge params into an existing
-`Seam::UrlSearchParams` collection, e.g. for a URL that already has a query.
-Parameters that cannot be represented in the standard raise a
-`Seam::UnserializableParamError` before any request is sent,
-with the offending parameter name available as `param_name`.
+A param set to `nil` is omitted,
+while a param set to `Seam::NULL` is serialized to an empty value,
+which the Seam API reads as null,
+as described in [Setting a value to null](#setting-a-value-to-null).
+A param that cannot be represented raises a `Seam::UnserializableParamError`.
 
-[serializer]: https://github.com/seamapi/url-search-params-serializer
+The Seam API parses these params with the corresponding [parser].
+
+[URLSearchParams]: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+[reference implementation]: https://github.com/seamapi/url-search-params-serializer
 [parser]: https://github.com/seamapi/url-search-params-parser
 
 ## Development and Testing
