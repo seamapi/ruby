@@ -9,42 +9,6 @@ require_relative "strict_url_search_params_serializer"
 
 module Seam
   module Http
-    # The Faraday params encoder that applies the Seam URL search params
-    # serializer to query params.
-    module UrlSearchParamsEncoder
-      # Pairs decoded from a query string already present in the request
-      # path, passed through {encode} verbatim rather than re-serialized.
-      Decoded = Struct.new(:values)
-
-      def self.encode(params)
-        search_params = Seam::UrlSearchParams.new
-        map_params = {}
-
-        params.each do |name, value|
-          if value.is_a?(Decoded)
-            value.values.each { |element| search_params.append(name, element) }
-          else
-            map_params[name] = value
-          end
-        end
-
-        return search_params.to_s if map_params.empty?
-
-        Seam.update_url_search_params(search_params, map_params)
-        search_params.to_s
-      end
-
-      # Called by Faraday when a request path carries its own query string.
-      def self.decode(query)
-        return {} if query.nil? || query.empty?
-
-        pairs = URI.decode_www_form(query.encode(Encoding::UTF_8))
-        pairs.each_with_object({}) do |(name, value), decoded|
-          (decoded[name] ||= Decoded.new([])).values << value
-        end
-      end
-    end
-
     module Request
       def self.create_faraday_client(endpoint, auth_headers, faraday_options = {}, faraday_retry_options = {},
         timeout: nil)
@@ -160,6 +124,40 @@ module Seam
       end
 
       private_class_method :deep_merge
+    end
+
+    module UrlSearchParamsEncoder
+      # Pairs decoded from a query string already present in the request
+      # path, passed through {encode} verbatim rather than re-serialized.
+      Decoded = Struct.new(:values)
+
+      def self.encode(params)
+        search_params = Seam::UrlSearchParams.new
+        map_params = {}
+
+        params.each do |name, value|
+          if value.is_a?(Decoded)
+            value.values.each { |element| search_params.append(name, element) }
+          else
+            map_params[name] = value
+          end
+        end
+
+        return search_params.to_s if map_params.empty?
+
+        Seam.update_url_search_params(search_params, map_params)
+        search_params.to_s
+      end
+
+      # Called by Faraday when a request path carries its own query string.
+      def self.decode(query)
+        return {} if query.nil? || query.empty?
+
+        pairs = URI.decode_www_form(query.encode(Encoding::UTF_8))
+        pairs.each_with_object({}) do |(name, value), decoded|
+          (decoded[name] ||= Decoded.new([])).values << value
+        end
+      end
     end
   end
 end
