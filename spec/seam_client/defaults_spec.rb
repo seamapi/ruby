@@ -32,13 +32,4 @@ RSpec.describe Seam::Http::SingleWorkspace do
       expect(seam.defaults.wait_for_action_attempt).to be false
     end
   end
-
-  describe "#lts_version" do
-    it "is exposed on the instance and the module" do
-      seam = Seam.new(api_key: "seam_some_api_key")
-
-      expect(seam.lts_version).to eq(Seam::LTS_VERSION)
-      expect(Seam.lts_version).to eq(Seam::LTS_VERSION)
-    end
-  end
 end

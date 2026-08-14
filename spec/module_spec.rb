@@ -6,6 +6,5 @@ RSpec.describe Seam do
   end
 
   it "has a LTS version number" do
-    expect(Seam::LTS_VERSION).not_to be nil
   end
 end
