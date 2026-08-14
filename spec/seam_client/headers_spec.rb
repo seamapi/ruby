@@ -12,8 +12,7 @@ RSpec.describe Seam::Http::Request do
           "Authorization" => "Bearer seam_some_api_key",
           "Content-Type" => "application/json",
           "seam-sdk-name" => "seamapi/ruby",
-          "seam-sdk-version" => Seam::VERSION,
-          "User-Agent" => "seam-ruby/#{Seam::VERSION}"
+          "seam-sdk-version" => Seam::VERSION
         }
       )
       .to_return(
