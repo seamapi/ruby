@@ -27,6 +27,26 @@ RSpec.describe Seam::Http::SingleWorkspace, :fake do
       expect(seam.client.headers["seam-sdk-name"]).to eq("seamapi/ruby")
     end
 
+    it "does not let faraday_options override auth or SDK headers" do
+      seam = described_class.new(
+        api_key: seed["seam_apikey1_token"],
+        endpoint: endpoint,
+        faraday_options: {
+          headers: {
+            "Authorization" => "Bearer caller_token",
+            "Content-Type" => "text/plain",
+            "Seam-Sdk-Name" => "caller-sdk",
+            :"seam-sdk-version" => "0.0.0"
+          }
+        }
+      )
+
+      expect(seam.client.headers["Authorization"]).to eq("Bearer #{seed["seam_apikey1_token"]}")
+      expect(seam.client.headers["Content-Type"]).to eq("application/json")
+      expect(seam.client.headers["seam-sdk-name"]).to eq("seamapi/ruby")
+      expect(seam.client.headers["seam-sdk-version"]).to eq(Seam::VERSION)
+    end
+
     it "still authorizes requests against the server" do
       seam = described_class.new(
         api_key: seed["seam_apikey1_token"],
