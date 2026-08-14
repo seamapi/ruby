@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Seam::Helpers::ActionAttempt, :fake do
+RSpec.describe Seam::ActionAttemptResolver, :fake do
   let(:seam) do
     Seam.new(
       api_key: seed["seam_apikey1_token"],
