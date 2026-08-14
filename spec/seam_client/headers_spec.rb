@@ -29,6 +29,38 @@ RSpec.describe Seam::Http::Request do
     expect(stub).to have_been_requested
   end
 
+  it "sends the SDK and auth headers over caller-provided duplicates" do
+    stub = stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/get")
+      .with(
+        headers: {
+          "Authorization" => "Bearer seam_some_api_key",
+          "Content-Type" => "application/json",
+          "seam-sdk-name" => "seamapi/ruby",
+          "seam-sdk-version" => Seam::VERSION
+        }
+      )
+      .to_return(
+        status: 200,
+        body: {device: {device_id: device_id}}.to_json,
+        headers: {"Content-Type" => "application/json"}
+      )
+
+    seam = Seam.new(
+      api_key: "seam_some_api_key",
+      faraday_options: {
+        headers: {
+          "Authorization" => "Bearer caller_token",
+          "Content-Type" => "text/plain",
+          "Seam-Sdk-Name" => "caller-sdk",
+          :"seam-sdk-version" => "0.0.0"
+        }
+      }
+    )
+    seam.devices.get(device_id: device_id)
+
+    expect(stub).to have_been_requested
+  end
+
   it "sends the workspace header with a personal access token" do
     stub = stub_request(:post, "#{Seam::DEFAULT_ENDPOINT}/devices/get")
       .with(

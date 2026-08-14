@@ -20,6 +20,12 @@ module Seam
         }
 
         options = deep_merge(default_options, faraday_options)
+        options.delete("headers")
+        options[:headers] = merge_headers(
+          faraday_options[:headers] || faraday_options["headers"] || {},
+          auth_headers,
+          default_headers
+        )
 
         default_faraday_retry_options = {
           max: 2,
@@ -104,7 +110,23 @@ module Seam
         result
       end
 
-      private_class_method :deep_merge
+      def self.merge_headers(*headers_list)
+        result = {}
+        header_keys = {}
+
+        headers_list.each do |headers|
+          headers.each do |key, value|
+            normalized_key = key.to_s.downcase
+            result.delete(header_keys[normalized_key]) if header_keys.key?(normalized_key)
+            header_keys[normalized_key] = key
+            result[key] = value
+          end
+        end
+
+        result
+      end
+
+      private_class_method :deep_merge, :merge_headers
     end
   end
 end
