@@ -5,7 +5,7 @@ require "faraday/retry"
 require_relative "defaults"
 require_relative "version"
 require_relative "paginator"
-require_relative "url_search_params_serializer"
+require_relative "strict_url_search_params_serializer"
 
 module Seam
   module Http
@@ -37,6 +37,11 @@ module Seam
             map_params[name] = value
           end
         end
+
+        # A query built entirely by the caller passes through verbatim,
+        # without _strict=true: the caller has chosen their own
+        # representation, which strict parsing might reject.
+        return search_params.to_s if map_params.empty?
 
         Seam.update_url_search_params(search_params, map_params)
         search_params.to_s

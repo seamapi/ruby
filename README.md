@@ -541,8 +541,15 @@ Seam.serialize_url_search_params(
   custom_metadata_has: {internal_account_id: "user-1"},
   limit: 10
 )
-# => "custom_metadata_has.internal_account_id=user-1&device_ids=device-1&device_ids=device-2&limit=10"
+# => "custom_metadata_has.internal_account_id=user-1&device_ids=device-1&device_ids=device-2&limit=10&_strict=true"
 ```
+
+> [!NOTE]
+> The `_strict=true` parameter is added to any non-empty query
+> so the Seam API uses strict, schema-aware parsing.
+> A query with no serializable params remains empty.
+> The base serializer without it is available as
+> `Seam::UrlSearchParamsSerializer.serialize_url_search_params`.
 
 Use `Seam.update_url_search_params` to merge params into an existing
 `Seam::UrlSearchParams` collection, e.g. for a URL that already has a query.

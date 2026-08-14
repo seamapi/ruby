@@ -7,43 +7,43 @@ RSpec.describe Seam::Http::Request, recorder: true do
     it "serializes arrays by repeating the name, preserving order" do
       seam.client.get("/devices/list", {device_ids: %w[device-2 device-1]})
 
-      expect(recorder.requests.first.query).to eq("device_ids=device-2&device_ids=device-1")
+      expect(recorder.requests.first.query).to eq("device_ids=device-2&device_ids=device-1&_strict=true")
     end
 
     it "serializes an empty array as a single pair with an empty value" do
       seam.client.get("/devices/list", {device_ids: []})
 
-      expect(recorder.requests.first.query).to eq("device_ids=")
+      expect(recorder.requests.first.query).to eq("device_ids=&_strict=true")
     end
 
     it "serializes nested objects by joining keys with dots" do
       seam.client.get("/devices/list", {custom_metadata_has: {internal_account_id: "user-1"}})
 
-      expect(recorder.requests.first.query).to eq("custom_metadata_has.internal_account_id=user-1")
+      expect(recorder.requests.first.query).to eq("custom_metadata_has.internal_account_id=user-1&_strict=true")
     end
 
     it "encodes with the WHATWG form serializer, escaping ~ and passing * through" do
       seam.client.get("/devices/list", {search: "a *~ b"})
 
-      expect(recorder.requests.first.query).to eq("search=a+*%7E+b")
+      expect(recorder.requests.first.query).to eq("search=a+*%7E+b&_strict=true")
     end
 
     it "sorts pairs by name" do
       seam.client.get("/devices/list", {limit: 5, device_type: "august_lock", search: "x"})
 
-      expect(recorder.requests.first.query).to eq("device_type=august_lock&limit=5&search=x")
+      expect(recorder.requests.first.query).to eq("device_type=august_lock&limit=5&search=x&_strict=true")
     end
 
     it "omits nil params entirely" do
       seam.client.get("/devices/list", {search: nil, limit: 1})
 
-      expect(recorder.requests.first.query).to eq("limit=1")
+      expect(recorder.requests.first.query).to eq("limit=1&_strict=true")
     end
 
     it "serializes the NULL sentinel as an empty value" do
       seam.client.get("/devices/list", {search: Seam::NULL})
 
-      expect(recorder.requests.first.query).to eq("search=")
+      expect(recorder.requests.first.query).to eq("search=&_strict=true")
     end
 
     it "emits no bare ? when nothing serializes" do
@@ -56,7 +56,7 @@ RSpec.describe Seam::Http::Request, recorder: true do
     it "emits the serialized query verbatim through base URL resolution" do
       seam.client.get("/devices/list", {device_ids: [], search: "a *~ b"})
 
-      expect(recorder.requests.first.target).to eq("/devices/list?device_ids=&search=a+*%7E+b")
+      expect(recorder.requests.first.target).to eq("/devices/list?device_ids=&search=a+*%7E+b&_strict=true")
     end
 
     it "passes a query string already built by the caller through verbatim" do
@@ -68,7 +68,7 @@ RSpec.describe Seam::Http::Request, recorder: true do
     it "merges params into a query string already built by the caller" do
       seam.client.get("/devices/list?built=1", {added: "a b"})
 
-      expect(recorder.requests.first.query).to eq("added=a+b&built=1")
+      expect(recorder.requests.first.query).to eq("added=a+b&built=1&_strict=true")
     end
 
     it "raises the typed error before any request is sent" do
@@ -86,7 +86,7 @@ RSpec.describe Seam::Http::Request, recorder: true do
 
       request = recorder.requests.first
       expect(request.method).to eq("DELETE")
-      expect(request.query).to eq("acs_access_group_id=group-1")
+      expect(request.query).to eq("acs_access_group_id=group-1&_strict=true")
     end
   end
 
@@ -137,7 +137,7 @@ RSpec.describe Seam::Http::Request, recorder: true do
 
       request = recorder.requests.first
       expect(request.method).to eq("GET")
-      expect(request.target).to eq("/locks/get?device_id=device-1")
+      expect(request.target).to eq("/locks/get?device_id=device-1&_strict=true")
       expect(device.device_id).to eq("device-1")
     end
 
@@ -146,7 +146,7 @@ RSpec.describe Seam::Http::Request, recorder: true do
 
       seam.locks.get(device_id: "device-1", name: nil)
 
-      expect(recorder.requests.first.target).to eq("/locks/get?device_id=device-1")
+      expect(recorder.requests.first.target).to eq("/locks/get?device_id=device-1&_strict=true")
     end
   end
 end

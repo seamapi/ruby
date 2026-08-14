@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe "Seam.serialize_url_search_params" do
+  # The base serializer isolates the serialization standard; the strict mode
+  # the SDK uses is layered on top and covered in its own block below.
   def serialize(params)
-    Seam.serialize_url_search_params(params)
+    Seam::UrlSearchParamsSerializer.serialize_url_search_params(params)
   end
 
   it "serializes scalars and sorts pairs by name" do
@@ -196,19 +198,48 @@ RSpec.describe "Seam.serialize_url_search_params" do
     end
   end
 
+  describe "strict mode, used by Seam.serialize_url_search_params" do
+    it "adds _strict=true to non-empty query strings" do
+      expect(Seam.serialize_url_search_params({})).to eq("")
+      expect(Seam.serialize_url_search_params({foo: "d"})).to eq("foo=d&_strict=true")
+    end
+
+    it "keeps _strict last, after the sorted pairs" do
+      expect(Seam.serialize_url_search_params({z: 1, a: 2})).to eq("a=2&z=1&_strict=true")
+    end
+
+    it "replaces a _strict param passed by the caller" do
+      expect(Seam.serialize_url_search_params({_strict: false})).to eq("_strict=true")
+    end
+  end
+
   describe "Seam.update_url_search_params" do
     it "serializes into an existing collection, preserving other pairs, then sorts" do
       search_params = Seam::UrlSearchParams.new("z=1&a=2")
-      Seam.update_url_search_params(search_params, {m: "x"})
+      Seam::UrlSearchParamsSerializer.update_url_search_params(search_params, {m: "x"})
 
       expect(search_params.to_s).to eq("a=2&m=x&z=1")
     end
 
     it "overwrites pairs with names it serializes" do
       search_params = Seam::UrlSearchParams.new("a=old")
-      Seam.update_url_search_params(search_params, {a: "new"})
+      Seam::UrlSearchParamsSerializer.update_url_search_params(search_params, {a: "new"})
 
       expect(search_params.to_s).to eq("a=new")
+    end
+
+    it "adds _strict=true when the resulting collection is non-empty" do
+      search_params = Seam::UrlSearchParams.new("z=1")
+      Seam.update_url_search_params(search_params, {})
+
+      expect(search_params.to_s).to eq("z=1&_strict=true")
+    end
+
+    it "replaces an existing _strict pair rather than repeating it" do
+      search_params = Seam::UrlSearchParams.new("_strict=true&a=1")
+      Seam.update_url_search_params(search_params, {b: "2"})
+
+      expect(search_params.to_s).to eq("a=1&b=2&_strict=true")
     end
   end
 

@@ -19,39 +19,6 @@ module Seam
     end
   end
 
-  # Serializes parameters to a URL query string following the
-  # @seamapi/url-search-params-serializer standard:
-  # https://github.com/seamapi/url-search-params-serializer
-  #
-  # The output is byte-for-byte identical to the TypeScript reference
-  # implementation: WHATWG application/x-www-form-urlencoded encoding,
-  # URLSearchParams#sort ordering, and ECMAScript number formatting.
-  #
-  # @param params [Hash] Parameter names mapped to values. Nested hashes join
-  #   their keys with +.+, arrays repeat the name, +nil+ values are omitted,
-  #   and {Seam::NULL} serializes as an empty value.
-  # @return [String] The query string with no leading +?+.
-  # @raise [UnserializableParamError]
-  def self.serialize_url_search_params(params)
-    search_params = UrlSearchParams.new
-    update_url_search_params(search_params, params)
-    search_params.to_s
-  end
-
-  # Serializes parameters into an existing {UrlSearchParams} collection,
-  # preserving pairs it does not overwrite, then sorts the collection. Use
-  # this to merge Seam parameters into a URL that already has a query.
-  #
-  # @param search_params [UrlSearchParams]
-  # @param params [Hash]
-  # @return [nil]
-  # @raise [UnserializableParamError]
-  def self.update_url_search_params(search_params, params)
-    UrlSearchParamsSerializer.update(search_params, params, [])
-    search_params.sort!
-    nil
-  end
-
   # Returns a copy of the value with every {Seam::NULL} sentinel replaced by
   # +nil+, recursing into hashes and arrays, so the sentinel serializes to
   # JSON null in request bodies. Never mutates the given value.
@@ -64,9 +31,57 @@ module Seam
     end
   end
 
-  # Internal implementation of {Seam.serialize_url_search_params}.
+  # Serializes parameters to a URL query string following the
+  # @seamapi/url-search-params-serializer standard:
+  # https://github.com/seamapi/url-search-params-serializer
+  #
+  # The output is byte-for-byte identical to the TypeScript reference
+  # implementation: WHATWG application/x-www-form-urlencoded encoding,
+  # URLSearchParams#sort ordering, and ECMAScript number formatting.
+  #
+  # The SDK itself serializes with {Seam.serialize_url_search_params} and
+  # {Seam.update_url_search_params}, which enable strict mode; the base
+  # serializer here keeps strict off by default.
   module UrlSearchParamsSerializer
-    def self.update(search_params, params, path)
+    # @param params [Hash] Parameter names mapped to values. Nested hashes
+    #   join their keys with +.+, arrays repeat the name, +nil+ values are
+    #   omitted, and {Seam::NULL} serializes as an empty value.
+    # @param strict [Boolean] Whether to add +_strict=true+ to non-empty
+    #   query strings, telling the Seam API to use strict, schema-aware
+    #   parsing.
+    # @return [String] The query string with no leading +?+.
+    # @raise [UnserializableParamError]
+    def self.serialize_url_search_params(params, strict: false)
+      search_params = UrlSearchParams.new
+      update_url_search_params(search_params, params, strict: strict)
+      search_params.to_s
+    end
+
+    # Serializes parameters into an existing {UrlSearchParams} collection,
+    # preserving pairs it does not overwrite, then sorts the collection. Use
+    # this to merge Seam parameters into a URL that already has a query.
+    #
+    # @param search_params [UrlSearchParams]
+    # @param params [Hash]
+    # @param strict [Boolean] Whether to add +_strict=true+ when the
+    #   resulting collection is non-empty. Any existing +_strict+ pair is
+    #   replaced, and the pair is appended after sorting so it is always
+    #   last.
+    # @return [nil]
+    # @raise [UnserializableParamError]
+    def self.update_url_search_params(search_params, params, strict: false)
+      nested_update(search_params, params, [])
+      search_params.sort!
+
+      if strict && !search_params.empty?
+        search_params.delete("_strict")
+        search_params.append("_strict", "true")
+      end
+
+      nil
+    end
+
+    def self.nested_update(search_params, params, path)
       params.each do |key, value|
         unless key.is_a?(String) || key.is_a?(Symbol)
           raise UnserializableParamError.new(
@@ -86,7 +101,7 @@ module Seam
         current_path = [*path, key]
 
         if value.is_a?(Hash)
-          update(search_params, value, current_path)
+          nested_update(search_params, value, current_path)
           next
         end
 
