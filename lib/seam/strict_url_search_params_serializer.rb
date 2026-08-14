@@ -4,9 +4,7 @@ require_relative "url_search_params_serializer"
 
 # The strict URL search params serialization used by the Seam SDK: the base
 # serializer with strict mode enabled, adding _strict=true to any non-empty
-# query so the Seam API uses strict, schema-aware parsing. Kept apart from
-# {Seam::UrlSearchParamsSerializer} so the base serializer stays a faithful
-# port of the @seamapi/url-search-params-serializer standard.
+# query so the Seam API uses strict, schema-aware parsing.
 module Seam
   # (see UrlSearchParamsSerializer.serialize_url_search_params)
   def self.serialize_url_search_params(params)

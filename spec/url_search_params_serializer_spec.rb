@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe "Seam.serialize_url_search_params" do
-  # The base serializer isolates the serialization standard; the strict mode
-  # the SDK uses is layered on top and covered in its own block below.
   def serialize(params)
     Seam::UrlSearchParamsSerializer.serialize_url_search_params(params)
   end

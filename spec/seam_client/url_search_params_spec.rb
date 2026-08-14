@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# These specs assert on the raw query string the SDK puts on the wire, not a
-# re-parsed version of it, which would hide encoding differences.
 RSpec.describe Seam::Http::Request, recorder: true do
   describe "query params" do
     it "serializes arrays by repeating the name, preserving order" do

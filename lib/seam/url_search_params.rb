@@ -6,10 +6,6 @@ module Seam
   # A mutable, ordered list of name/value string pairs modeling the parts of
   # the WHATWG URLSearchParams interface that the Seam URL search params
   # serializer needs. A name may repeat, which is how arrays are represented.
-  #
-  # Pairs are encoded with the WHATWG application/x-www-form-urlencoded
-  # serializer and sorted by UTF-16 code unit, matching JavaScript's
-  # URLSearchParams exactly.
   class UrlSearchParams
     include Enumerable
 
@@ -17,10 +13,9 @@ module Seam
     #   (with or without a leading +?+), hash, or sequence of name/value pairs.
     def initialize(init = nil)
       @pairs = []
+      return if init.nil?
 
       case init
-      when nil
-        # Start empty.
       when String
         query = init.delete_prefix("?")
         URI.decode_www_form(query).each { |name, value| append(name, value) } unless query.empty?
@@ -37,8 +32,8 @@ module Seam
       nil
     end
 
-    # Replaces the value of the first pair with the given name in place and
-    # deletes the rest, or appends the pair if the name is absent.
+    # Replaces the value of the first pair with the given name in place,
+    # deleting the rest, or appends the pair if the name is absent.
     def set(name, value)
       name = name.to_s
       replaced = false
@@ -78,14 +73,8 @@ module Seam
       nil
     end
 
-    # Sorts pairs by name in UTF-16 code unit order, like
-    # URLSearchParams#sort. The sort is stable, so pairs with the same name
-    # keep their relative order, which preserves array element order.
-    #
-    # UTF-16 code unit order differs from both code point order and UTF-8 byte
-    # order above the Basic Multilingual Plane: surrogate pairs sort below
-    # U+E000..U+FFFF. Comparing the UTF-16BE encoding of each name as bytes
-    # produces exactly this order.
+    # Stably sorts pairs by name in UTF-16 code unit order, like
+    # URLSearchParams#sort.
     def sort!
       @pairs = @pairs.each_with_index.sort_by do |(name, _), index|
         [name.encode(Encoding::UTF_16BE).b, index]
@@ -110,8 +99,7 @@ module Seam
     end
 
     # @return [String] The pairs as an application/x-www-form-urlencoded
-    #   query string with no leading +?+. Every pair gets an +=+, including
-    #   pairs with an empty value.
+    #   query string with no leading +?+.
     def to_s
       @pairs.map do |name, value|
         "#{self.class.encode_component(name)}=#{self.class.encode_component(value)}"
@@ -119,10 +107,7 @@ module Seam
     end
 
     # Encodes a string with the WHATWG application/x-www-form-urlencoded
-    # serializer: ASCII alphanumerics and +*-._+ are emitted literally, space
-    # becomes ++, and every other UTF-8 byte becomes an uppercase %XX escape.
-    # Ruby's stdlib implements exactly this, verified by the probe
-    # +encode_component("a *~ b") == "a+*%7E+b"+ in the specs.
+    # serializer.
     def self.encode_component(string)
       URI.encode_www_form_component(string.encode(Encoding::UTF_8))
     end

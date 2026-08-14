@@ -6,9 +6,8 @@ require_relative "null"
 require_relative "url_search_params"
 
 module Seam
-  # Raised when a parameter cannot be serialized to a URL query string. This
-  # is raised before any request is sent, so callers can distinguish a bad
-  # parameter from an API rejection.
+  # Raised when a parameter cannot be serialized to a URL query string,
+  # before any request is sent.
   class UnserializableParamError < StandardError
     # @return [String] The name of the parameter that could not be serialized.
     attr_reader :param_name
@@ -35,10 +34,6 @@ module Seam
   # @seamapi/url-search-params-serializer standard:
   # https://github.com/seamapi/url-search-params-serializer
   #
-  # The output is byte-for-byte identical to the TypeScript reference
-  # implementation: WHATWG application/x-www-form-urlencoded encoding,
-  # URLSearchParams#sort ordering, and ECMAScript number formatting.
-  #
   # The SDK itself serializes with {Seam.serialize_url_search_params} and
   # {Seam.update_url_search_params}, which enable strict mode; the base
   # serializer here keeps strict off by default.
@@ -64,9 +59,7 @@ module Seam
     # @param search_params [UrlSearchParams]
     # @param params [Hash]
     # @param strict [Boolean] Whether to add +_strict=true+ when the
-    #   resulting collection is non-empty. Any existing +_strict+ pair is
-    #   replaced, and the pair is appended after sorting so it is always
-    #   last.
+    #   resulting collection is non-empty.
     # @return [nil]
     # @raise [UnserializableParamError]
     def self.update_url_search_params(search_params, params, strict: false)
@@ -123,9 +116,7 @@ module Seam
     end
 
     def self.serialize_array(search_params, name, values)
-      # An empty array serializes as a single pair with an empty value, which
-      # the parser reads back as an empty array. Omitting the pair instead
-      # would silently drop the filter and match everything.
+      # The parser reads a single pair with an empty value as an empty array.
       if values.empty?
         search_params.set(name, "")
         return
@@ -172,9 +163,7 @@ module Seam
       end
     end
 
-    # Formats a float exactly like ECMAScript Number::toString: the shortest
-    # digit string that round-trips, a decimal point placed directly for
-    # exponents in (-7, 21), and e-notation outside that range.
+    # Formats a float exactly like ECMAScript Number::toString.
     def self.serialize_float(name, value)
       raise UnserializableParamError.new(name, "is NaN") if value.nan?
       if value.infinite?
@@ -201,9 +190,8 @@ module Seam
     end
 
     # Returns the shortest round-tripping decimal digits of a positive float
-    # (trailing zeros stripped) and the position of the decimal point relative
-    # to the first digit. Ruby's Float#to_s is the shortest repr that
-    # round-trips, the same digits ECMAScript uses.
+    # (trailing zeros stripped) and the position of the decimal point
+    # relative to the first digit, parsed from Float#to_s.
     def self.shortest_decimal(value)
       repr = value.to_s
 
@@ -225,9 +213,9 @@ module Seam
       [digits.sub(/0+\z/, ""), point]
     end
 
-    # Formats a time exactly like JavaScript's Date#toISOString: converted to
-    # UTC, millisecond precision with sub-millisecond digits truncated, and a
-    # literal Z. Years outside 0000..9999 use the expanded six-digit form.
+    # Formats a time exactly like JavaScript's Date#toISOString: UTC,
+    # millisecond precision with sub-millisecond digits truncated, a literal
+    # Z, and the expanded six-digit form for years outside 0000..9999.
     def self.serialize_time(time)
       utc = time.getutc
       year = if utc.year.between?(0, 9999)

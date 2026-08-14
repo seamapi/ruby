@@ -10,20 +10,10 @@ require_relative "strict_url_search_params_serializer"
 module Seam
   module Http
     # The Faraday params encoder that applies the Seam URL search params
-    # serializer to query params, so requests go out with the exact encoding,
-    # ordering, and number formatting the Seam API parses. Faraday builds the
-    # query string by calling this encoder after resolving the request path
-    # against the base URL, so the serialized query is emitted verbatim.
-    #
-    # Faraday's own encoders would silently disagree with the standard: the
-    # default NestedParamsEncoder turns {ids: []} into "ids%5B%5D" (a bare
-    # "ids[]" with no "="), which the API reads as no filter at all instead of
-    # an empty one.
+    # serializer to query params.
     module UrlSearchParamsEncoder
       # Pairs decoded from a query string already present in the request
-      # path. Wrapping them lets {encode} pass them through verbatim instead
-      # of re-serializing them: a caller who built their own query string has
-      # chosen their own representation.
+      # path, passed through {encode} verbatim rather than re-serialized.
       Decoded = Struct.new(:values)
 
       def self.encode(params)
@@ -38,9 +28,6 @@ module Seam
           end
         end
 
-        # A query built entirely by the caller passes through verbatim,
-        # without _strict=true: the caller has chosen their own
-        # representation, which strict parsing might reject.
         return search_params.to_s if map_params.empty?
 
         Seam.update_url_search_params(search_params, map_params)
@@ -152,10 +139,9 @@ module Seam
         end
       end
 
-      # Replaces every {Seam::NULL} sentinel in a JSON request body with nil,
-      # so it serializes to JSON null. Runs before the :json request
-      # middleware and copies the body rather than mutating the caller's
-      # payload.
+      # Replaces every {Seam::NULL} sentinel in a request body with nil, so
+      # it serializes to JSON null. Must run before the :json request
+      # middleware.
       class ReplaceNullMiddleware < Faraday::Middleware
         def on_request(env)
           return unless env.body.is_a?(Hash) || env.body.is_a?(Array)

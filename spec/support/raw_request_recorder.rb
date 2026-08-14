@@ -3,8 +3,7 @@
 require "socket"
 
 # A local HTTP server that records the exact bytes of each request line and
-# body. WebMock re-parses URLs, which would hide encoding differences, so the
-# URL search params specs assert against the raw request line instead.
+# body.
 class RawRequestRecorder
   RecordedRequest = Struct.new(:method, :target, :body) do
     # The raw query string, exactly as it appeared on the request line.
