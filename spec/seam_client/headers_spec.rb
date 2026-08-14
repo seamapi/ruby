@@ -15,7 +15,6 @@ RSpec.describe Seam::Http::Request do
           "seam-sdk-name" => "seamapi/ruby",
           "seam-sdk-version" => Seam::VERSION,
           "seam-lts-version" => Seam::LTS_VERSION,
-          "User-Agent" => "seam-ruby/#{Seam::VERSION}"
         }
       )
       .to_return(

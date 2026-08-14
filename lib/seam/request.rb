@@ -40,7 +40,6 @@ module Seam
 
       def self.default_headers
         {
-          "User-Agent" => "seam-ruby/#{Seam::VERSION}",
           "Content-Type" => "application/json",
           :"seam-sdk-name" => "seamapi/ruby",
           :"seam-sdk-version" => Seam::VERSION,
