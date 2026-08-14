@@ -39,7 +39,7 @@ module Seam
       # @param device_types [Array<String>, nil] Array of device types for which you want to list devices.
       # @param limit [Float, nil] Numerical limit on the number of devices to return.
       # @param manufacturer [String, nil] Manufacturer for which you want to list devices.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned devices to include all records that satisfy a partial match using `device_id` (full or partial UUID prefix, minimum 4 characters), `connected_account_id`, `display_name`, `custom_metadata` or `location.location_name`.
       # @return [Seam::Resources::UnmanagedDevice] OK
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil)

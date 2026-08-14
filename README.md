@@ -27,6 +27,7 @@ accurate and fully typed.
     - [API Key](#api-key)
     - [Personal Access Token](#personal-access-token)
   - [Action Attempts](#action-attempts)
+  - [Setting a value to null](#setting-a-value-to-null)
   - [Pagination](#pagination)
     - [Manually fetch pages with the next_page_cursor](#manually-fetch-pages-with-the-next_page_cursor)
     - [Resume pagination](#resume-pagination)
@@ -43,6 +44,7 @@ accurate and fully typed.
     - [Configuring the Faraday Client](#configuring-the-faraday-client)
     - [Using the Faraday Client](#using-the-faraday-client)
     - [Overriding the Client](#overriding-the-client)
+    - [Serializing URL search params](#serializing-url-search-params)
 - [Development and Testing](#development-and-testing)
   - [Quickstart](#quickstart)
   - [Source code](#source-code)
@@ -225,6 +227,35 @@ rescue Seam::ActionAttemptTimeoutError
   puts "Door took too long to unlock"
 end
 ```
+
+### Setting a value to null
+
+The Seam API distinguishes three states for an updatable parameter:
+omitted (leave the stored value unchanged), null (unset the stored value),
+and a value (set it).
+
+Ruby's `nil` means omitted.
+The SDK removes `nil` parameters from the request entirely,
+so passing `nil` never unsets a value.
+To unset a value, pass the `Seam::NULL` sentinel,
+which the SDK sends as JSON `null` in request bodies
+and as an empty value in query strings:
+
+```ruby
+require "seam"
+
+seam = Seam.new
+
+# Leaves ends_at unchanged.
+seam.access_grants.update(access_grant_id: access_grant_id, ends_at: nil)
+
+# Unsets ends_at so the grant no longer expires.
+seam.access_grants.update(access_grant_id: access_grant_id, ends_at: Seam::NULL)
+```
+
+Only pass `Seam::NULL` for parameters the API documents as nullable.
+Generated methods document nullable parameters
+with `Seam::Null` in their `@param` types, e.g. `[String, Seam::Null, nil]`.
 
 ### Pagination
 
@@ -488,6 +519,61 @@ devices = seam.client.get("/devices/list").body["devices"]
 
 A Faraday compatible client may be provided to create a `Seam` instance.
 This API is used internally and is not directly supported.
+
+#### Serializing URL search params
+
+The Seam API parses URL search params as complex types.
+If you call it with your own HTTP client,
+`Seam.serialize_url_search_params` is exported for that purpose.
+The `_strict=true` parameter is added to any non-empty query
+so the Seam API uses strict, schema-aware parsing.
+A query with no serializable params remains empty.
+
+```ruby
+require "net/http"
+require "seam"
+
+uri = URI("https://connect.getseam.com/devices/list")
+uri.query = Seam.serialize_url_search_params({device_ids: ["device1", "device2"]})
+
+Net::HTTP.get(uri, {"Authorization" => "Bearer your-api-key"})
+```
+
+The serialization defines the name and value of each search param,
+where every value is a string.
+`Seam::UrlSearchParams` holds those pairs and renders the query string,
+as [URLSearchParams] does for the [reference implementation]:
+
+```ruby
+require "seam"
+
+search_params = Seam::UrlSearchParams.new
+
+Seam.update_url_search_params(search_params, {device_ids: ["device1", "device2"]})
+
+search_params.to_a
+# => [["device_ids", "device1"], ["device_ids", "device2"], ["_strict", "true"]]
+
+search_params.to_s
+# => "device_ids=device1&device_ids=device2&_strict=true"
+```
+
+Pass either the query string or the pairs to your HTTP client.
+A client may percent-encode a few characters differently
+than `URLSearchParams` does,
+which the Seam API reads as the same params either way.
+
+A param set to `nil` is omitted,
+while a param set to `Seam::NULL` is serialized to an empty value,
+which the Seam API reads as null,
+as described in [Setting a value to null](#setting-a-value-to-null).
+A param that cannot be represented raises a `Seam::UnserializableParamError`.
+
+The Seam API parses these params with the corresponding [parser].
+
+[URLSearchParams]: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+[reference implementation]: https://github.com/seamapi/url-search-params-serializer
+[parser]: https://github.com/seamapi/url-search-params-parser
 
 ## Development and Testing
 

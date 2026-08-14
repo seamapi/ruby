@@ -94,10 +94,12 @@ export const rubyParameterType = (parameter: Parameter): string => {
           parameter.format,
           parameter.format === 'number' && parameter.isInt,
         )
-  return nullable(type, {
-    isOptional: !parameter.isRequired,
-    isNullable: parameter.isNullable,
-  })
+  // Only a nullable parameter accepts the Seam::NULL sentinel, and only an
+  // optional parameter accepts nil.
+  const union = [type]
+  if (parameter.isNullable) union.push('Seam::Null')
+  if (!parameter.isRequired) union.push('nil')
+  return union.join(', ')
 }
 
 export const rubyParamDoc = (

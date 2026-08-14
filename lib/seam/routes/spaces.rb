@@ -95,7 +95,7 @@ module Seam
       # Returns a list of all spaces.
       # @param customer_key [String, nil] Customer key for which you want to list spaces.
       # @param limit [Float, nil] Maximum number of records to return per page.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned spaces to include all records that satisfy a partial match using `name`, `space_key`, or `customer_key`.
       # @param space_key [String, nil] Filter spaces by space_key.
       # @return [Seam::Resources::Space] OK

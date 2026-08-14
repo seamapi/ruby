@@ -20,7 +20,7 @@ module Seam
       # Returns a list of all unmanaged [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) (where is_managed = false).
       # @param created_before [Time, nil] Timestamp by which to limit returned unmanaged user identities. Returns user identities created before this timestamp.
       # @param limit [Integer, nil] Maximum number of records to return per page.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned unmanaged user identities to include all records that satisfy a partial match using `full_name`, `phone_number`, `email_address`,  `user_identity_id` or `acs_system_id`.
       # @return [Seam::Resources::UnmanagedUserIdentity] OK
       def list(created_before: nil, limit: nil, page_cursor: nil, search: nil)

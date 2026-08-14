@@ -60,7 +60,7 @@ module Seam
       # @param hvac_mode_setting [String, nil] Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
       # @param manual_override_allowed [Boolean, nil] Indicates whether a person at the thermostat or using the API can change the thermostat's settings.
       # @deprecated manual_override_allowed: Use 'thermostat_schedule.is_override_allowed'
-      # @param name [String, nil] User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+      # @param name [String, Seam::Null, nil] User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
       # @return [nil] OK
       def create_climate_preset(climate_preset_key:, device_id:, climate_preset_mode: nil, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, ecobee_metadata: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil, manual_override_allowed: nil, name: nil)
         @client.post("/thermostats/create_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id, climate_preset_mode: climate_preset_mode, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, ecobee_metadata: ecobee_metadata, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting, manual_override_allowed: manual_override_allowed, name: name}.compact)
@@ -173,10 +173,10 @@ module Seam
 
       # Sets a [temperature threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) for a specified thermostat. Seam emits a `thermostat.temperature_threshold_exceeded` event and adds a warning on a thermostat if it reports a temperature outside the threshold range.
       # @param device_id [String] ID of the thermostat device for which you want to set a temperature threshold.
-      # @param lower_limit_celsius [Float, nil] Lower temperature limit in in °C. Seam alerts you if the reported temperature is lower than this value. You can specify either `lower_limit` but not both.
-      # @param lower_limit_fahrenheit [Float, nil] Lower temperature limit in in °F. Seam alerts you if the reported temperature is lower than this value. You can specify either `lower_limit` but not both.
-      # @param upper_limit_celsius [Float, nil] Upper temperature limit in in °C. Seam alerts you if the reported temperature is higher than this value. You can specify either `upper_limit` but not both.
-      # @param upper_limit_fahrenheit [Float, nil] Upper temperature limit in in °C. Seam alerts you if the reported temperature is higher than this value. You can specify either `upper_limit` but not both.
+      # @param lower_limit_celsius [Float, Seam::Null, nil] Lower temperature limit in in °C. Seam alerts you if the reported temperature is lower than this value. You can specify either `lower_limit` but not both.
+      # @param lower_limit_fahrenheit [Float, Seam::Null, nil] Lower temperature limit in in °F. Seam alerts you if the reported temperature is lower than this value. You can specify either `lower_limit` but not both.
+      # @param upper_limit_celsius [Float, Seam::Null, nil] Upper temperature limit in in °C. Seam alerts you if the reported temperature is higher than this value. You can specify either `upper_limit` but not both.
+      # @param upper_limit_fahrenheit [Float, Seam::Null, nil] Upper temperature limit in in °C. Seam alerts you if the reported temperature is higher than this value. You can specify either `upper_limit` but not both.
       # @return [nil] OK
       def set_temperature_threshold(device_id:, lower_limit_celsius: nil, lower_limit_fahrenheit: nil, upper_limit_celsius: nil, upper_limit_fahrenheit: nil)
         @client.patch("/thermostats/set_temperature_threshold", {device_id: device_id, lower_limit_celsius: lower_limit_celsius, lower_limit_fahrenheit: lower_limit_fahrenheit, upper_limit_celsius: upper_limit_celsius, upper_limit_fahrenheit: upper_limit_fahrenheit}.compact)
@@ -197,7 +197,7 @@ module Seam
       # @param hvac_mode_setting [String, nil] Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
       # @param manual_override_allowed [Boolean, nil] Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
       # @deprecated manual_override_allowed: Use 'thermostat_schedule.is_override_allowed'
-      # @param name [String, nil] User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+      # @param name [String, Seam::Null, nil] User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
       # @return [nil] OK
       def update_climate_preset(climate_preset_key:, device_id:, climate_preset_mode: nil, cooling_set_point_celsius: nil, cooling_set_point_fahrenheit: nil, ecobee_metadata: nil, fan_mode_setting: nil, heating_set_point_celsius: nil, heating_set_point_fahrenheit: nil, hvac_mode_setting: nil, manual_override_allowed: nil, name: nil)
         @client.patch("/thermostats/update_climate_preset", {climate_preset_key: climate_preset_key, device_id: device_id, climate_preset_mode: climate_preset_mode, cooling_set_point_celsius: cooling_set_point_celsius, cooling_set_point_fahrenheit: cooling_set_point_fahrenheit, ecobee_metadata: ecobee_metadata, fan_mode_setting: fan_mode_setting, heating_set_point_celsius: heating_set_point_celsius, heating_set_point_fahrenheit: heating_set_point_fahrenheit, hvac_mode_setting: hvac_mode_setting, manual_override_allowed: manual_override_allowed, name: name}.compact)
@@ -207,13 +207,13 @@ module Seam
 
       # Updates the thermostat weekly program for a thermostat device. To configure a weekly program, specify the ID of the daily program that you want to use for each day of the week. When you update a weekly program, the set of programs that you specify overwrites any previous weekly program for the thermostat.
       # @param device_id [String] ID of the thermostat device for which you want to update the weekly program.
-      # @param friday_program_id [String, nil] ID of the thermostat daily program to run on Fridays.
-      # @param monday_program_id [String, nil] ID of the thermostat daily program to run on Mondays.
-      # @param saturday_program_id [String, nil] ID of the thermostat daily program to run on Saturdays.
-      # @param sunday_program_id [String, nil] ID of the thermostat daily program to run on Sundays.
-      # @param thursday_program_id [String, nil] ID of the thermostat daily program to run on Thursdays.
-      # @param tuesday_program_id [String, nil] ID of the thermostat daily program to run on Tuesdays.
-      # @param wednesday_program_id [String, nil] ID of the thermostat daily program to run on Wednesdays.
+      # @param friday_program_id [String, Seam::Null, nil] ID of the thermostat daily program to run on Fridays.
+      # @param monday_program_id [String, Seam::Null, nil] ID of the thermostat daily program to run on Mondays.
+      # @param saturday_program_id [String, Seam::Null, nil] ID of the thermostat daily program to run on Saturdays.
+      # @param sunday_program_id [String, Seam::Null, nil] ID of the thermostat daily program to run on Sundays.
+      # @param thursday_program_id [String, Seam::Null, nil] ID of the thermostat daily program to run on Thursdays.
+      # @param tuesday_program_id [String, Seam::Null, nil] ID of the thermostat daily program to run on Tuesdays.
+      # @param wednesday_program_id [String, Seam::Null, nil] ID of the thermostat daily program to run on Wednesdays.
       # @return [Seam::Resources::ActionAttempt] OK
       def update_weekly_program(device_id:, friday_program_id: nil, monday_program_id: nil, saturday_program_id: nil, sunday_program_id: nil, thursday_program_id: nil, tuesday_program_id: nil, wednesday_program_id: nil, wait_for_action_attempt: nil)
         res = @client.post("/thermostats/update_weekly_program", {device_id: device_id, friday_program_id: friday_program_id, monday_program_id: monday_program_id, saturday_program_id: saturday_program_id, sunday_program_id: sunday_program_id, thursday_program_id: thursday_program_id, tuesday_program_id: tuesday_program_id, wednesday_program_id: wednesday_program_id}.compact)

@@ -58,7 +58,7 @@ module Seam
       # @param custom_metadata_has [Hash, nil] Custom metadata pairs by which you want to [filter Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews/filtering-connect-webviews-by-custom-metadata). Returns Connect Webviews with `custom_metadata` that contains all of the provided key:value pairs.
       # @param customer_key [String, nil] Customer key for which you want to list connect webviews.
       # @param limit [Float, nil] Maximum number of records to return per page.
-      # @param page_cursor [String, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned Connect Webviews to include all records that satisfy a partial match using `connect_webview_id`, `accepted_providers`, `custom_metadata`, or `customer_key`.
       # @param user_identifier_key [String, nil] Your user ID for the user by which you want to filter Connect Webviews.
       # @return [Seam::Resources::ConnectWebview] OK
