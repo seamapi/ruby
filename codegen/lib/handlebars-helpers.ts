@@ -34,10 +34,30 @@ const nullable = (
   value: { isOptional: boolean; isNullable: boolean },
 ): string => (value.isOptional || value.isNullable ? `${type}, nil` : type)
 
+const jsonSchemaType = (type: string): string => {
+  switch (type) {
+    case 'string':
+      return 'String'
+    case 'number':
+      return 'Float'
+    case 'integer':
+      return 'Integer'
+    case 'boolean':
+      return 'Boolean'
+    case 'object':
+      return 'Hash'
+    case 'array':
+      return 'Array'
+    default:
+      throw new Error(`Unsupported JSON Schema type: ${type}`)
+  }
+}
+
 const scalarType = (
   format: string,
   isInt = false,
   booleanValues?: boolean[],
+  recordValueTypes?: string[],
 ): string => {
   switch (format) {
     case 'boolean': {
@@ -57,6 +77,9 @@ const scalarType = (
     case 'enum':
       return 'String'
     case 'record':
+      return recordValueTypes == null || recordValueTypes.length === 0
+        ? 'Hash'
+        : `Hash{String => ${recordValueTypes.map(jsonSchemaType).join(', ')}}`
     case 'object':
       return 'Hash'
     default:
@@ -72,6 +95,9 @@ export const rubyPropertyType = (property: Property): string => {
           property.format,
           property.format === 'number' && property.isInt,
           property.format === 'boolean' ? property.values : undefined,
+          property.format === 'record' && 'valueTypes' in property
+            ? property.valueTypes
+            : undefined,
         )
   // BaseResource normalizes response lists to [] even when the API sends nil.
   return nullable(
@@ -105,6 +131,7 @@ export const rubyParameterType = (parameter: Parameter): string => {
           parameter.format,
           parameter.format === 'number' && parameter.isInt,
           parameter.format === 'boolean' ? parameter.values : undefined,
+          parameter.format === 'record' ? parameter.valueTypes : undefined,
         )
   // Only a nullable parameter accepts the Seam::NULL sentinel, and only an
   // optional parameter accepts nil.

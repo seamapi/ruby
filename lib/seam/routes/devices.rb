@@ -37,7 +37,7 @@ module Seam
       # @param connected_account_id [String, nil] ID of the connected account for which you want to list devices.
       # @param connected_account_ids [Array<String>, nil] Array of IDs of the connected accounts for which you want to list devices.
       # @param created_before [Time, nil] Timestamp by which to limit returned devices. Returns devices created before this timestamp.
-      # @param custom_metadata_has [Hash, nil] Set of key:value [custom metadata](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) pairs for which you want to list devices.
+      # @param custom_metadata_has [Hash{String => String, Boolean}, nil] Set of key:value [custom metadata](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) pairs for which you want to list devices.
       # @param customer_key [String, nil] Customer key for which you want to list devices.
       # @param device_ids [Array<String>, nil] Array of device IDs for which you want to list devices.
       # @param device_type [String, nil] Device type for which you want to list devices.
@@ -84,7 +84,7 @@ module Seam
       # You can add or change [custom metadata](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) for a device, change the device's name, or [convert a managed device to unmanaged](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices).
       # @param device_id [String] ID of the device that you want to update.
       # @param backup_access_code_pool_enabled [Boolean, nil] Indicates whether the device's [backup access code pool](https://docs.seam.co/low-level-apis/smart-locks/access-codes/backup-access-codes) is enabled. Set to `false` to disable the pool: Seam stops refilling it and removes any backup codes that have not yet been pulled into active use.
-      # @param custom_metadata [Hash, nil] Custom metadata that you want to associate with the device. Supports up to 50 JSON key:value pairs. [Adding custom metadata to a device](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) enables you to store custom information, like customer details or internal IDs from your application. Then, you can [filter devices by the desired metadata](https://docs.seam.co/core-concepts/devices/filtering-devices-by-custom-metadata).
+      # @param custom_metadata [Hash{String => String, Boolean}, nil] Custom metadata that you want to associate with the device. Supports up to 50 JSON key:value pairs. [Adding custom metadata to a device](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) enables you to store custom information, like customer details or internal IDs from your application. Then, you can [filter devices by the desired metadata](https://docs.seam.co/core-concepts/devices/filtering-devices-by-custom-metadata).
       # @param is_managed [Boolean, nil] Indicates whether the device is managed. To unmanage a device, set `is_managed` to `false`.
       # @param name [String, Seam::Null, nil] Name for the device.
       # @param properties [Hash, nil]
