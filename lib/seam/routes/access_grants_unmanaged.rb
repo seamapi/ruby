@@ -37,7 +37,7 @@ module Seam
       #
       # When converting an unmanaged access grant to managed, all associated access methods will also be converted to managed.
       # @param access_grant_id [String] ID of the unmanaged Access Grant to update.
-      # @param is_managed [Boolean] Must be set to true to convert the unmanaged access grant to managed.
+      # @param is_managed [TrueClass] Must be set to true to convert the unmanaged access grant to managed.
       # @param access_grant_key [String, nil] Unique key for the access grant. If not provided, the existing key will be preserved.
       # @return [nil] OK
       def update(access_grant_id:, is_managed:, access_grant_key: nil)

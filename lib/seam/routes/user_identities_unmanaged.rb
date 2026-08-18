@@ -32,7 +32,7 @@ module Seam
       # Updates an unmanaged [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) to make it managed.
       #
       # This endpoint can only be used to convert unmanaged user identities to managed ones by setting `is_managed` to `true`. It cannot be used to convert managed user identities back to unmanaged.
-      # @param is_managed [Boolean] Must be set to true to convert the unmanaged user identity to managed.
+      # @param is_managed [TrueClass] Must be set to true to convert the unmanaged user identity to managed.
       # @param user_identity_id [String] ID of the unmanaged user identity that you want to update.
       # @param user_identity_key [String, nil] Unique key for the user identity. If not provided, the existing key will be preserved.
       # @return [nil] OK

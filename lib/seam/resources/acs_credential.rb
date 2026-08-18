@@ -150,7 +150,7 @@ module Seam
       # @return [Boolean, nil]
       attr_accessor :is_latest_desired_state_synced_with_provider
       # Indicates whether Seam manages the credential.
-      # @return [Boolean]
+      # @return [TrueClass]
       attr_accessor :is_managed
       # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://docs.seam.co/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
       # @return [Boolean, nil]

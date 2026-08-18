@@ -14,7 +14,9 @@ Please refer to the official [Seam Docs](https://docs.seam.co/latest/) to get st
 Parts of this SDK are generated from always up-to-date type information
 provided by [@seamapi/types](https://github.com/seamapi/types/).
 This ensures all API methods, request shapes, and response shapes are
-accurate and fully typed.
+accurate and fully typed. Ruby cannot statically enforce literal booleans, so
+the generated YARD types use `TrueClass` and `FalseClass` to document singleton
+constraints.
 
 <!-- toc -->
 

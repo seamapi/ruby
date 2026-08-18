@@ -53,7 +53,7 @@ module Seam
       # An unmanaged device has a limited set of visible properties and a subset of supported events. You cannot control an unmanaged device. Any [access codes](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) on an unmanaged device are unmanaged. To control an unmanaged device with Seam, [convert it to a managed device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices#convert-an-unmanaged-device-to-managed).
       # @param device_id [String] ID of the unmanaged device that you want to update.
       # @param custom_metadata [Hash, nil] Custom metadata that you want to associate with the device. Supports up to 50 JSON key:value pairs.
-      # @param is_managed [Boolean, nil] Indicates whether the device is managed. Set this parameter to `true` to convert an unmanaged device to managed.
+      # @param is_managed [TrueClass, nil] Indicates whether the device is managed. Set this parameter to `true` to convert an unmanaged device to managed.
       # @return [nil] OK
       def update(device_id:, custom_metadata: nil, is_managed: nil)
         @client.patch("/devices/unmanaged/update", {device_id: device_id, custom_metadata: custom_metadata, is_managed: is_managed}.compact)

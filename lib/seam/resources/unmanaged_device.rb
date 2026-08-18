@@ -231,7 +231,7 @@ module Seam
       # @return [String]
       attr_accessor :device_type
       # Indicates that Seam does not manage the device.
-      # @return [Boolean]
+      # @return [FalseClass]
       attr_accessor :is_managed
       # Unique identifier for the Seam workspace associated with the device.
       # @return [String]
