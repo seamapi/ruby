@@ -135,7 +135,7 @@ module Seam
       # @return [String]
       attr_accessor :external_type_display_name
       # Indicates whether Seam manages the access group.
-      # @return [Boolean]
+      # @return [TrueClass]
       attr_accessor :is_managed
       # Name of the access group.
       # @return [String]

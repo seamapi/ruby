@@ -62,7 +62,7 @@ module Seam
         # @return [String]
         attr_accessor :error_code
         # Indicates that this is an access code error.
-        # @return [Boolean]
+        # @return [TrueClass]
         attr_accessor :is_access_code_error
         # Indicates whether the error is related to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
         # @return [Boolean, nil]
@@ -197,7 +197,7 @@ module Seam
       # @return [Boolean]
       attr_accessor :is_external_modification_allowed
       # Indicates whether Seam manages the access code.
-      # @return [Boolean]
+      # @return [TrueClass]
       attr_accessor :is_managed
       # Indicates whether the access code is intended for use in offline scenarios. If `true`, this code can be created on a device without a network connection.
       # @return [Boolean]

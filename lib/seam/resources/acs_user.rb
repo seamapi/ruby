@@ -179,7 +179,7 @@ module Seam
       # @return [String, nil]
       attr_accessor :hid_acs_system_id
       # Indicates whether Seam manages the access system user.
-      # @return [Boolean]
+      # @return [TrueClass]
       attr_accessor :is_managed
       # Indicates whether the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) is currently [suspended](https://docs.seam.co/low-level-apis/access-systems/user-management/suspending-and-unsuspending-users).
       # @return [Boolean, nil]

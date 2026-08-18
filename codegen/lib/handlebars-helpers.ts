@@ -34,10 +34,20 @@ const nullable = (
   value: { isOptional: boolean; isNullable: boolean },
 ): string => (value.isOptional || value.isNullable ? `${type}, nil` : type)
 
-const scalarType = (format: string, isInt = false): string => {
+const scalarType = (
+  format: string,
+  isInt = false,
+  booleanValues?: boolean[],
+): string => {
   switch (format) {
-    case 'boolean':
-      return 'Boolean'
+    case 'boolean': {
+      const values = [...new Set(booleanValues)]
+      return values.length === 1
+        ? values[0]
+          ? 'TrueClass'
+          : 'FalseClass'
+        : 'Boolean'
+    }
     case 'number':
       return isInt ? 'Integer' : 'Float'
     case 'datetime':
@@ -61,6 +71,7 @@ export const rubyPropertyType = (property: Property): string => {
       : scalarType(
           property.format,
           property.format === 'number' && property.isInt,
+          property.format === 'boolean' ? property.values : undefined,
         )
   // BaseResource normalizes response lists to [] even when the API sends nil.
   return nullable(
@@ -93,6 +104,7 @@ export const rubyParameterType = (parameter: Parameter): string => {
       : scalarType(
           parameter.format,
           parameter.format === 'number' && parameter.isInt,
+          parameter.format === 'boolean' ? parameter.values : undefined,
         )
   // Only a nullable parameter accepts the Seam::NULL sentinel, and only an
   // optional parameter accepts nil.

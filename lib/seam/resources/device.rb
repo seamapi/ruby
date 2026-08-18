@@ -1004,7 +1004,7 @@ module Seam
           # @return [String, nil]
           attr_accessor :end_date_recurrence_rule
           # When `true`, the start and end must fall at the same time of day (the caller picks which). Mutually exclusive with `time_pairs`.
-          # @return [Boolean, nil]
+          # @return [TrueClass, nil]
           attr_accessor :matching_start_end_time
           # Maximum duration this option covers, as an ISO 8601 duration (for example, `PT672H` or `P367D`). Omitted when there is no maximum.
           # @return [String, nil]
@@ -1043,7 +1043,7 @@ module Seam
           # @return [String, nil]
           attr_accessor :end_date_recurrence_rule
           # When `true`, the start and end must fall at the same time of day (the caller picks which). Mutually exclusive with `time_pairs`.
-          # @return [Boolean, nil]
+          # @return [TrueClass, nil]
           attr_accessor :matching_start_end_time
           # Maximum duration this option covers, as an ISO 8601 duration (for example, `PT672H` or `P367D`). Omitted when there is no maximum.
           # @return [String, nil]
@@ -1796,7 +1796,7 @@ module Seam
       # @return [String]
       attr_accessor :display_name
       # Indicates whether Seam manages the device. See also [Managed and Unmanaged Devices](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices).
-      # @return [Boolean]
+      # @return [TrueClass]
       attr_accessor :is_managed
       # Optional nickname to describe the device, settable through Seam.
       # @return [String, nil]
