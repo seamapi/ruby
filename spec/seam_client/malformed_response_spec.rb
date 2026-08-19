@@ -9,7 +9,7 @@ RSpec.describe Seam::Http::Request do
 
   describe "non-Seam error responses" do
     it "raises a Faraday error for a plain text response" do
-      stub_request(:post, url).to_return(
+      stub_request(:get, url).to_return(
         status: 500,
         body: "Internal Server Error",
         headers: {"Content-Type" => "text/plain"}
@@ -19,7 +19,7 @@ RSpec.describe Seam::Http::Request do
     end
 
     it "raises a Faraday error for malformed JSON" do
-      stub_request(:post, url).to_return(
+      stub_request(:get, url).to_return(
         status: 500,
         body: "{invalid json",
         headers: {"Content-Type" => "application/json"}
@@ -29,7 +29,7 @@ RSpec.describe Seam::Http::Request do
     end
 
     it "raises a Faraday error for JSON without an error object" do
-      stub_request(:post, url).to_return(
+      stub_request(:get, url).to_return(
         status: 500,
         body: {message: "Some error"}.to_json,
         headers: {"Content-Type" => "application/json"}
@@ -39,7 +39,7 @@ RSpec.describe Seam::Http::Request do
     end
 
     it "raises a Faraday error for an error object without a type and message" do
-      stub_request(:post, url).to_return(
+      stub_request(:get, url).to_return(
         status: 500,
         body: {error: {code: 500}}.to_json,
         headers: {"Content-Type" => "application/json"}
