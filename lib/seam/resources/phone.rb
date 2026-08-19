@@ -71,7 +71,7 @@ module Seam
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
       # Optional [custom metadata](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) for the phone.
-      # @return [Hash]
+      # @return [Hash{String => String, Boolean}]
       attr_accessor :custom_metadata
       # ID of the phone.
       # @return [String]

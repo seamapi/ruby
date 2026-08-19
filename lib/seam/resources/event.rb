@@ -268,7 +268,7 @@ module Seam
       attr_accessor :code
       # @return [String, nil]
       attr_accessor :connect_webview_id
-      # @return [Hash, nil]
+      # @return [Hash{String => String, Boolean}, nil]
       attr_accessor :connected_account_custom_metadata
       # @return [String, nil]
       attr_accessor :connected_account_id
@@ -289,7 +289,7 @@ module Seam
       # Desired temperature, in °F, defined by the affected thermostat's cooling or heating set point.
       # @return [Float, nil]
       attr_accessor :desired_temperature_fahrenheit
-      # @return [Hash, nil]
+      # @return [Hash{String => String, Boolean}, nil]
       attr_accessor :device_custom_metadata
       # @return [String, nil]
       attr_accessor :device_id
