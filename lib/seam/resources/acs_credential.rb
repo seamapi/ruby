@@ -53,6 +53,9 @@ module Seam
         attr_accessor :auto_join
         # Card function type in the Visionline access system.
         # @return [String, nil]
+        # Known values:
+        # - `guest`
+        # - `staff`
         attr_accessor :card_function_type
         # ID of the card in the Visionline access system.
         # @return [String, nil]
@@ -74,22 +77,146 @@ module Seam
         attr_accessor :joiner_acs_credential_ids
       end
 
+      # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
+        # Indicates that the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is waiting to be issued.
+        class WaitingToBeIssued < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `waiting_to_be_issued`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the schedule of one of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials)'s children was modified externally.
+        class ScheduleExternallyModified < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `schedule_externally_modified`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the schedule of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was modified to avoid creating a credential with a start date in the past.
+        class ScheduleModified < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `schedule_modified`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is being deleted.
+        class BeingDeleted < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `being_deleted`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # An unknown issue occurred while syncing the state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) with the provider. This issue may affect the proper functioning of the credential.
+        class UnknownIssueWithAcsCredential < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `unknown_issue_with_acs_credential`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Access permissions for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) have changed. [Reissue](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners/creating-and-encoding-card-based-credentials) (re-encode) the credential. This issue may affect the proper functioning of the credential.
+        class NeedsToBeReissued < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `needs_to_be_reissued`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the requested PIN code could not be used, so the access system assigned a different code. Give the guest the assigned code.
+        class RequestedCodeUnavailable < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # The PIN code that was assigned instead.
+          # @return [String]
+          attr_accessor :new_code
+          # The originally requested PIN code that could not be used.
+          # @return [String]
+          attr_accessor :original_code
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `requested_code_unavailable`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
-        # The PIN code that was assigned instead.
-        # @return [String]
-        attr_accessor :new_code
-        # The originally requested PIN code that could not be used.
-        # @return [String]
-        attr_accessor :original_code
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `waiting_to_be_issued`
+        # - `schedule_externally_modified`
+        # - `schedule_modified`
+        # - `being_deleted`
+        # - `unknown_issue_with_acs_credential`
+        # - `needs_to_be_reissued`
+        # - `requested_code_unavailable`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :warning_code, {
+          "waiting_to_be_issued" => WaitingToBeIssued,
+          "schedule_externally_modified" => ScheduleExternallyModified,
+          "schedule_modified" => ScheduleModified,
+          "being_deleted" => BeingDeleted,
+          "unknown_issue_with_acs_credential" => UnknownIssueWithAcsCredential,
+          "needs_to_be_reissued" => NeedsToBeReissued,
+          "requested_code_unavailable" => RequestedCodeUnavailable
+        }.freeze
       end
 
       # Akiles-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
@@ -109,6 +236,11 @@ module Seam
       resource_list_accessor :warnings, Warnings
       # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
       # @return [String]
+      # Known values:
+      # - `code`
+      # - `card`
+      # - `mobile_key`
+      # - `cloud_key`
       attr_accessor :access_method
       # ID of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
       # @return [String]
@@ -139,6 +271,21 @@ module Seam
       attr_accessor :ends_at
       # Brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
       # @return [String, nil]
+      # Known values:
+      # - `pti_card`
+      # - `brivo_credential`
+      # - `hid_credential`
+      # - `visionline_card`
+      # - `salto_ks_credential`
+      # - `assa_abloy_vostio_key`
+      # - `salto_space_key`
+      # - `latch_access`
+      # - `dormakaba_ambiance_credential`
+      # - `hotek_card`
+      # - `salto_ks_tag`
+      # - `avigilon_alta_credential`
+      # - `kisi_credential`
+      # - `akiles_credential`
       attr_accessor :external_type
       # Display name that corresponds to the brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
       # @return [String, nil]

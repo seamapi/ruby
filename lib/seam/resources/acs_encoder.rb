@@ -20,6 +20,8 @@ module Seam
       class Errors < BaseResource
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `acs_encoder_removed`
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         # @return [String]

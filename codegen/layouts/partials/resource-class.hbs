@@ -1,40 +1,58 @@
-{{indent}}class {{className}} < BaseResource
+{{#if description}}
+{{{rubyDoc description indentation}}}
+{{/if}}
+{{indent}}class {{className}} < {{superclass}}
 {{#each nestedClasses}}
+{{> resource-class}}
+{{/each}}
+{{#each variants}}
 {{> resource-class}}
 {{/each}}
 {{#each resourceAccessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyResourceType this}}]
+{{../bodyIndent}}# @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
 {{../bodyIndent}}resource_accessor :{{name}}, {{className}}
 {{/each}}
 {{#each resourceListAccessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyResourceType this}}]
+{{../bodyIndent}}# @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
 {{../bodyIndent}}resource_list_accessor :{{name}}, {{className}}
 {{/each}}
 {{#each accessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyPropertyType this}}]
+{{../bodyIndent}}# @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}attr_accessor :{{name}}
+{{#if isAliased}}
+{{../bodyIndent}}aliased_accessor :{{accessorName}}, from: :{{name}}
+{{else}}
+{{../bodyIndent}}attr_accessor :{{accessorName}}
+{{/if}}
 {{/each}}
 {{#each dateAccessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyPropertyType this}}]
+{{../bodyIndent}}# @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}date_accessor :{{name}}
+{{../bodyIndent}}date_accessor :{{accessorName}}
 {{/each}}
+{{#if discriminator}}
+
+{{bodyIndent}}discriminated_by :{{discriminator}}, {
+{{#each variants}}
+{{../bodyIndent}}  {{{rubyString discriminatorValue}}} => {{className}},
+{{/each}}
+{{bodyIndent}}{{identity "}"}}.freeze
+{{/if}}
 {{indent}}end
 

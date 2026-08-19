@@ -17,9 +17,27 @@ module Seam
         date_accessor :starts_at
       end
 
+      # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
+        # Indicates that the [access group](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups) was not created on the [access system](https://docs.seam.co/low-level-apis/access-systems). This is likely due to an internal unexpected error. Contact Seam [support](mailto:support@seam.co).
+        class FailedToCreateOnAcsSystem < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `failed_to_create_on_acs_system`
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `failed_to_create_on_acs_system`
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
@@ -27,6 +45,10 @@ module Seam
         # Date and time at which Seam created the error.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :error_code, {
+          "failed_to_create_on_acs_system" => FailedToCreateOnAcsSystem
+        }.freeze
       end
 
       class PendingMutations < BaseResource
@@ -77,9 +99,14 @@ module Seam
         # @return [String]
         attr_accessor :message
         # @return [String]
+        # Known values:
+        # - `creating`
         attr_accessor :mutation_code
         # Whether the user is scheduled to be added to or removed from this access group.
         # @return [String]
+        # Known values:
+        # - `adding`
+        # - `removing`
         attr_accessor :variant
         # Date and time at which the mutation was created.
         # @return [Time]
@@ -92,6 +119,9 @@ module Seam
         attr_accessor :message
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `unknown_issue_with_acs_access_group`
+        # - `being_deleted`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -111,6 +141,17 @@ module Seam
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
       # @return [String]
+      # Known values:
+      # - `pti_unit`
+      # - `pti_access_level`
+      # - `salto_ks_access_group`
+      # - `brivo_group`
+      # - `salto_space_group`
+      # - `dormakaba_community_access_group`
+      # - `dormakaba_ambiance_access_group`
+      # - `avigilon_alta_group`
+      # - `kisi_access_group`
+      # - `akiles_member_group`
       # @deprecated Use `external_type`.
       attr_accessor :access_group_type
       # @return [String]
@@ -130,6 +171,17 @@ module Seam
       attr_accessor :display_name
       # Brand-specific terminology for the access group type.
       # @return [String]
+      # Known values:
+      # - `pti_unit`
+      # - `pti_access_level`
+      # - `salto_ks_access_group`
+      # - `brivo_group`
+      # - `salto_space_group`
+      # - `dormakaba_community_access_group`
+      # - `dormakaba_ambiance_access_group`
+      # - `avigilon_alta_group`
+      # - `kisi_access_group`
+      # - `akiles_member_group`
       attr_accessor :external_type
       # Display name that corresponds to the brand-specific terminology for the access group type.
       # @return [String]

@@ -1,40 +1,67 @@
 // Builds the template context for resource files
 // (lib/seam/resources/{snake_name}.rb).
 
-import type { Property } from '@seamapi/blueprint'
+import type { DiscriminatedListProperty, Property } from '@seamapi/blueprint'
 import { pascalCase } from 'change-case'
 
 import { convertCustomResourceName } from '../custom-resource-name-conversions.js'
 import { mergeProperties } from '../merge-properties.js'
 
 type ResourceAccessor = Property & Documented & { className: string }
+type PropertyAccessor = Property &
+  Documented & {
+    accessorName: string
+    isAliased: boolean
+  }
+
+export interface DiscriminatedVariantSource {
+  discriminatorValue: string
+  description: string
+  properties: Property[]
+}
+
+interface ResourceVariant extends ResourceClass {
+  discriminatorValue: string
+}
 
 export interface ResourceClass {
   className: string
+  superclass: string
+  description: string
+  indentation: number
   indent: string
   bodyIndent: string
   docIndent: number
-  accessors: Array<Property & Documented>
-  dateAccessors: Array<Property & Documented>
+  accessors: PropertyAccessor[]
+  dateAccessors: PropertyAccessor[]
   resourceAccessors: ResourceAccessor[]
   resourceListAccessors: ResourceAccessor[]
   nestedClasses: ResourceClass[]
+  discriminator: string | null
+  variants: ResourceVariant[]
 }
 
 export interface ResourceLayoutContext {
   className: string
   resource: Documented
-  accessors: Array<Property & Documented>
-  dateAccessors: Array<Property & Documented>
+  accessors: PropertyAccessor[]
+  dateAccessors: PropertyAccessor[]
   nestedClasses: ResourceClass[]
   resourceAccessors: ResourceAccessor[]
   resourceListAccessors: ResourceAccessor[]
+  discriminator: string | null
+  variants: ResourceVariant[]
 }
 
 interface Documented {
   description: string
   isDeprecated: boolean
   deprecationMessage: string
+}
+
+interface DiscriminatedSource {
+  discriminator: string
+  variants: DiscriminatedVariantSource[]
 }
 
 // Resource classes open inside `module Seam; module Resources`.
@@ -48,6 +75,97 @@ const maxNestingDepth = 16
 // from the enclosing lexical scope.
 const reservedClassNames = new Set(['BaseResource', 'Resources', 'Seam'])
 
+const isErrorOrWarningList = (
+  property: Property,
+): property is DiscriminatedListProperty =>
+  property.format === 'list' &&
+  property.itemFormat === 'discriminated_object' &&
+  ['error_code', 'warning_code'].includes(property.discriminator)
+
+const sameDescription = (properties: Property[]): string => {
+  const descriptions = new Set(properties.map(({ description }) => description))
+  return descriptions.size === 1 ? (properties[0]?.description ?? '') : ''
+}
+
+// A fallback class only promises scalar fields every known variant carries.
+// Variant-only and nested fields stay on their specific subclasses.
+export const getCommonScalarProperties = (
+  propertyLists: Property[][],
+): Property[] => {
+  const [first = []] = propertyLists
+  const result: Property[] = []
+
+  for (const property of first) {
+    if (
+      property.format === 'list' ||
+      property.format === 'object' ||
+      property.format === 'record'
+    ) {
+      continue
+    }
+
+    const occurrences = propertyLists.map((properties) =>
+      properties.find(({ name }) => name === property.name),
+    )
+    if (
+      occurrences.some(
+        (occurrence) =>
+          occurrence == null || occurrence.format !== property.format,
+      )
+    ) {
+      continue
+    }
+
+    const present = occurrences as Property[]
+    const docs = {
+      description: sameDescription(present),
+      isOptional: present.some(({ isOptional }) => isOptional),
+      isNullable: present.some(({ isNullable }) => isNullable),
+    }
+
+    if (property.format === 'enum') {
+      const values = new Map(
+        present.flatMap((occurrence) =>
+          occurrence.format === 'enum'
+            ? occurrence.values.map((value) => [value.name, value] as const)
+            : [],
+        ),
+      )
+      result.push({ ...property, ...docs, values: [...values.values()] })
+    } else if (property.format === 'boolean') {
+      const booleans = present.filter(
+        (occurrence): occurrence is Extract<Property, { format: 'boolean' }> =>
+          occurrence.format === 'boolean',
+      )
+      const common = { ...property, ...docs }
+      if (booleans.some(({ values }) => values == null)) {
+        delete common.values
+      } else {
+        common.values = [
+          ...new Set(booleans.flatMap(({ values }) => values ?? [])),
+        ]
+      }
+      result.push(common)
+    } else {
+      result.push({ ...property, ...docs })
+    }
+  }
+
+  return result
+}
+
+const getDiscriminatorValue = (
+  properties: Property[],
+  discriminator: string,
+): string => {
+  const property = properties.find(({ name }) => name === discriminator)
+  const value = property?.format === 'enum' ? property.values[0]?.name : null
+  if (value == null) {
+    throw new Error(`Missing enum discriminator ${discriminator}.`)
+  }
+  return value
+}
+
 const getNestedProperties = (property: Property): Property[] | undefined => {
   if (property.format === 'object') return property.properties
   if (property.format === 'list' && property.itemFormat === 'object') {
@@ -57,6 +175,11 @@ const getNestedProperties = (property: Property): Property[] | undefined => {
     property.format === 'list' &&
     property.itemFormat === 'discriminated_object'
   ) {
+    if (['error_code', 'warning_code'].includes(property.discriminator)) {
+      return getCommonScalarProperties(
+        property.variants.map(({ properties }) => properties),
+      )
+    }
     return mergeProperties(
       property.variants.map((variant) => variant.properties),
     )
@@ -64,11 +187,49 @@ const getNestedProperties = (property: Property): Property[] | undefined => {
   return undefined
 }
 
+const getVariantClassName = (value: string): string =>
+  pascalCase(value).replaceAll(/_(?=\d)/g, 'N')
+
+const addVariants = (
+  resourceClass: ResourceClass,
+  source: DiscriminatedSource,
+  path: string,
+): void => {
+  const takenClassNames = new Set(
+    resourceClass.nestedClasses.map(({ className }) => className),
+  )
+
+  resourceClass.discriminator = source.discriminator
+  resourceClass.variants = source.variants.map((variant) => {
+    const className = getVariantClassName(variant.discriminatorValue)
+    if (reservedClassNames.has(className) || takenClassNames.has(className)) {
+      throw new Error(
+        `The variants at ${path} generate the duplicate or reserved class name ${className}.`,
+      )
+    }
+    takenClassNames.add(className)
+
+    return {
+      ...buildClass(
+        className,
+        variant.properties,
+        `${path}.${variant.discriminatorValue}`,
+        resourceClass.indentation + 2,
+        resourceClass.className,
+        variant.description,
+      ),
+      discriminatorValue: variant.discriminatorValue,
+    }
+  })
+}
+
 const buildClass = (
   className: string,
   classProperties: Property[],
   path: string,
   indentation: number,
+  superclass = 'BaseResource',
+  description = '',
 ): ResourceClass => {
   if (indentation > rootIndentation + 2 * maxNestingDepth) {
     throw new Error(
@@ -106,46 +267,79 @@ const buildClass = (
     const destination =
       property.format === 'list' ? resourceListAccessors : resourceAccessors
     destination.push({ ...property, className: nestedClassName })
-    nestedClasses.push(
-      buildClass(
-        nestedClassName,
-        nestedProperties,
-        nestedPath,
-        indentation + 2,
-      ),
+
+    const discriminated = isErrorOrWarningList(property)
+    const nestedClass = buildClass(
+      nestedClassName,
+      nestedProperties,
+      nestedPath,
+      indentation + 2,
+      'BaseResource',
+      discriminated
+        ? `Known \`${property.discriminator}\` values load as subclasses; unknown values remain ${nestedClassName} instances for forward compatibility.`
+        : '',
     )
+    if (discriminated) {
+      addVariants(
+        nestedClass,
+        {
+          discriminator: property.discriminator,
+          variants: property.variants.map((variant) => ({
+            discriminatorValue: getDiscriminatorValue(
+              variant.properties,
+              property.discriminator,
+            ),
+            description: variant.description,
+            properties: variant.properties,
+          })),
+        },
+        nestedPath,
+      )
+    }
+    nestedClasses.push(nestedClass)
   }
 
   const typedNames = new Set(
     [...resourceAccessors, ...resourceListAccessors].map(({ name }) => name),
   )
+  const toPropertyAccessor = (property: Property): PropertyAccessor => {
+    const isAliased = property.name === 'method' && path.startsWith('event.')
+    return {
+      ...property,
+      accessorName: isAliased ? 'event_method' : property.name,
+      isAliased,
+    }
+  }
 
   return {
     className,
+    superclass,
+    description,
+    indentation,
     indent: ' '.repeat(indentation),
     bodyIndent: ' '.repeat(indentation + 2),
     docIndent: indentation + 2,
-    accessors: classProperties.filter(
-      (property) =>
-        property.format !== 'datetime' && !typedNames.has(property.name),
-    ),
-    dateAccessors: classProperties.filter(
-      (property) => property.format === 'datetime',
-    ),
+    accessors: classProperties
+      .filter(
+        (property) =>
+          property.format !== 'datetime' && !typedNames.has(property.name),
+      )
+      .map(toPropertyAccessor),
+    dateAccessors: classProperties
+      .filter((property) => property.format === 'datetime')
+      .map(toPropertyAccessor),
     resourceAccessors,
     resourceListAccessors,
     nestedClasses,
+    discriminator: null,
+    variants: [],
   }
 }
 
 export const setResourceLayoutContext = (
   snakeName: string,
   properties: Property[],
-  resource: {
-    description: string
-    isDeprecated: boolean
-    deprecationMessage: string
-  },
+  resource: Documented & Partial<DiscriminatedSource>,
 ): ResourceLayoutContext => {
   const className = pascalCase(convertCustomResourceName(snakeName))
   const rootClass = buildClass(
@@ -154,6 +348,13 @@ export const setResourceLayoutContext = (
     snakeName,
     rootIndentation,
   )
+  if (resource.discriminator != null && resource.variants != null) {
+    addVariants(
+      rootClass,
+      { discriminator: resource.discriminator, variants: resource.variants },
+      snakeName,
+    )
+  }
 
   return {
     className,
@@ -163,5 +364,7 @@ export const setResourceLayoutContext = (
     nestedClasses: rootClass.nestedClasses,
     resourceAccessors: rootClass.resourceAccessors,
     resourceListAccessors: rootClass.resourceListAccessors,
+    discriminator: rootClass.discriminator,
+    variants: rootClass.variants,
   }
 }

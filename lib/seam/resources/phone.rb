@@ -78,6 +78,9 @@ module Seam
       attr_accessor :device_id
       # Type of the phone device, such as `ios_phone` or `android_phone`.
       # @return [String]
+      # Known values:
+      # - `ios_phone`
+      # - `android_phone`
       attr_accessor :device_type
       # Display name of the phone. Defaults to `nickname` (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the phone easily, especially when there are numerous phones.
       # @return [String]

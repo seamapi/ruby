@@ -2,7 +2,7 @@
 
 RSpec.describe "resource errors and warnings" do
   describe "errors" do
-    it "converts error hashes into the resource's own error class" do
+    it "loads a known error code as its variant subclass" do
       device = Seam::Resources::Device.load_from_response(
         "device_id" => "device_id_1234",
         "errors" => [
@@ -15,13 +15,14 @@ RSpec.describe "resource errors and warnings" do
       )
 
       error = device.errors.first
+      expect(error).to be_a(Seam::Resources::Device::Errors::DeviceRemoved)
       expect(error).to be_a(Seam::Resources::Device::Errors)
       expect(error.error_code).to eq("device_removed")
       expect(error.message).to eq("Device was removed")
       expect(error.created_at).to be_a(Time)
     end
 
-    it "exposes the fields only some error variants carry" do
+    it "only exposes fields declared by that error variant" do
       device = Seam::Resources::Device.load_from_response(
         "device_id" => "device_id_1234",
         "errors" => [
@@ -36,15 +37,26 @@ RSpec.describe "resource errors and warnings" do
 
       error = device.errors.first
       expect(error.is_device_error).to be(true)
-      expect(error.is_bridge_error).to be(false)
+      expect(error).not_to respond_to(:is_bridge_error)
+    end
+
+    it "uses the resource's base error class for unknown codes" do
+      device = Seam::Resources::Device.load_from_response(
+        "errors" => [{"error_code" => "future_error", "message" => "Future error"}]
+      )
+
+      error = device.errors.first
+      expect(error).to be_an_instance_of(Seam::Resources::Device::Errors)
+      expect(error.error_code).to eq("future_error")
+      expect(error.message).to eq("Future error")
     end
 
     it "scopes errors to their own resource" do
       expect(Seam::Resources::Device::Errors).not_to be(Seam::Resources::AccessCode::Errors)
-
-      # Only access code errors report which access code the error belongs to.
-      expect(Seam::Resources::AccessCode::Errors.instance_methods).to include(:managed_access_code_id)
-      expect(Seam::Resources::Device::Errors.instance_methods).not_to include(:managed_access_code_id)
+      expect(Seam::Resources::AccessCode::Errors::DuplicateCodeOnDevice.instance_methods)
+        .to include(:managed_access_code_id)
+      expect(Seam::Resources::Device::Errors::DeviceRemoved.instance_methods)
+        .not_to include(:managed_access_code_id)
     end
 
     it "returns an empty array when the resource has no errors" do
@@ -64,7 +76,7 @@ RSpec.describe "resource errors and warnings" do
   end
 
   describe "warnings" do
-    it "converts warning hashes into the resource's own warning class" do
+    it "loads a known warning code as its variant subclass" do
       device = Seam::Resources::Device.load_from_response(
         "device_id" => "device_id_1234",
         "warnings" => [
@@ -77,19 +89,19 @@ RSpec.describe "resource errors and warnings" do
       )
 
       warning = device.warnings.first
+      expect(warning).to be_a(Seam::Resources::Device::Warnings::PrivacyMode)
       expect(warning).to be_a(Seam::Resources::Device::Warnings)
       expect(warning.warning_code).to eq("privacy_mode")
       expect(warning.message).to eq("Device is in privacy mode")
       expect(warning.created_at).to be_a(Time)
     end
 
-    it "exposes the fields only some warning variants carry" do
+    it "exposes fields declared by that warning variant" do
       device = Seam::Resources::Device.load_from_response(
-        "device_id" => "device_id_1234",
         "warnings" => [
           {
-            "warning_code" => "many_active_backup_codes",
-            "message" => "Too many active backup codes",
+            "warning_code" => "max_access_codes_reached",
+            "message" => "Too many active access codes",
             "active_access_code_count" => 12,
             "max_active_access_code_count" => 10
           }
@@ -97,8 +109,20 @@ RSpec.describe "resource errors and warnings" do
       )
 
       warning = device.warnings.first
+      expect(warning).to be_a(Seam::Resources::Device::Warnings::MaxAccessCodesReached)
       expect(warning.active_access_code_count).to eq(12)
       expect(warning.max_active_access_code_count).to eq(10)
+    end
+
+    it "uses the resource's base warning class for unknown codes" do
+      device = Seam::Resources::Device.load_from_response(
+        "warnings" => [{"warning_code" => "future_warning", "message" => "Future warning"}]
+      )
+
+      warning = device.warnings.first
+      expect(warning).to be_an_instance_of(Seam::Resources::Device::Warnings)
+      expect(warning.warning_code).to eq("future_warning")
+      expect(warning.message).to eq("Future warning")
     end
 
     it "returns an empty array when the resource has no warnings" do
@@ -110,7 +134,6 @@ RSpec.describe "resource errors and warnings" do
 
   describe "errors nested inside another shape" do
     it "types errors that are not at the top level of a resource" do
-      # These were skipped at every level before, so they arrived as raw hashes.
       device = Seam::Resources::Device.load_from_response(
         "device_id" => "device_id_1234",
         "properties" => {

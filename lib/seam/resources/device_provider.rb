@@ -65,6 +65,71 @@ module Seam
       attr_accessor :can_unlock_with_code
       # Name of the device provider.
       # @return [String]
+      # Known values:
+      # - `hotek`
+      # - `dormakaba_community`
+      # - `legic_connect`
+      # - `akuvox`
+      # - `august`
+      # - `avigilon_alta`
+      # - `brivo`
+      # - `butterflymx`
+      # - `schlage`
+      # - `smartthings`
+      # - `yale`
+      # - `genie`
+      # - `doorking`
+      # - `salto`
+      # - `salto_ks`
+      # - `salto_ks_accept`
+      # - `lockly`
+      # - `ttlock`
+      # - `linear`
+      # - `noiseaware`
+      # - `nuki`
+      # - `igloo`
+      # - `kwikset`
+      # - `minut`
+      # - `my_2n`
+      # - `controlbyweb`
+      # - `nest`
+      # - `igloohome`
+      # - `ecobee`
+      # - `four_suites`
+      # - `dormakaba_oracode`
+      # - `pti`
+      # - `wyze`
+      # - `seam_passport`
+      # - `visionline`
+      # - `assa_abloy_credential_service`
+      # - `tedee`
+      # - `honeywell_resideo`
+      # - `first_alert`
+      # - `latch`
+      # - `akiles`
+      # - `assa_abloy_vostio`
+      # - `assa_abloy_vostio_credential_service`
+      # - `tado`
+      # - `salto_space`
+      # - `sensi`
+      # - `keynest`
+      # - `korelock`
+      # - `keyincode`
+      # - `dormakaba_ambiance`
+      # - `ultraloq`
+      # - `yacan`
+      # - `dusaw`
+      # - `sifely`
+      # - `thirty_three_lock`
+      # - `ring`
+      # - `ical`
+      # - `lodgify`
+      # - `hostaway`
+      # - `guesty`
+      # - `acuity_scheduling`
+      # - `omnitec`
+      # - `kisi`
+      # - `aqara`
       attr_accessor :device_provider_name
       # Display name for the device provider.
       # @return [String]
@@ -74,6 +139,15 @@ module Seam
       attr_accessor :image_url
       # List of provider categories to which the device provider belongs, such as `stable`, `consumer_smartlocks`, `thermostats`, and so on.
       # @return [Array<String>]
+      # Known values:
+      # - `stable`
+      # - `consumer_smartlocks`
+      # - `beta`
+      # - `thermostats`
+      # - `noise_sensors`
+      # - `access_control_systems`
+      # - `cameras`
+      # - `connectors`
       attr_accessor :provider_categories
     end
   end
