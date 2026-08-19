@@ -115,7 +115,7 @@ module Seam
       # @param manufacturer [String, nil] Manufacturer by which you want to filter thermostat devices.
       # @return [Seam::Resources::Device] OK
       def list(connect_webview_id: nil, connected_account_id: nil, customer_key: nil, device_type: nil, device_types: nil, manufacturer: nil)
-        res = @client.post("/thermostats/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, customer_key: customer_key, device_type: device_type, device_types: device_types, manufacturer: manufacturer}.compact)
+        res = @client.get("/thermostats/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, customer_key: customer_key, device_type: device_type, device_types: device_types, manufacturer: manufacturer}.compact)
 
         Seam::Resources::Device.load_from_response(res.body["devices"])
       end

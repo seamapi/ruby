@@ -46,7 +46,7 @@ RSpec.describe Seam::Http::SingleWorkspace, :fake do
     let(:url) { "#{Seam::DEFAULT_ENDPOINT}/devices/list" }
 
     it "raises Faraday::TimeoutError" do
-      stub_request(:post, url).to_timeout
+      stub_request(:get, url).to_timeout
 
       seam = Seam.new(api_key: "seam_some_api_key", timeout: 1)
 

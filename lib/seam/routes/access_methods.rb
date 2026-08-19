@@ -68,7 +68,7 @@ module Seam
       # @param include [Array<String>, nil]
       # @return [Seam::Resources::Batch] OK
       def get_related(access_method_ids:, exclude: nil, include: nil)
-        res = @client.post("/access_methods/get_related", {access_method_ids: access_method_ids, exclude: exclude, include: include}.compact)
+        res = @client.get("/access_methods/get_related", {access_method_ids: access_method_ids, exclude: exclude, include: include}.compact)
 
         Seam::Resources::Batch.load_from_response(res.body["batch"])
       end

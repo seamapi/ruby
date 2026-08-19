@@ -23,42 +23,42 @@ RSpec.describe Seam::Http::Request do
   # keeps a simulated outage in place for every request.
   describe "faraday_retry_options" do
     it "retries until the request succeeds" do
-      stub_request(:post, url)
+      stub_request(:get, url)
         .to_return(service_unavailable)
         .to_return(service_unavailable)
         .to_return(devices)
 
       seam = Seam.new(
         api_key: "seam_some_api_key",
-        faraday_retry_options: {max: 3, interval: 0, methods: %i[post], retry_statuses: [503]}
+        faraday_retry_options: {max: 3, interval: 0, methods: %i[get], retry_statuses: [503]}
       )
 
       expect(seam.devices.list).to eq([])
-      expect(a_request(:post, url)).to have_been_made.times(3)
+      expect(a_request(:get, url)).to have_been_made.times(3)
     end
 
     it "gives up once the retries are exhausted" do
-      stub_request(:post, url).to_return(service_unavailable)
+      stub_request(:get, url).to_return(service_unavailable)
 
       seam = Seam.new(
         api_key: "seam_some_api_key",
-        faraday_retry_options: {max: 2, interval: 0, methods: %i[post], retry_statuses: [503]}
+        faraday_retry_options: {max: 2, interval: 0, methods: %i[get], retry_statuses: [503]}
       )
 
       expect { seam.devices.list }.to raise_error(Seam::Http::ApiError)
-      expect(a_request(:post, url)).to have_been_made.times(3)
+      expect(a_request(:get, url)).to have_been_made.times(3)
     end
 
     it "does not retry when max is zero" do
-      stub_request(:post, url).to_return(service_unavailable)
+      stub_request(:get, url).to_return(service_unavailable)
 
       seam = Seam.new(
         api_key: "seam_some_api_key",
-        faraday_retry_options: {max: 0, interval: 0, methods: %i[post], retry_statuses: [503]}
+        faraday_retry_options: {max: 0, interval: 0, methods: %i[get], retry_statuses: [503]}
       )
 
       expect { seam.devices.list }.to raise_error(Seam::Http::ApiError)
-      expect(a_request(:post, url)).to have_been_made.times(1)
+      expect(a_request(:get, url)).to have_been_made.times(1)
     end
 
     it "does not retry POST requests by default" do
@@ -66,24 +66,22 @@ RSpec.describe Seam::Http::Request do
 
       seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
 
-      expect { seam.devices.list }.to raise_error(Seam::Http::ApiError)
+      expect { seam.client.post("/devices/list") }.to raise_error(Seam::Http::ApiError)
       expect(a_request(:post, url)).to have_been_made.times(1)
     end
 
     it "retries retryable responses for idempotent methods by default" do
-      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       stub_request(:get, url)
         .to_return(service_unavailable)
         .to_return(devices)
 
       seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
 
-      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(seam.devices.list).to eq([])
       expect(a_request(:get, url)).to have_been_made.times(2)
     end
 
     it "applies exponential backoff with jitter by default" do
-      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       retry_delays = []
       stub_request(:get, url)
         .to_return(service_unavailable)
@@ -96,32 +94,30 @@ RSpec.describe Seam::Http::Request do
         faraday_retry_options: {retry_block: ->(**args) { retry_delays << args[:will_retry_in] }}
       )
 
-      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(seam.devices.list).to eq([])
       expect(retry_delays[0]).to be_between(0.2, 0.24)
       expect(retry_delays[1]).to be_between(0.4, 0.44)
     end
 
     it "retries connection failures by default" do
-      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       stub_request(:get, url)
         .to_raise(Faraday::ConnectionFailed.new("connection refused"))
         .then.to_return(devices)
 
       seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
 
-      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(seam.devices.list).to eq([])
       expect(a_request(:get, url)).to have_been_made.times(2)
     end
 
     it "retries timeouts by default" do
-      # TODO: Use seam.devices.list once the generated SDK route uses GET.
       stub_request(:get, url)
         .to_raise(Faraday::TimeoutError.new("timed out"))
         .then.to_return(devices)
 
       seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
 
-      expect(seam.client.get("/devices/list").status).to eq(200)
+      expect(seam.devices.list).to eq([])
       expect(a_request(:get, url)).to have_been_made.times(2)
     end
   end

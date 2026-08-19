@@ -93,7 +93,7 @@ module Seam
       # @param user_identity_ids [Array<String>, nil] Array of user identity IDs by which to filter the list of user identities.
       # @return [Seam::Resources::UserIdentity] OK
       def list(created_before: nil, credential_manager_acs_system_id: nil, limit: nil, page_cursor: nil, search: nil, user_identity_ids: nil)
-        res = @client.post("/user_identities/list", {created_before: created_before, credential_manager_acs_system_id: credential_manager_acs_system_id, limit: limit, page_cursor: page_cursor, search: search, user_identity_ids: user_identity_ids}.compact)
+        res = @client.get("/user_identities/list", {created_before: created_before, credential_manager_acs_system_id: credential_manager_acs_system_id, limit: limit, page_cursor: page_cursor, search: search, user_identity_ids: user_identity_ids}.compact)
 
         Seam::Resources::UserIdentity.load_from_response(res.body["user_identities"])
       end

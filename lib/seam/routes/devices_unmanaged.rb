@@ -43,7 +43,7 @@ module Seam
       # @param search [String, nil] String for which to search. Filters returned devices to include all records that satisfy a partial match using `device_id` (full or partial UUID prefix, minimum 4 characters), `connected_account_id`, `display_name`, `custom_metadata` or `location.location_name`.
       # @return [Seam::Resources::UnmanagedDevice] OK
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil)
-        res = @client.post("/devices/unmanaged/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, customer_key: customer_key, device_ids: device_ids, device_type: device_type, device_types: device_types, limit: limit, manufacturer: manufacturer, page_cursor: page_cursor, search: search}.compact)
+        res = @client.get("/devices/unmanaged/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, customer_key: customer_key, device_ids: device_ids, device_type: device_type, device_types: device_types, limit: limit, manufacturer: manufacturer, page_cursor: page_cursor, search: search}.compact)
 
         Seam::Resources::UnmanagedDevice.load_from_response(res.body["devices"])
       end
