@@ -45,7 +45,7 @@ module Seam
       # @param space_id [String, nil] ID of the space for which you want to list entrances.
       # @return [Seam::Resources::AcsEntrance] OK
       def list(access_method_id: nil, acs_credential_id: nil, acs_entrance_ids: nil, acs_system_id: nil, connected_account_id: nil, customer_key: nil, limit: nil, location_id: nil, page_cursor: nil, search: nil, space_id: nil)
-        res = @client.post("/acs/entrances/list", {access_method_id: access_method_id, acs_credential_id: acs_credential_id, acs_entrance_ids: acs_entrance_ids, acs_system_id: acs_system_id, connected_account_id: connected_account_id, customer_key: customer_key, limit: limit, location_id: location_id, page_cursor: page_cursor, search: search, space_id: space_id}.compact)
+        res = @client.get("/acs/entrances/list", {access_method_id: access_method_id, acs_credential_id: acs_credential_id, acs_entrance_ids: acs_entrance_ids, acs_system_id: acs_system_id, connected_account_id: connected_account_id, customer_key: customer_key, limit: limit, location_id: location_id, page_cursor: page_cursor, search: search, space_id: space_id}.compact)
 
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
@@ -55,7 +55,7 @@ module Seam
       # @param include_if [Array<String>, nil] Conditions that credentials must meet to be included in the returned list.
       # @return [Seam::Resources::AcsCredential] OK
       def list_credentials_with_access(acs_entrance_id:, include_if: nil)
-        res = @client.post("/acs/entrances/list_credentials_with_access", {acs_entrance_id: acs_entrance_id, include_if: include_if}.compact)
+        res = @client.get("/acs/entrances/list_credentials_with_access", {acs_entrance_id: acs_entrance_id, include_if: include_if}.compact)
 
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
       end

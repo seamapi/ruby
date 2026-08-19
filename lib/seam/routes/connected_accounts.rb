@@ -49,7 +49,7 @@ module Seam
       # @param user_identifier_key [String, nil] Your user ID for the user by which you want to filter connected accounts.
       # @return [Seam::Resources::ConnectedAccount] OK
       def list(custom_metadata_has: nil, customer_key: nil, limit: nil, page_cursor: nil, search: nil, space_id: nil, user_identifier_key: nil)
-        res = @client.post("/connected_accounts/list", {custom_metadata_has: custom_metadata_has, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, space_id: space_id, user_identifier_key: user_identifier_key}.compact)
+        res = @client.get("/connected_accounts/list", {custom_metadata_has: custom_metadata_has, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, space_id: space_id, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_accounts"])
       end

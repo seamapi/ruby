@@ -71,7 +71,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /access_grants/get_related"
         end
 
-        res = @client.post("/access_grants/get_related", {access_grant_ids: access_grant_ids, access_grant_keys: access_grant_keys, exclude: exclude, include: include}.compact)
+        res = @client.get("/access_grants/get_related", {access_grant_ids: access_grant_ids, access_grant_keys: access_grant_keys, exclude: exclude, include: include}.compact)
 
         Seam::Resources::Batch.load_from_response(res.body["batch"])
       end
@@ -93,7 +93,7 @@ module Seam
       # @param user_identity_id [String, nil] ID of user identity by which you want to filter the list of Access Grants.
       # @return [Seam::Resources::AccessGrant] OK
       def list(access_code_id: nil, access_grant_ids: nil, access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, device_id: nil, limit: nil, location_id: nil, page_cursor: nil, reservation_key: nil, space_id: nil, user_identity_id: nil)
-        res = @client.post("/access_grants/list", {access_code_id: access_code_id, access_grant_ids: access_grant_ids, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, device_id: device_id, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, space_id: space_id, user_identity_id: user_identity_id}.compact)
+        res = @client.get("/access_grants/list", {access_code_id: access_code_id, access_grant_ids: access_grant_ids, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, device_id: device_id, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, space_id: space_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grants"])
       end

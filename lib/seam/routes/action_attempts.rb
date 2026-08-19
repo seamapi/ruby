@@ -28,7 +28,7 @@ module Seam
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @return [Seam::Resources::ActionAttempt] OK
       def list(action_attempt_ids: nil, device_id: nil, limit: nil, page_cursor: nil)
-        res = @client.post("/action_attempts/list", {action_attempt_ids: action_attempt_ids, device_id: device_id, limit: limit, page_cursor: page_cursor}.compact)
+        res = @client.get("/action_attempts/list", {action_attempt_ids: action_attempt_ids, device_id: device_id, limit: limit, page_cursor: page_cursor}.compact)
 
         Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempts"])
       end

@@ -63,7 +63,7 @@ module Seam
       # @param user_identifier_key [String, nil] Your user ID for the user by which you want to filter Connect Webviews.
       # @return [Seam::Resources::ConnectWebview] OK
       def list(custom_metadata_has: nil, customer_key: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
-        res = @client.post("/connect_webviews/list", {custom_metadata_has: custom_metadata_has, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
+        res = @client.get("/connect_webviews/list", {custom_metadata_has: custom_metadata_has, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webviews"])
       end

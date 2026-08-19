@@ -87,7 +87,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /spaces/get_related"
         end
 
-        res = @client.post("/spaces/get_related", {exclude: exclude, include: include, space_ids: space_ids, space_keys: space_keys}.compact)
+        res = @client.get("/spaces/get_related", {exclude: exclude, include: include, space_ids: space_ids, space_keys: space_keys}.compact)
 
         Seam::Resources::Batch.load_from_response(res.body["batch"])
       end
@@ -110,7 +110,7 @@ module Seam
       # @param space_id [String] ID of the space from which you want to remove entrances.
       # @return [nil] OK
       def remove_acs_entrances(acs_entrance_ids:, space_id:)
-        @client.post("/spaces/remove_acs_entrances", {acs_entrance_ids: acs_entrance_ids, space_id: space_id}.compact)
+        @client.delete("/spaces/remove_acs_entrances", {acs_entrance_ids: acs_entrance_ids, space_id: space_id}.compact)
 
         nil
       end
@@ -130,7 +130,7 @@ module Seam
       # @param space_id [String] ID of the space from which you want to remove devices.
       # @return [nil] OK
       def remove_devices(device_ids:, space_id:)
-        @client.post("/spaces/remove_devices", {device_ids: device_ids, space_id: space_id}.compact)
+        @client.delete("/spaces/remove_devices", {device_ids: device_ids, space_id: space_id}.compact)
 
         nil
       end

@@ -138,7 +138,7 @@ module Seam
           raise TypeError, "At least one parameter is required for /access_codes/list"
         end
 
-        res = @client.post("/access_codes/list", {access_code_ids: access_code_ids, access_grant_id: access_grant_id, access_grant_key: access_grant_key, access_method_id: access_method_id, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
+        res = @client.get("/access_codes/list", {access_code_ids: access_code_ids, access_grant_id: access_grant_id, access_grant_key: access_grant_key, access_method_id: access_method_id, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::AccessCode.load_from_response(res.body["access_codes"])
       end
