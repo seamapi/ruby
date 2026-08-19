@@ -13,11 +13,14 @@ module Seam
       @webhook = Svix::Webhook.new(secret)
     end
 
+    # Known event types return a SeamEvent subclass; unknown types return a
+    # generic SeamEvent for forward compatibility.
+    # @return [Seam::Resources::SeamEvent]
     def verify(payload, headers)
       normalized_headers = headers.transform_keys(&:downcase)
-      res = @webhook.verify(payload, normalized_headers)
+      event_data = @webhook.verify(payload, normalized_headers)
 
-      Seam::Resources::SeamEvent.load_from_response(res)
+      Seam::Resources::SeamEvent.load_from_response(event_data)
     end
   end
 end

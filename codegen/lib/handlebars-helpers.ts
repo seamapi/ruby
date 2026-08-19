@@ -29,6 +29,26 @@ export const rubyDeprecatedDoc = (
       )
     : ''
 
+export const rubyString = (value: string): string => JSON.stringify(value)
+
+export const rubyEnumValuesDoc = (
+  property: Property,
+  indentation: number,
+): string => {
+  const values =
+    property.format === 'enum'
+      ? property.values
+      : property.format === 'list' && property.itemFormat === 'enum'
+        ? property.itemEnumValues
+        : []
+  return values.length === 0
+    ? ''
+    : `\n${comment(
+        ['Known values:', ...values.map(({ name }) => `- \`${name}\``)],
+        indentation,
+      )}`
+}
+
 const nullable = (
   type: string,
   value: { isOptional: boolean; isNullable: boolean },

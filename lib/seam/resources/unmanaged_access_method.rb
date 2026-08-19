@@ -4,9 +4,27 @@ module Seam
   module Resources
     # Represents an unmanaged access method. Unmanaged access methods do not have client sessions, instant keys, customization profiles, or keys.
     class UnmanagedAccessMethod < BaseResource
+      # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
+        # Indicates that Seam was unable to issue this [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) before its access grant started, so the recipient may be unable to access the space. This usually points to a problem that needs attention, such as an offline or disconnected device. Seam keeps retrying, and this error clears automatically if the access method is eventually issued.
+        class FailedToIssue < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `failed_to_issue`
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `failed_to_issue`
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
@@ -14,6 +32,10 @@ module Seam
         # Date and time at which Seam created the error.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :error_code, {
+          "failed_to_issue" => FailedToIssue
+        }.freeze
       end
 
       class PendingMutations < BaseResource
@@ -47,25 +69,100 @@ module Seam
         # @return [String]
         attr_accessor :message
         # @return [String]
+        # Known values:
+        # - `provisioning_access`
         attr_accessor :mutation_code
         # Date and time at which the mutation was created.
         # @return [Time]
         date_accessor :created_at
       end
 
+      # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
+        # Indicates that the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) is being deleted.
+        class BeingDeleted < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `being_deleted`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the access times for this [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) are being updated.
+        class UpdatingAccessTimes < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `updating_access_times`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that all attempts to create an access code on this device before the start time failed and a backup access code was used to ensure access was provided in time.
+        class PulledBackupAccessCode < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # ID of the original access method from which this backup access method was split, if applicable.
+          # @return [String, nil]
+          attr_accessor :original_access_method_id
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `pulled_backup_access_code`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that Seam has not yet issued this [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant), even though its access grant is about to begin, so access may not be ready when the recipient arrives. Seam is still attempting to issue it, and this warning clears automatically once issuance succeeds.
+        class DelayInIssuing < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `delay_in_issuing`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
-        # ID of the original access method from which this backup access method was split, if applicable.
-        # @return [String, nil]
-        attr_accessor :original_access_method_id
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `being_deleted`
+        # - `updating_access_times`
+        # - `pulled_backup_access_code`
+        # - `delay_in_issuing`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :warning_code, {
+          "being_deleted" => BeingDeleted,
+          "updating_access_times" => UpdatingAccessTimes,
+          "pulled_backup_access_code" => PulledBackupAccessCode,
+          "delay_in_issuing" => DelayInIssuing
+        }.freeze
       end
 
       # Errors associated with the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant).
@@ -103,6 +200,11 @@ module Seam
       attr_accessor :is_ready_for_encoding
       # Access method mode. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
       # @return [String]
+      # Known values:
+      # - `code`
+      # - `card`
+      # - `mobile_key`
+      # - `cloud_key`
       attr_accessor :mode
       # ID of the Seam workspace associated with the access method.
       # @return [String]

@@ -23,10 +23,21 @@ module Seam
         return nil if data.nil?
 
         if data.is_a?(Array)
-          data.map { |d| new(d, client) }
+          data.map { |item| load_from_response(item, client) }
         else
-          new(data, client)
+          resource_class = if data.is_a?(Hash) && @discriminator
+            value = data[@discriminator] || data[@discriminator.to_sym]
+            @discriminated_variants.fetch(value, self)
+          else
+            self
+          end
+          resource_class.new(data, client)
         end
+      end
+
+      def self.discriminated_by(attribute, variants)
+        @discriminator = attribute.to_s
+        @discriminated_variants = variants
       end
 
       def inspect
@@ -50,6 +61,11 @@ module Seam
         attr_accessor attr
       end
 
+      def self.aliased_accessor(attr, from:)
+        attribute_aliases[from.to_s] = attr
+        attr_accessor attr
+      end
+
       def self.resource_list_accessor(attr, resource_class)
         resource_list_accessors[attr.to_s] = resource_class
         attr_writer attr
@@ -68,6 +84,10 @@ module Seam
 
       def self.resource_list_accessors
         @resource_list_accessors ||= {}
+      end
+
+      def self.attribute_aliases
+        @attribute_aliases ||= {}
       end
 
       def self.date_accessor(*attrs)
@@ -99,7 +119,8 @@ module Seam
           else
             process_hash_value(value)
           end
-          instance_variable_set(:"@#{key}", value)
+          attribute = self.class.attribute_aliases.fetch(key.to_s, key)
+          instance_variable_set(:"@#{attribute}", value)
         end
       end
 

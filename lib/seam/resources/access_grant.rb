@@ -4,19 +4,41 @@ module Seam
   module Resources
     # Represents an Access Grant. Access Grants enable you to grant a user identity access to spaces, entrances, and devices through one or more access methods, such as mobile keys, plastic cards, and PIN codes. You can create an Access Grant for an existing user identity, or you can create a new user identity *while* creating the new Access Grant.
     class AccessGrant < BaseResource
+      # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
+        # Indicates that Seam could not create one or more of the requested access methods for the access grant.
+        class CannotCreateRequestedAccessMethods < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `cannot_create_requested_access_methods`
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # IDs of the devices that did not receive an access code at grant creation. Use these to identify which specific devices failed when the message reports a partial failure.
+          # @return [Array<String>]
+          attr_accessor :missing_device_ids
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `cannot_create_requested_access_methods`
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
-        # IDs of the devices that did not receive an access code at grant creation. Use these to identify which specific devices failed when the message reports a partial failure.
-        # @return [Array<String>]
-        attr_accessor :missing_device_ids
         # Date and time at which Seam created the error.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :error_code, {
+          "cannot_create_requested_access_methods" => CannotCreateRequestedAccessMethods
+        }.freeze
       end
 
       class PendingMutations < BaseResource
@@ -58,6 +80,8 @@ module Seam
         # @return [String]
         attr_accessor :message
         # @return [String]
+        # Known values:
+        # - `updating_spaces`
         attr_accessor :mutation_code
         # Date and time at which the mutation was created.
         # @return [Time]
@@ -79,51 +103,191 @@ module Seam
         attr_accessor :instant_key_max_use_count
         # Access method mode. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
         # @return [String]
+        # Known values:
+        # - `code`
+        # - `card`
+        # - `mobile_key`
+        # - `cloud_key`
         attr_accessor :mode
         # Date and time at which the requested access method was added to the Access Grant.
         # @return [Time]
         date_accessor :created_at
       end
 
+      # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
-        class FailedDevices < BaseResource
-          # Device whose access code could not be revoked.
-          # @return [String]
-          attr_accessor :device_id
-          # Reason the access code could not be revoked (e.g. `offline_access_code_not_revocable`).
-          # @return [String]
-          attr_accessor :error_code
-          # Human-readable description of why revocation failed.
+        # Indicates that the [access grant](https://docs.seam.co/use-cases/granting-access) is being deleted.
+        class BeingDeleted < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
           attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `being_deleted`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
         end
 
-        # Devices whose access codes could not be revoked during reconciliation. Present when the provider does not support revoking an offline access code (e.g. Dormakaba oracode with exhausted override budget).
-        # @return [Array<FailedDevices>]
-        resource_list_accessor :failed_devices, FailedDevices
-        # IDs of the access methods being updated.
-        # @return [Array<String>]
-        attr_accessor :access_method_ids
-        # @return [String]
-        attr_accessor :device_id
+        # Indicates that the access grant should have access to more locations than it currently does. Access methods are being created for the missing locations.
+        class UnderprovisionedAccess < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `underprovisioned_access`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the access grant has access to locations it should not have. Access methods are being removed from the extra locations.
+        class OverprovisionedAccess < Warnings
+          class FailedDevices < BaseResource
+            # Device whose access code could not be revoked.
+            # @return [String]
+            attr_accessor :device_id
+            # Reason the access code could not be revoked (e.g. `offline_access_code_not_revocable`).
+            # @return [String]
+            attr_accessor :error_code
+            # Human-readable description of why revocation failed.
+            # @return [String]
+            attr_accessor :message
+          end
+
+          # Devices whose access codes could not be revoked during reconciliation. Present when the provider does not support revoking an offline access code (e.g. Dormakaba oracode with exhausted override budget).
+          # @return [Array<FailedDevices>]
+          resource_list_accessor :failed_devices, FailedDevices
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `overprovisioned_access`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the access times for this [access grant](https://docs.seam.co/use-cases/granting-access) are being updated.
+        class UpdatingAccessTimes < Warnings
+          # IDs of the access methods being updated.
+          # @return [Array<String>]
+          attr_accessor :access_method_ids
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `updating_access_times`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the requested PIN code was already in use on a device, so a different code was assigned.
+        class RequestedCodeUnavailable < Warnings
+          # ID of the device where the requested code was unavailable.
+          # @return [String]
+          attr_accessor :device_id
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # The new PIN code that was assigned instead.
+          # @return [String]
+          attr_accessor :new_code
+          # The originally requested PIN code that was unavailable.
+          # @return [String]
+          attr_accessor :original_code
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `requested_code_unavailable`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that a device in the access grant does not support access codes and was excluded from code materialization.
+        class DeviceDoesNotSupportAccessCodes < Warnings
+          # ID of the device that does not support access codes.
+          # @return [String]
+          attr_accessor :device_id
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `device_does_not_support_access_codes`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that a device in the access grant cannot program an access code for the grant's time range because of device-specific time constraints.
+        class DeviceTimeConstraintsViolated < Warnings
+          # ID of the device whose time constraints the access grant violates.
+          # @return [String]
+          attr_accessor :device_id
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Specific reason why the grant's times are not programmable on the device.
+          # @return [String]
+          # Known values:
+          # - `duration_exceeds_max`
+          # - `times_do_not_match_slots`
+          # - `ongoing_not_supported`
+          attr_accessor :reason
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `device_time_constraints_violated`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
-        # The new PIN code that was assigned instead.
-        # @return [String]
-        attr_accessor :new_code
-        # The originally requested PIN code that was unavailable.
-        # @return [String]
-        attr_accessor :original_code
-        # Specific reason why the grant's times are not programmable on the device.
-        # @return [String]
-        attr_accessor :reason
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `being_deleted`
+        # - `underprovisioned_access`
+        # - `overprovisioned_access`
+        # - `updating_access_times`
+        # - `requested_code_unavailable`
+        # - `device_does_not_support_access_codes`
+        # - `device_time_constraints_violated`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :warning_code, {
+          "being_deleted" => BeingDeleted,
+          "underprovisioned_access" => UnderprovisionedAccess,
+          "overprovisioned_access" => OverprovisionedAccess,
+          "updating_access_times" => UpdatingAccessTimes,
+          "requested_code_unavailable" => RequestedCodeUnavailable,
+          "device_does_not_support_access_codes" => DeviceDoesNotSupportAccessCodes,
+          "device_time_constraints_violated" => DeviceTimeConstraintsViolated
+        }.freeze
       end
 
       # Errors associated with the [access grant](https://docs.seam.co/use-cases/granting-access).

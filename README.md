@@ -383,8 +383,9 @@ workspaces = seam.workspaces.list
 
 ### Webhooks
 
-The Seam API implements webhooks using [Svix](https://www.svix.com).This SDK exports a thin wrapper `Seam::Webhook` around the svix package.
+The Seam API implements webhooks using [Svix](https://www.svix.com). This SDK exports a thin wrapper `Seam::Webhook` around the svix package.
 Use it to parse and validate Seam webhook events.
+Known event types load as `Seam::Resources::SeamEvent` subclasses with only that event's accessors; unknown types remain generic `SeamEvent` instances for forward compatibility.
 
 > [!TIP]
 > This example is for [Sinatra](https://sinatrarb.com/), see the [Svix docs for more examples in specific frameworks](https://docs.svix.com/receiving/verifying-payloads/how).
@@ -402,22 +403,25 @@ post "/webhook" do
       "svix-signature" => request.env["HTTP_SVIX_SIGNATURE"],
       "svix-timestamp" => request.env["HTTP_SVIX_TIMESTAMP"]
     }
-    data = webhook.verify(request.body.read, headers)
+    event = webhook.verify(request.body.read, headers)
   rescue Seam::WebhookVerificationError
     halt 400, "Bad Request"
   end
 
   begin
-    store_event(data)
+    case event.event_type
+    when "access_code.created"
+      puts "Access code created: #{event.access_code_id}"
+    when "device.connected"
+      puts "Device connected: #{event.device_id}"
+    else
+      puts event
+    end
   rescue
     halt 500, "Internal Server Error"
   end
 
   204
-end
-
-def store_event(data)
-  puts data
 end
 ```
 

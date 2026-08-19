@@ -16,6 +16,12 @@ module Seam
     class ConnectWebview < BaseResource
       # High-level device capabilities that the Connect Webview can accept. When creating a Connect Webview, you can specify the types of devices that it can connect to Seam. If you do not set custom `accepted_capabilities`, Seam uses a default set of `accepted_capabilities` for each provider. For example, if you create a Connect Webview that accepts SmartThing devices, without specifying `accepted_capabilities`, Seam accepts only SmartThings locks. To connect SmartThings thermostats and locks to Seam, create a Connect Webview and include both `thermostat` and `lock` in the `accepted_capabilities`.
       # @return [Array<String>]
+      # Known values:
+      # - `lock`
+      # - `thermostat`
+      # - `noise_sensor`
+      # - `access_control`
+      # - `camera`
       attr_accessor :accepted_capabilities
       # List of accepted [provider keys](https://docs.seam.co/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-brands-to-display-in-your-connect-webviews).
       # @return [Array<String>]
@@ -46,6 +52,10 @@ module Seam
       attr_accessor :customer_key
       # Device selection mode of the Connect Webview. Supported values: `none`, `single`, `multiple`.
       # @return [String]
+      # Known values:
+      # - `none`
+      # - `single`
+      # - `multiple`
       attr_accessor :device_selection_mode
       # Indicates whether the user logged in successfully using the Connect Webview.
       # @return [Boolean]
@@ -55,6 +65,10 @@ module Seam
       attr_accessor :selected_provider
       # Status of the Connect Webview. `authorized` indicates that the user has successfully logged into their device or system account, thereby completing the Connect Webview.
       # @return [String]
+      # Known values:
+      # - `pending`
+      # - `failed`
+      # - `authorized`
       attr_accessor :status
       # URL for the Connect Webview. You use the URL to display the Connect Webview flow to your user.
       # @return [String]

@@ -4,7 +4,29 @@ module Seam
   module Resources
     # Represents an unmanaged user identity. Unmanaged user identities do not have keys.
     class UnmanagedUserIdentity < BaseResource
+      # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
+        # Indicates that there is an issue with an access system user associated with this user identity.
+        class IssueWithAcsUser < Errors
+          # ID of the access system that the user identity is associated with.
+          # @return [String]
+          attr_accessor :acs_system_id
+          # ID of the access system user that has an issue.
+          # @return [String]
+          attr_accessor :acs_user_id
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `issue_with_acs_user`
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # ID of the access system that the user identity is associated with.
         # @return [String]
         attr_accessor :acs_system_id
@@ -13,6 +35,8 @@ module Seam
         attr_accessor :acs_user_id
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `issue_with_acs_user`
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
@@ -20,18 +44,61 @@ module Seam
         # Date and time at which Seam created the error.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :error_code, {
+          "issue_with_acs_user" => IssueWithAcsUser
+        }.freeze
       end
 
+      # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
+        # Indicates that the user identity is currently being deleted.
+        class BeingDeleted < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `being_deleted`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the ACS user's profile does not match the user identity's profile
+        class AcsUserProfileDoesNotMatchUserIdentity < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `acs_user_profile_does_not_match_user_identity`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `being_deleted`
+        # - `acs_user_profile_does_not_match_user_identity`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :warning_code, {
+          "being_deleted" => BeingDeleted,
+          "acs_user_profile_does_not_match_user_identity" => AcsUserProfileDoesNotMatchUserIdentity
+        }.freeze
       end
 
       # Array of errors associated with the user identity. Each error object within the array contains fields like "error_code" and "message." "error_code" is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. "message" provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.

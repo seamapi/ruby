@@ -57,27 +57,28 @@ RSpec.describe Seam::Resources::BaseResource do
       expect(keypad_battery).not_to be_a(Seam::Resources::Device::Properties::Battery)
     end
 
-    it "keeps every variant field when merged into one class" do
-      encoded = Seam::Resources::ActionAttempt.new(
-        action_type: "ENCODE_ACS_CREDENTIAL",
+    it "uses action-specific result classes" do
+      scanned = Seam::Resources::ActionAttempt.load_from_response(
+        action_type: "SCAN_CREDENTIAL",
         result: {
           acs_credential_on_encoder: {card_number: "123"},
           acs_credential_on_seam: {acs_credential_id: "cred_1"}
         }
       )
 
-      expect(encoded.result.acs_credential_on_encoder.card_number).to eq("123")
-      expect(encoded.result.acs_credential_on_seam.acs_credential_id).to eq("cred_1")
+      expect(scanned).to be_a(Seam::Resources::ActionAttempt::ScanCredential)
+      expect(scanned.result).to be_a(Seam::Resources::ActionAttempt::ScanCredential::Result)
+      expect(scanned.result.acs_credential_on_encoder.card_number).to eq("123")
+      expect(scanned.result.acs_credential_on_seam.acs_credential_id).to eq("cred_1")
 
-      instant_key = Seam::Resources::ActionAttempt.new(
-        action_type: "CREATE_INSTANT_KEY",
-        result: {instant_key_url: "https://example.com"}
+      created = Seam::Resources::ActionAttempt.load_from_response(
+        action_type: "CREATE_NOISE_THRESHOLD",
+        result: {noise_threshold: {noise_threshold_id: "noise_1"}}
       )
 
-      expect(instant_key.result.instant_key_url).to eq("https://example.com")
-
-      # A field from a third variant, on the same merged class.
-      expect(instant_key.result).to respond_to(:was_confirmed_by_device)
+      expect(created).to be_a(Seam::Resources::ActionAttempt::CreateNoiseThreshold)
+      expect(created.result.noise_threshold.noise_threshold_id).to eq("noise_1")
+      expect(created.result).not_to respond_to(:was_confirmed_by_device)
     end
 
     it "merges variant fields recursively into nested objects" do

@@ -2,8 +2,8 @@
 // Structured to mirror the javascript-http codegen plugin (lib/connect.ts).
 //
 // The blueprint from @seamapi/blueprint drives all generated output: resources
-// come from blueprint.resources (plus the merged action_attempt and the
-// pagination resources), and clients come from blueprint.routes and
+// come from blueprint.resources (plus discriminated action attempts and the
+// pagination resource), and clients come from blueprint.routes and
 // blueprint.namespaces.
 
 import type {
@@ -20,9 +20,12 @@ import { convertCustomResourceName } from './custom-resource-name-conversions.js
 import { rubyParameterType } from './handlebars-helpers.js'
 import { setClientLayoutContext } from './layouts/client.js'
 import { setImportsLayoutContext } from './layouts/imports.js'
-import { setResourceLayoutContext } from './layouts/resource.js'
+import {
+  type DiscriminatedVariantSource,
+  getCommonScalarProperties,
+  setResourceLayoutContext,
+} from './layouts/resource.js'
 import { setRoutesFileLayoutContext } from './layouts/routes-file.js'
-import { mergeProperties } from './merge-properties.js'
 import type { ClientMethod, ClientModel } from './ruby-client.js'
 
 interface Metadata {
@@ -87,6 +90,46 @@ type ResourceDocumentation = Pick<
 
 interface ResourceSource extends ResourceDocumentation {
   properties: Property[]
+  discriminator?: string
+  variants?: DiscriminatedVariantSource[]
+}
+
+const createActionAttemptBaseProperties = (
+  variants: DiscriminatedVariantSource[],
+): Property[] => {
+  const propertyLists = variants.map(({ properties }) => properties)
+  const common = getCommonScalarProperties(propertyLists)
+  const nested = ['error', 'result'].flatMap((name) => {
+    const occurrences = propertyLists.map((properties) =>
+      properties.find((property) => property.name === name),
+    )
+    if (
+      occurrences.some(
+        (property) => property == null || property.format !== 'object',
+      )
+    ) {
+      return []
+    }
+
+    const objects = occurrences as Array<
+      Extract<Property, { format: 'object' }>
+    >
+    const first = objects[0]
+    if (first == null) return []
+    return [
+      {
+        ...first,
+        description:
+          name === 'error' ? 'Error associated with the action.' : '',
+        isNullable: true,
+        properties: getCommonScalarProperties(
+          objects.map(({ properties }) => properties),
+        ),
+      },
+    ]
+  })
+
+  return [...common, ...nested].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 const getResources = (
@@ -98,32 +141,41 @@ const getResources = (
     resources.set(resource.resourceType, resource)
   }
 
-  // The event resource only has the properties common to all events, but the
-  // SDK exposes a single SeamEvent class, so it needs an accessor for every
-  // property of every event variant.
   const eventResource = resources.get('event')
   if (eventResource != null) {
     resources.set('event', {
       ...eventResource,
-      properties: mergeProperties([
-        eventResource.properties,
-        ...blueprint.events.map((event) => event.properties),
-      ]),
+      description:
+        'Represents a Seam event. Known event types load as subclasses; unknown event types remain SeamEvent instances for forward compatibility.',
+      discriminator: 'event_type',
+      variants: blueprint.events.map((event) => ({
+        discriminatorValue: event.eventType,
+        description: event.description,
+        properties: event.properties,
+      })),
     })
   }
 
-  // Action attempts are one blueprint entry per action type, but the SDK
-  // exposes a single ActionAttempt class.
   if (blueprint.actionAttempts.length > 0) {
-    const resource = blueprint.actionAttempts[0]
-    if (resource == null) throw new Error('Expected an action attempt resource')
-    resources.set('action_attempt', {
-      ...resource,
-      properties: mergeProperties(
-        blueprint.actionAttempts.map(
-          (actionAttempt) => actionAttempt.properties,
-        ),
+    const variants = blueprint.actionAttempts.map((actionAttempt) => ({
+      discriminatorValue: actionAttempt.actionAttemptType,
+      description: actionAttempt.description,
+      // Action attempts can return null for both fields while pending. The
+      // blueprint currently loses that per-status nullability upstream.
+      properties: actionAttempt.properties.map((property) =>
+        ['error', 'result'].includes(property.name)
+          ? { ...property, isNullable: true }
+          : property,
       ),
+    }))
+    resources.set('action_attempt', {
+      description:
+        'Represents a Seam action attempt. Known action types load as subclasses; unknown action types remain ActionAttempt instances for forward compatibility.',
+      isDeprecated: false,
+      deprecationMessage: '',
+      properties: createActionAttemptBaseProperties(variants),
+      discriminator: 'action_type',
+      variants,
     })
   }
 

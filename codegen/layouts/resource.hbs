@@ -12,41 +12,56 @@ module Seam
 {{#each nestedClasses}}
 {{> resource-class}}
 {{/each}}
+{{#each variants}}
+{{> resource-class}}
+{{/each}}
 {{#each resourceAccessors}}
 {{#if description}}
 {{{rubyDoc description 6}}}
 {{/if}}
-      # @return [{{rubyResourceType this}}]
+      # @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this 6}}}
       resource_accessor :{{name}}, {{className}}
 {{/each}}
 {{#each resourceListAccessors}}
 {{#if description}}
 {{{rubyDoc description 6}}}
 {{/if}}
-      # @return [{{rubyResourceType this}}]
+      # @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this 6}}}
       resource_list_accessor :{{name}}, {{className}}
 {{/each}}
 {{#each accessors}}
 {{#if description}}
 {{{rubyDoc description 6}}}
 {{/if}}
-      # @return [{{rubyPropertyType this}}]
+      # @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this 6}}}
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this 6}}}
 {{/if}}
-      attr_accessor :{{name}}
+{{#if isAliased}}
+      aliased_accessor :{{accessorName}}, from: :{{name}}
+{{else}}
+      attr_accessor :{{accessorName}}
+{{/if}}
 {{/each}}
 {{#each dateAccessors}}
 
 {{#if description}}
 {{{rubyDoc description 6}}}
 {{/if}}
-      # @return [{{rubyPropertyType this}}]
+      # @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this 6}}}
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this 6}}}
 {{/if}}
-      date_accessor :{{name}}
+      date_accessor :{{accessorName}}
 {{/each}}
+{{#if discriminator}}
+
+      discriminated_by :{{discriminator}}, {
+{{#each variants}}
+        {{{rubyString discriminatorValue}}} => {{className}},
+{{/each}}
+      }.freeze
+{{/if}}
     end
   end
 end

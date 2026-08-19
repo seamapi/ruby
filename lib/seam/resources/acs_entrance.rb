@@ -39,6 +39,11 @@ module Seam
         attr_accessor :door_number
         # Type of the door in the Vostio access system.
         # @return [String, nil]
+        # Known values:
+        # - `CommonDoor`
+        # - `EntranceDoor`
+        # - `GuestDoor`
+        # - `Elevator`
         attr_accessor :door_type
         # PMS ID of the door in the Vostio access system.
         # @return [String, nil]
@@ -190,6 +195,10 @@ module Seam
           attr_accessor :visionline_door_profile_id
           # Door profile type in the Visionline access system.
           # @return [String, nil]
+          # Known values:
+          # - `BLE`
+          # - `commonDoor`
+          # - `touch`
           attr_accessor :visionline_door_profile_type
         end
 
@@ -198,22 +207,118 @@ module Seam
         resource_list_accessor :profiles, Profiles
         # Category of the door in the Visionline access system.
         # @return [String, nil]
+        # Known values:
+        # - `entrance`
+        # - `guest`
+        # - `elevator reader`
+        # - `common`
+        # - `common (PMS)`
         attr_accessor :door_category
         # Name of the door in the Visionline access system.
         # @return [String, nil]
         attr_accessor :door_name
       end
 
+      # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
+        # Indicates that a change in the reported device model has been detected for this Salto KS entrance, which may occur after an IQ hub reset. Access code support may be affected. See https://help.getseam.com/articles/5098842588-salto-ks-lock-loses-access-code-support for troubleshooting steps.
+        class SaltoKsEntranceAccessCodeSupportRemoved < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `salto_ks_entrance_access_code_support_removed`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that this entrance shares a zone with other entrances in Avigilon Alta and cannot be added to an access group individually.
+        class EntranceSharesZone < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `entrance_shares_zone`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that this entrance requires additional configuration in the access control system before Seam can fully manage it.
+        class EntranceSetupRequired < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `entrance_setup_required`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that this entrance is in privacy mode. When privacy mode is enabled, access codes, mobile keys, and remote unlocks will not work unless the user has admin access.
+        class SaltoKsPrivacyMode < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `salto_ks_privacy_mode`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that this entrance is in privacy mode. When privacy mode is enabled, access codes, mobile keys, and remote unlocks will not work unless the user has admin access.
+        class PrivacyMode < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `privacy_mode`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
         # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `salto_ks_entrance_access_code_support_removed`
+        # - `entrance_shares_zone`
+        # - `entrance_setup_required`
+        # - `salto_ks_privacy_mode`
+        # - `privacy_mode`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :warning_code, {
+          "salto_ks_entrance_access_code_support_removed" => SaltoKsEntranceAccessCodeSupportRemoved,
+          "entrance_shares_zone" => EntranceSharesZone,
+          "entrance_setup_required" => EntranceSetupRequired,
+          "salto_ks_privacy_mode" => SaltoKsPrivacyMode,
+          "privacy_mode" => PrivacyMode
+        }.freeze
       end
 
       # Akiles-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
