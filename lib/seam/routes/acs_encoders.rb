@@ -37,14 +37,14 @@ module Seam
       end
 
       # Returns a list of all [encoders](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # @param acs_encoder_ids [Array<String>, nil] IDs of the encoders that you want to retrieve.
       # @param acs_system_id [String, nil] ID of the access system for which you want to retrieve all encoders.
       # @param acs_system_ids [Array<String>, nil] IDs of the access systems for which you want to retrieve all encoders.
-      # @param acs_encoder_ids [Array<String>, nil] IDs of the encoders that you want to retrieve.
       # @param limit [Float, nil] Number of encoders to return.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @return [Seam::Resources::AcsEncoder] OK
-      def list(acs_system_id: nil, acs_system_ids: nil, acs_encoder_ids: nil, limit: nil, page_cursor: nil)
-        res = @client.get("/acs/encoders/list", {acs_system_id: acs_system_id, acs_system_ids: acs_system_ids, acs_encoder_ids: acs_encoder_ids, limit: limit, page_cursor: page_cursor}.compact)
+      def list(acs_encoder_ids: nil, acs_system_id: nil, acs_system_ids: nil, limit: nil, page_cursor: nil)
+        res = @client.get("/acs/encoders/list", {acs_encoder_ids: acs_encoder_ids, acs_system_id: acs_system_id, acs_system_ids: acs_system_ids, limit: limit, page_cursor: page_cursor}.compact)
 
         Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoders"])
       end

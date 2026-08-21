@@ -194,6 +194,24 @@ module Seam
           date_accessor :created_at
         end
 
+        # The code cannot be set on the device because it violates the device's code constraints (for example, its length, digits, or a too-simple value). The code will not be retried until you change it. See the device's `code_constraints` and `supported_code_lengths`.
+        class CodeConstraintsViolated < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `code_constraints_violated`
+          attr_accessor :error_code
+          # Indicates that this is an access code error.
+          # @return [TrueClass]
+          attr_accessor :is_access_code_error
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time, nil]
+          date_accessor :created_at
+        end
+
         # Indicates that the account is disconnected.
         class AccountDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -471,6 +489,7 @@ module Seam
         # - `no_space_for_access_code_on_device`
         # - `conflicting_external_modification`
         # - `access_code_inactive`
+        # - `code_constraints_violated`
         # - `account_disconnected`
         # - `salto_ks_subscription_limit_exceeded`
         # - `insufficient_permissions`
@@ -501,6 +520,7 @@ module Seam
           "no_space_for_access_code_on_device" => NoSpaceForAccessCodeOnDevice,
           "conflicting_external_modification" => ConflictingExternalModification,
           "access_code_inactive" => AccessCodeInactive,
+          "code_constraints_violated" => CodeConstraintsViolated,
           "account_disconnected" => AccountDisconnected,
           "salto_ks_subscription_limit_exceeded" => SaltoKsSubscriptionLimitExceeded,
           "insufficient_permissions" => InsufficientPermissions,

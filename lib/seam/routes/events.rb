@@ -37,7 +37,7 @@ module Seam
       # @param acs_system_id [String, nil] ID of the access system for which you want to list events.
       # @param acs_system_ids [Array<String>, nil] IDs of the access systems for which you want to list events.
       # @param acs_user_id [String, nil] ID of the ACS user for which you want to list events.
-      # @param between [Array<Time>, nil] Lower and upper timestamps to define an exclusive interval containing the events that you want to list. You must include `since` or `between`.
+      # @param between [Array<String>, nil] Lower and upper timestamps to define an exclusive interval containing the events that you want to list. You must include `since` or `between`.
       # @param connect_webview_id [String, nil] ID of the Connect Webview for which you want to list events.
       # @param connected_account_id [String, nil] ID of the connected account for which you want to list events.
       # @param customer_key [String, nil] Customer key for which you want to list events.
