@@ -320,6 +320,9 @@ module Seam
       # Display name of the Access Grant.
       # @return [String]
       attr_accessor :display_name
+      # Human-readable sentence answering whether the user can currently get in, for example `Awaiting encoding` on an access method or `Upcoming` here. For display only. The wording is not stable and is not an enumeration — it may change at any time, so never compare against or branch on it. To make decisions, read `starts_at`, `ends_at`, `errors`, and the access methods' own fields.
+      # @return [String]
+      attr_accessor :display_status
       # Instant Key URL. Only returned if the Access Grant has a single mobile_key access_method.
       # @return [String, nil]
       attr_accessor :instant_key_url

@@ -134,6 +134,28 @@ module Seam
         Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
       end
 
+      # Merges one or more [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) into a primary user identity, for when the same person ended up with more than one user identity.
+      #
+      # The primary user identity takes on any email address or phone number it was missing from the user identities merged into it, and the merged user identities are then deleted. Their IDs and keys keep working: looking one up returns the primary user identity, and they are listed on it as `merged_user_identity_ids` and `merged_user_identity_keys`.
+      #
+      # Access grants, access system users, client sessions and other resources belonging to the merged user identities are moved to the primary user identity.
+      #
+      # Identify the user identities either by ID or by key, but not both in the same request. Repeating a merge that has already been applied makes no further changes.
+      # @param merged_user_identity_ids [Array<String>, nil] IDs of the user identities to merge into the primary user identity. These user identities are deleted.
+      # @param user_identity_id [String, nil] ID of the primary user identity to keep.
+      # @param merged_user_identity_keys [Array<String>, nil] Keys of the user identities to merge into the primary user identity. These user identities are deleted.
+      # @param user_identity_key [String, nil] Key of the primary user identity to keep.
+      # @return [nil] OK
+      def merge(merged_user_identity_ids: nil, user_identity_id: nil, merged_user_identity_keys: nil, user_identity_key: nil)
+        if merged_user_identity_ids.nil? && user_identity_id.nil? && merged_user_identity_keys.nil? && user_identity_key.nil?
+          raise TypeError, "At least one parameter is required for /user_identities/merge"
+        end
+
+        @client.post("/user_identities/merge", {merged_user_identity_ids: merged_user_identity_ids, user_identity_id: user_identity_id, merged_user_identity_keys: merged_user_identity_keys, user_identity_key: user_identity_key}.compact)
+
+        nil
+      end
+
       # Removes a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) from a specified [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
       # @param acs_user_id [String] ID of the access system user that you want to remove from the user identity..
       # @param user_identity_id [String] ID of the user identity from which you want to remove an access system user.

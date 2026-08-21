@@ -59,17 +59,17 @@ module Seam
       end
 
       # Returns a list of all [credentials](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
-      # @param acs_user_id [String, nil] ID of the access system user for which you want to retrieve all credentials.
       # @param acs_system_id [String, nil] ID of the access system for which you want to retrieve all credentials.
-      # @param user_identity_id [String, nil] ID of the user identity for which you want to retrieve all credentials.
+      # @param acs_user_id [String, nil] ID of the access system user for which you want to retrieve all credentials.
       # @param created_before [Time, nil] Date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, before which events to return were created.
       # @param is_multi_phone_sync_credential [Boolean, nil] Indicates whether you want to retrieve only multi-phone sync credentials or non-multi-phone sync credentials.
       # @param limit [Float, nil] Number of credentials to return.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned credentials to include all records that satisfy a partial match using `display_name`, `code`, `card_number`, `acs_user_id` or `acs_credential_id`.
+      # @param user_identity_id [String, nil] ID of the user identity for which you want to retrieve all credentials.
       # @return [Seam::Resources::AcsCredential] OK
-      def list(acs_user_id: nil, acs_system_id: nil, user_identity_id: nil, created_before: nil, is_multi_phone_sync_credential: nil, limit: nil, page_cursor: nil, search: nil)
-        res = @client.get("/acs/credentials/list", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit, page_cursor: page_cursor, search: search}.compact)
+      def list(acs_system_id: nil, acs_user_id: nil, created_before: nil, is_multi_phone_sync_credential: nil, limit: nil, page_cursor: nil, search: nil, user_identity_id: nil)
+        res = @client.get("/acs/credentials/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit, page_cursor: page_cursor, search: search, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
       end

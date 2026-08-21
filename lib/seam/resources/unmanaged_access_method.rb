@@ -183,6 +183,9 @@ module Seam
       # Display name of the access method.
       # @return [String]
       attr_accessor :display_name
+      # Human-readable sentence describing where the access method sits in its relationship with the device or access system, for example `Awaiting encoding`. For display only. The wording is not stable and is not an enumeration — it may change at any time, so never compare against or branch on it. To make decisions, read `is_issued`, `errors`, and `pending_mutations`.
+      # @return [String]
+      attr_accessor :display_status
       # Indicates whether an existing card credential must be assigned to this access method before it can be issued. Only applies to card-mode access methods on systems that support credential assignment.
       # @return [Boolean, nil]
       attr_accessor :is_assignment_required

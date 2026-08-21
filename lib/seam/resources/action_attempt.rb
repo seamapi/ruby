@@ -1017,6 +1017,9 @@ module Seam
           # Display name of the access method.
           # @return [String]
           attr_accessor :display_name
+          # Human-readable sentence describing where the access method sits in its relationship with the device or access system, for example `Awaiting encoding`. For display only. The wording is not stable and is not an enumeration — it may change at any time, so never compare against or branch on it. To make decisions, read `is_issued`, `errors`, and `pending_mutations`.
+          # @return [String]
+          attr_accessor :display_status
           # URL of the Instant Key for mobile key access methods.
           # @return [String, nil]
           attr_accessor :instant_key_url
