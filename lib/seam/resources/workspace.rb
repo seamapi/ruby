@@ -29,9 +29,10 @@ module Seam
       resource_accessor :connect_webview_customization, ConnectWebviewCustomization
       # Company name associated with the [workspace](https://docs.seam.co/core-concepts/workspaces).
       # @return [String]
+      # @deprecated Use `connect_partner_name` instead.
       attr_accessor :company_name
+      # Seam Connect partner name associated with the [workspace](https://docs.seam.co/core-concepts/workspaces).
       # @return [String, nil]
-      # @deprecated Use `company_name` instead.
       attr_accessor :connect_partner_name
       # Indicates whether publishable key authentication is enabled for this workspace.
       # @return [Boolean]

@@ -40,7 +40,7 @@ module Seam
       end
 
       # Returns a list of all [connected accounts](https://docs.seam.co/core-concepts/connected-accounts).
-      # @param custom_metadata_has [Hash{String => String, Boolean}, nil] Custom metadata pairs by which you want to filter connected accounts. Returns connected accounts with `custom_metadata` that contains all of the provided key:value pairs. Key names cannot contain a period (.). Specify an empty string to match a key that is unset or set to an empty string.
+      # @param custom_metadata_has [Hash{String => String, Boolean}, nil] Custom metadata pairs by which you want to filter connected accounts. Returns connected accounts with `custom_metadata` that contains all of the provided key:value pairs. Key names cannot contain a period (.). Specify `null` to match a key that is unset. A key given an empty string is omitted from the filter.
       # @param customer_key [String, nil] Customer key by which you want to filter connected accounts.
       # @param limit [Integer, nil] Maximum number of records to return per page.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.

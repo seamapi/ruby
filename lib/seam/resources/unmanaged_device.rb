@@ -800,6 +800,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the accessory keypad paired with this lock has a low or critically low battery. Replace its batteries so guests can keep entering their access codes.
+        class AccessoryKeypadLowBattery < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `accessory_keypad_low_battery`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates that the device may optimistically be reported as online because the provider does not reliably report its online status.
         class UnreliableOnlineStatus < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -867,6 +882,7 @@ module Seam
         # - `provider_issue`
         # - `keynest_unsupported_locker`
         # - `accessory_keypad_setup_required`
+        # - `accessory_keypad_low_battery`
         # - `unreliable_online_status`
         # - `max_access_codes_reached`
         attr_accessor :warning_code
@@ -900,6 +916,7 @@ module Seam
           "provider_issue" => ProviderIssue,
           "keynest_unsupported_locker" => KeynestUnsupportedLocker,
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,
+          "accessory_keypad_low_battery" => AccessoryKeypadLowBattery,
           "unreliable_online_status" => UnreliableOnlineStatus,
           "max_access_codes_reached" => MaxAccessCodesReached
         }.freeze
@@ -1043,6 +1060,9 @@ module Seam
       # - `android_phone`
       # - `ring_camera`
       attr_accessor :device_type
+      # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
+      # @return [String]
+      attr_accessor :display_name
       # Indicates that Seam does not manage the device.
       # @return [FalseClass]
       attr_accessor :is_managed

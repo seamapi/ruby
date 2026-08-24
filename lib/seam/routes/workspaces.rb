@@ -13,8 +13,8 @@ module Seam
       # Creates a new [workspace](https://docs.seam.co/core-concepts/workspaces).
       # @param name [String] Name of the new workspace.
       # @param company_name [String, nil] Company name for the new workspace.
+      # @deprecated company_name: Use `connect_partner_name` instead.
       # @param connect_partner_name [String, Seam::Null, nil] Connect partner name for the new workspace.
-      # @deprecated connect_partner_name: Use `company_name` instead.
       # @param connect_webview_customization [Hash, nil] [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) customizations for the new workspace. See also [Customize the Look and Feel of Your Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-look-and-feel-of-your-connect-webviews).
       # @param is_sandbox [Boolean, nil] Indicates whether the new workspace is a [sandbox workspace](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
       # @param organization_id [String, nil] ID of the organization to associate with the new workspace.
