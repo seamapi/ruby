@@ -212,6 +212,60 @@ module Seam
           date_accessor :created_at
         end
 
+        # Seam was unable to issue this access code before its start time, so the recipient may be unable to unlock the device. This usually points to a problem that needs attention, such as an offline or disconnected device. Seam keeps retrying, and this error clears automatically if the access code is eventually issued.
+        class FailedToIssue < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `failed_to_issue`
+          attr_accessor :error_code
+          # Indicates that this is an access code error.
+          # @return [TrueClass]
+          attr_accessor :is_access_code_error
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time, nil]
+          date_accessor :created_at
+        end
+
+        # Seam was unable to apply this access code's requested update to the device, so the code on the device does not match its requested state. Seam keeps retrying, and this error clears automatically once the update is applied.
+        class FailedToUpdate < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `failed_to_update`
+          attr_accessor :error_code
+          # Indicates that this is an access code error.
+          # @return [TrueClass]
+          attr_accessor :is_access_code_error
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time, nil]
+          date_accessor :created_at
+        end
+
+        # This access code is still active on the device even though its `ends_at` has passed, so the recipient may still be able to unlock the device after their access window ended. Seam is attempting to remove it, and this error clears automatically once the access code is no longer active.
+        class FailedToExpire < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `failed_to_expire`
+          attr_accessor :error_code
+          # Indicates that this is an access code error.
+          # @return [TrueClass]
+          attr_accessor :is_access_code_error
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time, nil]
+          date_accessor :created_at
+        end
+
         # Indicates that the account is disconnected.
         class AccountDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -490,6 +544,9 @@ module Seam
         # - `conflicting_external_modification`
         # - `access_code_inactive`
         # - `code_constraints_violated`
+        # - `failed_to_issue`
+        # - `failed_to_update`
+        # - `failed_to_expire`
         # - `account_disconnected`
         # - `salto_ks_subscription_limit_exceeded`
         # - `insufficient_permissions`
@@ -521,6 +578,9 @@ module Seam
           "conflicting_external_modification" => ConflictingExternalModification,
           "access_code_inactive" => AccessCodeInactive,
           "code_constraints_violated" => CodeConstraintsViolated,
+          "failed_to_issue" => FailedToIssue,
+          "failed_to_update" => FailedToUpdate,
+          "failed_to_expire" => FailedToExpire,
           "account_disconnected" => AccountDisconnected,
           "salto_ks_subscription_limit_exceeded" => SaltoKsSubscriptionLimitExceeded,
           "insufficient_permissions" => InsufficientPermissions,
@@ -686,6 +746,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Seam has not yet issued this access code, even though its start time is approaching, so access may not be ready when the recipient arrives. Seam is still attempting to issue it, and this warning clears automatically once issuance succeeds.
+        class DelayInIssuing < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `delay_in_issuing`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time, nil]
+          date_accessor :created_at
+        end
+
         # Third-party integration detected that may cause access codes to fail.
         class ThirdPartyIntegrationDetected < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -787,6 +862,7 @@ module Seam
         # - `external_modification_in_effect`
         # - `delay_in_setting_on_device`
         # - `delay_in_removing_from_device`
+        # - `delay_in_issuing`
         # - `third_party_integration_detected`
         # - `igloo_algopin_must_be_used_within_24_hours`
         # - `management_transferred`
@@ -804,6 +880,7 @@ module Seam
           "external_modification_in_effect" => ExternalModificationInEffect,
           "delay_in_setting_on_device" => DelayInSettingOnDevice,
           "delay_in_removing_from_device" => DelayInRemovingFromDevice,
+          "delay_in_issuing" => DelayInIssuing,
           "third_party_integration_detected" => ThirdPartyIntegrationDetected,
           "igloo_algopin_must_be_used_within_24_hours" => IglooAlgopinMustBeUsedWithinN24Hours,
           "management_transferred" => ManagementTransferred,

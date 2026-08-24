@@ -37,7 +37,7 @@ module Seam
       # @param connected_account_id [String, nil] ID of the connected account for which you want to list devices.
       # @param connected_account_ids [Array<String>, nil] Array of IDs of the connected accounts for which you want to list devices.
       # @param created_before [Time, nil] Timestamp by which to limit returned devices. Returns devices created before this timestamp.
-      # @param custom_metadata_has [Hash{String => String, Boolean}, nil] Set of key:value [custom metadata](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) pairs for which you want to list devices. Key names cannot contain a period (.). Specify an empty string to match a key that is unset or set to an empty string.
+      # @param custom_metadata_has [Hash{String => String, Boolean}, nil] Set of key:value [custom metadata](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device) pairs for which you want to list devices. Key names cannot contain a period (.). Specify `null` to match a key that is unset. A key given an empty string is omitted from the filter.
       # @param customer_key [String, nil] Customer key for which you want to list devices.
       # @param device_ids [Array<String>, nil] Array of device IDs for which you want to list devices.
       # @param device_type [String, nil] Device type for which you want to list devices.

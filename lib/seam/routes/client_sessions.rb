@@ -80,9 +80,9 @@ module Seam
 
       # Returns a list of all [client sessions](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
       # @param client_session_id [String, nil] ID of the client session that you want to retrieve.
-      # @param connect_webview_id [String, nil] ID of the [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) for which you want to retrieve client sessions.
+      # @param connect_webview_id [String, Seam::Null, nil] ID of the [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) for which you want to retrieve client sessions. Specify `null` to retrieve client sessions that are not associated with a Connect Webview.
       # @param user_identifier_key [String, nil] Your user ID for the user by which you want to filter client sessions.
-      # @param user_identity_id [String, nil] ID of the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) for which you want to retrieve client sessions.
+      # @param user_identity_id [String, Seam::Null, nil] ID of the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) for which you want to retrieve client sessions. Specify `null` to retrieve client sessions that are not associated with a user identity.
       # @param without_user_identifier_key [Boolean, nil] Indicates whether to retrieve only client sessions without associated user identifier keys.
       # @return [Seam::Resources::ClientSession] OK
       def list(client_session_id: nil, connect_webview_id: nil, user_identifier_key: nil, user_identity_id: nil, without_user_identifier_key: nil)

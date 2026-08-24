@@ -71,9 +71,9 @@ module Seam
       # @param limit [Integer, nil] Maximum number of records to return per page.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned access system users to include all records that satisfy a partial match using `full_name`, `phone_number`, `email_address`, `acs_user_id`, `user_identity_id`, `user_identity_full_name` or `user_identity_phone_number`.
-      # @param user_identity_email_address [String, nil] Email address of the user identity for which you want to retrieve all access system users.
+      # @param user_identity_email_address [String, Seam::Null, nil] Email address of the user identity for which you want to retrieve all access system users. Specify `null` to retrieve access system users whose user identity has no email address.
       # @param user_identity_id [String, nil] ID of the user identity for which you want to retrieve all access system users.
-      # @param user_identity_phone_number [String, nil] Phone number of the user identity for which you want to retrieve all access system users, in [E.164 format](https://www.itu.int/rec/T-REC-E.164/en) (for example, `+15555550100`).
+      # @param user_identity_phone_number [String, Seam::Null, nil] Phone number of the user identity for which you want to retrieve all access system users, in [E.164 format](https://www.itu.int/rec/T-REC-E.164/en) (for example, `+15555550100`). Specify `null` to retrieve access system users whose user identity has no phone number.
       # @return [Seam::Resources::AcsUser] OK
       def list(acs_system_id: nil, created_before: nil, limit: nil, page_cursor: nil, search: nil, user_identity_email_address: nil, user_identity_id: nil, user_identity_phone_number: nil)
         res = @client.get("/acs/users/list", {acs_system_id: acs_system_id, created_before: created_before, limit: limit, page_cursor: page_cursor, search: search, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact)

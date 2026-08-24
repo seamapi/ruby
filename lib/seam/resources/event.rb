@@ -3484,6 +3484,12 @@ module Seam
         # Number in the range 0 to 1.0 indicating the amount of battery in the affected device, as reported by the device.
         # @return [Float]
         attr_accessor :battery_level
+        # Battery that dropped below the low threshold. `lock`: the lock's own battery. `accessory_keypad`: a paired accessory keypad's battery. Omitted for events emitted before this field existed, which always refer to the lock's own battery.
+        # @return [String, nil]
+        # Known values:
+        # - `lock`
+        # - `accessory_keypad`
+        attr_accessor :battery_source
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
         attr_accessor :connected_account_custom_metadata
@@ -5079,6 +5085,11 @@ module Seam
       # - `access_code.removed_from_device`
       # - `access_code.delay_in_setting_on_device`
       # - `access_code.failed_to_set_on_device`
+      # - `access_code.issued`
+      # - `access_code.delay_in_issuing`
+      # - `access_code.failed_to_issue`
+      # - `access_code.failed_to_update`
+      # - `access_code.failed_to_expire`
       # - `access_code.deleted`
       # - `access_code.delay_in_removing_from_device`
       # - `access_code.failed_to_remove_from_device`
