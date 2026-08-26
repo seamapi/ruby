@@ -27,16 +27,16 @@ module Seam
       end
 
       # Deletes an access method.
-      # @param access_method_id [String, nil] ID of access method to delete.
       # @param access_grant_id [String, nil] ID of access grant whose access methods should be deleted.
+      # @param access_method_id [String, nil] ID of access method to delete.
       # @param reservation_key [String, nil] Reservation key of the access grant whose access methods should be deleted.
       # @return [nil] OK
-      def delete(access_method_id: nil, access_grant_id: nil, reservation_key: nil)
-        if access_method_id.nil? && access_grant_id.nil? && reservation_key.nil?
+      def delete(access_grant_id: nil, access_method_id: nil, reservation_key: nil)
+        if access_grant_id.nil? && access_method_id.nil? && reservation_key.nil?
           raise TypeError, "At least one parameter is required for /access_methods/delete"
         end
 
-        @client.delete("/access_methods/delete", {access_method_id: access_method_id, access_grant_id: access_grant_id, reservation_key: reservation_key}.compact)
+        @client.delete("/access_methods/delete", {access_grant_id: access_grant_id, access_method_id: access_method_id, reservation_key: reservation_key}.compact)
 
         nil
       end

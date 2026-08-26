@@ -14,8 +14,6 @@ module Seam
 
       # Creates a new [Access Grant](https://docs.seam.co/use-cases/granting-access/access-grants). Access Grants are the default and recommended way to grant a user access to any physical space, irrespective of the locking hardware. They work with both standalone smart locks (using `device_ids`) and access control systems (using `acs_entrance_ids` or `space_ids`), and can issue PIN codes, key cards, and mobile keys through a single request.
       # @param requested_access_methods [Array<Hash>]
-      # @param user_identity_id [String, nil] ID of user identity for whom access is being granted.
-      # @param user_identity [Hash, nil] When used, creates a new user identity with the given details, and grants them access.
       # @param access_grant_key [String, nil] Unique key for the access grant within the workspace.
       # @param acs_entrance_ids [Array<String>, nil] Set of IDs of the [entrances](https://docs.seam.co/api/acs/systems/list) to which access is being granted.
       # @param customization_profile_id [String, nil] ID of the customization profile to apply to the Access Grant and its access methods.
@@ -30,9 +28,11 @@ module Seam
       # @param space_ids [Array<String>, nil] Set of IDs of existing spaces to which access is being granted.
       # @param space_keys [Array<String>, nil] Set of keys of existing spaces to which access is being granted.
       # @param starts_at [String, nil] Date and time at which the validity of the new grant starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+      # @param user_identity [Hash, nil] When used, creates a new user identity with the given details, and grants them access.
+      # @param user_identity_id [String, nil] ID of user identity for whom access is being granted.
       # @return [Seam::Resources::AccessGrant] OK
-      def create(requested_access_methods:, user_identity_id: nil, user_identity: nil, access_grant_key: nil, acs_entrance_ids: nil, customization_profile_id: nil, device_ids: nil, ends_at: nil, location: nil, location_ids: nil, name: nil, reservation_key: nil, space_ids: nil, space_keys: nil, starts_at: nil)
-        res = @client.post("/access_grants/create", {requested_access_methods: requested_access_methods, user_identity_id: user_identity_id, user_identity: user_identity, access_grant_key: access_grant_key, acs_entrance_ids: acs_entrance_ids, customization_profile_id: customization_profile_id, device_ids: device_ids, ends_at: ends_at, location: location, location_ids: location_ids, name: name, reservation_key: reservation_key, space_ids: space_ids, space_keys: space_keys, starts_at: starts_at}.compact)
+      def create(requested_access_methods:, access_grant_key: nil, acs_entrance_ids: nil, customization_profile_id: nil, device_ids: nil, ends_at: nil, location: nil, location_ids: nil, name: nil, reservation_key: nil, space_ids: nil, space_keys: nil, starts_at: nil, user_identity: nil, user_identity_id: nil)
+        res = @client.post("/access_grants/create", {requested_access_methods: requested_access_methods, access_grant_key: access_grant_key, acs_entrance_ids: acs_entrance_ids, customization_profile_id: customization_profile_id, device_ids: device_ids, ends_at: ends_at, location: location, location_ids: location_ids, name: name, reservation_key: reservation_key, space_ids: space_ids, space_keys: space_keys, starts_at: starts_at, user_identity: user_identity, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
       end

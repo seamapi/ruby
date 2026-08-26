@@ -142,16 +142,16 @@ module Seam
       #
       # Identify the user identities either by ID or by key, but not both in the same request. Repeating a merge that has already been applied makes no further changes.
       # @param merged_user_identity_ids [Array<String>, nil] IDs of the user identities to merge into the primary user identity. These user identities are deleted.
-      # @param user_identity_id [String, nil] ID of the primary user identity to keep.
       # @param merged_user_identity_keys [Array<String>, nil] Keys of the user identities to merge into the primary user identity. These user identities are deleted.
+      # @param user_identity_id [String, nil] ID of the primary user identity to keep.
       # @param user_identity_key [String, nil] Key of the primary user identity to keep.
       # @return [nil] OK
-      def merge(merged_user_identity_ids: nil, user_identity_id: nil, merged_user_identity_keys: nil, user_identity_key: nil)
-        if merged_user_identity_ids.nil? && user_identity_id.nil? && merged_user_identity_keys.nil? && user_identity_key.nil?
+      def merge(merged_user_identity_ids: nil, merged_user_identity_keys: nil, user_identity_id: nil, user_identity_key: nil)
+        if merged_user_identity_ids.nil? && merged_user_identity_keys.nil? && user_identity_id.nil? && user_identity_key.nil?
           raise TypeError, "At least one parameter is required for /user_identities/merge"
         end
 
-        @client.post("/user_identities/merge", {merged_user_identity_ids: merged_user_identity_ids, user_identity_id: user_identity_id, merged_user_identity_keys: merged_user_identity_keys, user_identity_key: user_identity_key}.compact)
+        @client.post("/user_identities/merge", {merged_user_identity_ids: merged_user_identity_ids, merged_user_identity_keys: merged_user_identity_keys, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
         nil
       end

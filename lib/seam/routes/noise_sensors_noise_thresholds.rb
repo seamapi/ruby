@@ -60,7 +60,7 @@ module Seam
       # @param starts_daily_at [String, nil] Time at which the noise threshold should become active daily.
       # @return [nil] OK
       def update(device_id:, noise_threshold_id:, ends_daily_at: nil, name: nil, noise_threshold_decibels: nil, noise_threshold_nrs: nil, starts_daily_at: nil)
-        @client.put("/noise_sensors/noise_thresholds/update", {device_id: device_id, noise_threshold_id: noise_threshold_id, ends_daily_at: ends_daily_at, name: name, noise_threshold_decibels: noise_threshold_decibels, noise_threshold_nrs: noise_threshold_nrs, starts_daily_at: starts_daily_at}.compact)
+        @client.patch("/noise_sensors/noise_thresholds/update", {device_id: device_id, noise_threshold_id: noise_threshold_id, ends_daily_at: ends_daily_at, name: name, noise_threshold_decibels: noise_threshold_decibels, noise_threshold_nrs: noise_threshold_nrs, starts_daily_at: starts_daily_at}.compact)
 
         nil
       end
