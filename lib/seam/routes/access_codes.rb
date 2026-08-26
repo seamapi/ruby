@@ -196,7 +196,7 @@ module Seam
       # @param type [String, nil] Type to which you want to convert the access code. To convert a time-bound access code to an ongoing access code, set `type` to `ongoing`. See also [Changing a time-bound access code to permanent access](https://docs.seam.co/low-level-apis/smart-locks/access-codes/modifying-access-codes#special-case-2-changing-a-time-bound-access-code-to-permanent-access).
       # @return [nil] OK
       def update(access_code_id:, allow_external_modification: nil, attempt_for_offline_device: nil, code: nil, device_id: nil, ends_at: nil, is_external_modification_allowed: nil, is_managed: nil, name: nil, starts_at: nil, type: nil)
-        @client.put("/access_codes/update", {access_code_id: access_code_id, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, code: code, device_id: device_id, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, is_managed: is_managed, name: name, starts_at: starts_at, type: type}.compact)
+        @client.patch("/access_codes/update", {access_code_id: access_code_id, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, code: code, device_id: device_id, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, is_managed: is_managed, name: name, starts_at: starts_at, type: type}.compact)
 
         nil
       end

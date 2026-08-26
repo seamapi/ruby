@@ -3481,15 +3481,13 @@ module Seam
 
       # A device battery level dropped below the low threshold.
       class DeviceLowBattery < SeamEvent
-        # Number in the range 0 to 1.0 indicating the amount of battery in the affected device, as reported by the device.
+        # Number in the range 0 to 1.0 indicating the battery level of the affected device's paired accessory keypad, when the device has one and its level is known.
+        # @return [Float, nil]
+        attr_accessor :accessory_keypad_battery_level
+        # Number in the range 0 to 1.0 indicating the level of the battery whose drop triggered this event.
         # @return [Float]
+        # @deprecated Use device_battery_level and accessory_keypad_battery_level, which distinguish the device's own battery from a paired accessory keypad's battery.
         attr_accessor :battery_level
-        # Battery that dropped below the low threshold. `lock`: the lock's own battery. `accessory_keypad`: a paired accessory keypad's battery. Omitted for events emitted before this field existed, which always refer to the lock's own battery.
-        # @return [String, nil]
-        # Known values:
-        # - `lock`
-        # - `accessory_keypad`
-        attr_accessor :battery_source
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
         attr_accessor :connected_account_custom_metadata
@@ -3499,6 +3497,9 @@ module Seam
         # The customer key associated with the device, if any.
         # @return [String, nil]
         attr_accessor :customer_key
+        # Number in the range 0 to 1.0 indicating the affected device's own battery level, when known.
+        # @return [Float, nil]
+        attr_accessor :device_battery_level
         # Custom metadata of the device, present when device_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
         attr_accessor :device_custom_metadata
