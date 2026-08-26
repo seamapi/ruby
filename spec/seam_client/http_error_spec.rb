@@ -35,7 +35,30 @@ RSpec.describe Seam::Http, :fake do
         expect(error.request_id).to start_with("request")
         expect(error.get_validation_error_messages("device_ids"))
           .to eq(["Expected array, received number"])
+        expect(error.validation_errors).to eq([
+          Seam::Http::ValidationError.new(
+            parameter_name: "device_ids",
+            error_messages: ["Expected array, received number"]
+          )
+        ])
       end
+    end
+
+    it "excludes request-wide validation errors" do
+      error = Seam::Http::InvalidInputError.new(
+        {
+          "validation_errors" => {
+            "_errors" => ["Request is invalid"],
+            "device_ids" => {"_errors" => ["Invalid device IDs"]}
+          }
+        },
+        400,
+        nil
+      )
+
+      expect(error.validation_errors).to eq([
+        Seam::Http::ValidationError.new(parameter_name: "device_ids", error_messages: ["Invalid device IDs"])
+      ])
     end
 
     it "returns no messages for a param without validation errors" do

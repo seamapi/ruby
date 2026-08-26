@@ -36,17 +36,24 @@ module Seam
       end
     end
 
+    ValidationError = Data.define(:parameter_name, :error_messages)
+
     class InvalidInputError < ApiError
       attr_reader :validation_errors
 
       def initialize(error, status_code, request_id)
         super
         @code = "invalid_input"
-        @validation_errors = error["validation_errors"] || {}
+        @raw_validation_errors = error["validation_errors"] || {}
+        @validation_errors = @raw_validation_errors.filter_map do |parameter_name, _|
+          next if parameter_name == "_errors"
+
+          ValidationError.new(parameter_name:, error_messages: get_validation_error_messages(parameter_name))
+        end
       end
 
       def get_validation_error_messages(param_name)
-        @validation_errors.dig(param_name, "_errors") || []
+        @raw_validation_errors.dig(param_name, "_errors") || []
       end
     end
   end
