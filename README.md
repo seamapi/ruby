@@ -35,6 +35,8 @@ constraints.
     - [Resume pagination](#resume-pagination)
     - [Iterate over all resources](#iterate-over-all-resources)
     - [Return all resources across all pages as a list](#return-all-resources-across-all-pages-as-a-list)
+  - [Error Handling](#error-handling)
+    - [Validation errors](#validation-errors)
   - [Requests without a Workspace in scope](#requests-without-a-workspace-in-scope)
     - [Personal Access Token](#personal-access-token-1)
   - [Webhooks](#webhooks)
@@ -350,6 +352,33 @@ seam = Seam.new
 paginator = seam.create_paginator(seam.devices.method(:list), {limit: 20})
 
 all_devices = paginator.flatten_to_list
+```
+
+### Error Handling
+
+Requests rejected by the Seam API raise a `Seam::Http::ApiError` subclass
+carrying the HTTP `status_code`, API error `code`, and `request_id`.
+
+#### Validation errors
+
+When the API rejects a request because a parameter is invalid, it raises a
+`Seam::Http::InvalidInputError`. Look up messages for a parameter you are
+already rendering, for example a field in a form:
+
+```ruby
+begin
+  seam.devices.list(device_ids: ["not-a-uuid"])
+rescue Seam::Http::InvalidInputError => error
+  puts error.get_validation_error_messages("device_ids")
+end
+```
+
+Or read every parameter that failed validation to summarize the request:
+
+```ruby
+error.validation_errors.each do |validation_error|
+  puts "#{validation_error.parameter_name}: #{validation_error.error_messages.join(", ")}"
+end
 ```
 
 ### Requests without a Workspace in scope
