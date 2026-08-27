@@ -84,6 +84,7 @@ module Seam
           statuses.include?(status) ? unscoped.bind_call(self) : nil
         end
       end
+      private_class_method :available_only_for_statuses
 
       def self.resource_accessors
         @resource_accessors ||= {}
