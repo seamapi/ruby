@@ -49,6 +49,33 @@ export const rubyEnumValuesDoc = (
       )}`
 }
 
+const humanizeList = (items: string[], conjunction: string): string => {
+  if (items.length <= 1) return items[0] ?? ''
+  if (items.length === 2) return items.join(` ${conjunction} `)
+  return `${items.slice(0, -1).join(', ')}, ${conjunction} ${items.at(-1)}`
+}
+
+// Documents a property scoped to specific action-attempt statuses; a property
+// without the annotation has the same value for every status.
+export const rubyActionAttemptStatusesDoc = (
+  property: Property,
+  indentation: number,
+): string => {
+  const statuses = property.actionAttemptStatuses
+  if (statuses == null || statuses.length === 0) return ''
+  const list = humanizeList(
+    statuses.map((status) => `\`${status}\``),
+    'or',
+  )
+  return `\n${comment(
+    [`Only present when \`status\` is ${list}; \`nil\` otherwise.`],
+    indentation,
+  )}`
+}
+
+export const rubyStringArray = (values: string[]): string =>
+  `[${values.map((value) => JSON.stringify(value)).join(', ')}]`
+
 const nullable = (
   type: string,
   value: { isOptional: boolean; isNullable: boolean },

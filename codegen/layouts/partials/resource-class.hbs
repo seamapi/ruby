@@ -12,21 +12,27 @@
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
+{{../bodyIndent}}# @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}{{{rubyActionAttemptStatusesDoc this ../docIndent}}}
 {{../bodyIndent}}resource_accessor :{{name}}, {{className}}
+{{#if actionAttemptStatuses}}
+{{../bodyIndent}}available_only_for_statuses :{{name}}, {{rubyStringArray actionAttemptStatuses}}
+{{/if}}
 {{/each}}
 {{#each resourceListAccessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
+{{../bodyIndent}}# @return [{{rubyResourceType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}{{{rubyActionAttemptStatusesDoc this ../docIndent}}}
 {{../bodyIndent}}resource_list_accessor :{{name}}, {{className}}
+{{#if actionAttemptStatuses}}
+{{../bodyIndent}}available_only_for_statuses :{{name}}, {{rubyStringArray actionAttemptStatuses}}
+{{/if}}
 {{/each}}
 {{#each accessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
+{{../bodyIndent}}# @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}{{{rubyActionAttemptStatusesDoc this ../docIndent}}}
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this ../docIndent}}}
 {{/if}}
@@ -35,16 +41,22 @@
 {{else}}
 {{../bodyIndent}}attr_accessor :{{accessorName}}
 {{/if}}
+{{#if actionAttemptStatuses}}
+{{../bodyIndent}}available_only_for_statuses :{{accessorName}}, {{rubyStringArray actionAttemptStatuses}}
+{{/if}}
 {{/each}}
 {{#each dateAccessors}}
 {{#if description}}
 {{{rubyDoc description ../docIndent}}}
 {{/if}}
-{{../bodyIndent}}# @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}
+{{../bodyIndent}}# @return [{{rubyPropertyType this}}]{{{rubyEnumValuesDoc this ../docIndent}}}{{{rubyActionAttemptStatusesDoc this ../docIndent}}}
 {{#if isDeprecated}}
 {{{rubyDeprecatedDoc this ../docIndent}}}
 {{/if}}
 {{../bodyIndent}}date_accessor :{{accessorName}}
+{{#if actionAttemptStatuses}}
+{{../bodyIndent}}available_only_for_statuses :{{accessorName}}, {{rubyStringArray actionAttemptStatuses}}
+{{/if}}
 {{/each}}
 {{#if discriminator}}
 

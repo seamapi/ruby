@@ -7,6 +7,7 @@
 // blueprint.namespaces.
 
 import type {
+  ActionAttemptStatus,
   Blueprint,
   Endpoint,
   Property,
@@ -23,6 +24,7 @@ import { setImportsLayoutContext } from './layouts/imports.js'
 import {
   type DiscriminatedVariantSource,
   getCommonScalarProperties,
+  sameDescription,
   setResourceLayoutContext,
 } from './layouts/resource.js'
 import { setRoutesFileLayoutContext } from './layouts/routes-file.js'
@@ -94,12 +96,46 @@ interface ResourceSource extends ResourceDocumentation {
   variants?: DiscriminatedVariantSource[]
 }
 
+// The fallback class only scopes a property to statuses when every known
+// variant scopes it; the statuses are the union across the variants. If any
+// variant leaves the property unscoped, the fallback leaves it unscoped too.
+const mergeActionAttemptStatuses = (
+  occurrences: Property[],
+): ActionAttemptStatus[] | undefined => {
+  if (
+    occurrences.some(
+      ({ actionAttemptStatuses }) => actionAttemptStatuses == null,
+    )
+  ) {
+    return undefined
+  }
+  return [
+    ...new Set(
+      occurrences.flatMap(
+        ({ actionAttemptStatuses }) => actionAttemptStatuses ?? [],
+      ),
+    ),
+  ]
+}
+
 const createActionAttemptBaseProperties = (
   variants: DiscriminatedVariantSource[],
 ): Property[] => {
   const propertyLists = variants.map(({ properties }) => properties)
   const common = getCommonScalarProperties(propertyLists)
-  const nested = ['error', 'result'].flatMap((name) => {
+
+  // Nested object properties every variant carries (e.g. error and result)
+  // fall back to the scalar fields their occurrences share.
+  const nestedNames = [
+    ...new Set(
+      propertyLists.flatMap((properties) =>
+        properties
+          .filter(({ format }) => format === 'object')
+          .map(({ name }) => name),
+      ),
+    ),
+  ]
+  const nested = nestedNames.flatMap((name) => {
     const occurrences = propertyLists.map((properties) =>
       properties.find((property) => property.name === name),
     )
@@ -116,17 +152,21 @@ const createActionAttemptBaseProperties = (
     >
     const first = objects[0]
     if (first == null) return []
-    return [
-      {
-        ...first,
-        description:
-          name === 'error' ? 'Error associated with the action.' : '',
-        isNullable: true,
-        properties: getCommonScalarProperties(
-          objects.map(({ properties }) => properties),
-        ),
-      },
-    ]
+    const property: Extract<Property, { format: 'object' }> = {
+      ...first,
+      description: sameDescription(objects),
+      isNullable: objects.some(({ isNullable }) => isNullable),
+      properties: getCommonScalarProperties(
+        objects.map(({ properties }) => properties),
+      ),
+    }
+    const statuses = mergeActionAttemptStatuses(objects)
+    if (statuses == null) {
+      delete property.actionAttemptStatuses
+    } else {
+      property.actionAttemptStatuses = statuses
+    }
+    return [property]
   })
 
   return [...common, ...nested].sort((a, b) => a.name.localeCompare(b.name))
@@ -157,16 +197,13 @@ const getResources = (
   }
 
   if (blueprint.actionAttempts.length > 0) {
+    // Properties annotated with actionAttemptStatuses only hold a value for
+    // the listed statuses (e.g. error and result while pending); the resource
+    // layout turns that annotation into nullable, status-scoped accessors.
     const variants = blueprint.actionAttempts.map((actionAttempt) => ({
       discriminatorValue: actionAttempt.actionAttemptType,
       description: actionAttempt.description,
-      // Action attempts can return null for both fields while pending. The
-      // blueprint currently loses that per-status nullability upstream.
-      properties: actionAttempt.properties.map((property) =>
-        ['error', 'result'].includes(property.name)
-          ? { ...property, isNullable: true }
-          : property,
-      ),
+      properties: actionAttempt.properties,
     }))
     resources.set('action_attempt', {
       description:
