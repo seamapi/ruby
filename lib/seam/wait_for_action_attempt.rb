@@ -18,8 +18,10 @@ module Seam
     attr_reader :code
 
     def initialize(action_attempt)
-      super(action_attempt.error.message, action_attempt)
-      @code = action_attempt.error.type
+      error = action_attempt.error
+      message = (error && error["message"]) || "Action attempt failed"
+      super(message, action_attempt)
+      @code = error && error["type"]
     end
   end
 

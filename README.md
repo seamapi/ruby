@@ -163,6 +163,21 @@ When the `wait_for_action_attempt` option is enabled, the SDK:
 - Raises a `Seam::ActionAttemptTimeoutError` if the action attempt is still pending when the `timeout` is reached.
 - Both errors expose an `action_attempt` property.
 
+The `error` and `result` values are only present for their matching status:
+`error` is `nil` unless the `status` is `"error"`,
+and `result` is `nil` unless the `status` is `"success"`.
+
+```ruby
+action_attempt = seam.locks.unlock_door(
+  device_id: device_id,
+  wait_for_action_attempt: false
+)
+
+action_attempt.status # => "pending"
+action_attempt.error  # => nil
+action_attempt.result # => nil
+```
+
 If you already have an action attempt ID
 and want to wait for it to resolve, simply use:
 

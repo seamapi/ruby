@@ -60,6 +60,7 @@ RSpec.describe Seam::Resources::BaseResource do
     it "uses action-specific result classes" do
       scanned = Seam::Resources::ActionAttempt.load_from_response(
         action_type: "SCAN_CREDENTIAL",
+        status: "success",
         result: {
           acs_credential_on_encoder: {card_number: "123"},
           acs_credential_on_seam: {acs_credential_id: "cred_1"}
@@ -73,6 +74,7 @@ RSpec.describe Seam::Resources::BaseResource do
 
       created = Seam::Resources::ActionAttempt.load_from_response(
         action_type: "CREATE_NOISE_THRESHOLD",
+        status: "success",
         result: {noise_threshold: {noise_threshold_id: "noise_1"}}
       )
 

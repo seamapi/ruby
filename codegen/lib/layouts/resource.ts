@@ -1,7 +1,11 @@
 // Builds the template context for resource files
 // (lib/seam/resources/{snake_name}.rb).
 
-import type { DiscriminatedListProperty, Property } from '@seamapi/blueprint'
+import type {
+  ActionAttemptStatus,
+  DiscriminatedListProperty,
+  Property,
+} from '@seamapi/blueprint'
 import { pascalCase } from 'change-case'
 
 import { convertCustomResourceName } from '../custom-resource-name-conversions.js'
@@ -82,7 +86,7 @@ const isErrorOrWarningList = (
   property.itemFormat === 'discriminated_object' &&
   ['error_code', 'warning_code'].includes(property.discriminator)
 
-const sameDescription = (properties: Property[]): string => {
+export const sameDescription = (properties: Property[]): string => {
   const descriptions = new Set(properties.map(({ description }) => description))
   return descriptions.size === 1 ? (properties[0]?.description ?? '') : ''
 }
@@ -152,6 +156,18 @@ export const getCommonScalarProperties = (
   }
 
   return result
+}
+
+const getScopedStatuses = (
+  property: Property,
+  allStatuses: string[] | undefined,
+): ActionAttemptStatus[] | undefined => {
+  const statuses: string[] | undefined = property.actionAttemptStatuses
+  if (statuses == null || statuses.length === 0) return undefined
+  if (allStatuses != null && allStatuses.every((s) => statuses.includes(s))) {
+    return undefined
+  }
+  return property.actionAttemptStatuses
 }
 
 const getDiscriminatorValue = (
@@ -242,6 +258,25 @@ const buildClass = (
   const resourceListAccessors: ResourceAccessor[] = []
   const takenClassNames = new Set<string>()
 
+  const statusProperty = classProperties.find(
+    ({ name, format }) => name === 'status' && format === 'enum',
+  )
+  const allStatuses =
+    statusProperty?.format === 'enum'
+      ? statusProperty.values.map(({ name }) => name)
+      : undefined
+
+  const scopeToStatuses = <T extends Property>(property: T): T => {
+    const statuses = getScopedStatuses(property, allStatuses)
+    if (statuses == null) {
+      if (property.actionAttemptStatuses == null) return property
+      const unscoped = { ...property }
+      delete unscoped.actionAttemptStatuses
+      return unscoped
+    }
+    return { ...property, actionAttemptStatuses: statuses, isNullable: true }
+  }
+
   for (const property of classProperties) {
     const nestedProperties = getNestedProperties(property)
     if (nestedProperties == null) continue
@@ -266,7 +301,10 @@ const buildClass = (
 
     const destination =
       property.format === 'list' ? resourceListAccessors : resourceAccessors
-    destination.push({ ...property, className: nestedClassName })
+    destination.push({
+      ...scopeToStatuses(property),
+      className: nestedClassName,
+    })
 
     const discriminated = isErrorOrWarningList(property)
     const nestedClass = buildClass(
@@ -305,7 +343,7 @@ const buildClass = (
   const toPropertyAccessor = (property: Property): PropertyAccessor => {
     const isAliased = property.name === 'method' && path.startsWith('event.')
     return {
-      ...property,
+      ...scopeToStatuses(property),
       accessorName: isAliased ? 'event_method' : property.name,
       isAliased,
     }

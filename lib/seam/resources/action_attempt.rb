@@ -32,10 +32,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -71,10 +75,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -399,10 +407,14 @@ module Seam
         end
 
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of scanning a card. If the attempt was successful, includes a snapshot of credential data read from the physical encoder, the corresponding data stored on Seam and the access system, and any associated warnings.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -644,10 +656,14 @@ module Seam
         end
 
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of an encoding attempt. If the attempt was successful, includes the credential data that was encoded onto the card.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -883,10 +899,14 @@ module Seam
         end
 
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of a scan to assign attempt. If the attempt was successful, includes the credential data that was scanned and assigned.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1058,10 +1078,14 @@ module Seam
         end
 
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of assigning a credential. If successful, includes the updated access method with the assigned credential.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1094,10 +1118,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1130,10 +1158,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1166,10 +1198,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1202,10 +1238,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1238,10 +1278,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1274,10 +1318,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1310,10 +1358,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1346,10 +1398,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1381,10 +1437,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1419,10 +1479,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1454,10 +1518,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1492,10 +1560,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1530,10 +1602,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1565,10 +1641,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1603,10 +1683,14 @@ module Seam
 
         # Error associated with the action.
         # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
         resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
         # Result of the action.
         # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
         resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
         # ID of the action attempt.
         # @return [String]
         attr_accessor :action_attempt_id
@@ -1623,11 +1707,14 @@ module Seam
         attr_accessor :status
       end
 
-      # Error associated with the action.
       # @return [Error, nil]
+      # Only present when `status` is `error`; `nil` otherwise.
       resource_accessor :error, Error
+      available_only_for_statuses :error, ["error"]
       # @return [Result, nil]
+      # Only present when `status` is `success`; `nil` otherwise.
       resource_accessor :result, Result
+      available_only_for_statuses :result, ["success"]
       # ID of the action attempt.
       # @return [String]
       attr_accessor :action_attempt_id

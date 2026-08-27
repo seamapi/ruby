@@ -78,6 +78,14 @@ module Seam
         end
       end
 
+      def self.available_only_for_statuses(attr, statuses)
+        unscoped = instance_method(attr)
+        define_method(attr) do
+          statuses.include?(status) ? unscoped.bind_call(self) : nil
+        end
+      end
+      private_class_method :available_only_for_statuses
+
       def self.resource_accessors
         @resource_accessors ||= {}
       end
