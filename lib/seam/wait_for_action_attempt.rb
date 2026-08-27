@@ -18,8 +18,6 @@ module Seam
     attr_reader :code
 
     def initialize(action_attempt)
-      # A failed action attempt should carry an error, but guard against a
-      # missing one rather than raise NoMethodError while reporting a failure.
       error = action_attempt.error
       message = (error && error["message"]) || "Action attempt failed"
       super(message, action_attempt)

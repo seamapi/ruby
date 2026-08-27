@@ -158,9 +158,6 @@ export const getCommonScalarProperties = (
   return result
 }
 
-// An action-attempt property annotated with actionAttemptStatuses only holds a
-// value for the listed statuses and is null for the others. An annotation that
-// covers every known status is equivalent to no annotation at all.
 const getScopedStatuses = (
   property: Property,
   allStatuses: string[] | undefined,
@@ -261,8 +258,6 @@ const buildClass = (
   const resourceListAccessors: ResourceAccessor[] = []
   const takenClassNames = new Set<string>()
 
-  // The status property enumerates every status the resource can be in, which
-  // reveals when an actionAttemptStatuses annotation is actually restrictive.
   const statusProperty = classProperties.find(
     ({ name, format }) => name === 'status' && format === 'enum',
   )

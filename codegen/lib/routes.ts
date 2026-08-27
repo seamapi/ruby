@@ -96,9 +96,6 @@ interface ResourceSource extends ResourceDocumentation {
   variants?: DiscriminatedVariantSource[]
 }
 
-// The fallback class only scopes a property to statuses when every known
-// variant scopes it; the statuses are the union across the variants. If any
-// variant leaves the property unscoped, the fallback leaves it unscoped too.
 const mergeActionAttemptStatuses = (
   occurrences: Property[],
 ): ActionAttemptStatus[] | undefined => {
@@ -124,8 +121,6 @@ const createActionAttemptBaseProperties = (
   const propertyLists = variants.map(({ properties }) => properties)
   const common = getCommonScalarProperties(propertyLists)
 
-  // Nested object properties every variant carries (e.g. error and result)
-  // fall back to the scalar fields their occurrences share.
   const nestedNames = [
     ...new Set(
       propertyLists.flatMap((properties) =>
@@ -197,9 +192,6 @@ const getResources = (
   }
 
   if (blueprint.actionAttempts.length > 0) {
-    // Properties annotated with actionAttemptStatuses only hold a value for
-    // the listed statuses (e.g. error and result while pending); the resource
-    // layout turns that annotation into nullable, status-scoped accessors.
     const variants = blueprint.actionAttempts.map((actionAttempt) => ({
       discriminatorValue: actionAttempt.actionAttemptType,
       description: actionAttempt.description,

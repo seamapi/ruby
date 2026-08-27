@@ -55,8 +55,6 @@ const humanizeList = (items: string[], conjunction: string): string => {
   return `${items.slice(0, -1).join(', ')}, ${conjunction} ${items.at(-1)}`
 }
 
-// Documents a property scoped to specific action-attempt statuses; a property
-// without the annotation has the same value for every status.
 export const rubyActionAttemptStatusesDoc = (
   property: Property,
   indentation: number,

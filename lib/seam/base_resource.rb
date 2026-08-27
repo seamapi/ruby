@@ -78,9 +78,6 @@ module Seam
         end
       end
 
-      # Scopes an already defined accessor to the given resource statuses. The
-      # property only holds a value while the resource's status is one of the
-      # listed statuses, so the reader returns nil for any other status.
       def self.available_only_for_statuses(attr, statuses)
         unscoped = instance_method(attr)
         define_method(attr) do
