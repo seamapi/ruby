@@ -10,7 +10,7 @@
 {{/if}}
       def {{name}}{{#if hasSignature}}({{signatureParams}}){{/if}}
 {{#if requiresAtLeastOneParameter}}
-        if {{#each parameters}}{{name}}.nil?{{#unless @last}} && {{/unless}}{{/each}}
+        if {{#each atLeastOneParameterNames}}{{this}}.nil?{{#unless @last}} && {{/unless}}{{/each}}
           raise TypeError, "At least one parameter is required for {{path}}"
         end
 
