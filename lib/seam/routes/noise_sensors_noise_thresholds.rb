@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class NoiseSensorsNoiseThresholds
@@ -19,7 +21,7 @@ module Seam
       def create(device_id:, ends_daily_at:, starts_daily_at:, name: nil, noise_threshold_decibels: nil, noise_threshold_nrs: nil)
         res = @client.post("/noise_sensors/noise_thresholds/create", {device_id: device_id, ends_daily_at: ends_daily_at, starts_daily_at: starts_daily_at, name: name, noise_threshold_decibels: noise_threshold_decibels, noise_threshold_nrs: noise_threshold_nrs}.compact)
 
-        Seam::Resources::NoiseThreshold.load_from_response(res.body["noise_threshold"])
+        Seam::Resources::NoiseThreshold.load_from_response(Seam::Http::Response.read(res, "noise_threshold", "/noise_sensors/noise_thresholds/create"))
       end
 
       # Deletes a [noise threshold](https://docs.seam.co/capability-guides/noise-sensors/configure-noise-threshold-settings) from a [noise sensor](https://docs.seam.co/capability-guides/noise-sensors).
@@ -38,7 +40,7 @@ module Seam
       def get(noise_threshold_id:)
         res = @client.get("/noise_sensors/noise_thresholds/get", {noise_threshold_id: noise_threshold_id}.compact)
 
-        Seam::Resources::NoiseThreshold.load_from_response(res.body["noise_threshold"])
+        Seam::Resources::NoiseThreshold.load_from_response(Seam::Http::Response.read(res, "noise_threshold", "/noise_sensors/noise_thresholds/get"))
       end
 
       # Returns a list of all [noise thresholds](https://docs.seam.co/capability-guides/noise-sensors/configure-noise-threshold-settings) for a [noise sensor](https://docs.seam.co/capability-guides/noise-sensors).
@@ -47,7 +49,7 @@ module Seam
       def list(device_id:)
         res = @client.get("/noise_sensors/noise_thresholds/list", {device_id: device_id}.compact)
 
-        Seam::Resources::NoiseThreshold.load_from_response(res.body["noise_thresholds"])
+        Seam::Resources::NoiseThreshold.load_from_response(Seam::Http::Response.read_list(res, "noise_thresholds", "/noise_sensors/noise_thresholds/list"))
       end
 
       # Updates a [noise threshold](https://docs.seam.co/capability-guides/noise-sensors/configure-noise-threshold-settings) for a [noise sensor](https://docs.seam.co/capability-guides/noise-sensors).

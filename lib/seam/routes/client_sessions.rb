@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class ClientSessions
@@ -22,7 +24,7 @@ module Seam
       def create(connect_webview_ids: nil, connected_account_ids: nil, customer_id: nil, customer_key: nil, expires_at: nil, user_identifier_key: nil, user_identity_id: nil, user_identity_ids: nil)
         res = @client.put("/client_sessions/create", {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, customer_id: customer_id, customer_key: customer_key, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
 
-        Seam::Resources::ClientSession.load_from_response(res.body["client_session"])
+        Seam::Resources::ClientSession.load_from_response(Seam::Http::Response.read(res, "client_session", "/client_sessions/create"))
       end
 
       # Deletes a [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).
@@ -41,7 +43,7 @@ module Seam
       def get(client_session_id: nil, user_identifier_key: nil)
         res = @client.get("/client_sessions/get", {client_session_id: client_session_id, user_identifier_key: user_identifier_key}.compact)
 
-        Seam::Resources::ClientSession.load_from_response(res.body["client_session"])
+        Seam::Resources::ClientSession.load_from_response(Seam::Http::Response.read(res, "client_session", "/client_sessions/get"))
       end
 
       # Returns a [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens) with specific characteristics or creates a new client session with these characteristics if it does not yet exist.
@@ -56,7 +58,7 @@ module Seam
       def get_or_create(connect_webview_ids: nil, connected_account_ids: nil, expires_at: nil, user_identifier_key: nil, user_identity_id: nil, user_identity_ids: nil)
         res = @client.post("/client_sessions/get_or_create", {connect_webview_ids: connect_webview_ids, connected_account_ids: connected_account_ids, expires_at: expires_at, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, user_identity_ids: user_identity_ids}.compact)
 
-        Seam::Resources::ClientSession.load_from_response(res.body["client_session"])
+        Seam::Resources::ClientSession.load_from_response(Seam::Http::Response.read(res, "client_session", "/client_sessions/get_or_create"))
       end
 
       # Grants a [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens) access to one or more resources, such as [Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews), [user identities](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity), and so on.
@@ -88,7 +90,7 @@ module Seam
       def list(client_session_id: nil, connect_webview_id: nil, user_identifier_key: nil, user_identity_id: nil, without_user_identifier_key: nil)
         res = @client.get("/client_sessions/list", {client_session_id: client_session_id, connect_webview_id: connect_webview_id, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, without_user_identifier_key: without_user_identifier_key}.compact)
 
-        Seam::Resources::ClientSession.load_from_response(res.body["client_sessions"])
+        Seam::Resources::ClientSession.load_from_response(Seam::Http::Response.read_list(res, "client_sessions", "/client_sessions/list"))
       end
 
       # Revokes a [client session](https://docs.seam.co/core-concepts/authentication/client-session-tokens).

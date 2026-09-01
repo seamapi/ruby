@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class AccessCodesUnmanaged
@@ -47,7 +49,7 @@ module Seam
 
         res = @client.get("/access_codes/unmanaged/get", {access_code_id: access_code_id, code: code, device_id: device_id}.compact)
 
-        Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_code"])
+        Seam::Resources::UnmanagedAccessCode.load_from_response(Seam::Http::Response.read(res, "access_code", "/access_codes/unmanaged/get"))
       end
 
       # Returns a list of all [unmanaged access codes](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes).
@@ -60,7 +62,7 @@ module Seam
       def list(device_id:, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
         res = @client.get("/access_codes/unmanaged/list", {device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
-        Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_codes"])
+        Seam::Resources::UnmanagedAccessCode.load_from_response(Seam::Http::Response.read_list(res, "access_codes", "/access_codes/unmanaged/list"))
       end
 
       # Updates a specified [unmanaged access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes).

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class Phones
@@ -27,7 +29,7 @@ module Seam
       def get(device_id:)
         res = @client.get("/phones/get", {device_id: device_id}.compact)
 
-        Seam::Resources::Phone.load_from_response(res.body["phone"])
+        Seam::Resources::Phone.load_from_response(Seam::Http::Response.read(res, "phone", "/phones/get"))
       end
 
       # Returns a list of all [phones](https://docs.seam.co/capability-guides/mobile-access/managing-phones-for-a-user-identity). To filter the list of returned phones by a specific owner user identity or credential, include the `owner_user_identity_id` or `acs_credential_id`, respectively, in the request body.
@@ -37,7 +39,7 @@ module Seam
       def list(acs_credential_id: nil, owner_user_identity_id: nil)
         res = @client.get("/phones/list", {acs_credential_id: acs_credential_id, owner_user_identity_id: owner_user_identity_id}.compact)
 
-        Seam::Resources::Phone.load_from_response(res.body["phones"])
+        Seam::Resources::Phone.load_from_response(Seam::Http::Response.read_list(res, "phones", "/phones/list"))
       end
     end
   end
