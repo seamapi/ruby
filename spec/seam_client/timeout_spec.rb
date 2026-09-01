@@ -45,12 +45,35 @@ RSpec.describe Seam::Http::SingleWorkspace, :fake do
   describe "a request that exceeds the timeout" do
     let(:url) { "#{Seam::DEFAULT_ENDPOINT}/devices/list" }
 
-    it "raises Faraday::TimeoutError" do
+    it "raises Faraday::ConnectionFailed when the connection cannot be opened in time" do
       stub_request(:get, url).to_timeout
 
       seam = Seam.new(api_key: "seam_some_api_key", timeout: 1)
 
       expect { seam.devices.list }.to raise_error(Faraday::ConnectionFailed)
+    end
+
+    it "raises Faraday::TimeoutError when the response does not arrive in time" do
+      server = TCPServer.new("127.0.0.1", 0)
+      thread = Thread.new do
+        loop do
+          socket = server.accept
+          sleep 1
+          socket.close
+        end
+      end
+
+      seam = Seam.new(
+        api_key: "seam_some_api_key",
+        endpoint: "http://127.0.0.1:#{server.addr[1]}",
+        timeout: 0.2,
+        faraday_retry_options: {max: 0}
+      )
+
+      expect { seam.devices.list }.to raise_error(Faraday::TimeoutError)
+    ensure
+      thread&.kill
+      server&.close
     end
   end
 end
