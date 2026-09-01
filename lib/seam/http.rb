@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "errors"
 require_relative "http_single_workspace"
 
 module Seam
@@ -18,7 +19,7 @@ module Seam
         wait_for_action_attempt: wait_for_action_attempt, timeout: timeout)
     end
 
-    class ApiError < StandardError
+    class ApiError < Seam::Error
       attr_reader :code, :status_code, :request_id, :data
 
       def initialize(error, status_code, request_id)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "defaults"
+require_relative "errors"
 
 module Seam
   module Http
@@ -24,7 +25,7 @@ module Seam
         seam_endpoint || seam_api_url
       end
 
-      class SeamInvalidOptionsError < StandardError
+      class SeamInvalidOptionsError < Seam::Error
         def initialize(message)
           super("Seam received invalid options: #{message}")
         end
