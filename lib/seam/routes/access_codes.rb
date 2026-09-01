@@ -134,7 +134,7 @@ module Seam
       # @param user_identifier_key [String, nil] Your user ID for the user by which to filter access codes.
       # @return [Seam::Resources::AccessCode] OK
       def list(access_code_ids: nil, access_grant_id: nil, access_grant_key: nil, access_method_id: nil, customer_key: nil, device_id: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
-        if access_code_ids.nil? && access_grant_id.nil? && access_grant_key.nil? && access_method_id.nil? && customer_key.nil? && device_id.nil? && limit.nil? && page_cursor.nil? && search.nil? && user_identifier_key.nil?
+        if access_code_ids.nil? && access_grant_id.nil? && access_grant_key.nil? && access_method_id.nil? && customer_key.nil? && device_id.nil? && search.nil? && user_identifier_key.nil?
           raise TypeError, "At least one parameter is required for /access_codes/list"
         end
 
