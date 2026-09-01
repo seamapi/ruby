@@ -23,6 +23,10 @@ RSpec.describe Seam::Webhook do
     {"svix-id" => message_id, "svix-timestamp" => timestamp.to_s, "svix-signature" => signature}
   end
 
+  def invalid_payload_error(message)
+    raise_error(Seam::InvalidWebhookPayloadError, message)
+  end
+
   it "re-exports the svix verification error" do
     expect(Seam::WebhookVerificationError).to be(Svix::WebhookVerificationError)
   end
@@ -38,6 +42,12 @@ RSpec.describe Seam::Webhook do
 
   it "accepts mixed-case header names" do
     headers = headers_for(payload).transform_keys { |key| key.split("-").map(&:capitalize).join("-") }
+
+    expect(webhook.verify(payload, headers).event_id).to eq("event-1")
+  end
+
+  it "accepts symbol header names" do
+    headers = headers_for(payload).transform_keys(&:to_sym)
 
     expect(webhook.verify(payload, headers).event_id).to eq("event-1")
   end
@@ -73,6 +83,24 @@ RSpec.describe Seam::Webhook do
 
       expect { webhook.verify(payload, headers) }.to raise_error(
         Seam::WebhookVerificationError, "Missing required headers"
+      )
+    end
+  end
+
+  it "does not report a signed but unparseable payload as forgery" do
+    unparseable = '{"event_id": "event-1",}'
+
+    expect { webhook.verify(unparseable, headers_for(unparseable)) }.to invalid_payload_error(
+      /\AThe verified webhook payload is not valid JSON: /
+    ) do |error|
+      expect(error.cause).to be_a(JSON::ParserError)
+    end
+  end
+
+  ["null", "[1]", "42", '"event"', "{}", "", '{"event_id": "event-1"}', '{"event_id": 1, "event_type": "x"}'].each do |body|
+    it "does not report a signed non-event payload #{body.inspect} as forgery" do
+      expect { webhook.verify(body, headers_for(body)) }.to invalid_payload_error(
+        "The verified webhook payload did not contain a Seam event"
       )
     end
   end

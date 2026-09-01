@@ -450,6 +450,9 @@ post "/webhook" do
     event = webhook.verify(request.body.read, headers)
   rescue Seam::WebhookVerificationError
     halt 400, "Bad Request"
+  rescue Seam::InvalidWebhookPayloadError => error
+    logger.error("Unreadable Seam webhook payload: #{error.message}")
+    halt 204
   end
 
   begin
@@ -468,6 +471,14 @@ post "/webhook" do
   204
 end
 ```
+
+Verification failures raise Svix's `WebhookVerificationError`,
+re-exported as `Seam::WebhookVerificationError`:
+treat the payload as forged and respond with an error status so Svix retries.
+A payload that is correctly signed but unreadable raises a `Seam::InvalidWebhookPayloadError` instead:
+it is genuinely from Seam and will never become readable,
+so log it as a bug rather than reporting a verification failure
+and letting Svix retry it through its full backoff schedule.
 
 ### Advanced Usage
 
