@@ -168,6 +168,8 @@ and every wait polls at least once,
 even when the `timeout` is shorter than the `polling_interval`.
 The `timeout` must not be negative,
 and the `polling_interval` must be greater than zero.
+The option accepts `true`, `false`, or a hash with `timeout` and `polling_interval` keys;
+any other value raises a `Seam::Http::Options::SeamInvalidOptionsError`.
 
 The `error` and `result` values are only present for their matching status:
 `error` is `nil` unless the `status` is `"error"`,
