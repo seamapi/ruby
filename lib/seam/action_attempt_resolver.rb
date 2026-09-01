@@ -41,6 +41,12 @@ module Seam
 
       raise Seam::ActionAttemptFailedError.new(action_attempt) if action_attempt.status == "error"
 
+      # Neither pending, success, nor error: a status added after this release.
+      # Waiting cannot conclude, so say so rather than pass it off as a success.
+      unless action_attempt.status == "success"
+        raise Seam::ActionAttemptUnknownStatusError.new(action_attempt, action_attempt.status)
+      end
+
       action_attempt
     end
 
