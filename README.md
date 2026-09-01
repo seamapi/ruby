@@ -371,6 +371,12 @@ all_devices = paginator.flatten_to_list
 
 ### Error Handling
 
+Every error the SDK raises itself subclasses `Seam::Error`,
+so a single `rescue Seam::Error` covers all of them.
+Transport failures surface as Faraday errors,
+and webhook verification failures as Svix's error,
+described under [Webhooks](#webhooks).
+
 Requests rejected by the Seam API raise a `Seam::Http::ApiError` subclass
 carrying the HTTP `status_code`, API error `code`, and `request_id`.
 
