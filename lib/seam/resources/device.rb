@@ -559,6 +559,31 @@ module Seam
           attr_accessor :relay_name
         end
 
+        class DormakabaOracodeIhoMetadata < BaseResource
+          class UserLevels < BaseResource
+            # @return [String, nil]
+            attr_accessor :checkInTime
+            # @return [String, nil]
+            attr_accessor :checkOutTime
+            # @return [Float, nil]
+            attr_accessor :userLevel
+            # @return [String, nil]
+            attr_accessor :userLevelName
+            # @return [String, nil]
+            attr_accessor :userLevelType
+          end
+
+          # User levels for a dormakaba Oracode Homeowner's Portal device.
+          # @return [Array<UserLevels>]
+          resource_list_accessor :user_levels, UserLevels
+          # Door ID for a dormakaba Oracode Homeowner's Portal device.
+          # @return [Float, nil]
+          attr_accessor :door_id
+          # Name of the door for a dormakaba Oracode Homeowner's Portal device.
+          # @return [String, nil]
+          attr_accessor :door_name
+        end
+
         class DormakabaOracodeMetadata < BaseResource
           class PredefinedTimeSlots < BaseResource
             # Check in time for a time slot for a dormakaba Oracode device.
@@ -1777,6 +1802,9 @@ module Seam
         # Metadata for a ControlByWeb device.
         # @return [ControlbywebMetadata, nil]
         resource_accessor :controlbyweb_metadata, ControlbywebMetadata
+        # Metadata for a dormakaba Oracode Homeowner's Portal device.
+        # @return [DormakabaOracodeIhoMetadata, nil]
+        resource_accessor :dormakaba_oracode_iho_metadata, DormakabaOracodeIhoMetadata
         # Metadata for a dormakaba Oracode device.
         # @return [DormakabaOracodeMetadata, nil]
         resource_accessor :dormakaba_oracode_metadata, DormakabaOracodeMetadata
