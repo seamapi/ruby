@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "action_attempt_resolver"
 require_relative "request"
 require_relative "parse_options"
 require_relative "resources/index"
@@ -41,7 +42,8 @@ module Seam
           )
         end
 
-        wait_for_action_attempt = true if wait_for_action_attempt.equal?(OPTION_NOT_PROVIDED)
+        wait_for_action_attempt = nil if wait_for_action_attempt.equal?(OPTION_NOT_PROVIDED)
+        wait_for_action_attempt = Seam::ActionAttemptResolver.normalize_wait_for_action_attempt(wait_for_action_attempt)
         @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
 
         # A client carries its own endpoint and authorization, so the auth
