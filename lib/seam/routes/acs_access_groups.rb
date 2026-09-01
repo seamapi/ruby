@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class AcsAccessGroups
@@ -34,7 +36,7 @@ module Seam
       def get(acs_access_group_id:)
         res = @client.get("/acs/access_groups/get", {acs_access_group_id: acs_access_group_id}.compact)
 
-        Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_group"])
+        Seam::Resources::AcsAccessGroup.load_from_response(Seam::Http::Response.read(res, "acs_access_group", "/acs/access_groups/get"))
       end
 
       # Returns a list of all [access groups](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).
@@ -46,7 +48,7 @@ module Seam
       def list(acs_system_id: nil, acs_user_id: nil, search: nil, user_identity_id: nil)
         res = @client.get("/acs/access_groups/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, search: search, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsAccessGroup.load_from_response(res.body["acs_access_groups"])
+        Seam::Resources::AcsAccessGroup.load_from_response(Seam::Http::Response.read_list(res, "acs_access_groups", "/acs/access_groups/list"))
       end
 
       # Returns a list of all accessible entrances for a specified [access group](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).
@@ -55,7 +57,7 @@ module Seam
       def list_accessible_entrances(acs_access_group_id:)
         res = @client.get("/acs/access_groups/list_accessible_entrances", {acs_access_group_id: acs_access_group_id}.compact)
 
-        Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
+        Seam::Resources::AcsEntrance.load_from_response(Seam::Http::Response.read_list(res, "acs_entrances", "/acs/access_groups/list_accessible_entrances"))
       end
 
       # Returns a list of all [access system users](https://docs.seam.co/low-level-apis/access-systems/user-management) in an [access group](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).
@@ -64,7 +66,7 @@ module Seam
       def list_users(acs_access_group_id:)
         res = @client.get("/acs/access_groups/list_users", {acs_access_group_id: acs_access_group_id}.compact)
 
-        Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
+        Seam::Resources::AcsUser.load_from_response(Seam::Http::Response.read_list(res, "acs_users", "/acs/access_groups/list_users"))
       end
 
       # Removes a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) from a specified [access group](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).

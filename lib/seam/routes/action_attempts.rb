@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "seam/response"
 require "seam/action_attempt_resolver"
 
 module Seam
@@ -18,7 +19,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/action_attempts/get")), @client, wait_for_action_attempt)
       end
 
       # Returns a list of the [action attempts](https://docs.seam.co/core-concepts/action-attempts) that you specify as an array of `action_attempt_id`s.
@@ -30,7 +31,7 @@ module Seam
       def list(action_attempt_ids: nil, device_id: nil, limit: nil, page_cursor: nil)
         res = @client.get("/action_attempts/list", {action_attempt_ids: action_attempt_ids, device_id: device_id, limit: limit, page_cursor: page_cursor}.compact)
 
-        Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempts"])
+        Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read_list(res, "action_attempts", "/action_attempts/list"))
       end
     end
   end

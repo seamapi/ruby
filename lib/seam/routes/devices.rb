@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class Devices
@@ -29,7 +31,7 @@ module Seam
 
         res = @client.get("/devices/get", {device_id: device_id, name: name}.compact)
 
-        Seam::Resources::Device.load_from_response(res.body["device"])
+        Seam::Resources::Device.load_from_response(Seam::Http::Response.read(res, "device", "/devices/get"))
       end
 
       # Returns a list of all [devices](https://docs.seam.co/core-concepts/devices).
@@ -54,7 +56,7 @@ module Seam
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil, space_id: nil, unstable_location_id: nil, user_identifier_key: nil)
         res = @client.get("/devices/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, customer_key: customer_key, device_ids: device_ids, device_type: device_type, device_types: device_types, limit: limit, manufacturer: manufacturer, page_cursor: page_cursor, search: search, space_id: space_id, unstable_location_id: unstable_location_id, user_identifier_key: user_identifier_key}.compact)
 
-        Seam::Resources::Device.load_from_response(res.body["devices"])
+        Seam::Resources::Device.load_from_response(Seam::Http::Response.read_list(res, "devices", "/devices/list"))
       end
 
       # Returns a list of all device providers.
@@ -67,7 +69,7 @@ module Seam
       def list_device_providers(provider_category: nil)
         res = @client.get("/devices/list_device_providers", {provider_category: provider_category}.compact)
 
-        Seam::Resources::DeviceProvider.load_from_response(res.body["device_providers"])
+        Seam::Resources::DeviceProvider.load_from_response(Seam::Http::Response.read_list(res, "device_providers", "/devices/list_device_providers"))
       end
 
       # Updates provider-specific metadata for devices.

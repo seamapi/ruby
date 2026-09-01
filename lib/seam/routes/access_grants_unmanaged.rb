@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class AccessGrantsUnmanaged
@@ -14,7 +16,7 @@ module Seam
       def get(access_grant_id:)
         res = @client.get("/access_grants/unmanaged/get", {access_grant_id: access_grant_id}.compact)
 
-        Seam::Resources::UnmanagedAccessGrant.load_from_response(res.body["access_grant"])
+        Seam::Resources::UnmanagedAccessGrant.load_from_response(Seam::Http::Response.read(res, "access_grant", "/access_grants/unmanaged/get"))
       end
 
       # Gets unmanaged Access Grants (where is_managed = false).
@@ -28,7 +30,7 @@ module Seam
       def list(acs_entrance_id: nil, acs_system_id: nil, limit: nil, page_cursor: nil, reservation_key: nil, user_identity_id: nil)
         res = @client.get("/access_grants/unmanaged/list", {acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, limit: limit, page_cursor: page_cursor, reservation_key: reservation_key, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::UnmanagedAccessGrant.load_from_response(res.body["access_grants"])
+        Seam::Resources::UnmanagedAccessGrant.load_from_response(Seam::Http::Response.read_list(res, "access_grants", "/access_grants/unmanaged/list"))
       end
 
       # Updates an unmanaged Access Grant to make it managed.

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class Webhooks
@@ -15,7 +17,7 @@ module Seam
       def create(url:, event_types: nil)
         res = @client.post("/webhooks/create", {url: url, event_types: event_types}.compact)
 
-        Seam::Resources::Webhook.load_from_response(res.body["webhook"])
+        Seam::Resources::Webhook.load_from_response(Seam::Http::Response.read(res, "webhook", "/webhooks/create"))
       end
 
       # Deletes a specified [webhook](https://docs.seam.co/developer-tools/webhooks).
@@ -33,7 +35,7 @@ module Seam
       def get(webhook_id:)
         res = @client.get("/webhooks/get", {webhook_id: webhook_id}.compact)
 
-        Seam::Resources::Webhook.load_from_response(res.body["webhook"])
+        Seam::Resources::Webhook.load_from_response(Seam::Http::Response.read(res, "webhook", "/webhooks/get"))
       end
 
       # Returns a list of all [webhooks](https://docs.seam.co/developer-tools/webhooks).
@@ -41,7 +43,7 @@ module Seam
       def list
         res = @client.get("/webhooks/list")
 
-        Seam::Resources::Webhook.load_from_response(res.body["webhooks"])
+        Seam::Resources::Webhook.load_from_response(Seam::Http::Response.read_list(res, "webhooks", "/webhooks/list"))
       end
 
       # Updates a specified [webhook](https://docs.seam.co/developer-tools/webhooks).

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class AccessGrants
@@ -34,7 +36,7 @@ module Seam
       def create(requested_access_methods:, access_grant_key: nil, acs_entrance_ids: nil, customization_profile_id: nil, device_ids: nil, ends_at: nil, location: nil, location_ids: nil, name: nil, reservation_key: nil, space_ids: nil, space_keys: nil, starts_at: nil, user_identity: nil, user_identity_id: nil)
         res = @client.post("/access_grants/create", {requested_access_methods: requested_access_methods, access_grant_key: access_grant_key, acs_entrance_ids: acs_entrance_ids, customization_profile_id: customization_profile_id, device_ids: device_ids, ends_at: ends_at, location: location, location_ids: location_ids, name: name, reservation_key: reservation_key, space_ids: space_ids, space_keys: space_keys, starts_at: starts_at, user_identity: user_identity, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
+        Seam::Resources::AccessGrant.load_from_response(Seam::Http::Response.read(res, "access_grant", "/access_grants/create"))
       end
 
       # Delete an Access Grant.
@@ -57,7 +59,7 @@ module Seam
 
         res = @client.get("/access_grants/get", {access_grant_id: access_grant_id, access_grant_key: access_grant_key}.compact)
 
-        Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
+        Seam::Resources::AccessGrant.load_from_response(Seam::Http::Response.read(res, "access_grant", "/access_grants/get"))
       end
 
       # Gets all related resources for one or more Access Grants.
@@ -73,7 +75,7 @@ module Seam
 
         res = @client.get("/access_grants/get_related", {access_grant_ids: access_grant_ids, access_grant_keys: access_grant_keys, exclude: exclude, include: include}.compact)
 
-        Seam::Resources::Batch.load_from_response(res.body["batch"])
+        Seam::Resources::Batch.load_from_response(Seam::Http::Response.read(res, "batch", "/access_grants/get_related"))
       end
 
       # Gets an Access Grant.
@@ -95,7 +97,7 @@ module Seam
       def list(access_code_id: nil, access_grant_ids: nil, access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, device_id: nil, limit: nil, location_id: nil, page_cursor: nil, reservation_key: nil, space_id: nil, user_identity_id: nil)
         res = @client.get("/access_grants/list", {access_code_id: access_code_id, access_grant_ids: access_grant_ids, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, device_id: device_id, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, space_id: space_id, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AccessGrant.load_from_response(res.body["access_grants"])
+        Seam::Resources::AccessGrant.load_from_response(Seam::Http::Response.read_list(res, "access_grants", "/access_grants/list"))
       end
 
       # Adds additional requested access methods to an existing Access Grant.
@@ -105,7 +107,7 @@ module Seam
       def request_access_methods(access_grant_id:, requested_access_methods:)
         res = @client.post("/access_grants/request_access_methods", {access_grant_id: access_grant_id, requested_access_methods: requested_access_methods}.compact)
 
-        Seam::Resources::AccessGrant.load_from_response(res.body["access_grant"])
+        Seam::Resources::AccessGrant.load_from_response(Seam::Http::Response.read(res, "access_grant", "/access_grants/request_access_methods"))
       end
 
       # Updates an existing Access Grant's time window.
