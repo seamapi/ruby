@@ -25,6 +25,7 @@ export interface ClientMethod {
   parameters: ClientMethodParameter[]
   returnResource: string | null
   returnPath: string
+  returnsList: boolean
 }
 
 export interface ChildClientIdentifier {

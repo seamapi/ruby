@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require "faraday"
+require_relative "invalid_response_error"
 
 module Seam
   THREAD_CONTEXT_KEY = :seam_pagination_context
-  PaginationContext = Struct.new(:pagination)
+  PaginationContext = Struct.new(:body, :path)
 
   class Paginator
     def initialize(request, params = {})
@@ -60,13 +61,24 @@ module Seam
       end
     end
 
+    def read_pagination(body, path)
+      unless body.is_a?(Hash) && body.key?("pagination")
+        raise Http::InvalidResponseError.new(path, "pagination", "which the response does not contain")
+      end
+
+      pagination = body["pagination"]
+      return pagination if pagination.is_a?(Hash)
+
+      raise Http::InvalidResponseError.new(path, "pagination", "got #{pagination.class} instead of a pagination object")
+    end
+
     def fetch_page(params)
-      context = PaginationContext.new(nil)
+      context = PaginationContext.new(nil, nil)
       Thread.current[THREAD_CONTEXT_KEY] = context
 
       begin
         res_data = @request.call(**params)
-        pagination_result = Pagination.from_hash(context.pagination)
+        pagination_result = Pagination.from_hash(read_pagination(context.body, context.path))
         [res_data, pagination_result]
       ensure
         Thread.current[THREAD_CONTEXT_KEY] = nil
@@ -95,15 +107,8 @@ module Seam
       context = Thread.current[THREAD_CONTEXT_KEY]
       return unless context.is_a?(PaginationContext)
 
-      pagination_hash = extract_pagination(env)
-      context.pagination = pagination_hash if pagination_hash
-    end
-
-    private
-
-    def extract_pagination(env)
-      body = env[:body]
-      body["pagination"] if body.is_a?(Hash) && body.key?("pagination")
+      context.body = env[:body]
+      context.path = env.url.path
     end
   end
 end

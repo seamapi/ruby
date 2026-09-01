@@ -9,6 +9,7 @@ RSpec.describe Seam::Error do
     Seam::Http::ApiError,
     Seam::Http::UnauthorizedError,
     Seam::Http::InvalidInputError,
+    Seam::Http::InvalidResponseError,
     Seam::Http::Options::SeamInvalidOptionsError,
     Seam::Http::Auth::SeamInvalidTokenError,
     Seam::ActionAttemptError,

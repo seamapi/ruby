@@ -14,7 +14,7 @@ module Seam
       def get(access_method_id:)
         res = @client.get("/access_methods/unmanaged/get", {access_method_id: access_method_id}.compact)
 
-        Seam::Resources::UnmanagedAccessMethod.load_from_response(res.body["access_method"])
+        Seam::Resources::UnmanagedAccessMethod.from_http_response(res, "access_method", "/access_methods/unmanaged/get")
       end
 
       # Lists all unmanaged access methods (where is_managed = false), usually filtered by Access Grant.
@@ -26,7 +26,7 @@ module Seam
       def list(access_grant_id:, acs_entrance_id: nil, device_id: nil, space_id: nil)
         res = @client.get("/access_methods/unmanaged/list", {access_grant_id: access_grant_id, acs_entrance_id: acs_entrance_id, device_id: device_id, space_id: space_id}.compact)
 
-        Seam::Resources::UnmanagedAccessMethod.load_from_response(res.body["access_methods"])
+        Seam::Resources::UnmanagedAccessMethod.list_from_http_response(res, "access_methods", "/access_methods/unmanaged/list")
       end
     end
   end

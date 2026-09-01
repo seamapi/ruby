@@ -16,7 +16,7 @@ module Seam
       def create_unmanaged_access_code(code:, device_id:, name:)
         res = @client.post("/access_codes/simulate/create_unmanaged_access_code", {code: code, device_id: device_id, name: name}.compact)
 
-        Seam::Resources::UnmanagedAccessCode.load_from_response(res.body["access_code"])
+        Seam::Resources::UnmanagedAccessCode.from_http_response(res, "access_code", "/access_codes/simulate/create_unmanaged_access_code")
       end
     end
   end

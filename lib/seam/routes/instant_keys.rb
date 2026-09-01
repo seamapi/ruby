@@ -28,7 +28,7 @@ module Seam
 
         res = @client.get("/instant_keys/get", {instant_key_id: instant_key_id, instant_key_url: instant_key_url}.compact)
 
-        Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
+        Seam::Resources::InstantKey.from_http_response(res, "instant_key", "/instant_keys/get")
       end
 
       # Returns a list of all [instant keys](https://www.seam.co/docs/use-cases/granting-access/using-instant-keys).
@@ -37,7 +37,7 @@ module Seam
       def list(user_identity_id: nil)
         res = @client.get("/instant_keys/list", {user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::InstantKey.load_from_response(res.body["instant_keys"])
+        Seam::Resources::InstantKey.list_from_http_response(res, "instant_keys", "/instant_keys/list")
       end
     end
   end

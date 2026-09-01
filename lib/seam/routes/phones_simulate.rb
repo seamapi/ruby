@@ -17,7 +17,7 @@ module Seam
       def create_sandbox_phone(user_identity_id:, assa_abloy_metadata: nil, custom_sdk_installation_id: nil, phone_metadata: nil)
         res = @client.post("/phones/simulate/create_sandbox_phone", {user_identity_id: user_identity_id, assa_abloy_metadata: assa_abloy_metadata, custom_sdk_installation_id: custom_sdk_installation_id, phone_metadata: phone_metadata}.compact)
 
-        Seam::Resources::Phone.load_from_response(res.body["phone"])
+        Seam::Resources::Phone.from_http_response(res, "phone", "/phones/simulate/create_sandbox_phone")
       end
     end
   end

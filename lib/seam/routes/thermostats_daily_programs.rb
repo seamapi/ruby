@@ -18,7 +18,7 @@ module Seam
       def create(device_id:, name:, periods:)
         res = @client.post("/thermostats/daily_programs/create", {device_id: device_id, name: name, periods: periods}.compact)
 
-        Seam::Resources::ThermostatDailyProgram.load_from_response(res.body["thermostat_daily_program"])
+        Seam::Resources::ThermostatDailyProgram.from_http_response(res, "thermostat_daily_program", "/thermostats/daily_programs/create")
       end
 
       # Deletes a thermostat daily program.
@@ -40,7 +40,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.from_http_response(res, "action_attempt", "/thermostats/daily_programs/update"), @client, wait_for_action_attempt)
       end
     end
   end

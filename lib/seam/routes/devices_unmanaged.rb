@@ -23,7 +23,7 @@ module Seam
 
         res = @client.get("/devices/unmanaged/get", {device_id: device_id, name: name}.compact)
 
-        Seam::Resources::UnmanagedDevice.load_from_response(res.body["device"])
+        Seam::Resources::UnmanagedDevice.from_http_response(res, "device", "/devices/unmanaged/get")
       end
 
       # Returns a list of all [unmanaged devices](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices).
@@ -45,7 +45,7 @@ module Seam
       def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil)
         res = @client.get("/devices/unmanaged/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, customer_key: customer_key, device_ids: device_ids, device_type: device_type, device_types: device_types, limit: limit, manufacturer: manufacturer, page_cursor: page_cursor, search: search}.compact)
 
-        Seam::Resources::UnmanagedDevice.load_from_response(res.body["devices"])
+        Seam::Resources::UnmanagedDevice.list_from_http_response(res, "devices", "/devices/unmanaged/list")
       end
 
       # Updates a specified [unmanaged device](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices). To convert an unmanaged device to managed, set `is_managed` to `true`.

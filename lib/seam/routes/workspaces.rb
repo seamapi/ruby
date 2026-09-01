@@ -30,7 +30,7 @@ module Seam
       def create(name:, company_name: nil, connect_partner_name: nil, connect_webview_customization: nil, is_sandbox: nil, organization_id: nil, webview_logo_shape: nil, webview_primary_button_color: nil, webview_primary_button_text_color: nil, webview_success_message: nil)
         res = @client.post("/workspaces/create", {name: name, company_name: company_name, connect_partner_name: connect_partner_name, connect_webview_customization: connect_webview_customization, is_sandbox: is_sandbox, organization_id: organization_id, webview_logo_shape: webview_logo_shape, webview_primary_button_color: webview_primary_button_color, webview_primary_button_text_color: webview_primary_button_text_color, webview_success_message: webview_success_message}.compact)
 
-        Seam::Resources::Workspace.load_from_response(res.body["workspace"])
+        Seam::Resources::Workspace.from_http_response(res, "workspace", "/workspaces/create")
       end
 
       # Returns the [workspace](https://www.seam.co/docs/core-concepts/workspaces) associated with the authentication value.
@@ -38,7 +38,7 @@ module Seam
       def get
         res = @client.get("/workspaces/get")
 
-        Seam::Resources::Workspace.load_from_response(res.body["workspace"])
+        Seam::Resources::Workspace.from_http_response(res, "workspace", "/workspaces/get")
       end
 
       # Returns a list of [workspaces](https://www.seam.co/docs/core-concepts/workspaces) associated with the authentication value.
@@ -46,7 +46,7 @@ module Seam
       def list
         res = @client.get("/workspaces/list")
 
-        Seam::Resources::Workspace.load_from_response(res.body["workspaces"])
+        Seam::Resources::Workspace.list_from_http_response(res, "workspaces", "/workspaces/list")
       end
 
       # Resets the [sandbox workspace](https://www.seam.co/docs/core-concepts/workspaces#sandbox-workspaces) associated with the authentication value. Note that this endpoint is only available for sandbox workspaces.
@@ -56,7 +56,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.from_http_response(res, "action_attempt", "/workspaces/reset_sandbox"), @client, wait_for_action_attempt)
       end
 
       # Updates the [workspace](https://www.seam.co/docs/core-concepts/workspaces) associated with the authentication value.
