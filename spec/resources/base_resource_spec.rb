@@ -14,6 +14,22 @@ RSpec.describe Seam::Resources::BaseResource do
     it "parses a date string" do
       expect(device.created_at).to be_a(Time)
     end
+
+    it "returns nil for a missing date" do
+      expect(Seam::Resources::Device.new(device_id: "device_id_1234").created_at).to be_nil
+    end
+
+    it "returns nil for an empty string" do
+      expect(Seam::Resources::Device.new(created_at: "").created_at).to be_nil
+    end
+
+    it "returns nil for a string that is not a date" do
+      expect(Seam::Resources::Device.new(created_at: "not a date").created_at).to be_nil
+    end
+
+    it "returns nil for an epoch integer" do
+      expect(Seam::Resources::Device.new(created_at: 1_654_641_254).created_at).to be_nil
+    end
   end
 
   describe ".load_from_response" do
