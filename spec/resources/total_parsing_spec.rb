@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# Seam adds event types, action types, and error codes between SDK releases, so a
-# payload this version does not recognize has to stay readable rather than cost
-# the caller the whole response. Each example pins one shape that used to raise.
+# Reading a response must not fail on the shape of the payload.
 RSpec.describe "total parsing" do
   it "does not raise when the payload is not an object" do
     resource = Seam::Resources::Device.load_from_response(42)
@@ -38,7 +36,6 @@ RSpec.describe "total parsing" do
     expect(device.errors.first.error_code).to eq("brand_new")
   end
 
-  # Reading a date must not take down an otherwise usable resource.
   it "reads a malformed timestamp as nil" do
     device = Seam::Resources::Device.load_from_response(
       "device_id" => "device_1", "created_at" => "not a timestamp"
@@ -65,8 +62,6 @@ RSpec.describe "total parsing" do
 end
 
 RSpec.describe Seam::ActionAttemptUnknownStatusError do
-  # Waiting promises a succeeded attempt or a raise. An unrecognized status
-  # supports neither, and returning it would claim the action completed.
   it "is raised rather than returning an unresolved attempt as a success" do
     attempt = Seam::Resources::ActionAttempt.load_from_response(
       "action_attempt_id" => "attempt_1",

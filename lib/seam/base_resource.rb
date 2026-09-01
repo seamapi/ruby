@@ -110,8 +110,6 @@ module Seam
 
       protected
 
-      # Reading a date never raises: a value the API sends in an unexpected shape
-      # reads as nil rather than taking down an otherwise usable resource.
       def parse_datetime(value)
         Time.parse(value)
       rescue ArgumentError, TypeError
@@ -119,8 +117,6 @@ module Seam
       end
 
       def process_data_attributes(data)
-        # A response that is not an object at all still yields a usable resource
-        # with every attribute unset, rather than raising from #each.
         return unless data.is_a?(Hash)
 
         data.each do |key, value|

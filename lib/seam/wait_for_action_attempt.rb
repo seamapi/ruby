@@ -26,10 +26,7 @@ module Seam
   end
 
   # Raised when an attempt reports a status this SDK version does not know.
-  #
-  # Waiting promises to return a succeeded attempt or raise, and an unrecognized
-  # status supports neither: reporting success would claim the action completed
-  # when the SDK cannot tell. Read #action_attempt to inspect the status.
+  # Waiting can neither return it as a success nor call it a failure.
   class ActionAttemptUnknownStatusError < ActionAttemptError
     attr_reader :status
 

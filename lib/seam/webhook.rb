@@ -2,8 +2,7 @@
 
 require "svix/webhook"
 require "svix/errors"
-# svix/webhook calls Svix.secure_compare but does not require the file defining
-# it, so verification raises NoMethodError unless something else loaded it first.
+# svix/webhook calls Svix.secure_compare without requiring the file defining it.
 require "svix/util"
 require_relative "base_resource"
 require_relative "resources/event"
@@ -11,9 +10,8 @@ require_relative "resources/event"
 module Seam
   WebhookVerificationError = Svix::WebhookVerificationError
 
-  # Raised when a payload carries a valid signature but cannot be read as a Seam
-  # event. Distinct from WebhookVerificationError: the sender is genuinely Seam,
-  # so the payload will never become readable and retrying it cannot help.
+  # Raised when a payload is correctly signed but is not a Seam event. Unlike
+  # WebhookVerificationError, retrying it can never help.
   class InvalidWebhookPayloadError < StandardError; end
 
   class Webhook
@@ -26,17 +24,13 @@ module Seam
     #
     # @return [Seam::Resources::SeamEvent]
     # @raise [Seam::WebhookVerificationError] When the signature does not match.
-    #   Respond with an error status so the sender retries.
-    # @raise [Seam::InvalidWebhookPayloadError] When the signature matches but the
-    #   body is not a Seam event. Report it rather than letting the sender retry.
+    # @raise [Seam::InvalidWebhookPayloadError] When it does but the body is not an event.
     def verify(payload, headers)
       normalized_headers = headers.transform_keys(&:downcase)
 
       begin
         event_data = @webhook.verify(payload, normalized_headers)
       rescue JSON::ParserError => e
-        # The signature already checked out, so this came from Seam but is
-        # permanently unreadable.
         raise InvalidWebhookPayloadError, "The verified webhook payload is not valid JSON: #{e.message}"
       end
 
@@ -49,8 +43,7 @@ module Seam
 
     private
 
-    # Svix parses with symbolize_names, so read either key shape rather than
-    # depending on how the payload happened to be decoded.
+    # Svix parses with symbolize_names, so accept either key shape.
     def seam_event?(data)
       return false unless data.is_a?(Hash)
 

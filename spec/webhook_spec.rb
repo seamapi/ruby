@@ -4,8 +4,7 @@ require "json"
 require "openssl"
 require "base64"
 
-# Signs a payload the way Svix does, so these specs exercise the real
-# verification path rather than stubbing it out.
+# Signs a payload the way Svix does, so these specs exercise real verification.
 def signed_headers(secret, payload, msg_id: "msg_1", timestamp: Time.now.to_i)
   key = Base64.decode64(secret.delete_prefix("whsec_"))
   signature = Base64.strict_encode64(
@@ -52,8 +51,7 @@ RSpec.describe Seam::Webhook do
     expect(event.event_type).to eq("future.thing")
   end
 
-  # Svix parses webhook payloads with symbolize_names, so the raw payload reachable
-  # through #data carries symbol keys here, where an HTTP response carries strings.
+  # Svix symbolizes keys, so #data carries symbols here and strings over HTTP.
   it "exposes the full payload of an unknown event through data" do
     payload = JSON.generate(
       event_id: "event_1",
@@ -74,9 +72,6 @@ RSpec.describe Seam::Webhook do
       .to raise_error(Seam::WebhookVerificationError)
   end
 
-  # A signed but unreadable body is permanently unreadable: the sender is
-  # genuinely Seam, so retrying can never help. It must not look like a
-  # verification failure, which is the signal to retry.
   describe "signed but unreadable payloads" do
     it "raises for a body that is not JSON" do
       expect { verify("{not json") }
