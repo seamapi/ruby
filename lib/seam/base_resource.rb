@@ -112,13 +112,9 @@ module Seam
 
       def parse_datetime(value)
         Time.parse(value)
-      rescue ArgumentError, TypeError
-        nil
       end
 
       def process_data_attributes(data)
-        return unless data.is_a?(Hash)
-
         data.each do |key, value|
           next unless key.to_s.match?(/\A[a-zA-Z_][a-zA-Z0-9_]*\z/)
 

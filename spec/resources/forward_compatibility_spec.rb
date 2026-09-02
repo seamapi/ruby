@@ -1,28 +1,24 @@
 # frozen_string_literal: true
 
-# Reading a response must not fail on the shape of the payload.
-RSpec.describe "total parsing" do
-  it "does not raise when the payload is not an object" do
-    resource = Seam::Resources::Device.load_from_response(42)
-
-    expect(resource).to be_a(Seam::Resources::Device)
-    expect(resource.device_id).to be_nil
-  end
-
-  it "does not raise when a list payload holds values that are not objects" do
-    resources = Seam::Resources::Device.load_from_response([1, 2])
-
-    expect(resources.map(&:class)).to eq(
-      [Seam::Resources::Device, Seam::Resources::Device]
-    )
-  end
-
-  it "reads a list property sent as a scalar as empty" do
+# Seam adds event types, action types, and enum values between SDK releases.
+# Reading them must not raise; writing logic against them is what an upgrade is
+# for. The webhook event additionally carries the payload it was parsed from.
+RSpec.describe "forward compatibility" do
+  it "reads an unknown enum value as itself" do
     device = Seam::Resources::Device.load_from_response(
-      "device_id" => "device_1", "errors" => "oops"
+      "device_id" => "device_1", "device_type" => "future_lock"
     )
 
-    expect(device.errors).to eq([])
+    expect(device.device_type).to eq("future_lock")
+  end
+
+  it "falls back to a generic event for an unknown event type" do
+    event = Seam::Resources::SeamEvent.load_from_response(
+      "event_id" => "event_1", "event_type" => "future.thing"
+    )
+
+    expect(event.class).to eq(Seam::Resources::SeamEvent)
+    expect(event.event_type).to eq("future.thing")
   end
 
   it "keeps the rest of the resource when an error code is unknown" do
@@ -36,31 +32,19 @@ RSpec.describe "total parsing" do
     expect(device.errors.first.error_code).to eq("brand_new")
   end
 
-  it "reads a malformed timestamp as nil" do
-    device = Seam::Resources::Device.load_from_response(
-      "device_id" => "device_1", "created_at" => "not a timestamp"
+  it "reads an unknown action attempt status as itself" do
+    attempt = Seam::Resources::ActionAttempt.load_from_response(
+      "action_attempt_id" => "attempt_1",
+      "action_type" => "LOCK_DOOR",
+      "status" => "cancelled"
     )
 
-    expect(device.created_at).to be_nil
-  end
-
-  it "reads a timestamp of the wrong type as nil" do
-    device = Seam::Resources::Device.load_from_response(
-      "device_id" => "device_1", "created_at" => 12345
-    )
-
-    expect(device.created_at).to be_nil
-  end
-
-  it "still parses a well-formed timestamp" do
-    device = Seam::Resources::Device.load_from_response(
-      "device_id" => "device_1", "created_at" => "2024-01-01T00:00:00Z"
-    )
-
-    expect(device.created_at).to be_a(Time)
+    expect(attempt.status).to eq("cancelled")
   end
 end
 
+# Waiting promises a succeeded attempt or a raise, so an unrecognized status is
+# the one place the SDK must not stay quiet.
 RSpec.describe Seam::ActionAttemptUnknownStatusError do
   it "is raised rather than returning an unresolved attempt as a success" do
     attempt = Seam::Resources::ActionAttempt.load_from_response(
@@ -95,7 +79,6 @@ RSpec.describe "raw_json" do
 
     event = Seam::Resources::SeamEvent.load_from_response(payload)
 
-    expect(event.class).to eq(Seam::Resources::SeamEvent)
     expect(JSON.parse(event.raw_json)).to eq(payload)
   end
 
