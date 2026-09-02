@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "json"
+
 module Seam
   module Resources
     # Represents a Seam event. Known event types load as subclasses; unknown event types remain SeamEvent instances for forward compatibility.
@@ -5201,6 +5203,12 @@ module Seam
       # Date and time at which the event occurred.
       # @return [Time, nil]
       date_accessor :occurred_at
+
+      # The payload this event was parsed from, as JSON. Reaches fields the
+      # generated accessors do not cover, such as one added after this release.
+      def raw_json
+        JSON.generate(data)
+      end
 
       discriminated_by :event_type, {
         "access_code.created" => AccessCodeCreated,

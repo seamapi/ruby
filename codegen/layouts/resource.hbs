@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+{{#if hasRawJson}}
+require "json"
+
+{{/if}}
 module Seam
   module Resources
 {{#if resource.description}}
@@ -66,6 +70,14 @@ module Seam
       available_only_for_statuses :{{accessorName}}, {{rubyStringArray actionAttemptStatuses}}
 {{/if}}
 {{/each}}
+{{#if hasRawJson}}
+
+      # The payload this event was parsed from, as JSON. Reaches fields the
+      # generated accessors do not cover, such as one added after this release.
+      def raw_json
+        JSON.generate(data)
+      end
+{{/if}}
 {{#if discriminator}}
 
       discriminated_by :{{discriminator}}, {

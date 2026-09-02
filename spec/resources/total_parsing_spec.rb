@@ -78,3 +78,30 @@ RSpec.describe Seam::ActionAttemptUnknownStatusError do
     expect(described_class.ancestors).to include(Seam::ActionAttemptError)
   end
 end
+
+RSpec.describe "raw_json" do
+  it "recovers a field the generated accessors drop" do
+    payload = {"event_id" => "event_1", "event_type" => "access_code.created",
+               "brand_new_field" => "kept"}
+
+    event = Seam::Resources::SeamEvent.load_from_response(payload)
+
+    expect(event).not_to respond_to(:brand_new_field)
+    expect(JSON.parse(event.raw_json)).to eq(payload)
+  end
+
+  it "round-trips an unrecognized event" do
+    payload = {"event_id" => "event_1", "event_type" => "future.thing", "x" => 1}
+
+    event = Seam::Resources::SeamEvent.load_from_response(payload)
+
+    expect(event.class).to eq(Seam::Resources::SeamEvent)
+    expect(JSON.parse(event.raw_json)).to eq(payload)
+  end
+
+  it "is scoped to events" do
+    device = Seam::Resources::Device.load_from_response("device_id" => "device_1")
+
+    expect(device).not_to respond_to(:raw_json)
+  end
+end

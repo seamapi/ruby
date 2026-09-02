@@ -47,6 +47,7 @@ export interface ResourceClass {
 
 export interface ResourceLayoutContext {
   className: string
+  hasRawJson: boolean
   resource: Documented
   accessors: PropertyAccessor[]
   dateAccessors: PropertyAccessor[]
@@ -396,6 +397,9 @@ export const setResourceLayoutContext = (
 
   return {
     className,
+    // raw_json exists for the webhook verify return, so the events carry it and
+    // nothing else does. The variants inherit it from SeamEvent.
+    hasRawJson: className === 'SeamEvent',
     resource,
     accessors: rootClass.accessors,
     dateAccessors: rootClass.dateAccessors,
