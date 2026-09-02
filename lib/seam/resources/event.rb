@@ -5204,8 +5204,7 @@ module Seam
       # @return [Time, nil]
       date_accessor :occurred_at
 
-      # The payload this event was parsed from, as JSON. Reaches fields the
-      # generated accessors do not cover, such as one added after this release.
+      # The payload this event was parsed from, as JSON.
       def raw_json
         JSON.generate(data)
       end
