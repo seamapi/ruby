@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Seam adds event types, action types, and enum values between SDK releases.
-# Reading them must not raise; writing logic against them is what an upgrade is
-# for. The webhook event additionally carries the payload it was parsed from.
 RSpec.describe "forward compatibility" do
   it "reads an unknown enum value as itself" do
     device = Seam::Resources::Device.load_from_response(
@@ -43,8 +40,6 @@ RSpec.describe "forward compatibility" do
   end
 end
 
-# Waiting promises a succeeded attempt or a raise, so an unrecognized status is
-# the one place the SDK must not stay quiet.
 RSpec.describe Seam::ActionAttemptUnknownStatusError do
   it "is raised rather than returning an unresolved attempt as a success" do
     attempt = Seam::Resources::ActionAttempt.load_from_response(
