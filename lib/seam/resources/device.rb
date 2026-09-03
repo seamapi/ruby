@@ -582,6 +582,9 @@ module Seam
           # Name of the door for a dormakaba Oracode Homeowner's Portal device.
           # @return [String, nil]
           attr_accessor :door_name
+          # IANA time zone for a dormakaba Oracode Homeowner's Portal device.
+          # @return [String, nil]
+          attr_accessor :iana_timezone
         end
 
         class DormakabaOracodeMetadata < BaseResource
