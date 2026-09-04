@@ -561,12 +561,12 @@ module Seam
 
         class DormakabaOracodeIhoMetadata < BaseResource
           class UserLevels < BaseResource
-            # @return [String, nil]
-            attr_accessor :checkInTime
-            # @return [String, nil]
-            attr_accessor :checkOutTime
             # @return [Float, nil]
             attr_accessor :userLevel
+            # @return [String, nil]
+            attr_accessor :userLevelCheckInTime
+            # @return [String, nil]
+            attr_accessor :userLevelCheckOutTime
             # @return [String, nil]
             attr_accessor :userLevelName
             # @return [String, nil]
