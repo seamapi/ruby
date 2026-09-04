@@ -914,6 +914,9 @@ module Seam
       # Unique identifier for the device associated with the access code.
       # @return [String]
       attr_accessor :device_id
+      # Human-readable label for where this access code sits in its lifecycle, for example `Active`, `Issuing`, or `Expired`. For display only. The wording is not stable and is not an enumeration — it may change at any time, so never compare against or branch on it. To make decisions, read `pending_mutations`, `errors`, `warnings`, `starts_at`, and `ends_at`.
+      # @return [String]
+      attr_accessor :display_status
       # Indicates whether the access code is a backup code.
       # @return [Boolean, nil]
       attr_accessor :is_backup
@@ -952,6 +955,7 @@ module Seam
       # - `unset`
       # - `removing`
       # - `unknown`
+      # @deprecated Use `display_status` to show a person the code's state. To make decisions, read `pending_mutations`, `errors`, `warnings`, `starts_at`, and `ends_at`.
       attr_accessor :status
       # Type of the access code. `ongoing` access codes are active continuously until deactivated manually. `time_bound` access codes have a specific duration.
       # @return [String]
