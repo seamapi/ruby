@@ -89,11 +89,12 @@ module Seam
       # @deprecated location_id: Use `space_id`.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param reservation_key [String, nil] Filter Access Grants by reservation_key.
+      # @param search [String, nil] String for which to search. Filters returned Access Grants to include all records that satisfy a partial match using `name`, `access_grant_key`, `reservation_key`, `access_grant_id`, `user_identity_id`, `user_identity_full_name`, `user_identity_email_address` or `user_identity_phone_number`.
       # @param space_id [String, nil] ID of the space by which you want to filter the list of Access Grants.
       # @param user_identity_id [String, nil] ID of user identity by which you want to filter the list of Access Grants.
       # @return [Seam::Resources::AccessGrant] OK
-      def list(access_code_id: nil, access_grant_ids: nil, access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, device_id: nil, limit: nil, location_id: nil, page_cursor: nil, reservation_key: nil, space_id: nil, user_identity_id: nil)
-        res = @client.get("/access_grants/list", {access_code_id: access_code_id, access_grant_ids: access_grant_ids, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, device_id: device_id, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, space_id: space_id, user_identity_id: user_identity_id}.compact)
+      def list(access_code_id: nil, access_grant_ids: nil, access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, device_id: nil, limit: nil, location_id: nil, page_cursor: nil, reservation_key: nil, search: nil, space_id: nil, user_identity_id: nil)
+        res = @client.get("/access_grants/list", {access_code_id: access_code_id, access_grant_ids: access_grant_ids, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, device_id: device_id, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, search: search, space_id: space_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AccessGrant.load_from_response(res.body["access_grants"])
       end
