@@ -1004,6 +1004,8 @@ module Seam
             # - `updating_access_times`
             # - `pulled_backup_access_code`
             # - `delay_in_issuing`
+            # - `user_identity_missing_email_address`
+            # - `user_identity_missing_phone_number`
             attr_accessor :warning_code
             # ID of the original access method from which this backup access method was split, if applicable.
             # @return [String, nil]

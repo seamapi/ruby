@@ -562,15 +562,15 @@ module Seam
         class DormakabaOracodeIhoMetadata < BaseResource
           class UserLevels < BaseResource
             # @return [Float, nil]
-            attr_accessor :userLevel
+            attr_accessor :user_level
             # @return [String, nil]
-            attr_accessor :userLevelCheckInTime
+            attr_accessor :user_level_check_in_time
             # @return [String, nil]
-            attr_accessor :userLevelCheckOutTime
+            attr_accessor :user_level_check_out_time
             # @return [String, nil]
-            attr_accessor :userLevelName
+            attr_accessor :user_level_name
             # @return [String, nil]
-            attr_accessor :userLevelType
+            attr_accessor :user_level_type
           end
 
           # User levels for a dormakaba Oracode Homeowner's Portal device.

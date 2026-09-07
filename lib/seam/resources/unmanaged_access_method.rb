@@ -142,6 +142,36 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the access system delivers this mobile key through an app invitation sent to the recipient's email address, but the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities) for this [access grant](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) has no email address, so the mobile key cannot be delivered. Set an email address on the user identity when you create the access grant.
+        class UserIdentityMissingEmailAddress < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `user_identity_missing_email_address`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Indicates that the access system delivers this mobile key to the recipient's phone number, but the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities) for this [access grant](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) has no phone number, so the mobile key cannot be delivered. Set a phone number on the user identity when you create the access grant.
+        class UserIdentityMissingPhoneNumber < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `user_identity_missing_phone_number`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -152,6 +182,8 @@ module Seam
         # - `updating_access_times`
         # - `pulled_backup_access_code`
         # - `delay_in_issuing`
+        # - `user_identity_missing_email_address`
+        # - `user_identity_missing_phone_number`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -161,7 +193,9 @@ module Seam
           "being_deleted" => BeingDeleted,
           "updating_access_times" => UpdatingAccessTimes,
           "pulled_backup_access_code" => PulledBackupAccessCode,
-          "delay_in_issuing" => DelayInIssuing
+          "delay_in_issuing" => DelayInIssuing,
+          "user_identity_missing_email_address" => UserIdentityMissingEmailAddress,
+          "user_identity_missing_phone_number" => UserIdentityMissingPhoneNumber
         }.freeze
       end
 

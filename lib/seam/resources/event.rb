@@ -4325,6 +4325,7 @@ module Seam
         # - `unknown`
         # - `remote`
         # - `card`
+        # - `mobile_key`
         aliased_accessor :event_method, from: :method
         # ID of the workspace associated with the event.
         # @return [String]
@@ -4391,6 +4392,7 @@ module Seam
         # - `unknown`
         # - `remote`
         # - `card`
+        # - `mobile_key`
         aliased_accessor :event_method, from: :method
         # ID of the workspace associated with the event.
         # @return [String]
