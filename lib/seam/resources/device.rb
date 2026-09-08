@@ -443,9 +443,6 @@ module Seam
         end
 
         class AkilesMetadata < BaseResource
-          # Group ID to which to add users for an Akiles device.
-          # @return [String, nil]
-          attr_accessor :_member_group_id
           # Gadget ID for an Akiles device.
           # @return [String, nil]
           attr_accessor :gadget_id
