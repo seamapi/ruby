@@ -29,6 +29,28 @@ RSpec.describe Seam::Resources::BaseResource do
       expect(resource.instance_variable_get(:@valid)).to eq("kept")
       expect(resource.data["has-dash"]).to be(true)
     end
+
+    it "keeps the response data when a field is named data" do
+      resource = described_class.new({"data" => 1, "valid" => "kept"})
+
+      expect(resource.data).to eq("data" => 1, "valid" => "kept")
+    end
+
+    it "keeps the client when a field is named client" do
+      resource = described_class.new({"client" => "not a client"}, client)
+
+      expect(resource.client).to be(client)
+      expect(resource.data["client"]).to eq("not a client")
+    end
+
+    it "keeps the client through an update from a response naming a client field" do
+      attempt = Seam::Resources::ActionAttempt.new({"action_attempt_id" => "attempt-1", "status" => "pending"}, client)
+
+      attempt.update_from_response("action_attempt_id" => "attempt-1", "status" => "success", "client" => "x")
+
+      expect(attempt.client).to be(client)
+      expect(attempt.status).to eq("success")
+    end
   end
 
   describe "#update_from_response" do
