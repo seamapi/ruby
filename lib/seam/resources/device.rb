@@ -928,7 +928,7 @@ module Seam
           # Device name for a Google Nest device. Google sets this value.
           # @return [String, nil]
           attr_accessor :device_name
-          # Display name for a Google Nest device.
+          # Name of the Google Home room containing the device. The device owner sets this value.
           # @return [String, nil]
           attr_accessor :display_name
           # Device ID for a Google Nest device.
