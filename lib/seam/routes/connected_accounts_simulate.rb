@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class ConnectedAccountsSimulate

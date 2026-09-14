@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "response"
 require_relative "wait_for_action_attempt"
 
 module Seam
@@ -47,7 +48,7 @@ module Seam
     def self.update_action_attempt(action_attempt, client)
       response = client.get("/action_attempts/get", {action_attempt_id: action_attempt.action_attempt_id})
 
-      action_attempt.update_from_response(response.body["action_attempt"])
+      action_attempt.update_from_response(Http::Response.read(response, "action_attempt", "/action_attempts/get"))
       action_attempt
     end
   end

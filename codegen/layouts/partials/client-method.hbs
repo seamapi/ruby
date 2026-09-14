@@ -17,13 +17,13 @@
 {{/if}}        {{#if usesRes}}res = {{/if}}@client.{{httpMethod}}("{{path}}"{{#if hasParams}}, {{bodyParams}}.compact{{/if}})
 {{#if isResource}}
 
-        Seam::Resources::{{returnResource}}.load_from_response(res.body["{{returnPath}}"])
+        Seam::Resources::{{returnResource}}.load_from_response(Seam::Http::Response.{{readMethod}}(res, "{{returnPath}}", "{{path}}"))
 {{/if}}
 {{#if isPoll}}
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["{{returnPath}}"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "{{returnPath}}", "{{path}}")), @client, wait_for_action_attempt)
 {{/if}}
 {{#if isNil}}
 

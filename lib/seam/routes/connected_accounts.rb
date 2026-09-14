@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class ConnectedAccounts
@@ -36,7 +38,7 @@ module Seam
 
         res = @client.get("/connected_accounts/get", {connected_account_id: connected_account_id, email: email}.compact)
 
-        Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_account"])
+        Seam::Resources::ConnectedAccount.load_from_response(Seam::Http::Response.read(res, "connected_account", "/connected_accounts/get"))
       end
 
       # Returns a list of all [connected accounts](https://docs.seam.co/core-concepts/connected-accounts).
@@ -51,7 +53,7 @@ module Seam
       def list(custom_metadata_has: nil, customer_key: nil, limit: nil, page_cursor: nil, search: nil, space_id: nil, user_identifier_key: nil)
         res = @client.get("/connected_accounts/list", {custom_metadata_has: custom_metadata_has, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, space_id: space_id, user_identifier_key: user_identifier_key}.compact)
 
-        Seam::Resources::ConnectedAccount.load_from_response(res.body["connected_accounts"])
+        Seam::Resources::ConnectedAccount.load_from_response(Seam::Http::Response.read_list(res, "connected_accounts", "/connected_accounts/list"))
       end
 
       # Request a [connected account](https://docs.seam.co/core-concepts/connected-accounts) sync attempt for the specified `connected_account_id`.

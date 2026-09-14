@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "seam/response"
 require "seam/action_attempt_resolver"
 
 module Seam
@@ -23,7 +24,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/access_methods/assign_card")), @client, wait_for_action_attempt)
       end
 
       # Deletes an access method.
@@ -50,7 +51,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/access_methods/encode")), @client, wait_for_action_attempt)
       end
 
       # Gets an access method.
@@ -59,7 +60,7 @@ module Seam
       def get(access_method_id:)
         res = @client.get("/access_methods/get", {access_method_id: access_method_id}.compact)
 
-        Seam::Resources::AccessMethod.load_from_response(res.body["access_method"])
+        Seam::Resources::AccessMethod.load_from_response(Seam::Http::Response.read(res, "access_method", "/access_methods/get"))
       end
 
       # Gets all related resources for one or more Access Methods.
@@ -70,7 +71,7 @@ module Seam
       def get_related(access_method_ids:, exclude: nil, include: nil)
         res = @client.get("/access_methods/get_related", {access_method_ids: access_method_ids, exclude: exclude, include: include}.compact)
 
-        Seam::Resources::Batch.load_from_response(res.body["batch"])
+        Seam::Resources::Batch.load_from_response(Seam::Http::Response.read(res, "batch", "/access_methods/get_related"))
       end
 
       # Lists all access methods, usually filtered by Access Grant.
@@ -90,7 +91,7 @@ module Seam
 
         res = @client.get("/access_methods/list", {access_code_id: access_code_id, access_grant_id: access_grant_id, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, device_id: device_id, limit: limit, page_cursor: page_cursor, space_id: space_id}.compact)
 
-        Seam::Resources::AccessMethod.load_from_response(res.body["access_methods"])
+        Seam::Resources::AccessMethod.load_from_response(Seam::Http::Response.read_list(res, "access_methods", "/access_methods/list"))
       end
 
       # Remotely unlocks a specified [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) using the cloud key credential associated with an access method. Returns an action attempt that tracks the progress of the unlock operation.
@@ -102,7 +103,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/access_methods/unlock_door")), @client, wait_for_action_attempt)
       end
     end
   end

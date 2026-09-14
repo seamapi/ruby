@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class Spaces
@@ -50,7 +52,7 @@ module Seam
       def create(name:, acs_entrance_ids: nil, connected_account_ids: nil, customer_data: nil, customer_key: nil, device_ids: nil, space_key: nil)
         res = @client.post("/spaces/create", {name: name, acs_entrance_ids: acs_entrance_ids, connected_account_ids: connected_account_ids, customer_data: customer_data, customer_key: customer_key, device_ids: device_ids, space_key: space_key}.compact)
 
-        Seam::Resources::Space.load_from_response(res.body["space"])
+        Seam::Resources::Space.load_from_response(Seam::Http::Response.read(res, "space", "/spaces/create"))
       end
 
       # Deletes a space.
@@ -73,7 +75,7 @@ module Seam
 
         res = @client.get("/spaces/get", {space_id: space_id, space_key: space_key}.compact)
 
-        Seam::Resources::Space.load_from_response(res.body["space"])
+        Seam::Resources::Space.load_from_response(Seam::Http::Response.read(res, "space", "/spaces/get"))
       end
 
       # Gets all related resources for one or more Spaces.
@@ -89,7 +91,7 @@ module Seam
 
         res = @client.get("/spaces/get_related", {exclude: exclude, include: include, space_ids: space_ids, space_keys: space_keys}.compact)
 
-        Seam::Resources::Batch.load_from_response(res.body["batch"])
+        Seam::Resources::Batch.load_from_response(Seam::Http::Response.read(res, "batch", "/spaces/get_related"))
       end
 
       # Returns a list of all spaces.
@@ -102,7 +104,7 @@ module Seam
       def list(customer_key: nil, limit: nil, page_cursor: nil, search: nil, space_key: nil)
         res = @client.get("/spaces/list", {customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, space_key: space_key}.compact)
 
-        Seam::Resources::Space.load_from_response(res.body["spaces"])
+        Seam::Resources::Space.load_from_response(Seam::Http::Response.read_list(res, "spaces", "/spaces/list"))
       end
 
       # Removes [entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) from a specific space.
@@ -146,7 +148,7 @@ module Seam
       def update(acs_entrance_ids: nil, customer_data: nil, device_ids: nil, name: nil, space_id: nil, space_key: nil)
         res = @client.patch("/spaces/update", {acs_entrance_ids: acs_entrance_ids, customer_data: customer_data, device_ids: device_ids, name: name, space_id: space_id, space_key: space_key}.compact)
 
-        Seam::Resources::Space.load_from_response(res.body["space"])
+        Seam::Resources::Space.load_from_response(Seam::Http::Response.read(res, "space", "/spaces/update"))
       end
     end
   end

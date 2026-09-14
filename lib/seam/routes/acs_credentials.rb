@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class AcsCredentials
@@ -37,7 +39,7 @@ module Seam
       def create(access_method:, acs_system_id: nil, acs_user_id: nil, allowed_acs_entrance_ids: nil, assa_abloy_vostio_metadata: nil, code: nil, credential_manager_acs_system_id: nil, ends_at: nil, is_multi_phone_sync_credential: nil, salto_space_metadata: nil, starts_at: nil, user_identity_id: nil, visionline_metadata: nil)
         res = @client.post("/acs/credentials/create", {access_method: access_method, acs_system_id: acs_system_id, acs_user_id: acs_user_id, allowed_acs_entrance_ids: allowed_acs_entrance_ids, assa_abloy_vostio_metadata: assa_abloy_vostio_metadata, code: code, credential_manager_acs_system_id: credential_manager_acs_system_id, ends_at: ends_at, is_multi_phone_sync_credential: is_multi_phone_sync_credential, salto_space_metadata: salto_space_metadata, starts_at: starts_at, user_identity_id: user_identity_id, visionline_metadata: visionline_metadata}.compact)
 
-        Seam::Resources::AcsCredential.load_from_response(res.body["acs_credential"])
+        Seam::Resources::AcsCredential.load_from_response(Seam::Http::Response.read(res, "acs_credential", "/acs/credentials/create"))
       end
 
       # Deletes a specified [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
@@ -55,7 +57,7 @@ module Seam
       def get(acs_credential_id:)
         res = @client.get("/acs/credentials/get", {acs_credential_id: acs_credential_id}.compact)
 
-        Seam::Resources::AcsCredential.load_from_response(res.body["acs_credential"])
+        Seam::Resources::AcsCredential.load_from_response(Seam::Http::Response.read(res, "acs_credential", "/acs/credentials/get"))
       end
 
       # Returns a list of all [credentials](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
@@ -71,7 +73,7 @@ module Seam
       def list(acs_system_id: nil, acs_user_id: nil, created_before: nil, is_multi_phone_sync_credential: nil, limit: nil, page_cursor: nil, search: nil, user_identity_id: nil)
         res = @client.get("/acs/credentials/list", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, created_before: created_before, is_multi_phone_sync_credential: is_multi_phone_sync_credential, limit: limit, page_cursor: page_cursor, search: search, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
+        Seam::Resources::AcsCredential.load_from_response(Seam::Http::Response.read_list(res, "acs_credentials", "/acs/credentials/list"))
       end
 
       # Returns a list of all [entrances](https://docs.seam.co/api/acs/entrances) to which a [credential](https://docs.seam.co/api/acs/credentials) grants access.
@@ -80,7 +82,7 @@ module Seam
       def list_accessible_entrances(acs_credential_id:)
         res = @client.get("/acs/credentials/list_accessible_entrances", {acs_credential_id: acs_credential_id}.compact)
 
-        Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
+        Seam::Resources::AcsEntrance.load_from_response(Seam::Http::Response.read_list(res, "acs_entrances", "/acs/credentials/list_accessible_entrances"))
       end
 
       # Unassigns a specified [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) from a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).

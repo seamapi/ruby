@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class AcsSystems
@@ -14,7 +16,7 @@ module Seam
       def get(acs_system_id:)
         res = @client.get("/acs/systems/get", {acs_system_id: acs_system_id}.compact)
 
-        Seam::Resources::AcsSystem.load_from_response(res.body["acs_system"])
+        Seam::Resources::AcsSystem.load_from_response(Seam::Http::Response.read(res, "acs_system", "/acs/systems/get"))
       end
 
       # Returns a list of all [access systems](https://docs.seam.co/low-level-apis/access-systems).
@@ -27,7 +29,7 @@ module Seam
       def list(connected_account_id: nil, customer_key: nil, search: nil)
         res = @client.get("/acs/systems/list", {connected_account_id: connected_account_id, customer_key: customer_key, search: search}.compact)
 
-        Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
+        Seam::Resources::AcsSystem.load_from_response(Seam::Http::Response.read_list(res, "acs_systems", "/acs/systems/list"))
       end
 
       # Returns a list of all credential manager systems that are compatible with a specified [access system](https://docs.seam.co/low-level-apis/access-systems).
@@ -38,7 +40,7 @@ module Seam
       def list_compatible_credential_manager_acs_systems(acs_system_id:)
         res = @client.get("/acs/systems/list_compatible_credential_manager_acs_systems", {acs_system_id: acs_system_id}.compact)
 
-        Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
+        Seam::Resources::AcsSystem.load_from_response(Seam::Http::Response.read_list(res, "acs_systems", "/acs/systems/list_compatible_credential_manager_acs_systems"))
       end
 
       # Reports ACS system device status including encoders and entrances.

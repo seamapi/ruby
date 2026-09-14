@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class ConnectWebviews
@@ -29,7 +31,7 @@ module Seam
       def create(accepted_capabilities: nil, accepted_providers: nil, automatically_manage_new_devices: nil, custom_metadata: nil, custom_redirect_failure_url: nil, custom_redirect_url: nil, customer_key: nil, excluded_providers: nil, provider_category: nil, wait_for_device_creation: nil)
         res = @client.post("/connect_webviews/create", {accepted_capabilities: accepted_capabilities, accepted_providers: accepted_providers, automatically_manage_new_devices: automatically_manage_new_devices, custom_metadata: custom_metadata, custom_redirect_failure_url: custom_redirect_failure_url, custom_redirect_url: custom_redirect_url, customer_key: customer_key, excluded_providers: excluded_providers, provider_category: provider_category, wait_for_device_creation: wait_for_device_creation}.compact)
 
-        Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webview"])
+        Seam::Resources::ConnectWebview.load_from_response(Seam::Http::Response.read(res, "connect_webview", "/connect_webviews/create"))
       end
 
       # Deletes a [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews).
@@ -51,7 +53,7 @@ module Seam
       def get(connect_webview_id:)
         res = @client.get("/connect_webviews/get", {connect_webview_id: connect_webview_id}.compact)
 
-        Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webview"])
+        Seam::Resources::ConnectWebview.load_from_response(Seam::Http::Response.read(res, "connect_webview", "/connect_webviews/get"))
       end
 
       # Returns a list of all [Connect Webviews](https://docs.seam.co/core-concepts/connect-webviews).
@@ -65,7 +67,7 @@ module Seam
       def list(custom_metadata_has: nil, customer_key: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
         res = @client.get("/connect_webviews/list", {custom_metadata_has: custom_metadata_has, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
-        Seam::Resources::ConnectWebview.load_from_response(res.body["connect_webviews"])
+        Seam::Resources::ConnectWebview.load_from_response(Seam::Http::Response.read_list(res, "connect_webviews", "/connect_webviews/list"))
       end
     end
   end

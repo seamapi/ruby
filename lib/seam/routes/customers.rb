@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class Customers
@@ -24,7 +26,7 @@ module Seam
       def create_portal(customer_data: nil, customer_resources_filters: nil, customization_profile_id: nil, deep_link: nil, exclude_locale_picker: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, navigation_mode: nil, read_only: nil)
         res = @client.post("/customers/create_portal", {customer_data: customer_data, customer_resources_filters: customer_resources_filters, customization_profile_id: customization_profile_id, deep_link: deep_link, exclude_locale_picker: exclude_locale_picker, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, navigation_mode: navigation_mode, read_only: read_only}.compact)
 
-        Seam::Resources::CustomerPortal.load_from_response(res.body["customer_portal"])
+        Seam::Resources::CustomerPortal.load_from_response(Seam::Http::Response.read(res, "customer_portal", "/customers/create_portal"))
       end
 
       # Deletes customer data including resources like spaces, properties, rooms, users, etc.

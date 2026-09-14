@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class ThermostatsSchedules
@@ -20,7 +22,7 @@ module Seam
       def create(climate_preset_key:, device_id:, ends_at:, starts_at:, is_override_allowed: nil, max_override_period_minutes: nil, name: nil)
         res = @client.post("/thermostats/schedules/create", {climate_preset_key: climate_preset_key, device_id: device_id, ends_at: ends_at, starts_at: starts_at, is_override_allowed: is_override_allowed, max_override_period_minutes: max_override_period_minutes, name: name}.compact)
 
-        Seam::Resources::ThermostatSchedule.load_from_response(res.body["thermostat_schedule"])
+        Seam::Resources::ThermostatSchedule.load_from_response(Seam::Http::Response.read(res, "thermostat_schedule", "/thermostats/schedules/create"))
       end
 
       # Deletes a [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) for a specified [thermostat](https://docs.seam.co/capability-guides/thermostats).
@@ -38,7 +40,7 @@ module Seam
       def get(thermostat_schedule_id:)
         res = @client.get("/thermostats/schedules/get", {thermostat_schedule_id: thermostat_schedule_id}.compact)
 
-        Seam::Resources::ThermostatSchedule.load_from_response(res.body["thermostat_schedule"])
+        Seam::Resources::ThermostatSchedule.load_from_response(Seam::Http::Response.read(res, "thermostat_schedule", "/thermostats/schedules/get"))
       end
 
       # Returns a list of all [thermostat schedules](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) for a specified [thermostat](https://docs.seam.co/capability-guides/thermostats).
@@ -48,7 +50,7 @@ module Seam
       def list(device_id:, user_identifier_key: nil)
         res = @client.get("/thermostats/schedules/list", {device_id: device_id, user_identifier_key: user_identifier_key}.compact)
 
-        Seam::Resources::ThermostatSchedule.load_from_response(res.body["thermostat_schedules"])
+        Seam::Resources::ThermostatSchedule.load_from_response(Seam::Http::Response.read_list(res, "thermostat_schedules", "/thermostats/schedules/list"))
       end
 
       # Updates a specified [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "seam/response"
 require "seam/action_attempt_resolver"
 
 module Seam
@@ -16,7 +17,7 @@ module Seam
       def get(acs_entrance_id:)
         res = @client.get("/acs/entrances/get", {acs_entrance_id: acs_entrance_id}.compact)
 
-        Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrance"])
+        Seam::Resources::AcsEntrance.load_from_response(Seam::Http::Response.read(res, "acs_entrance", "/acs/entrances/get"))
       end
 
       # Grants a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) access to a specified [access system entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
@@ -47,7 +48,7 @@ module Seam
       def list(access_method_id: nil, acs_credential_id: nil, acs_entrance_ids: nil, acs_system_id: nil, connected_account_id: nil, customer_key: nil, limit: nil, location_id: nil, page_cursor: nil, search: nil, space_id: nil)
         res = @client.get("/acs/entrances/list", {access_method_id: access_method_id, acs_credential_id: acs_credential_id, acs_entrance_ids: acs_entrance_ids, acs_system_id: acs_system_id, connected_account_id: connected_account_id, customer_key: customer_key, limit: limit, location_id: location_id, page_cursor: page_cursor, search: search, space_id: space_id}.compact)
 
-        Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
+        Seam::Resources::AcsEntrance.load_from_response(Seam::Http::Response.read_list(res, "acs_entrances", "/acs/entrances/list"))
       end
 
       # Returns a list of all [credentials](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) with access to a specified [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
@@ -57,7 +58,7 @@ module Seam
       def list_credentials_with_access(acs_entrance_id:, include_if: nil)
         res = @client.get("/acs/entrances/list_credentials_with_access", {acs_entrance_id: acs_entrance_id, include_if: include_if}.compact)
 
-        Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
+        Seam::Resources::AcsCredential.load_from_response(Seam::Http::Response.read_list(res, "acs_credentials", "/acs/entrances/list_credentials_with_access"))
       end
 
       # Remotely unlocks a specified [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) using a cloud_key credential. Returns an action attempt that tracks the progress of the unlock operation.
@@ -69,7 +70,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/acs/entrances/unlock")), @client, wait_for_action_attempt)
       end
     end
   end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class AcsUsers
@@ -32,7 +34,7 @@ module Seam
       def create(acs_system_id:, full_name:, access_schedule: nil, acs_access_group_ids: nil, email: nil, email_address: nil, phone_number: nil, user_identity_id: nil)
         res = @client.post("/acs/users/create", {acs_system_id: acs_system_id, full_name: full_name, access_schedule: access_schedule, acs_access_group_ids: acs_access_group_ids, email: email, email_address: email_address, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
+        Seam::Resources::AcsUser.load_from_response(Seam::Http::Response.read(res, "acs_user", "/acs/users/create"))
       end
 
       # Deletes a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) and invalidates the access system user's [credentials](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
@@ -62,7 +64,7 @@ module Seam
 
         res = @client.get("/acs/users/get", {acs_user_id: acs_user_id, acs_system_id: acs_system_id, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
+        Seam::Resources::AcsUser.load_from_response(Seam::Http::Response.read(res, "acs_user", "/acs/users/get"))
       end
 
       # Returns a list of all [access system users](https://docs.seam.co/low-level-apis/access-systems/user-management).
@@ -78,7 +80,7 @@ module Seam
       def list(acs_system_id: nil, created_before: nil, limit: nil, page_cursor: nil, search: nil, user_identity_email_address: nil, user_identity_id: nil, user_identity_phone_number: nil)
         res = @client.get("/acs/users/list", {acs_system_id: acs_system_id, created_before: created_before, limit: limit, page_cursor: page_cursor, search: search, user_identity_email_address: user_identity_email_address, user_identity_id: user_identity_id, user_identity_phone_number: user_identity_phone_number}.compact)
 
-        Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
+        Seam::Resources::AcsUser.load_from_response(Seam::Http::Response.read_list(res, "acs_users", "/acs/users/list"))
       end
 
       # Lists the [entrances](https://docs.seam.co/api/acs/entrances) to which a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) has access.
@@ -93,7 +95,7 @@ module Seam
 
         res = @client.get("/acs/users/list_accessible_entrances", {acs_system_id: acs_system_id, acs_user_id: acs_user_id, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
+        Seam::Resources::AcsEntrance.load_from_response(Seam::Http::Response.read_list(res, "acs_entrances", "/acs/users/list_accessible_entrances"))
       end
 
       # Removes a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) from a specified [access group](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "seam/response"
 require "seam/action_attempt_resolver"
 
 module Seam
@@ -24,7 +25,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/locks/configure_auto_lock")), @client, wait_for_action_attempt)
       end
 
       # Returns a specified [lock](https://docs.seam.co/low-level-apis/smart-locks).
@@ -39,7 +40,7 @@ module Seam
 
         res = @client.get("/locks/get", {device_id: device_id, name: name}.compact)
 
-        Seam::Resources::Device.load_from_response(res.body["device"])
+        Seam::Resources::Device.load_from_response(Seam::Http::Response.read(res, "device", "/locks/get"))
       end
 
       # Returns a list of all [locks](https://docs.seam.co/low-level-apis/smart-locks).
@@ -53,7 +54,7 @@ module Seam
       def list(connect_webview_id: nil, connected_account_id: nil, customer_key: nil, device_type: nil, device_types: nil, manufacturer: nil)
         res = @client.get("/locks/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, customer_key: customer_key, device_type: device_type, device_types: device_types, manufacturer: manufacturer}.compact)
 
-        Seam::Resources::Device.load_from_response(res.body["devices"])
+        Seam::Resources::Device.load_from_response(Seam::Http::Response.read_list(res, "devices", "/locks/list"))
       end
 
       # Locks a [lock](https://docs.seam.co/low-level-apis/smart-locks). See also [Locking and Unlocking Smart Locks](https://docs.seam.co/low-level-apis/smart-locks/lock-and-unlock).
@@ -64,7 +65,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/locks/lock_door")), @client, wait_for_action_attempt)
       end
 
       # Unlocks a [lock](https://docs.seam.co/low-level-apis/smart-locks). See also [Locking and Unlocking Smart Locks](https://docs.seam.co/low-level-apis/smart-locks/lock-and-unlock).
@@ -75,7 +76,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/locks/unlock_door")), @client, wait_for_action_attempt)
       end
     end
   end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "seam/response"
+
 module Seam
   module Clients
     class InstantKeys
@@ -28,7 +30,7 @@ module Seam
 
         res = @client.get("/instant_keys/get", {instant_key_id: instant_key_id, instant_key_url: instant_key_url}.compact)
 
-        Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
+        Seam::Resources::InstantKey.load_from_response(Seam::Http::Response.read(res, "instant_key", "/instant_keys/get"))
       end
 
       # Returns a list of all [instant keys](https://docs.seam.co/capability-guides/instant-keys).
@@ -37,7 +39,7 @@ module Seam
       def list(user_identity_id: nil)
         res = @client.get("/instant_keys/list", {user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::InstantKey.load_from_response(res.body["instant_keys"])
+        Seam::Resources::InstantKey.load_from_response(Seam::Http::Response.read_list(res, "instant_keys", "/instant_keys/list"))
       end
     end
   end
