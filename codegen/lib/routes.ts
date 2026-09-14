@@ -284,8 +284,19 @@ const getTopLevelClientNamespaces = (blueprint: Blueprint): string[] => {
   return [...new Set(namespaces)].sort()
 }
 
+const paginationParameterNames = new Set(['limit', 'page_cursor'])
+
+const getAtLeastOneParameterNames = (endpoint: Endpoint): string[] =>
+  endpoint.request.hasRequiredParameters &&
+  endpoint.request.parameters.every(({ isRequired }) => !isRequired)
+    ? endpoint.request.parameters
+        .map(({ name }) => name)
+        .filter((name) => !paginationParameterNames.has(name))
+    : []
+
 const createClientMethod = (endpoint: Endpoint): ClientMethod => {
   const { returnPath, returnResource } = getEndpointReturn(endpoint.response)
+  const atLeastOneParameterNames = getAtLeastOneParameterNames(endpoint)
 
   return {
     methodName: endpoint.name,
@@ -294,9 +305,8 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
     isDeprecated: endpoint.isDeprecated,
     deprecationMessage: endpoint.deprecationMessage,
     responseDescription: endpoint.response.description,
-    requiresAtLeastOneParameter:
-      endpoint.request.hasRequiredParameters &&
-      endpoint.request.parameters.every(({ isRequired }) => !isRequired),
+    requiresAtLeastOneParameter: atLeastOneParameterNames.length > 0,
+    atLeastOneParameterNames,
     path: endpoint.path,
     parameters: endpoint.request.parameters.map((parameter) => ({
       name: parameter.name,
