@@ -123,6 +123,7 @@ module Seam
       # - `sifely`
       # - `thirty_three_lock`
       # - `ring`
+      # - `tapo`
       # - `ical`
       # - `lodgify`
       # - `hostaway`
