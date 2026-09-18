@@ -1137,6 +1137,18 @@ module Seam
           attr_accessor :serial_no
         end
 
+        class TapoMetadata < BaseResource
+          # Firmware version reported by the camera.
+          # @return [String, nil]
+          attr_accessor :firmware_version
+          # Hardware version reported by the camera.
+          # @return [String, nil]
+          attr_accessor :hardware_version
+          # Model reported by the Tapo camera.
+          # @return [String, nil]
+          attr_accessor :model
+        end
+
         class TedeeMetadata < BaseResource
           # Bridge ID for a Tedee device.
           # @return [Float, nil]
@@ -1880,6 +1892,9 @@ module Seam
         # Metadata for a tado° device.
         # @return [TadoMetadata, nil]
         resource_accessor :tado_metadata, TadoMetadata
+        # Metadata for a Tapo camera.
+        # @return [TapoMetadata, nil]
+        resource_accessor :tapo_metadata, TapoMetadata
         # Metadata for a Tedee device.
         # @return [TedeeMetadata, nil]
         resource_accessor :tedee_metadata, TedeeMetadata
@@ -2748,6 +2763,7 @@ module Seam
       # - `ios_phone`
       # - `android_phone`
       # - `ring_camera`
+      # - `tapo_camera`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]
