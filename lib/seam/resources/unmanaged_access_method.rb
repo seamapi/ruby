@@ -6,7 +6,7 @@ module Seam
     class UnmanagedAccessMethod < BaseResource
       # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
-        # Indicates that Seam was unable to issue this [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) before its access grant started, so the recipient may be unable to access the space. This usually points to a problem that needs attention, such as an offline or disconnected device. Seam keeps retrying, and this error clears automatically if the access method is eventually issued.
+        # Indicates that Seam was unable to issue this [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant) before its access grant started, so the recipient may be unable to access the space. This usually points to a problem that needs attention, such as an offline or disconnected device. Seam keeps retrying, and this error clears automatically if the access method is eventually issued.
         class FailedToIssue < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -79,7 +79,7 @@ module Seam
 
       # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
-        # Indicates that the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) is being deleted.
+        # Indicates that the [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant) is being deleted.
         class BeingDeleted < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -94,7 +94,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the access times for this [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) are being updated.
+        # Indicates that the access times for this [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant) are being updated.
         class UpdatingAccessTimes < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -127,7 +127,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that Seam has not yet issued this [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant), even though its access grant is about to begin, so access may not be ready when the recipient arrives. Seam is still attempting to issue it, and this warning clears automatically once issuance succeeds.
+        # Indicates that Seam has not yet issued this [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant), even though its access grant is about to begin, so access may not be ready when the recipient arrives. Seam is still attempting to issue it, and this warning clears automatically once issuance succeeds.
         class DelayInIssuing < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -142,7 +142,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the access system delivers this mobile key through an app invitation sent to the recipient's email address, but the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities) for this [access grant](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) has no email address, so the mobile key cannot be delivered. Set an email address on the user identity when you create the access grant.
+        # Indicates that the access system delivers this mobile key through an app invitation sent to the recipient's email address, but the [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities) for this [access grant](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant) has no email address, so the mobile key cannot be delivered. Set an email address on the user identity when you create the access grant.
         class UserIdentityMissingEmailAddress < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -157,7 +157,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the access system delivers this mobile key to the recipient's phone number, but the [user identity](https://docs.seam.co/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities) for this [access grant](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant) has no phone number, so the mobile key cannot be delivered. Set a phone number on the user identity when you create the access grant.
+        # Indicates that the access system delivers this mobile key to the recipient's phone number, but the [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities) for this [access grant](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant) has no phone number, so the mobile key cannot be delivered. Set a phone number on the user identity when you create the access grant.
         class UserIdentityMissingPhoneNumber < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -199,13 +199,13 @@ module Seam
         }.freeze
       end
 
-      # Errors associated with the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant).
+      # Errors associated with the [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant).
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
-      # Pending mutations for the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant). Indicates operations that are in progress.
+      # Pending mutations for the [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant). Indicates operations that are in progress.
       # @return [Array<PendingMutations>]
       resource_list_accessor :pending_mutations, PendingMutations
-      # Warnings associated with the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant).
+      # Warnings associated with the [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant).
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
       # ID of the access method.

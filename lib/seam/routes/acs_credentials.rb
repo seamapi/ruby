@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Assigns a specified [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) to a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Assigns a specified [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) to a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param acs_credential_id [String] ID of the credential that you want to assign to an access system user.
       # @param acs_user_id [String, nil] ID of the access system user to whom you want to assign a credential. You can only provide one of acs_user_id or user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity to whom you want to assign a credential. You can only provide one of acs_user_id or user_identity_id. If the ACS system contains an ACS user with the same `email_address` or `phone_number` as the user identity that you specify, they are linked, and the credential belongs to the ACS user. If the ACS system does not have a corresponding ACS user, one is created.
@@ -19,16 +19,16 @@ module Seam
         nil
       end
 
-      # Creates a new [credential](https://docs.seam.co/low-level-apis/managing-credentials) for a specified [ACS user](https://docs.seam.co/low-level-apis/access-systems/user-management). For granting access, we recommend [Access Grants](https://docs.seam.co/use-cases/granting-access) instead: they create and manage the underlying credentials for you, across access systems and standalone smart locks alike. Use this low-level endpoint only when you need direct control over an individual ACS credential.
+      # Creates a new [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) for a specified [ACS user](https://www.seam.co/docs/low-level-apis/access-systems/user-management). For granting access, we recommend [Access Grants](https://www.seam.co/docs/use-cases/granting-access) instead: they create and manage the underlying credentials for you, across access systems and standalone smart locks alike. Use this low-level endpoint only when you need direct control over an individual ACS credential.
       # @param access_method [String] Access method for the new credential. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
       # @param acs_system_id [String, nil] ID of the access system to which the new credential belongs. You must provide either `acs_user_id` or the combination of `user_identity_id` and `acs_system_id`.
       # @param acs_user_id [String, nil] ID of the access system user to whom the new credential belongs. You must provide either `acs_user_id` or the combination of `user_identity_id` and `acs_system_id`.
-      # @param allowed_acs_entrance_ids [Array<String>, nil] Set of IDs of the [entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) for which the new credential grants access.
+      # @param allowed_acs_entrance_ids [Array<String>, nil] Set of IDs of the [entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) for which the new credential grants access.
       # @param assa_abloy_vostio_metadata [Hash, nil] Vostio-specific metadata for the new credential.
-      # @param code [String, nil] Access (PIN) code for the new credential. There may be manufacturer-specific code restrictions. For details, see the applicable [device or system integration guide](https://docs.seam.co/device-and-system-integration-guides).
+      # @param code [String, nil] Access (PIN) code for the new credential. There may be manufacturer-specific code restrictions. For details, see the applicable [device or system integration guide](https://www.seam.co/docs/device-and-system-integration-guides).
       # @param credential_manager_acs_system_id [String, nil] ACS system ID of the credential manager for the new credential.
       # @param ends_at [Time, nil] Date and time at which the validity of the new credential ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
-      # @param is_multi_phone_sync_credential [Boolean, nil] Indicates whether the new credential is a [multi-phone sync credential](https://docs.seam.co/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
+      # @param is_multi_phone_sync_credential [Boolean, nil] Indicates whether the new credential is a [multi-phone sync credential](https://www.seam.co/docs/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
       # @param salto_space_metadata [Hash, nil] Salto Space-specific metadata for the new credential.
       # @param starts_at [Time, nil] Date and time at which the validity of the new credential starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
       # @param user_identity_id [String, nil] ID of the user identity to whom the new credential belongs. You must provide either `acs_user_id` or the combination of `user_identity_id` and `acs_system_id`. If the access system contains a user with the same `email_address` or `phone_number` as the user identity that you specify, they are linked, and the credential belongs to the access system user. If the access system does not have a corresponding user, one is created.
@@ -40,7 +40,7 @@ module Seam
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credential"])
       end
 
-      # Deletes a specified [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+      # Deletes a specified [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
       # @param acs_credential_id [String] ID of the credential that you want to delete.
       # @return [nil] OK
       def delete(acs_credential_id:)
@@ -49,7 +49,7 @@ module Seam
         nil
       end
 
-      # Returns a specified [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+      # Returns a specified [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
       # @param acs_credential_id [String] ID of the credential that you want to get.
       # @return [Seam::Resources::AcsCredential] OK
       def get(acs_credential_id:)
@@ -58,7 +58,7 @@ module Seam
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credential"])
       end
 
-      # Returns a list of all [credentials](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+      # Returns a list of all [credentials](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
       # @param acs_system_id [String, nil] ID of the access system for which you want to retrieve all credentials.
       # @param acs_user_id [String, nil] ID of the access system user for which you want to retrieve all credentials.
       # @param created_before [Time, nil] Date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, before which events to return were created.
@@ -74,7 +74,7 @@ module Seam
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
       end
 
-      # Returns a list of all [entrances](https://docs.seam.co/api/acs/entrances) to which a [credential](https://docs.seam.co/api/acs/credentials) grants access.
+      # Returns a list of all [entrances](https://www.seam.co/docs/api/acs/entrances/object) to which a [credential](https://www.seam.co/docs/api/acs/credentials/object) grants access.
       # @param acs_credential_id [String] ID of the credential for which you want to retrieve all entrances to which the credential grants access.
       # @return [Seam::Resources::AcsEntrance] OK
       def list_accessible_entrances(acs_credential_id:)
@@ -83,7 +83,7 @@ module Seam
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
 
-      # Unassigns a specified [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) from a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Unassigns a specified [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) from a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param acs_credential_id [String] ID of the credential that you want to unassign from an access system user.
       # @param acs_user_id [String, nil] ID of the access system user from which you want to unassign a credential. You can only provide one of acs_user_id or user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity from which you want to unassign a credential. You can only provide one of acs_user_id or user_identity_id.
@@ -94,7 +94,7 @@ module Seam
         nil
       end
 
-      # Updates the code and ends at date and time for a specified [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+      # Updates the code and ends at date and time for a specified [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
       # @param acs_credential_id [String] ID of the credential that you want to update.
       # @param code [String, nil] Replacement access (PIN) code for the credential that you want to update.
       # @param ends_at [Time, nil] Replacement date and time at which the validity of the credential ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after the `starts_at` value that you set when creating the credential.

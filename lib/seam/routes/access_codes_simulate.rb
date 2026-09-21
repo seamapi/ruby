@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Simulates the creation of an [unmanaged access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) in a [sandbox workspace](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
+      # Simulates the creation of an [unmanaged access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) in a [sandbox workspace](https://www.seam.co/docs/core-concepts/workspaces#sandbox-workspaces).
       # @param code [String] Code of the simulated unmanaged access code.
       # @param device_id [String] ID of the device for which you want to simulate the creation of an unmanaged access code.
       # @param name [String] Name of the simulated unmanaged access code.

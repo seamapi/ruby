@@ -2,7 +2,7 @@
 
 module Seam
   module Resources
-    # Represents an [unmanaged smart lock access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes).
+    # Represents an [unmanaged smart lock access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes).
     #
     # An access code is a code used for a keypad or pinpad device. Unlike physical keys, which can easily be lost or duplicated, PIN codes can be customized, tracked, and altered on the fly.
     #
@@ -12,7 +12,7 @@ module Seam
     #
     # Not all providers support unmanaged access codes. The following providers do not support unmanaged access codes:
     #
-    # - [Kwikset](https://docs.seam.co/device-and-system-integration-guides/kwikset-locks)
+    # - [Kwikset](https://www.seam.co/docs/device-and-system-integration-guides/kwikset-locks)
     class UnmanagedAccessCode < BaseResource
       class DormakabaOracodeMetadata < BaseResource
         # Indicates whether the stay can be cancelled via the Dormakaba Oracode API.
@@ -251,11 +251,11 @@ module Seam
         end
 
         # This access code is still active on the device even though its `ends_at` has passed, so the recipient may still be able to unlock the device after their access window ended. Seam is attempting to remove it, and this error clears automatically once the access code is no longer active.
-        class FailedToExpire < Errors
+        class FailedToRemove < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
           # Known values:
-          # - `failed_to_expire`
+          # - `failed_to_remove`
           attr_accessor :error_code
           # Indicates that this is an access code error.
           # @return [TrueClass]
@@ -275,7 +275,7 @@ module Seam
           # Known values:
           # - `account_disconnected`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -296,7 +296,7 @@ module Seam
           # Known values:
           # - `salto_ks_subscription_limit_exceeded`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -317,7 +317,7 @@ module Seam
           # Known values:
           # - `insufficient_permissions`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -338,7 +338,7 @@ module Seam
           # Known values:
           # - `dormakaba_sites_disconnected`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -424,7 +424,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [backup access code pool](https://docs.seam.co/low-level-apis/smart-locks/access-codes/backup-access-codes) is empty.
+        # Indicates that the [backup access code pool](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/backup-access-codes) is empty.
         class EmptyBackupAccessCodePool < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -514,14 +514,14 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge), for example, if the Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline. See also [Troubleshooting Your Access Control System](https://docs.seam.co/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
+        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge), for example, if the Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline. See also [Troubleshooting Your Access Control System](https://www.seam.co/docs/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
         class BridgeDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
           # Known values:
           # - `bridge_disconnected`
           attr_accessor :error_code
-          # Indicates whether the error is related to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
+          # Indicates whether the error is related to [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge).
           # @return [Boolean, nil]
           attr_accessor :is_bridge_error
           # Indicates whether the error is related specifically to the connected account.
@@ -548,7 +548,7 @@ module Seam
         # - `code_constraints_violated`
         # - `failed_to_issue`
         # - `failed_to_update`
-        # - `failed_to_expire`
+        # - `failed_to_remove`
         # - `account_disconnected`
         # - `salto_ks_subscription_limit_exceeded`
         # - `insufficient_permissions`
@@ -582,7 +582,7 @@ module Seam
           "code_constraints_violated" => CodeConstraintsViolated,
           "failed_to_issue" => FailedToIssue,
           "failed_to_update" => FailedToUpdate,
-          "failed_to_expire" => FailedToExpire,
+          "failed_to_remove" => FailedToRemove,
           "account_disconnected" => AccountDisconnected,
           "salto_ks_subscription_limit_exceeded" => SaltoKsSubscriptionLimitExceeded,
           "insufficient_permissions" => InsufficientPermissions,
@@ -845,10 +845,10 @@ module Seam
       # Metadata for a dormakaba Oracode unmanaged access code. Only present for unmanaged access codes from dormakaba Oracode devices.
       # @return [DormakabaOracodeMetadata, nil]
       resource_accessor :dormakaba_oracode_metadata, DormakabaOracodeMetadata
-      # Errors associated with the [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes).
+      # Errors associated with the [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes).
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
-      # Warnings associated with the [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes).
+      # Warnings associated with the [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes).
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
       # Unique identifier for the access code.

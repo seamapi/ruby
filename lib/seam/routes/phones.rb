@@ -12,7 +12,7 @@ module Seam
         @simulate ||= Seam::Clients::PhonesSimulate.new(client: @client, defaults: @defaults)
       end
 
-      # Deactivates a phone, which is useful, for example, if a user has lost their phone. For more information, see [App User Lost Phone Process](https://docs.seam.co/capability-guides/mobile-access/managing-phones-for-a-user-identity#app-user-lost-phone-process).
+      # Deactivates a phone, which is useful, for example, if a user has lost their phone. For more information, see [App User Lost Phone Process](https://www.seam.co/docs/capability-guides/mobile-access/managing-phones-for-a-user-identity#app-user-lost-phone-process).
       # @param device_id [String] Device ID of the phone that you want to deactivate.
       # @return [nil] OK
       def deactivate(device_id:)
@@ -21,7 +21,7 @@ module Seam
         nil
       end
 
-      # Returns a specified [phone](https://docs.seam.co/capability-guides/mobile-access/managing-phones-for-a-user-identity).
+      # Returns a specified [phone](https://www.seam.co/docs/capability-guides/mobile-access/managing-phones-for-a-user-identity).
       # @param device_id [String] Device ID of the phone that you want to get.
       # @return [Seam::Resources::Phone] OK
       def get(device_id:)
@@ -30,8 +30,8 @@ module Seam
         Seam::Resources::Phone.load_from_response(res.body["phone"])
       end
 
-      # Returns a list of all [phones](https://docs.seam.co/capability-guides/mobile-access/managing-phones-for-a-user-identity). To filter the list of returned phones by a specific owner user identity or credential, include the `owner_user_identity_id` or `acs_credential_id`, respectively, in the request body.
-      # @param acs_credential_id [String, nil] ID of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) by which you want to filter the list of returned phones.
+      # Returns a list of all [phones](https://www.seam.co/docs/capability-guides/mobile-access/managing-phones-for-a-user-identity). To filter the list of returned phones by a specific owner user identity or credential, include the `owner_user_identity_id` or `acs_credential_id`, respectively, in the request body.
+      # @param acs_credential_id [String, nil] ID of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) by which you want to filter the list of returned phones.
       # @param owner_user_identity_id [String, nil] ID of the user identity that represents the owner by which you want to filter the list of returned phones.
       # @return [Seam::Resources::Phone] OK
       def list(acs_credential_id: nil, owner_user_identity_id: nil)

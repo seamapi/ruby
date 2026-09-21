@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Adds a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) to a specified [access group](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).
+      # Adds a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) to a specified [access group](https://www.seam.co/docs/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).
       # @param acs_access_group_id [String] ID of the access group to which you want to add an access system user.
       # @param acs_user_id [String] ID of the access system user that you want to add to an access group.
       # @return [nil] OK
@@ -18,15 +18,15 @@ module Seam
         nil
       end
 
-      # Creates a new [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Creates a new [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param acs_system_id [String] ID of the access system to which you want to add the new access system user.
       # @param full_name [String] Full name of the new access system user.
       # @param access_schedule [Hash, nil] `starts_at` and `ends_at` timestamps for the new access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
       # @param acs_access_group_ids [Array<String>, nil] Array of access group IDs to indicate the access groups to which you want to add the new access system user.
       # @param email [String, nil]
       # @deprecated email: use email_address.
-      # @param email_address [String, nil] Email address of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
-      # @param phone_number [String, nil] Phone number of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
+      # @param email_address [String, nil] Email address of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
+      # @param phone_number [String, nil] Phone number of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
       # @param user_identity_id [String, nil] ID of the user identity with which you want to associate the new access system user.
       # @return [Seam::Resources::AcsUser] OK
       def create(acs_system_id:, full_name:, access_schedule: nil, acs_access_group_ids: nil, email: nil, email_address: nil, phone_number: nil, user_identity_id: nil)
@@ -35,7 +35,7 @@ module Seam
         Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
       end
 
-      # Deletes a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) and invalidates the access system user's [credentials](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+      # Deletes a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) and invalidates the access system user's [credentials](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
       # @param acs_system_id [String, nil] ID of the access system that you want to delete. You must provide acs_system_id with user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user that you want to delete. You must provide either acs_user_id or user_identity_id
       # @param user_identity_id [String, nil] ID of the user identity that you want to delete. You must provide either acs_user_id or user_identity_id. If you provide user_identity_id, you must also provide acs_system_id.
@@ -50,7 +50,7 @@ module Seam
         nil
       end
 
-      # Returns a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Returns a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param acs_user_id [String, nil] ID of the access system user that you want to get. You can only provide acs_user_id or user_identity_id.
       # @param acs_system_id [String, nil] ID of the access system that you want to get. You can only provide acs_user_id or user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity that you want to get. You can only provide acs_user_id or user_identity_id.
@@ -65,7 +65,7 @@ module Seam
         Seam::Resources::AcsUser.load_from_response(res.body["acs_user"])
       end
 
-      # Returns a list of all [access system users](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Returns a list of all [access system users](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param acs_system_id [String, nil] ID of the `acs_system` for which you want to retrieve all access system users.
       # @param created_before [Time, nil] Timestamp by which to limit returned access system users. Returns users created before this timestamp.
       # @param limit [Integer, nil] Maximum number of records to return per page.
@@ -81,7 +81,7 @@ module Seam
         Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
       end
 
-      # Lists the [entrances](https://docs.seam.co/api/acs/entrances) to which a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) has access.
+      # Lists the [entrances](https://www.seam.co/docs/api/acs/entrances/object) to which a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) has access.
       # @param acs_system_id [String, nil] ID of the access system for which you want to list accessible entrances. You can only provide acs_system_id with user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user for whom you want to list accessible entrances. You can only provide acs_user_id or user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity for whom you want to list accessible entrances. You can only provide acs_user_id or user_identity_id.
@@ -96,7 +96,7 @@ module Seam
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
 
-      # Removes a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) from a specified [access group](https://docs.seam.co/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).
+      # Removes a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) from a specified [access group](https://www.seam.co/docs/low-level-apis/access-systems/user-management/assigning-users-to-access-groups).
       # @param acs_access_group_id [String] ID of the access group from which you want to remove an access system user.
       # @param acs_user_id [String, nil] ID of the access system user that you want to remove from an access group. You can only provide acs_user_id or user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity that you want to remove from an access group. You can only provide acs_user_id or user_identity_id.
@@ -107,7 +107,7 @@ module Seam
         nil
       end
 
-      # Revokes access to all [entrances](https://docs.seam.co/api/acs/entrances) for a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Revokes access to all [entrances](https://www.seam.co/docs/api/acs/entrances/object) for a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param acs_system_id [String, nil] ID of the access system for which you want to revoke access. You can only provide acs_system_id with user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user for whom you want to revoke access. You can only provide acs_user_id or user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity for whom you want to revoke access. You can only provide acs_user_id or user_identity_id.
@@ -122,7 +122,7 @@ module Seam
         nil
       end
 
-      # [Suspends](https://docs.seam.co/low-level-apis/access-systems/user-management/suspending-and-unsuspending-users#suspend-an-acs-user) a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management). Suspending an access system user revokes their access temporarily. To restore an access system user's access, you can [unsuspend](https://docs.seam.co/api/acs/users/unsuspend) them.
+      # [Suspends](https://www.seam.co/docs/low-level-apis/access-systems/user-management/suspending-and-unsuspending-users#suspend-an-acs-user) a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management). Suspending an access system user revokes their access temporarily. To restore an access system user's access, you can [unsuspend](https://www.seam.co/docs/api/acs/users/unsuspend) them.
       # @param acs_system_id [String, nil] ID of the access system that you want to suspend. You can only provide acs_user_id or the combination of acs_system_id and user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user that you want to suspend. You can only provide acs_user_id or the combination of acs_system_id and user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity that you want to suspend. You can only provide acs_user_id or the combination of acs_system_id and user_identity_id.
@@ -137,7 +137,7 @@ module Seam
         nil
       end
 
-      # [Unsuspends](https://docs.seam.co/low-level-apis/access-systems/user-management/suspending-and-unsuspending-users#unsuspend-an-acs-user) a specified suspended [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management). While [suspending an access system user](https://docs.seam.co/api/acs/users/suspend) revokes their access temporarily, unsuspending the access system user restores their access.
+      # [Unsuspends](https://www.seam.co/docs/low-level-apis/access-systems/user-management/suspending-and-unsuspending-users#unsuspend-an-acs-user) a specified suspended [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management). While [suspending an access system user](https://www.seam.co/docs/api/acs/users/suspend) revokes their access temporarily, unsuspending the access system user restores their access.
       # @param acs_system_id [String, nil] ID of the access system of the user that you want to unsuspend. You can only provide acs_system_id with user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user that you want to unsuspend. You can only provide acs_user_id or the combination of acs_system_id and user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity that you want to unsuspend. You can only provide acs_user_id or the combination of acs_system_id and user_identity_id.
@@ -152,16 +152,16 @@ module Seam
         nil
       end
 
-      # Updates the properties of a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Updates the properties of a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param access_schedule [Hash, Seam::Null, nil] `starts_at` and `ends_at` timestamps for the access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
       # @param acs_system_id [String, nil] ID of the access system that you want to update. You can only provide acs_system_id with user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user that you want to update. You can only provide acs_user_id or user_identity_id.
       # @param email [String, nil]
       # @deprecated email: use email_address.
-      # @param email_address [String, nil] Email address of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
-      # @param full_name [String, nil] Full name of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # @param email_address [String, nil] Email address of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
+      # @param full_name [String, nil] Full name of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param hid_acs_system_id [String, nil] ID of the HID access control system associated with the user.
-      # @param phone_number [String, nil] Phone number of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
+      # @param phone_number [String, nil] Phone number of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
       # @param user_identity_id [String, nil] ID of the user identity that you want to update. You can only provide acs_user_id or user_identity_id. If you provide user_identity_id, you must also provide acs_system_id.
       # @return [nil] OK
       def update(access_schedule: nil, acs_system_id: nil, acs_user_id: nil, email: nil, email_address: nil, full_name: nil, hid_acs_system_id: nil, phone_number: nil, user_identity_id: nil)

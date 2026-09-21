@@ -16,7 +16,7 @@ module Seam
         @simulate ||= Seam::Clients::NoiseSensorsSimulate.new(client: @client, defaults: @defaults)
       end
 
-      # Returns a list of all [noise sensors](https://docs.seam.co/capability-guides/noise-sensors).
+      # Returns a list of all [noise sensors](https://www.seam.co/docs/capability-guides/noise-sensors).
       # @param connect_webview_id [String, nil] ID of the Connect Webview for which you want to list devices.
       # @param connected_account_id [String, nil] ID of the connected account for which you want to list devices.
       # @param customer_key [String, nil] Customer key for which you want to list devices.

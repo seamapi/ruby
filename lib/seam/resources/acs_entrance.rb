@@ -2,7 +2,7 @@
 
 module Seam
   module Resources
-    # Represents an [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) within an [access control system](https://docs.seam.co/low-level-apis/access-systems).
+    # Represents an [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) within an [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
     #
     # In an access control system, an entrance is a secured door, gate, zone, or other method of entry. You can list details for all the `acs_entrance` resources in your workspace or get these details for a specific `acs_entrance`. You can also list all entrances associated with a specific credential, and you can list all credentials associated with a specific entrance.
     class AcsEntrance < BaseResource
@@ -321,49 +321,49 @@ module Seam
         }.freeze
       end
 
-      # Akiles-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Akiles-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [AkilesMetadata, nil]
       resource_accessor :akiles_metadata, AkilesMetadata
-      # ASSA ABLOY Vostio-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # ASSA ABLOY Vostio-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [AssaAbloyVostioMetadata, nil]
       resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
-      # Avigilon Alta-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Avigilon Alta-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [AvigilonAltaMetadata, nil]
       resource_accessor :avigilon_alta_metadata, AvigilonAltaMetadata
-      # Brivo-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Brivo-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [BrivoMetadata, nil]
       resource_accessor :brivo_metadata, BrivoMetadata
-      # dormakaba Ambiance-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # dormakaba Ambiance-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [DormakabaAmbianceMetadata, nil]
       resource_accessor :dormakaba_ambiance_metadata, DormakabaAmbianceMetadata
-      # dormakaba Community-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # dormakaba Community-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [DormakabaCommunityMetadata, nil]
       resource_accessor :dormakaba_community_metadata, DormakabaCommunityMetadata
-      # Hotek-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Hotek-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [HotekMetadata, nil]
       resource_accessor :hotek_metadata, HotekMetadata
-      # Latch-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Latch-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [LatchMetadata, nil]
       resource_accessor :latch_metadata, LatchMetadata
-      # Salto KS-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Salto KS-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [SaltoKsMetadata, nil]
       resource_accessor :salto_ks_metadata, SaltoKsMetadata
-      # Salto Space-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Salto Space-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [SaltoSpaceMetadata, nil]
       resource_accessor :salto_space_metadata, SaltoSpaceMetadata
-      # Visionline-specific metadata associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Visionline-specific metadata associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [VisionlineMetadata, nil]
       resource_accessor :visionline_metadata, VisionlineMetadata
-      # Errors associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Errors associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
-      # Warnings associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Warnings associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
-      # ID of the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # ID of the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [String]
       attr_accessor :acs_entrance_id
-      # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems) that contains the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # ID of the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) that contains the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [String]
       attr_accessor :acs_system_id
       # Indicates whether the ACS entrance can belong to a reservation via an access_grant.reservation_key.
@@ -381,20 +381,20 @@ module Seam
       # Indicates whether the ACS entrance can be unlocked with mobile key credentials.
       # @return [Boolean, nil]
       attr_accessor :can_unlock_with_mobile_key
-      # ID of the [connected account](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) associated with the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # ID of the [connected account](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) associated with the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [String]
       attr_accessor :connected_account_id
-      # Display name for the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Display name for the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @return [String]
       attr_accessor :display_name
-      # Indicates whether the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) is currently locked.
+      # Indicates whether the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) is currently locked.
       # @return [Boolean, nil]
       attr_accessor :is_locked
       # IDs of the spaces that the entrance is in.
       # @return [Array<String>]
       attr_accessor :space_ids
 
-      # Date and time at which the [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) was created.
+      # Date and time at which the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) was created.
       # @return [Time]
       date_accessor :created_at
     end

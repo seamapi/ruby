@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Deletes a specified [Instant Key](https://docs.seam.co/capability-guides/instant-keys).
+      # Deletes a specified [Instant Key](https://www.seam.co/docs/use-cases/granting-access/using-instant-keys).
       # @param instant_key_id [String] ID of the Instant Key that you want to delete.
       # @return [nil] OK
       def delete(instant_key_id:)
@@ -17,7 +17,7 @@ module Seam
         nil
       end
 
-      # Gets an [instant key](https://docs.seam.co/capability-guides/instant-keys).
+      # Gets an [instant key](https://www.seam.co/docs/use-cases/granting-access/using-instant-keys).
       # @param instant_key_id [String, nil] ID of the instant key to get.
       # @param instant_key_url [String, nil] URL of the instant key to get.
       # @return [Seam::Resources::InstantKey] OK
@@ -31,7 +31,7 @@ module Seam
         Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
       end
 
-      # Returns a list of all [instant keys](https://docs.seam.co/capability-guides/instant-keys).
+      # Returns a list of all [instant keys](https://www.seam.co/docs/use-cases/granting-access/using-instant-keys).
       # @param user_identity_id [String, nil] ID of the user identity by which you want to filter the list of Instant Keys.
       # @return [Seam::Resources::InstantKey] OK
       def list(user_identity_id: nil)

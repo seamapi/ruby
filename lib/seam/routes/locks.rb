@@ -14,7 +14,7 @@ module Seam
         @simulate ||= Seam::Clients::LocksSimulate.new(client: @client, defaults: @defaults)
       end
 
-      # Configures the auto-lock setting for a specified [lock](https://docs.seam.co/low-level-apis/smart-locks).
+      # Configures the auto-lock setting for a specified [lock](https://www.seam.co/docs/low-level-apis/smart-locks).
       # @param auto_lock_enabled [Boolean] Whether to enable or disable auto-lock.
       # @param device_id [String] ID of the lock for which you want to configure the auto-lock.
       # @param auto_lock_delay_seconds [Float, nil] Delay in seconds before the lock automatically locks. Required when enabling auto-lock. Must be between 1 and 60.
@@ -27,7 +27,7 @@ module Seam
         Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      # Returns a specified [lock](https://docs.seam.co/low-level-apis/smart-locks).
+      # Returns a specified [lock](https://www.seam.co/docs/low-level-apis/smart-locks).
       # @param device_id [String, nil] ID of the lock that you want to get.
       # @param name [String, nil] Name of the lock that you want to get.
       # @return [Seam::Resources::Device] OK
@@ -42,7 +42,7 @@ module Seam
         Seam::Resources::Device.load_from_response(res.body["device"])
       end
 
-      # Returns a list of all [locks](https://docs.seam.co/low-level-apis/smart-locks).
+      # Returns a list of all [locks](https://www.seam.co/docs/low-level-apis/smart-locks).
       # @param connect_webview_id [String, nil] ID of the Connect Webview for which you want to list devices.
       # @param connected_account_id [String, nil] ID of the connected account for which you want to list devices.
       # @param customer_key [String, nil] Customer key for which you want to list devices.
@@ -56,7 +56,7 @@ module Seam
         Seam::Resources::Device.load_from_response(res.body["devices"])
       end
 
-      # Locks a [lock](https://docs.seam.co/low-level-apis/smart-locks). See also [Locking and Unlocking Smart Locks](https://docs.seam.co/low-level-apis/smart-locks/lock-and-unlock).
+      # Locks a [lock](https://www.seam.co/docs/low-level-apis/smart-locks). See also [Locking and Unlocking Smart Locks](https://www.seam.co/docs/low-level-apis/smart-locks/lock-and-unlock).
       # @param device_id [String] ID of the lock that you want to lock.
       # @return [Seam::Resources::ActionAttempt] OK
       def lock_door(device_id:, wait_for_action_attempt: nil)
@@ -67,7 +67,7 @@ module Seam
         Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      # Unlocks a [lock](https://docs.seam.co/low-level-apis/smart-locks). See also [Locking and Unlocking Smart Locks](https://docs.seam.co/low-level-apis/smart-locks/lock-and-unlock).
+      # Unlocks a [lock](https://www.seam.co/docs/low-level-apis/smart-locks). See also [Locking and Unlocking Smart Locks](https://www.seam.co/docs/low-level-apis/smart-locks/lock-and-unlock).
       # @param device_id [String] ID of the lock that you want to unlock.
       # @return [Seam::Resources::ActionAttempt] OK
       def unlock_door(device_id:, wait_for_action_attempt: nil)

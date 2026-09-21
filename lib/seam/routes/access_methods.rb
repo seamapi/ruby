@@ -41,7 +41,7 @@ module Seam
         nil
       end
 
-      # Encodes an existing access method onto a plastic card placed on the specified [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # Encodes an existing access method onto a plastic card placed on the specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
       # @param access_method_id [String] ID of the `access_method` to encode onto a card.
       # @param acs_encoder_id [String] ID of the `acs_encoder` to use to encode the `access_method`.
       # @return [Seam::Resources::ActionAttempt] OK
@@ -93,7 +93,7 @@ module Seam
         Seam::Resources::AccessMethod.load_from_response(res.body["access_methods"])
       end
 
-      # Remotely unlocks a specified [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) using the cloud key credential associated with an access method. Returns an action attempt that tracks the progress of the unlock operation.
+      # Remotely unlocks a specified [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) using the cloud key credential associated with an access method. Returns an action attempt that tracks the progress of the unlock operation.
       # @param access_method_id [String] ID of the cloud_key `access_method` to use for the unlock operation.
       # @param acs_entrance_id [String] ID of the entrance to unlock.
       # @return [Seam::Resources::ActionAttempt] OK

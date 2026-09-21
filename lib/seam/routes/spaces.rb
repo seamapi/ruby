@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Adds [entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) to a specific space.
+      # Adds [entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) to a specific space.
       # @param acs_entrance_ids [Array<String>] IDs of the entrances that you want to add to the space.
       # @param space_id [String] ID of the space to which you want to add entrances.
       # @return [nil] OK
@@ -18,7 +18,7 @@ module Seam
         nil
       end
 
-      # Adds a [connected account](https://docs.seam.co/core-concepts/connected-accounts) to a specific space.
+      # Adds a [connected account](https://www.seam.co/docs/core-concepts/connected-accounts) to a specific space.
       # @param connected_account_id [String] ID of the connected account that you want to add to the space.
       # @param space_id [String] ID of the space to which you want to add the connected account.
       # @return [nil] OK
@@ -105,7 +105,7 @@ module Seam
         Seam::Resources::Space.load_from_response(res.body["spaces"])
       end
 
-      # Removes [entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) from a specific space.
+      # Removes [entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) from a specific space.
       # @param acs_entrance_ids [Array<String>] IDs of the entrances that you want to remove from the space.
       # @param space_id [String] ID of the space from which you want to remove entrances.
       # @return [nil] OK
@@ -115,7 +115,7 @@ module Seam
         nil
       end
 
-      # Removes a [connected account](https://docs.seam.co/core-concepts/connected-accounts) from a specific space.
+      # Removes a [connected account](https://www.seam.co/docs/core-concepts/connected-accounts) from a specific space.
       # @param connected_account_id [String] ID of the connected account that you want to remove from the space.
       # @param space_id [String] ID of the space from which you want to remove the connected account.
       # @return [nil] OK
