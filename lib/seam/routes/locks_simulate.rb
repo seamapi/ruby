@@ -10,7 +10,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Simulates the entry of a code on a keypad. You can only perform this action for [August](https://docs.seam.co/device-and-system-integration-guides/august-locks) devices within [sandbox workspaces](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
+      # Simulates the entry of a code on a keypad. You can only perform this action for [August](https://www.seam.co/docs/device-and-system-integration-guides/august-locks) devices within [sandbox workspaces](https://www.seam.co/docs/core-concepts/workspaces#sandbox-workspaces).
       # @param code [String] Code that you want to simulate entering on a keypad.
       # @param device_id [String] ID of the device for which you want to simulate a keypad code entry.
       # @return [Seam::Resources::ActionAttempt] OK
@@ -22,7 +22,7 @@ module Seam
         Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      # Simulates a manual lock action using a keypad. You can only perform this action for [August](https://docs.seam.co/device-and-system-integration-guides/august-locks) devices within [sandbox workspaces](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
+      # Simulates a manual lock action using a keypad. You can only perform this action for [August](https://www.seam.co/docs/device-and-system-integration-guides/august-locks) devices within [sandbox workspaces](https://www.seam.co/docs/core-concepts/workspaces#sandbox-workspaces).
       # @param device_id [String] ID of the device for which you want to simulate a manual lock action using a keypad.
       # @return [Seam::Resources::ActionAttempt] OK
       def manual_lock_via_keypad(device_id:, wait_for_action_attempt: nil)

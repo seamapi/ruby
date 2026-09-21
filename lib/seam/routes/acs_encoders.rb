@@ -14,7 +14,7 @@ module Seam
         @simulate ||= Seam::Clients::AcsEncodersSimulate.new(client: @client, defaults: @defaults)
       end
 
-      # Encodes an existing [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) onto a plastic card placed on the specified [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners). Either provide an `acs_credential_id` or an `access_method_id`
+      # Encodes an existing [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) onto a plastic card placed on the specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners). Either provide an `acs_credential_id` or an `access_method_id`
       # @param acs_encoder_id [String] ID of the `acs_encoder` to use to encode the `acs_credential`.
       # @param access_method_id [String, nil] ID of the `access_method` to encode onto a card.
       # @param acs_credential_id [String, nil] ID of the `acs_credential` to encode onto a card.
@@ -27,7 +27,7 @@ module Seam
         Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      # Returns a specified [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # Returns a specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
       # @param acs_encoder_id [String] ID of the encoder that you want to get.
       # @return [Seam::Resources::AcsEncoder] OK
       def get(acs_encoder_id:)
@@ -36,7 +36,7 @@ module Seam
         Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoder"])
       end
 
-      # Returns a list of all [encoders](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # Returns a list of all [encoders](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
       # @param acs_encoder_ids [Array<String>, nil] IDs of the encoders that you want to retrieve.
       # @param acs_system_id [String, nil] ID of the access system for which you want to retrieve all encoders.
       # @param acs_system_ids [Array<String>, nil] IDs of the access systems for which you want to retrieve all encoders.
@@ -49,7 +49,7 @@ module Seam
         Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoders"])
       end
 
-      # Scans an encoded [acs_credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) from a plastic card placed on the specified [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
+      # Scans an encoded [acs_credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) from a plastic card placed on the specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
       # @param acs_encoder_id [String] ID of the encoder to use for the scan.
       # @param salto_ks_metadata [Hash, nil] Salto KS-specific metadata for the scan action.
       # @return [Seam::Resources::ActionAttempt] OK
@@ -61,7 +61,7 @@ module Seam
         Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      # Scans a physical card placed on the specified [encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners) and assigns the scanned credential to an ACS user. Provide either an `acs_user_id` or a `user_identity_id`.
+      # Scans a physical card placed on the specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners) and assigns the scanned credential to an ACS user. Provide either an `acs_user_id` or a `user_identity_id`.
       # @param acs_encoder_id [String] ID of the `acs_encoder` to use to scan the credential.
       # @param acs_user_id [String, nil] ID of the `acs_user` to assign the scanned credential to.
       # @param salto_ks_metadata [Hash, nil] Salto KS-specific metadata for the scan action.

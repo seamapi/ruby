@@ -12,12 +12,12 @@ module Seam
         @unmanaged ||= Seam::Clients::AccessGrantsUnmanaged.new(client: @client, defaults: @defaults)
       end
 
-      # Creates a new [Access Grant](https://docs.seam.co/use-cases/granting-access/access-grants). Access Grants are the default and recommended way to grant a user access to any physical space, irrespective of the locking hardware. They work with both standalone smart locks (using `device_ids`) and access control systems (using `acs_entrance_ids` or `space_ids`), and can issue PIN codes, key cards, and mobile keys through a single request.
+      # Creates a new [Access Grant](https://www.seam.co/docs/use-cases/granting-access). Access Grants are the default and recommended way to grant a user access to any physical space, irrespective of the locking hardware. They work with both standalone smart locks (using `device_ids`) and access control systems (using `acs_entrance_ids` or `space_ids`), and can issue PIN codes, key cards, and mobile keys through a single request.
       # @param requested_access_methods [Array<Hash>]
       # @param access_grant_key [String, nil] Unique key for the access grant within the workspace.
-      # @param acs_entrance_ids [Array<String>, nil] Set of IDs of the [entrances](https://docs.seam.co/api/acs/systems/list) to which access is being granted.
+      # @param acs_entrance_ids [Array<String>, nil] Set of IDs of the [entrances](https://www.seam.co/docs/api/acs/systems/list) to which access is being granted.
       # @param customization_profile_id [String, nil] ID of the customization profile to apply to the Access Grant and its access methods.
-      # @param device_ids [Array<String>, nil] Set of IDs of the [devices](https://docs.seam.co/api/devices/list) to which access is being granted.
+      # @param device_ids [Array<String>, nil] Set of IDs of the [devices](https://www.seam.co/docs/api/devices/list) to which access is being granted.
       # @param ends_at [String, Seam::Null, nil] Date and time at which the validity of the new grant ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
       # @param location [Hash, nil]
       # @deprecated location: Create a space first, then reference it using `space_ids`.

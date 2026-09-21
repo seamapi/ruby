@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Returns a specified event. This endpoint returns the same event that would be sent to a [webhook](https://docs.seam.co/developer-tools/webhooks), but it enables you to retrieve an event that already took place.
+      # Returns a specified event. This endpoint returns the same event that would be sent to a [webhook](https://www.seam.co/docs/developer-tools/webhooks), but it enables you to retrieve an event that already took place.
       # @param event_id [String, nil] Unique identifier for the event that you want to get.
       # @param device_id [String, nil] Unique identifier for the device that triggered the event that you want to get.
       # @param event_type [String, nil] Type of the event that you want to get.
@@ -23,7 +23,7 @@ module Seam
         Seam::Resources::SeamEvent.load_from_response(res.body["event"])
       end
 
-      # Returns a list of all events. This endpoint returns the same events that would be sent to a [webhook](https://docs.seam.co/developer-tools/webhooks), but it enables you to filter or see events that already took place.
+      # Returns a list of all events. This endpoint returns the same events that would be sent to a [webhook](https://www.seam.co/docs/developer-tools/webhooks), but it enables you to filter or see events that already took place.
       # @param access_code_id [String, nil] ID of the access code for which you want to list events.
       # @param access_code_ids [Array<String>, nil] IDs of the access codes for which you want to list events.
       # @param access_grant_id [String, nil] ID of the access grant for which you want to list events.

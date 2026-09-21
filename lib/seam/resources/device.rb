@@ -2,7 +2,7 @@
 
 module Seam
   module Resources
-    # Represents a [device](https://docs.seam.co/core-concepts/devices) that has been connected to Seam.
+    # Represents a [device](https://www.seam.co/docs/core-concepts/devices) that has been connected to Seam.
     class Device < BaseResource
       class DeviceManufacturer < BaseResource
         # Display name for the manufacturer, such as `August`, `Yale`, `Salto`, and so on.
@@ -40,7 +40,7 @@ module Seam
           # Known values:
           # - `account_disconnected`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -61,7 +61,7 @@ module Seam
           # Known values:
           # - `salto_ks_subscription_limit_exceeded`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -82,7 +82,7 @@ module Seam
           # Known values:
           # - `insufficient_permissions`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -103,7 +103,7 @@ module Seam
           # Known values:
           # - `dormakaba_sites_disconnected`
           attr_accessor :error_code
-          # Indicates that the error is a [connected account](https://docs.seam.co/api/connected_accounts) error.
+          # Indicates that the error is a [connected account](https://www.seam.co/docs/api/connected_accounts/object) error.
           # @return [TrueClass]
           attr_accessor :is_connected_account_error
           # Indicates that the error is not a device error.
@@ -189,7 +189,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [backup access code pool](https://docs.seam.co/low-level-apis/smart-locks/access-codes/backup-access-codes) is empty.
+        # Indicates that the [backup access code pool](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/backup-access-codes) is empty.
         class EmptyBackupAccessCodePool < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -279,14 +279,14 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge), for example, if the Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline. See also [Troubleshooting Your Access Control System](https://docs.seam.co/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
+        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge), for example, if the Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline. See also [Troubleshooting Your Access Control System](https://www.seam.co/docs/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
         class BridgeDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
           # Known values:
           # - `bridge_disconnected`
           attr_accessor :error_code
-          # Indicates whether the error is related to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
+          # Indicates whether the error is related to [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge).
           # @return [Boolean, nil]
           attr_accessor :is_bridge_error
           # Indicates whether the error is related specifically to the connected account.
@@ -1425,37 +1425,37 @@ module Seam
             date_accessor :created_at
           end
 
-          # Errors associated with the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
+          # Errors associated with the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
           # @return [Array<Errors>]
           resource_list_accessor :errors, Errors
-          # Key of the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) to use for the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
+          # Key of the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) to use for the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
           # @return [String]
           attr_accessor :climate_preset_key
-          # ID of the desired [thermostat](https://docs.seam.co/capability-guides/thermostats) device.
+          # ID of the desired [thermostat](https://www.seam.co/docs/capability-guides/thermostats) device.
           # @return [String]
           attr_accessor :device_id
-          # Indicates whether a person at the thermostat can change the thermostat's settings after the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts.
+          # Indicates whether a person at the thermostat can change the thermostat's settings after the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts.
           # @return [Boolean, nil]
           attr_accessor :is_override_allowed
-          # Number of minutes for which a person at the thermostat can change the thermostat's settings after the activation of the scheduled [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets). See also [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
+          # Number of minutes for which a person at the thermostat can change the thermostat's settings after the activation of the scheduled [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets). See also [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
           # @return [Integer, nil]
           attr_accessor :max_override_period_minutes
-          # User-friendly name to identify the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
+          # User-friendly name to identify the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
           # @return [String, nil]
           attr_accessor :name
-          # ID of the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
+          # ID of the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
           # @return [String]
           attr_accessor :thermostat_schedule_id
           # ID of the workspace that contains the thermostat schedule.
           # @return [String]
           attr_accessor :workspace_id
-          # Date and time at which the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) was created.
+          # Date and time at which the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) was created.
           # @return [Time]
           date_accessor :created_at
-          # Date and time at which the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+          # Date and time at which the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
           # @return [Time]
           date_accessor :ends_at
-          # Date and time at which the [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+          # Date and time at which the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
           # @return [Time]
           date_accessor :starts_at
         end
@@ -1479,16 +1479,16 @@ module Seam
           # Metadata specific to the Ecobee climate, if applicable.
           # @return [EcobeeMetadata, nil]
           resource_accessor :ecobee_metadata, EcobeeMetadata
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be deleted.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be deleted.
           # @return [Boolean]
           attr_accessor :can_delete
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be edited.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be edited.
           # @return [Boolean]
           attr_accessor :can_edit
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be programmed in a thermostat daily program.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be programmed in a thermostat daily program.
           # @return [Boolean]
           attr_accessor :can_use_with_thermostat_daily_programs
-          # Unique key to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # Unique key to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String]
           attr_accessor :climate_preset_key
           # The climate preset mode for the thermostat, based on the available climate preset modes reported by the device.
@@ -1501,29 +1501,29 @@ module Seam
           # - `occupied`
           # - `unoccupied`
           attr_accessor :climate_preset_mode
-          # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :cooling_set_point_celsius
-          # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :cooling_set_point_fahrenheit
-          # Display name for the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # Display name for the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String]
           attr_accessor :display_name
-          # Desired [fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
+          # Desired [fan mode setting](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
           # @return [String, nil]
           # Known values:
           # - `auto`
           # - `on`
           # - `circulate`
           attr_accessor :fan_mode_setting
-          # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :heating_set_point_celsius
-          # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :heating_set_point_fahrenheit
-          # Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
+          # Desired [HVAC mode](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
           # @return [String, nil]
           # Known values:
           # - `off`
@@ -1532,11 +1532,11 @@ module Seam
           # - `heat_cool`
           # - `eco`
           attr_accessor :hvac_mode_setting
-          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
+          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
           # @return [Boolean]
           # @deprecated Use 'thermostat_schedule.is_override_allowed'
           attr_accessor :manual_override_allowed
-          # User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # User-friendly name to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :name
         end
@@ -1560,16 +1560,16 @@ module Seam
           # Metadata specific to the Ecobee climate, if applicable.
           # @return [EcobeeMetadata, nil]
           resource_accessor :ecobee_metadata, EcobeeMetadata
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be deleted.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be deleted.
           # @return [Boolean, nil]
           attr_accessor :can_delete
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be edited.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be edited.
           # @return [Boolean, nil]
           attr_accessor :can_edit
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be programmed in a thermostat daily program.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be programmed in a thermostat daily program.
           # @return [Boolean, nil]
           attr_accessor :can_use_with_thermostat_daily_programs
-          # Unique key to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # Unique key to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :climate_preset_key
           # The climate preset mode for the thermostat, based on the available climate preset modes reported by the device.
@@ -1582,29 +1582,29 @@ module Seam
           # - `occupied`
           # - `unoccupied`
           attr_accessor :climate_preset_mode
-          # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :cooling_set_point_celsius
-          # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :cooling_set_point_fahrenheit
-          # Display name for the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # Display name for the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :display_name
-          # Desired [fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
+          # Desired [fan mode setting](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
           # @return [String, nil]
           # Known values:
           # - `auto`
           # - `on`
           # - `circulate`
           attr_accessor :fan_mode_setting
-          # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :heating_set_point_celsius
-          # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :heating_set_point_fahrenheit
-          # Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
+          # Desired [HVAC mode](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
           # @return [String, nil]
           # Known values:
           # - `off`
@@ -1613,11 +1613,11 @@ module Seam
           # - `heat_cool`
           # - `eco`
           attr_accessor :hvac_mode_setting
-          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
+          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
           # @return [Boolean, nil]
           # @deprecated Use 'thermostat_schedule.is_override_allowed'
           attr_accessor :manual_override_allowed
-          # User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # User-friendly name to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :name
         end
@@ -1641,16 +1641,16 @@ module Seam
           # Metadata specific to the Ecobee climate, if applicable.
           # @return [EcobeeMetadata, nil]
           resource_accessor :ecobee_metadata, EcobeeMetadata
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be deleted.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be deleted.
           # @return [Boolean, nil]
           attr_accessor :can_delete
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be edited.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be edited.
           # @return [Boolean, nil]
           attr_accessor :can_edit
-          # Indicates whether the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) key can be programmed in a thermostat daily program.
+          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be programmed in a thermostat daily program.
           # @return [Boolean, nil]
           attr_accessor :can_use_with_thermostat_daily_programs
-          # Unique key to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # Unique key to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :climate_preset_key
           # The climate preset mode for the thermostat, based on the available climate preset modes reported by the device.
@@ -1663,29 +1663,29 @@ module Seam
           # - `occupied`
           # - `unoccupied`
           attr_accessor :climate_preset_mode
-          # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :cooling_set_point_celsius
-          # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :cooling_set_point_fahrenheit
-          # Display name for the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # Display name for the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :display_name
-          # Desired [fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
+          # Desired [fan mode setting](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
           # @return [String, nil]
           # Known values:
           # - `auto`
           # - `on`
           # - `circulate`
           attr_accessor :fan_mode_setting
-          # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :heating_set_point_celsius
-          # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+          # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
           # @return [Float, nil]
           attr_accessor :heating_set_point_fahrenheit
-          # Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
+          # Desired [HVAC mode](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
           # @return [String, nil]
           # Known values:
           # - `off`
@@ -1694,33 +1694,33 @@ module Seam
           # - `heat_cool`
           # - `eco`
           attr_accessor :hvac_mode_setting
-          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
+          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
           # @return [Boolean, nil]
           # @deprecated Use 'thermostat_schedule.is_override_allowed'
           attr_accessor :manual_override_allowed
-          # User-friendly name to identify the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets).
+          # User-friendly name to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :name
         end
 
         class TemperatureThreshold < BaseResource
-          # Lower limit in °C within the current [temperature threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
+          # Lower limit in °C within the current [temperature threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
           # @return [Float, nil]
           attr_accessor :lower_limit_celsius
-          # Lower limit in °F within the current [temperature threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
+          # Lower limit in °F within the current [temperature threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
           # @return [Float, nil]
           attr_accessor :lower_limit_fahrenheit
-          # Upper limit in °C within the current [temperature threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
+          # Upper limit in °C within the current [temperature threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
           # @return [Float, nil]
           attr_accessor :upper_limit_celsius
-          # Upper limit in °F within the current [temperature threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
+          # Upper limit in °F within the current [temperature threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
           # @return [Float, nil]
           attr_accessor :upper_limit_fahrenheit
         end
 
         class ThermostatDailyPrograms < BaseResource
           class Periods < BaseResource
-            # Key of the [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) to activate at the `starts_at_time`.
+            # Key of the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) to activate at the `starts_at_time`.
             # @return [String]
             attr_accessor :climate_preset_key
             # Time at which the thermostat daily program period starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
@@ -1919,7 +1919,7 @@ module Seam
         # Keypad battery status.
         # @return [KeypadBattery, nil]
         resource_accessor :keypad_battery, KeypadBattery
-        # Active [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
+        # Active [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
         # @return [ActiveThermostatSchedule, nil]
         resource_accessor :active_thermostat_schedule, ActiveThermostatSchedule
         # Current climate setting.
@@ -1927,10 +1927,10 @@ module Seam
         resource_accessor :current_climate_setting, CurrentClimateSetting
         # @return [DefaultClimateSetting, nil]
         resource_accessor :default_climate_setting, DefaultClimateSetting
-        # Current [temperature threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
+        # Current [temperature threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
         # @return [TemperatureThreshold, nil]
         resource_accessor :temperature_threshold, TemperatureThreshold
-        # Current [weekly program](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-programs) for the thermostat.
+        # Current [weekly program](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-programs) for the thermostat.
         # @return [ThermostatWeeklyProgram, nil]
         resource_accessor :thermostat_weekly_program, ThermostatWeeklyProgram
         # Constraints on access codes for the device. Seam represents each constraint as an object with a `constraint_type` property. Depending on the constraint type, there may also be additional properties. Note that some constraints are manufacturer- or device-specific.
@@ -1942,10 +1942,10 @@ module Seam
         # Time frames that may be requested when creating an online access code, expressed as a list of options. The caller picks one option (by matching the requested duration when the options' duration ranges do not overlap, or by `display_name` when they do) and satisfies that one option's rules. When `undefined`, any time frame works.
         # @return [Array<OnlineTimeFrameOptions>]
         resource_list_accessor :online_time_frame_options, OnlineTimeFrameOptions
-        # Available [climate presets](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) for the thermostat.
+        # Available [climate presets](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) for the thermostat.
         # @return [Array<AvailableClimatePresets>]
         resource_list_accessor :available_climate_presets, AvailableClimatePresets
-        # Configured [daily programs](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-programs) for the thermostat.
+        # Configured [daily programs](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-programs) for the thermostat.
         # @return [Array<ThermostatDailyPrograms>]
         resource_list_accessor :thermostat_daily_programs, ThermostatDailyPrograms
         # Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.
@@ -1999,7 +1999,7 @@ module Seam
         # Indicates whether automatic locking is enabled.
         # @return [Boolean, nil]
         attr_accessor :auto_lock_enabled
-        # Indicates whether the [backup access code pool](https://docs.seam.co/low-level-apis/smart-locks/access-codes/backup-access-codes) is currently enabled for the device. To disable it, set this to `false` using [/devices/update](https://docs.seam.co/api/devices/update).
+        # Indicates whether the [backup access code pool](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/backup-access-codes) is currently enabled for the device. To disable it, set this to `false` using [/devices/update](https://www.seam.co/docs/api/devices/update).
         # @return [Boolean, nil]
         attr_accessor :backup_access_code_pool_enabled
         # Indicates whether the door is open.
@@ -2017,10 +2017,10 @@ module Seam
         # Supported code lengths for access codes.
         # @return [Array<Float>]
         attr_accessor :supported_code_lengths
-        # Indicates whether the device supports a [backup access code pool](https://docs.seam.co/low-level-apis/smart-locks/access-codes/backup-access-codes).
+        # Indicates whether the device supports a [backup access code pool](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/backup-access-codes).
         # @return [Boolean, nil]
         attr_accessor :supports_backup_access_code_pool
-        # ID of the active [thermostat schedule](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
+        # ID of the active [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
         # @return [String, nil]
         attr_accessor :active_thermostat_schedule_id
         # Climate preset modes that the thermostat supports, such as "home", "away", "wake", "sleep", "occupied", and "unoccupied".
@@ -2049,7 +2049,7 @@ module Seam
         # - `heat_cool`
         # - `eco`
         attr_accessor :available_hvac_mode_settings
-        # Key of the [fallback climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets/setting-the-fallback-climate-preset) for the thermostat.
+        # Key of the [fallback climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets/setting-the-fallback-climate-preset) for the thermostat.
         # @return [String, nil]
         attr_accessor :fallback_climate_preset_key
         # @return [String, nil]
@@ -2071,16 +2071,16 @@ module Seam
         # Indicates whether the current thermostat settings differ from the most recent active program or schedule that Seam activated. For this condition to occur, `current_climate_setting.manual_override_allowed` must also be `true`.
         # @return [Boolean, nil]
         attr_accessor :is_temporary_manual_override_active
-        # Maximum [cooling set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °C.
+        # Maximum [cooling set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °C.
         # @return [Float, nil]
         attr_accessor :max_cooling_set_point_celsius
-        # Maximum [cooling set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °F.
+        # Maximum [cooling set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °F.
         # @return [Float, nil]
         attr_accessor :max_cooling_set_point_fahrenheit
-        # Maximum [heating set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °C.
+        # Maximum [heating set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °C.
         # @return [Float, nil]
         attr_accessor :max_heating_set_point_celsius
-        # Maximum [heating set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °F.
+        # Maximum [heating set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °F.
         # @return [Float, nil]
         attr_accessor :max_heating_set_point_fahrenheit
         # Maximum number of periods that the thermostat can support per day. For example, if the thermostat supports 4 periods per day, this value is 4.
@@ -2089,22 +2089,22 @@ module Seam
         # Maximum number of climate presets that the thermostat can support for weekly programming.
         # @return [Float, nil]
         attr_accessor :max_unique_climate_presets_per_thermostat_weekly_program
-        # Minimum [cooling set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °C.
+        # Minimum [cooling set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °C.
         # @return [Float, nil]
         attr_accessor :min_cooling_set_point_celsius
-        # Minimum [cooling set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °F.
+        # Minimum [cooling set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#cooling-set-point) in °F.
         # @return [Float, nil]
         attr_accessor :min_cooling_set_point_fahrenheit
-        # Minimum [temperature difference](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#minimum-heating-cooling-temperature-delta) in °C between the cooling and heating set points when in heat-cool (auto) mode.
+        # Minimum [temperature difference](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#minimum-heating-cooling-temperature-delta) in °C between the cooling and heating set points when in heat-cool (auto) mode.
         # @return [Float, nil]
         attr_accessor :min_heating_cooling_delta_celsius
-        # Minimum [temperature difference](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#minimum-heating-cooling-temperature-delta) in °F between the cooling and heating set points when in heat-cool (auto) mode.
+        # Minimum [temperature difference](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#minimum-heating-cooling-temperature-delta) in °F between the cooling and heating set points when in heat-cool (auto) mode.
         # @return [Float, nil]
         attr_accessor :min_heating_cooling_delta_fahrenheit
-        # Minimum [heating set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °C.
+        # Minimum [heating set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °C.
         # @return [Float, nil]
         attr_accessor :min_heating_set_point_celsius
-        # Minimum [heating set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °F.
+        # Minimum [heating set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points#heating-set-point) in °F.
         # @return [Float, nil]
         attr_accessor :min_heating_set_point_fahrenheit
         # Reported relative humidity, as a value between 0 and 1, inclusive.
@@ -2698,7 +2698,7 @@ module Seam
       # Indicates whether the lock supports unlocking with an access code.
       # @return [Boolean, nil]
       attr_accessor :can_unlock_with_code
-      # Collection of capabilities that the device supports when connected to Seam. Values are `access_code`, which indicates that the device can manage and utilize digital PIN codes for secure access; `lock`, which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; `noise_detection`, which indicates that the device supports monitoring and responding to ambient noise levels; `thermostat`, which indicates that the device can regulate and adjust indoor temperatures; `battery`, which indicates that the device can manage battery life and health; and `phone`, which indicates that the device is a mobile device, such as a smartphone. **Important:** Superseded by [capability flags](https://docs.seam.co/capability-guides/device-and-system-capabilities#capability-flags).
+      # Collection of capabilities that the device supports when connected to Seam. Values are `access_code`, which indicates that the device can manage and utilize digital PIN codes for secure access; `lock`, which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; `noise_detection`, which indicates that the device supports monitoring and responding to ambient noise levels; `thermostat`, which indicates that the device can regulate and adjust indoor temperatures; `battery`, which indicates that the device can manage battery life and health; and `phone`, which indicates that the device is a mobile device, such as a smartphone. **Important:** Superseded by [capability flags](https://www.seam.co/docs/capability-guides/device-and-system-capabilities#capability-flags).
       # @return [Array<String>]
       # Known values:
       # - `access_code`
@@ -2711,7 +2711,7 @@ module Seam
       # Unique identifier for the account associated with the device.
       # @return [String]
       attr_accessor :connected_account_id
-      # Set of key:value pairs. Adding custom metadata to a resource, such as a [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews/attaching-custom-data-to-the-connect-webview), [connected account](https://docs.seam.co/core-concepts/connected-accounts/adding-custom-metadata-to-a-connected-account), or [device](https://docs.seam.co/core-concepts/devices/adding-custom-metadata-to-a-device), enables you to store custom information, like customer details or internal IDs from your application. Keys set to `null` or to an empty string are omitted.
+      # Set of key:value pairs. Adding custom metadata to a resource, such as a [Connect Webview](https://www.seam.co/docs/core-concepts/connect-webviews/attaching-custom-data-to-the-connect-webview), [connected account](https://www.seam.co/docs/core-concepts/connected-accounts/adding-custom-metadata-to-a-connected-account), or [device](https://www.seam.co/docs/core-concepts/devices/adding-custom-metadata-to-a-device), enables you to store custom information, like customer details or internal IDs from your application. Keys set to `null` or to an empty string are omitted.
       # @return [Hash{String => String, Boolean}]
       attr_accessor :custom_metadata
       # ID of the device.
@@ -2768,7 +2768,7 @@ module Seam
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]
       attr_accessor :display_name
-      # Indicates whether Seam manages the device. See also [Managed and Unmanaged Devices](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices).
+      # Indicates whether Seam manages the device. See also [Managed and Unmanaged Devices](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices).
       # @return [TrueClass]
       attr_accessor :is_managed
       # Optional nickname to describe the device, settable through Seam.

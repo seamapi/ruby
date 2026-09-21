@@ -2,17 +2,17 @@
 
 module Seam
   module Resources
-    # Represents an [access control system](https://docs.seam.co/low-level-apis/access-systems).
+    # Represents an [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
     #
-    # Within an `acs_system`, create [`acs_user`s](https://docs.seam.co/api/acs/users/object) and [`acs_credential`s](https://docs.seam.co/api/acs/credentials/object) to grant access to the `acs_user`s.
+    # Within an `acs_system`, create [`acs_user`s](https://www.seam.co/docs/api/acs/users/object) and [`acs_credential`s](https://www.seam.co/docs/api/acs/credentials/object) to grant access to the `acs_user`s.
     #
-    # For details about the resources associated with an access control system, see the [access control systems namespace](https://docs.seam.co/api/acs).
+    # For details about the resources associated with an access control system, see the [access control systems namespace](https://www.seam.co/docs/api/acs/object).
     class AcsSystem < BaseResource
       # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
-        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge), for example, if Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline.
-        # This error might also occur if Seam Bridge is connected to the wrong [workspace](https://docs.seam.co/core-concepts/workspaces).
-        # See also [Troubleshooting Your Access Control System](https://docs.seam.co/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
+        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge), for example, if Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline.
+        # This error might also occur if Seam Bridge is connected to the wrong [workspace](https://www.seam.co/docs/core-concepts/workspaces).
+        # See also [Troubleshooting Your Access Control System](https://www.seam.co/docs/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
         class SeamBridgeDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -27,15 +27,15 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge), for example, if Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline.
-        # See also [Troubleshooting Your Access Control System](https://docs.seam.co/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
+        # Indicates that the Seam API cannot communicate with [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge), for example, if Seam Bridge executable has stopped or if the computer running the Seam Bridge executable is offline.
+        # See also [Troubleshooting Your Access Control System](https://www.seam.co/docs/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-seam_bridge_disconnected).
         class BridgeDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
           # Known values:
           # - `bridge_disconnected`
           attr_accessor :error_code
-          # Indicates whether the error is related to the [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge).
+          # Indicates whether the error is related to the [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge).
           # @return [Boolean, nil]
           attr_accessor :is_bridge_error
           # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
@@ -46,9 +46,9 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge) is functioning correctly and the Seam API can communicate with Seam Bridge, but the Seam API cannot connect to the on-premises [Visionline access control system](https://docs.seam.co/device-and-system-integration-guides/assa-abloy-visionline-access-control-system).
-        # For example, the IP address of the on-premises access control system may be set incorrectly within the Seam [workspace](https://docs.seam.co/core-concepts/workspaces).
-        # See also [Troubleshooting Your Access Control System](https://docs.seam.co/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-visionline_instance_unreachable).
+        # Indicates that [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge) is functioning correctly and the Seam API can communicate with Seam Bridge, but the Seam API cannot connect to the on-premises [Visionline access control system](https://www.seam.co/docs/device-and-system-integration-guides/assa-abloy-visionline-access-control-system).
+        # For example, the IP address of the on-premises access control system may be set incorrectly within the Seam [workspace](https://www.seam.co/docs/core-concepts/workspaces).
+        # See also [Troubleshooting Your Access Control System](https://www.seam.co/docs/low-level-apis/access-systems/troubleshooting-your-access-control-system#acs_system-errors-visionline_instance_unreachable).
         class VisionlineInstanceUnreachable < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -78,7 +78,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that Seam's integration user does not have sufficient permissions on the provider's system backing this [access control system](https://docs.seam.co/low-level-apis/access-systems). Access cannot be managed until permissions are restored. See the error message for specifics, then either reauthorize the connected account in Seam or grant the integration user the required permissions in the provider's system.
+        # Indicates that Seam's integration user does not have sufficient permissions on the provider's system backing this [access control system](https://www.seam.co/docs/low-level-apis/access-systems). Access cannot be managed until permissions are restored. See the error message for specifics, then either reauthorize the connected account in Seam or grant the integration user the required permissions in the provider's system.
         class InsufficientPermissions < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -93,7 +93,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access control system](https://docs.seam.co/low-level-apis/access-systems) has been disconnected. See [Troubleshooting Your Access Control System](https://docs.seam.co/low-level-apis/access-systems/troubleshooting-your-access-control-system) to resolve the issue.
+        # Indicates that the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) has been disconnected. See [Troubleshooting Your Access Control System](https://www.seam.co/docs/low-level-apis/access-systems/troubleshooting-your-access-control-system) to resolve the issue.
         class AcsSystemDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -108,7 +108,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the login credentials are invalid. Reconnect the account using a [Connect Webview](https://docs.seam.co/core-concepts/connect-webviews) to restore access.
+        # Indicates that the login credentials are invalid. Reconnect the account using a [Connect Webview](https://www.seam.co/docs/core-concepts/connect-webviews) to restore access.
         class AccountDisconnected < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -123,7 +123,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access control system](https://docs.seam.co/low-level-apis/access-systems) has lost its Salto KS certification. Contact [support](mailto:support@seam.co) to regain access.
+        # Indicates that the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) has lost its Salto KS certification. Contact [support](mailto:support@seam.co) to regain access.
         class SaltoKsCertificationExpired < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -187,13 +187,13 @@ module Seam
       end
 
       class Location < BaseResource
-        # Time zone in which the [access control system](https://docs.seam.co/low-level-apis/access-systems) is located.
+        # Time zone in which the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) is located.
         # @return [String, nil]
         attr_accessor :time_zone
       end
 
       class VisionlineMetadata < BaseResource
-        # IP address or hostname of the main Visionline server relative to [Seam Bridge](https://docs.seam.co/capability-guides/seam-bridge) on the local network.
+        # IP address or hostname of the main Visionline server relative to [Seam Bridge](https://www.seam.co/docs/capability-guides/seam-bridge) on the local network.
         # @return [String, nil]
         attr_accessor :lan_address
         # Keyset loaded into a reader. Mobile keys and reader administration tools securely authenticate only with readers programmed with a matching keyset.
@@ -221,7 +221,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates the [access control system](https://docs.seam.co/low-level-apis/access-systems) time zone could not be determined because the reported physical location does not match the time zone configured on the physical [ACS entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+        # Indicates the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) time zone could not be determined because the reported physical location does not match the time zone configured on the physical [ACS entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
         class TimeZoneDoesNotMatchLocation < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -254,7 +254,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that Seam encountered an unexpected error while syncing this [access control system](https://docs.seam.co/low-level-apis/access-systems), so its users, credentials, and access groups may be out of date. Seam retries on every sync cycle and clears this warning once a sync succeeds; if it persists, contact [support](mailto:support@seam.co).
+        # Indicates that Seam encountered an unexpected error while syncing this [access control system](https://www.seam.co/docs/low-level-apis/access-systems), so its users, credentials, and access groups may be out of date. Seam retries on every sync cycle and clears this warning once a sync succeeds; if it persists, contact [support](mailto:support@seam.co).
         class UnknownIssueWithAcsSystem < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -292,38 +292,38 @@ module Seam
         }.freeze
       end
 
-      # Location information for the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # Location information for the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [Location]
       resource_accessor :location, Location
-      # Visionline-specific metadata for the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # Visionline-specific metadata for the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [VisionlineMetadata, nil]
       resource_accessor :visionline_metadata, VisionlineMetadata
-      # Errors associated with the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # Errors associated with the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
-      # Warnings associated with the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # Warnings associated with the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
-      # Number of access groups in the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # Number of access groups in the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [Float, nil]
       attr_accessor :acs_access_group_count
-      # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # ID of the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :acs_system_id
-      # Number of users in the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # Number of users in the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [Float, nil]
       attr_accessor :acs_user_count
-      # ID of the connected account associated with the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # ID of the connected account associated with the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :connected_account_id
-      # IDs of the [connected accounts](https://docs.seam.co/core-concepts/connected-accounts) associated with the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # IDs of the [connected accounts](https://www.seam.co/docs/core-concepts/connected-accounts) associated with the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [Array<String>]
       # @deprecated Use `connected_account_id`.
       attr_accessor :connected_account_ids
-      # ID of the default credential manager `acs_system` for this [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # ID of the default credential manager `acs_system` for this [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String, nil]
       attr_accessor :default_credential_manager_acs_system_id
-      # Brand-specific terminology for the [access control system](https://docs.seam.co/low-level-apis/access-systems) type.
+      # Brand-specific terminology for the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) type.
       # @return [String, nil]
       # Known values:
       # - `pti_site`
@@ -344,19 +344,19 @@ module Seam
       # - `kisi_organization`
       # - `akiles_organization`
       attr_accessor :external_type
-      # Display name that corresponds to the brand-specific terminology for the [access control system](https://docs.seam.co/low-level-apis/access-systems) type.
+      # Display name that corresponds to the brand-specific terminology for the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) type.
       # @return [String, nil]
       attr_accessor :external_type_display_name
-      # Alternative text for the [access control system](https://docs.seam.co/low-level-apis/access-systems) image.
+      # Alternative text for the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) image.
       # @return [String]
       attr_accessor :image_alt_text
-      # URL for the image that represents the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # URL for the image that represents the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :image_url
       # Indicates whether the `acs_system` is a credential manager.
       # @return [Boolean]
       attr_accessor :is_credential_manager
-      # Name of the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # Name of the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :name
       # @return [String, nil]
@@ -383,11 +383,11 @@ module Seam
       # @return [String, nil]
       # @deprecated Use `external_type_display_name`.
       attr_accessor :system_type_display_name
-      # ID of the workspace that contains the [access control system](https://docs.seam.co/low-level-apis/access-systems).
+      # ID of the workspace that contains the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :workspace_id
 
-      # Date and time at which the [access control system](https://docs.seam.co/low-level-apis/access-systems) was created.
+      # Date and time at which the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) was created.
       # @return [Time]
       date_accessor :created_at
     end

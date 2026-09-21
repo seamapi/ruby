@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Simulates a connected account becoming disconnected from Seam. Only applicable for [sandbox workspaces](https://docs.seam.co/core-concepts/workspaces#sandbox-workspaces).
+      # Simulates a connected account becoming disconnected from Seam. Only applicable for [sandbox workspaces](https://www.seam.co/docs/core-concepts/workspaces#sandbox-workspaces).
       # @param connected_account_id [String] ID of the connected account you want to simulate as disconnected.
       # @return [nil] OK
       def disconnect(connected_account_id:)

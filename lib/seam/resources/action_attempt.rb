@@ -120,63 +120,63 @@ module Seam
         class Result < BaseResource
           class AcsCredentialOnEncoder < BaseResource
             class VisionlineMetadata < BaseResource
-              # Indicates whether the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is cancelled.
+              # Indicates whether the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is cancelled.
               # @return [Boolean, nil]
               attr_accessor :cancelled
-              # Format of the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+              # Format of the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
               # @return [String, nil]
               # Known values:
               # - `TLCode`
               # - `rfid48`
               attr_accessor :card_format
-              # Holder of the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+              # Holder of the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
               # @return [String, nil]
               attr_accessor :card_holder
-              # Card ID for the Visionline card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+              # Card ID for the Visionline card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
               # @return [String, nil]
               attr_accessor :card_id
-              # IDs of the common [entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+              # IDs of the common [entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
               # @return [Array<String>]
               attr_accessor :common_acs_entrance_ids
-              # Indicates whether the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is discarded.
+              # Indicates whether the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is discarded.
               # @return [Boolean, nil]
               attr_accessor :discarded
-              # Indicates whether the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is expired.
+              # Indicates whether the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is expired.
               # @return [Boolean, nil]
               attr_accessor :expired
-              # IDs of the guest [entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+              # IDs of the guest [entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
               # @return [Array<String>]
               attr_accessor :guest_acs_entrance_ids
-              # Number of issued cards associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+              # Number of issued cards associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
               # @return [Float, nil]
               attr_accessor :number_of_issued_cards
-              # Indicates whether the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is overridden.
+              # Indicates whether the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is overridden.
               # @return [Boolean, nil]
               attr_accessor :overridden
-              # Indicates whether the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is overwritten.
+              # Indicates whether the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is overwritten.
               # @return [Boolean, nil]
               attr_accessor :overwritten
-              # Indicates whether the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is pending auto-update.
+              # Indicates whether the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is pending auto-update.
               # @return [Boolean, nil]
               attr_accessor :pending_auto_update
             end
 
-            # Visionline-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Visionline-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [VisionlineMetadata, nil]
             resource_accessor :visionline_metadata, VisionlineMetadata
-            # A number or string that physically identifies the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # A number or string that physically identifies the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [String, nil]
             attr_accessor :card_number
             # Indicates whether the credential has been issued (encoded onto a card).
             # @return [Boolean, nil]
             attr_accessor :is_issued
-            # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was created.
+            # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was created.
             # @return [Time, nil]
             date_accessor :created_at
-            # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) will stop being usable.
+            # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) will stop being usable.
             # @return [Time, nil]
             date_accessor :ends_at
-            # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) becomes usable.
+            # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) becomes usable.
             # @return [Time, nil]
             date_accessor :starts_at
           end
@@ -275,22 +275,22 @@ module Seam
               date_accessor :created_at
             end
 
-            # Akiles-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Akiles-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [AkilesMetadata, nil]
             resource_accessor :akiles_metadata, AkilesMetadata
-            # Vostio-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Vostio-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [AssaAbloyVostioMetadata, nil]
             resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
-            # Visionline-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Visionline-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [VisionlineMetadata, nil]
             resource_accessor :visionline_metadata, VisionlineMetadata
-            # Errors associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Errors associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [Array<Errors>]
             resource_list_accessor :errors, Errors
-            # Warnings associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Warnings associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [Array<Warnings>]
             resource_list_accessor :warnings, Warnings
-            # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
+            # Access method for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
             # @return [String]
             # Known values:
             # - `code`
@@ -298,34 +298,34 @@ module Seam
             # - `mobile_key`
             # - `cloud_key`
             attr_accessor :access_method
-            # ID of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # ID of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [String]
             attr_accessor :acs_credential_id
             # ID of the credential pool to which the credential belongs.
             # @return [String, nil]
             attr_accessor :acs_credential_pool_id
-            # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems) that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # ID of the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) that contains the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [String]
             attr_accessor :acs_system_id
-            # ID of the [ACS user](https://docs.seam.co/low-level-apis/access-systems/user-management) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+            # ID of the [ACS user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) to whom the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
             # @return [String, nil]
             attr_accessor :acs_user_id
-            # Number of the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Number of the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [String, nil]
             attr_accessor :card_number
-            # Access (PIN) code for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # Access (PIN) code for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [String, nil]
             attr_accessor :code
-            # ID of the [connected account](https://docs.seam.co/core-concepts/connected-accounts) to which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+            # ID of the [connected account](https://www.seam.co/docs/core-concepts/connected-accounts) to which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
             # @return [String]
             attr_accessor :connected_account_id
-            # Display name that corresponds to the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
+            # Display name that corresponds to the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type.
             # @return [String]
             attr_accessor :display_name
-            # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
+            # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
             # @return [String, nil]
             attr_accessor :ends_at
-            # Brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
+            # Brand-specific terminology for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
             # @return [String, nil]
             # Known values:
             # - `pti_card`
@@ -343,42 +343,42 @@ module Seam
             # - `kisi_credential`
             # - `akiles_credential`
             attr_accessor :external_type
-            # Display name that corresponds to the brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
+            # Display name that corresponds to the brand-specific terminology for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type.
             # @return [String, nil]
             attr_accessor :external_type_display_name
-            # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been encoded onto a card.
+            # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been encoded onto a card.
             # @return [Boolean, nil]
             attr_accessor :is_issued
-            # Indicates whether the latest state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
+            # Indicates whether the latest state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
             # @return [Boolean, nil]
             attr_accessor :is_latest_desired_state_synced_with_provider
             # @return [Boolean]
             attr_accessor :is_managed
-            # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://docs.seam.co/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
+            # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://www.seam.co/docs/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
             # @return [Boolean, nil]
             attr_accessor :is_multi_phone_sync_credential
-            # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) can only be used once. If `true`, the code becomes invalid after the first use.
+            # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) can only be used once. If `true`, the code becomes invalid after the first use.
             # @return [Boolean, nil]
             attr_accessor :is_one_time_use
-            # ID of the parent [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # ID of the parent [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [String, nil]
             attr_accessor :parent_acs_credential_id
-            # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+            # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) validity starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
             # @return [String, nil]
             attr_accessor :starts_at
-            # ID of the [user identity](https://docs.seam.co/api/user_identities) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+            # ID of the [user identity](https://www.seam.co/docs/api/user_identities/object) to whom the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
             # @return [String, nil]
             attr_accessor :user_identity_id
-            # ID of the workspace that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+            # ID of the workspace that contains the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
             # @return [String]
             attr_accessor :workspace_id
-            # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was created.
+            # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was created.
             # @return [Time]
             date_accessor :created_at
-            # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was encoded onto a card.
+            # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was encoded onto a card.
             # @return [Time, nil]
             date_accessor :issued_at
-            # Date and time at which the state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
+            # Date and time at which the state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
             # @return [Time, nil]
             date_accessor :latest_desired_state_synced_with_provider_at
           end
@@ -547,22 +547,22 @@ module Seam
             date_accessor :created_at
           end
 
-          # Akiles-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Akiles-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [AkilesMetadata, nil]
           resource_accessor :akiles_metadata, AkilesMetadata
-          # Vostio-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Vostio-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [AssaAbloyVostioMetadata, nil]
           resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
-          # Visionline-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Visionline-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [VisionlineMetadata, nil]
           resource_accessor :visionline_metadata, VisionlineMetadata
-          # Errors associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Errors associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [Array<Errors>]
           resource_list_accessor :errors, Errors
-          # Warnings associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Warnings associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [Array<Warnings>]
           resource_list_accessor :warnings, Warnings
-          # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
+          # Access method for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
           # @return [String]
           # Known values:
           # - `code`
@@ -570,34 +570,34 @@ module Seam
           # - `mobile_key`
           # - `cloud_key`
           attr_accessor :access_method
-          # ID of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String]
           attr_accessor :acs_credential_id
           # ID of the credential pool to which the credential belongs.
           # @return [String, nil]
           attr_accessor :acs_credential_pool_id
-          # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems) that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) that contains the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String]
           attr_accessor :acs_system_id
-          # ID of the [ACS user](https://docs.seam.co/low-level-apis/access-systems/user-management) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+          # ID of the [ACS user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) to whom the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
           # @return [String, nil]
           attr_accessor :acs_user_id
-          # Number of the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Number of the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String, nil]
           attr_accessor :card_number
-          # Access (PIN) code for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Access (PIN) code for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String, nil]
           attr_accessor :code
-          # ID of the [connected account](https://docs.seam.co/core-concepts/connected-accounts) to which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+          # ID of the [connected account](https://www.seam.co/docs/core-concepts/connected-accounts) to which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
           # @return [String]
           attr_accessor :connected_account_id
-          # Display name that corresponds to the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
+          # Display name that corresponds to the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type.
           # @return [String]
           attr_accessor :display_name
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
           # @return [String, nil]
           attr_accessor :ends_at
-          # Brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
+          # Brand-specific terminology for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
           # @return [String, nil]
           # Known values:
           # - `pti_card`
@@ -615,42 +615,42 @@ module Seam
           # - `kisi_credential`
           # - `akiles_credential`
           attr_accessor :external_type
-          # Display name that corresponds to the brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
+          # Display name that corresponds to the brand-specific terminology for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type.
           # @return [String, nil]
           attr_accessor :external_type_display_name
-          # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been encoded onto a card.
+          # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been encoded onto a card.
           # @return [Boolean, nil]
           attr_accessor :is_issued
-          # Indicates whether the latest state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
+          # Indicates whether the latest state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
           # @return [Boolean, nil]
           attr_accessor :is_latest_desired_state_synced_with_provider
           # @return [Boolean]
           attr_accessor :is_managed
-          # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://docs.seam.co/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
+          # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://www.seam.co/docs/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
           # @return [Boolean, nil]
           attr_accessor :is_multi_phone_sync_credential
-          # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) can only be used once. If `true`, the code becomes invalid after the first use.
+          # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) can only be used once. If `true`, the code becomes invalid after the first use.
           # @return [Boolean, nil]
           attr_accessor :is_one_time_use
-          # ID of the parent [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the parent [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String, nil]
           attr_accessor :parent_acs_credential_id
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) validity starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
           # @return [String, nil]
           attr_accessor :starts_at
-          # ID of the [user identity](https://docs.seam.co/api/user_identities) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+          # ID of the [user identity](https://www.seam.co/docs/api/user_identities/object) to whom the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
           # @return [String, nil]
           attr_accessor :user_identity_id
-          # ID of the workspace that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the workspace that contains the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String]
           attr_accessor :workspace_id
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was created.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was created.
           # @return [Time]
           date_accessor :created_at
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was encoded onto a card.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was encoded onto a card.
           # @return [Time, nil]
           date_accessor :issued_at
-          # Date and time at which the state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
+          # Date and time at which the state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
           # @return [Time, nil]
           date_accessor :latest_desired_state_synced_with_provider_at
         end
@@ -789,22 +789,22 @@ module Seam
             date_accessor :created_at
           end
 
-          # Akiles-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Akiles-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [AkilesMetadata, nil]
           resource_accessor :akiles_metadata, AkilesMetadata
-          # Vostio-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Vostio-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [AssaAbloyVostioMetadata, nil]
           resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
-          # Visionline-specific metadata for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Visionline-specific metadata for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [VisionlineMetadata, nil]
           resource_accessor :visionline_metadata, VisionlineMetadata
-          # Errors associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Errors associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [Array<Errors>]
           resource_list_accessor :errors, Errors
-          # Warnings associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Warnings associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [Array<Warnings>]
           resource_list_accessor :warnings, Warnings
-          # Access method for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
+          # Access method for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials). Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
           # @return [String]
           # Known values:
           # - `code`
@@ -812,34 +812,34 @@ module Seam
           # - `mobile_key`
           # - `cloud_key`
           attr_accessor :access_method
-          # ID of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String]
           attr_accessor :acs_credential_id
           # ID of the credential pool to which the credential belongs.
           # @return [String, nil]
           attr_accessor :acs_credential_pool_id
-          # ID of the [access control system](https://docs.seam.co/low-level-apis/access-systems) that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) that contains the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String]
           attr_accessor :acs_system_id
-          # ID of the [ACS user](https://docs.seam.co/low-level-apis/access-systems/user-management) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+          # ID of the [ACS user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) to whom the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
           # @return [String, nil]
           attr_accessor :acs_user_id
-          # Number of the card associated with the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Number of the card associated with the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String, nil]
           attr_accessor :card_number
-          # Access (PIN) code for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # Access (PIN) code for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String, nil]
           attr_accessor :code
-          # ID of the [connected account](https://docs.seam.co/core-concepts/connected-accounts) to which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+          # ID of the [connected account](https://www.seam.co/docs/core-concepts/connected-accounts) to which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
           # @return [String]
           attr_accessor :connected_account_id
-          # Display name that corresponds to the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
+          # Display name that corresponds to the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type.
           # @return [String]
           attr_accessor :display_name
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) validity ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
           # @return [String, nil]
           attr_accessor :ends_at
-          # Brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
+          # Brand-specific terminology for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type. Supported values: `pti_card`, `brivo_credential`, `hid_credential`, `visionline_card`.
           # @return [String, nil]
           # Known values:
           # - `pti_card`
@@ -857,43 +857,43 @@ module Seam
           # - `kisi_credential`
           # - `akiles_credential`
           attr_accessor :external_type
-          # Display name that corresponds to the brand-specific terminology for the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) type.
+          # Display name that corresponds to the brand-specific terminology for the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) type.
           # @return [String, nil]
           attr_accessor :external_type_display_name
-          # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been encoded onto a card.
+          # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been encoded onto a card.
           # @return [Boolean, nil]
           attr_accessor :is_issued
-          # Indicates whether the latest state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
+          # Indicates whether the latest state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
           # @return [Boolean, nil]
           attr_accessor :is_latest_desired_state_synced_with_provider
           # Indicates whether Seam manages the credential.
           # @return [TrueClass]
           attr_accessor :is_managed
-          # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://docs.seam.co/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
+          # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://www.seam.co/docs/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
           # @return [Boolean, nil]
           attr_accessor :is_multi_phone_sync_credential
-          # Indicates whether the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) can only be used once. If `true`, the code becomes invalid after the first use.
+          # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) can only be used once. If `true`, the code becomes invalid after the first use.
           # @return [Boolean, nil]
           attr_accessor :is_one_time_use
-          # ID of the parent [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the parent [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String, nil]
           attr_accessor :parent_acs_credential_id
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) validity starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) validity starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
           # @return [String, nil]
           attr_accessor :starts_at
-          # ID of the [user identity](https://docs.seam.co/api/user_identities) to whom the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) belongs.
+          # ID of the [user identity](https://www.seam.co/docs/api/user_identities/object) to whom the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) belongs.
           # @return [String, nil]
           attr_accessor :user_identity_id
-          # ID of the workspace that contains the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials).
+          # ID of the workspace that contains the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials).
           # @return [String]
           attr_accessor :workspace_id
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was created.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was created.
           # @return [Time]
           date_accessor :created_at
-          # Date and time at which the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was encoded onto a card.
+          # Date and time at which the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was encoded onto a card.
           # @return [Time, nil]
           date_accessor :issued_at
-          # Date and time at which the state of the [credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
+          # Date and time at which the state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was most recently synced from Seam to the provider.
           # @return [Time, nil]
           date_accessor :latest_desired_state_synced_with_provider_at
         end
@@ -1015,13 +1015,13 @@ module Seam
             date_accessor :created_at
           end
 
-          # Errors associated with the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant).
+          # Errors associated with the [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant).
           # @return [Array<Errors>]
           resource_list_accessor :errors, Errors
-          # Pending mutations for the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant). Indicates operations that are in progress.
+          # Pending mutations for the [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant). Indicates operations that are in progress.
           # @return [Array<PendingMutations>]
           resource_list_accessor :pending_mutations, PendingMutations
-          # Warnings associated with the [access method](https://docs.seam.co/use-cases/granting-access/creating-an-access-grant).
+          # Warnings associated with the [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant).
           # @return [Array<Warnings>]
           resource_list_accessor :warnings, Warnings
           # ID of the access method.

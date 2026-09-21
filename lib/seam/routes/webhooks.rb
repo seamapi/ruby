@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Creates a new [webhook](https://docs.seam.co/developer-tools/webhooks).
+      # Creates a new [webhook](https://www.seam.co/docs/developer-tools/webhooks).
       # @param url [String] URL for the new webhook.
       # @param event_types [Array<String>, nil] Types of events that you want the new webhook to receive.
       # @return [Seam::Resources::Webhook] OK
@@ -18,7 +18,7 @@ module Seam
         Seam::Resources::Webhook.load_from_response(res.body["webhook"])
       end
 
-      # Deletes a specified [webhook](https://docs.seam.co/developer-tools/webhooks).
+      # Deletes a specified [webhook](https://www.seam.co/docs/developer-tools/webhooks).
       # @param webhook_id [String] ID of the webhook that you want to delete.
       # @return [nil] OK
       def delete(webhook_id:)
@@ -27,7 +27,7 @@ module Seam
         nil
       end
 
-      # Gets a specified [webhook](https://docs.seam.co/developer-tools/webhooks).
+      # Gets a specified [webhook](https://www.seam.co/docs/developer-tools/webhooks).
       # @param webhook_id [String] ID of the webhook that you want to get.
       # @return [Seam::Resources::Webhook] OK
       def get(webhook_id:)
@@ -36,7 +36,7 @@ module Seam
         Seam::Resources::Webhook.load_from_response(res.body["webhook"])
       end
 
-      # Returns a list of all [webhooks](https://docs.seam.co/developer-tools/webhooks).
+      # Returns a list of all [webhooks](https://www.seam.co/docs/developer-tools/webhooks).
       # @return [Seam::Resources::Webhook] OK
       def list
         res = @client.get("/webhooks/list")
@@ -44,7 +44,7 @@ module Seam
         Seam::Resources::Webhook.load_from_response(res.body["webhooks"])
       end
 
-      # Updates a specified [webhook](https://docs.seam.co/developer-tools/webhooks).
+      # Updates a specified [webhook](https://www.seam.co/docs/developer-tools/webhooks).
       # @param event_types [Array<String>] Types of events that you want the webhook to receive.
       # @param webhook_id [String] ID of the webhook that you want to update.
       # @return [nil] OK

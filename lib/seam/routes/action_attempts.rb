@@ -10,7 +10,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Returns a specified [action attempt](https://docs.seam.co/core-concepts/action-attempts).
+      # Returns a specified [action attempt](https://www.seam.co/docs/core-concepts/action-attempts).
       # @param action_attempt_id [String] ID of the action attempt that you want to get.
       # @return [Seam::Resources::ActionAttempt] OK
       def get(action_attempt_id:, wait_for_action_attempt: nil)
@@ -21,7 +21,7 @@ module Seam
         Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
-      # Returns a list of the [action attempts](https://docs.seam.co/core-concepts/action-attempts) that you specify as an array of `action_attempt_id`s.
+      # Returns a list of the [action attempts](https://www.seam.co/docs/core-concepts/action-attempts) that you specify as an array of `action_attempt_id`s.
       # @param action_attempt_ids [Array<String>, nil] IDs of the action attempts that you want to retrieve.
       # @param device_id [String, nil] ID of the device to filter action attempts by.
       # @param limit [Integer, nil] Maximum number of records to return per page.

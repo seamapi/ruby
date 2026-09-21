@@ -2,11 +2,11 @@
 
 module Seam
   module Resources
-    # Represents a [user](https://docs.seam.co/low-level-apis/access-systems/user-management) in an [access system](https://docs.seam.co/low-level-apis/access-systems).
+    # Represents a [user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) in an [access system](https://www.seam.co/docs/low-level-apis/access-systems).
     #
     # An access system user typically refers to an individual who requires access, like an employee or resident. Each user can possess multiple credentials that serve as their keys or identifiers for access. The type of credential can vary widely. For example, in the Salto system, a user can have a PIN code, a mobile app account, and a fob. In other platforms, it is not uncommon for a user to have more than one of the same credential type, such as multiple key cards. Additionally, these credentials can have a schedule or validity period.
     #
-    # For details about how to configure users in your access system, see the corresponding [system integration guide](https://docs.seam.co/device-and-system-integration-guides#access-control-systems).
+    # For details about how to configure users in your access system, see the corresponding [system integration guide](https://www.seam.co/docs/device-and-system-integration-guides#access-control-systems).
     class AcsUser < BaseResource
       class AccessSchedule < BaseResource
         # Date and time at which the user's access ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
@@ -19,7 +19,7 @@ module Seam
 
       # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was deleted from the [access system](https://docs.seam.co/low-level-apis/access-systems) outside of Seam.
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was deleted from the [access system](https://www.seam.co/docs/low-level-apis/access-systems) outside of Seam.
         class DeletedExternally < Errors
           # @return [String]
           # Known values:
@@ -33,7 +33,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) could not be subscribed on Salto KS because the subscription limit has been exceeded.
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) could not be subscribed on Salto KS because the subscription limit has been exceeded.
         class SaltoKsSubscriptionLimitExceeded < Errors
           # @return [String]
           # Known values:
@@ -47,7 +47,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was not created on the [access system](https://docs.seam.co/low-level-apis/access-systems). This is likely due to an internal unexpected error. Contact Seam [support](mailto:support@seam.co).
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was not created on the [access system](https://www.seam.co/docs/low-level-apis/access-systems). This is likely due to an internal unexpected error. Contact Seam [support](mailto:support@seam.co).
         class FailedToCreateOnAcsSystem < Errors
           # @return [String]
           # Known values:
@@ -61,7 +61,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was not updated on the [access system](https://docs.seam.co/low-level-apis/access-systems). This is likely due to an internal unexpected error. Contact Seam [support](mailto:support@seam.co).
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was not updated on the [access system](https://www.seam.co/docs/low-level-apis/access-systems). This is likely due to an internal unexpected error. Contact Seam [support](mailto:support@seam.co).
         class FailedToUpdateOnAcsSystem < Errors
           # @return [String]
           # Known values:
@@ -75,7 +75,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was not deleted on the [access system](https://docs.seam.co/low-level-apis/access-systems). This is likely due to an internal unexpected error. Contact Seam [support](mailto:support@seam.co).
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was not deleted on the [access system](https://www.seam.co/docs/low-level-apis/access-systems). This is likely due to an internal unexpected error. Contact Seam [support](mailto:support@seam.co).
         class FailedToDeleteOnAcsSystem < Errors
           # @return [String]
           # Known values:
@@ -89,7 +89,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was created from the Seam API but also exists on Mission Control. This is unsupported. Contact Seam [support](mailto:support@seam.co).
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was created from the Seam API but also exists on Mission Control. This is unsupported. Contact Seam [support](mailto:support@seam.co).
         class LatchConflictWithResidentUser < Errors
           # @return [String]
           # Known values:
@@ -227,7 +227,7 @@ module Seam
 
       # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) is being deleted from the [access system](https://docs.seam.co/low-level-apis/access-systems). This is a temporary state, and the access system user will be deleted shortly.
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) is being deleted from the [access system](https://www.seam.co/docs/low-level-apis/access-systems). This is a temporary state, and the access system user will be deleted shortly.
         class BeingDeleted < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -241,7 +241,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) is not subscribed on Salto KS, so they cannot unlock doors or perform any actions. This occurs when the their access schedule hasn’t started yet, if their access schedule has ended, if the site has reached its limit for active users (subscription slots), or if they have been manually unsubscribed.
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) is not subscribed on Salto KS, so they cannot unlock doors or perform any actions. This occurs when the their access schedule hasn’t started yet, if their access schedule has ended, if the site has reached its limit for active users (subscription slots), or if they have been manually unsubscribed.
         class SaltoKsUserNotSubscribed < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -255,7 +255,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) exists but is not currently able to gain access—for example, because their access schedule has not started yet or has ended, the access system has reached its limit for active users, or they have been unsubscribed or deactivated. Refer to the warning message for the provider-specific reason. This is distinct from `is_suspended`, which indicates the user has been explicitly blocked.
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) exists but is not currently able to gain access—for example, because their access schedule has not started yet or has ended, the access system has reached its limit for active users, or they have been unsubscribed or deactivated. Refer to the warning message for the provider-specific reason. This is distinct from `is_suspended`, which indicates the user has been explicitly blocked.
         class AcsUserInactive < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -269,7 +269,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # An unknown issue occurred while syncing the state of this [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) with the provider. This issue may affect the proper functioning of this user.
+        # An unknown issue occurred while syncing the state of this [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) with the provider. This issue may affect the proper functioning of this user.
         class UnknownIssueWithAcsUser < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -283,7 +283,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was created on Latch Mission Control. Please use the Latch Mission Control to manage this user.
+        # Indicates that the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was created on Latch Mission Control. Please use the Latch Mission Control to manage this user.
         class LatchResidentUser < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -321,43 +321,43 @@ module Seam
         }.freeze
       end
 
-      # `starts_at` and `ends_at` timestamps for the [access system user's](https://docs.seam.co/low-level-apis/access-systems/user-management) access.
+      # `starts_at` and `ends_at` timestamps for the [access system user's](https://www.seam.co/docs/low-level-apis/access-systems/user-management) access.
       # @return [AccessSchedule, nil]
       resource_accessor :access_schedule, AccessSchedule
-      # Salto KS-specific metadata associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Salto KS-specific metadata associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [SaltoKsMetadata, nil]
       resource_accessor :salto_ks_metadata, SaltoKsMetadata
-      # Salto Space-specific metadata associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Salto Space-specific metadata associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [SaltoSpaceMetadata, nil]
       resource_accessor :salto_space_metadata, SaltoSpaceMetadata
-      # Errors associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Errors associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
-      # Pending mutations associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management). Seam is in the process of pushing these mutations to the integrated access system.
+      # Pending mutations associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management). Seam is in the process of pushing these mutations to the integrated access system.
       # @return [Array<PendingMutations>]
       resource_list_accessor :pending_mutations, PendingMutations
-      # Warnings associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Warnings associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
-      # ID of the [access system](https://docs.seam.co/low-level-apis/access-systems) that contains the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # ID of the [access system](https://www.seam.co/docs/low-level-apis/access-systems) that contains the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String]
       attr_accessor :acs_system_id
-      # ID of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # ID of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String]
       attr_accessor :acs_user_id
-      # The ID of the connected account that is associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # The ID of the connected account that is associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String]
       attr_accessor :connected_account_id
-      # Display name for the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Display name for the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String]
       attr_accessor :display_name
       # @return [String, nil]
       # @deprecated use email_address.
       attr_accessor :email
-      # Email address of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Email address of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String, nil]
       attr_accessor :email_address
-      # Brand-specific terminology for the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) type.
+      # Brand-specific terminology for the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) type.
       # @return [String, nil]
       # Known values:
       # - `pti_user`
@@ -370,10 +370,10 @@ module Seam
       # - `avigilon_alta_user`
       # - `kisi_user`
       attr_accessor :external_type
-      # Display name that corresponds to the brand-specific terminology for the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) type.
+      # Display name that corresponds to the brand-specific terminology for the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) type.
       # @return [String, nil]
       attr_accessor :external_type_display_name
-      # Full name of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Full name of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String, nil]
       attr_accessor :full_name
       # ID of the HID access control system associated with the user.
@@ -382,29 +382,29 @@ module Seam
       # Indicates whether Seam manages the access system user.
       # @return [TrueClass]
       attr_accessor :is_managed
-      # Indicates whether the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) is currently [suspended](https://docs.seam.co/low-level-apis/access-systems/user-management/suspending-and-unsuspending-users).
+      # Indicates whether the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) is currently [suspended](https://www.seam.co/docs/low-level-apis/access-systems/user-management/suspending-and-unsuspending-users).
       # @return [Boolean, nil]
       attr_accessor :is_suspended
-      # Phone number of the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
+      # Phone number of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
       # @return [String, nil]
       attr_accessor :phone_number
-      # Email address of the user identity associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Email address of the user identity associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String, nil]
       attr_accessor :user_identity_email_address
-      # Full name of the user identity associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # Full name of the user identity associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String, nil]
       attr_accessor :user_identity_full_name
-      # ID of the user identity associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # ID of the user identity associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String, nil]
       attr_accessor :user_identity_id
-      # Phone number of the user identity associated with the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
+      # Phone number of the user identity associated with the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
       # @return [String, nil]
       attr_accessor :user_identity_phone_number
-      # ID of the workspace that contains the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management).
+      # ID of the workspace that contains the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String]
       attr_accessor :workspace_id
 
-      # Date and time at which the [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was created.
+      # Date and time at which the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was created.
       # @return [Time]
       date_accessor :created_at
     end

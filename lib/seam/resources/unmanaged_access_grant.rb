@@ -116,7 +116,7 @@ module Seam
 
       # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
-        # Indicates that the [access grant](https://docs.seam.co/use-cases/granting-access) is being deleted.
+        # Indicates that the [access grant](https://www.seam.co/docs/use-cases/granting-access) is being deleted.
         class BeingDeleted < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -176,7 +176,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the access times for this [access grant](https://docs.seam.co/use-cases/granting-access) are being updated.
+        # Indicates that the access times for this [access grant](https://www.seam.co/docs/use-cases/granting-access) are being updated.
         class UpdatingAccessTimes < Warnings
           # IDs of the access methods being updated.
           # @return [Array<String>]
@@ -290,7 +290,7 @@ module Seam
         }.freeze
       end
 
-      # Errors associated with the [access grant](https://docs.seam.co/use-cases/granting-access).
+      # Errors associated with the [access grant](https://www.seam.co/docs/use-cases/granting-access).
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
       # List of pending mutations for the access grant. This shows updates that are in progress.
@@ -299,7 +299,7 @@ module Seam
       # Access methods that the user requested for the Access Grant.
       # @return [Array<RequestedAccessMethods>]
       resource_list_accessor :requested_access_methods, RequestedAccessMethods
-      # Warnings associated with the [access grant](https://docs.seam.co/use-cases/granting-access).
+      # Warnings associated with the [access grant](https://www.seam.co/docs/use-cases/granting-access).
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
       # ID of the Access Grant.

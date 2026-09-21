@@ -4,7 +4,7 @@ module Seam
   module Resources
     # Represents a Seam event. Known event types load as subclasses; unknown event types remain SeamEvent instances for forward compatibility.
     class SeamEvent < BaseResource
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was created.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was created.
       class AccessCodeCreated < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -42,7 +42,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was changed.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was changed.
       class AccessCodeChanged < SeamEvent
         class ChangedProperties < BaseResource
           # Previous value of the property, or null if not set.
@@ -98,7 +98,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # The name of an [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was changed on the device.
+      # The name of an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was changed on the device.
       class AccessCodeNameChanged < SeamEvent
         class From < BaseResource
           # Previous name of the access code.
@@ -157,7 +157,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # The pin code of an [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was changed on the device.
+      # The pin code of an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was changed on the device.
       class AccessCodeCodeChanged < SeamEvent
         class From < BaseResource
           # Previous pin code.
@@ -216,7 +216,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # The time frame of an [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was changed on the device.
+      # The time frame of an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was changed on the device.
       class AccessCodeTimeFrameChanged < SeamEvent
         class From < BaseResource
           # Previous end time.
@@ -281,7 +281,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # Mutations were requested on an [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes). This event fires at request time, before the change is confirmed on the device.
+      # Mutations were requested on an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes). This event fires at request time, before the change is confirmed on the device.
       class AccessCodeMutationsRequested < SeamEvent
         class RequestedMutations < BaseResource
           # Previous property values before the requested change. Keys depend on the mutation type. Absent for non-property mutations like `deleting`.
@@ -341,7 +341,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was [scheduled natively](https://docs.seam.co/low-level-apis/smart-locks/access-codes#native-scheduling) on a device.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was [scheduled natively](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes#native-scheduling) on a device.
       class AccessCodeScheduledOnDevice < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -382,7 +382,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was set on a device.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was set on a device.
       class AccessCodeSetOnDevice < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -423,7 +423,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was removed from a device.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was removed from a device.
       class AccessCodeRemovedFromDevice < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -461,7 +461,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # There was an unusually long delay in setting an [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) on a device.
+      # There was an unusually long delay in setting an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) on a device.
       class AccessCodeDelayInSettingOnDevice < SeamEvent
         class AccessCodeErrors < BaseResource
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -589,7 +589,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) failed to be set on a device.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) failed to be set on a device.
       class AccessCodeFailedToSetOnDevice < SeamEvent
         class AccessCodeErrors < BaseResource
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -717,7 +717,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was deleted.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was deleted.
       class AccessCodeDeleted < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -758,7 +758,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # There was an unusually long delay in removing an [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) from a device.
+      # There was an unusually long delay in removing an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) from a device.
       class AccessCodeDelayInRemovingFromDevice < SeamEvent
         class AccessCodeErrors < BaseResource
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -886,7 +886,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) failed to be removed from a device.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) failed to be removed from a device.
       class AccessCodeFailedToRemoveFromDevice < SeamEvent
         class AccessCodeErrors < BaseResource
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -1014,7 +1014,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was modified outside of Seam.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was modified outside of Seam.
       class AccessCodeModifiedExternalToSeam < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -1052,7 +1052,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was deleted outside of Seam.
+      # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was deleted outside of Seam.
       class AccessCodeDeletedExternalToSeam < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -1090,7 +1090,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [backup access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/backup-access-codes) was pulled from the backup access code pool and set on a device.
+      # A [backup access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/backup-access-codes) was pulled from the backup access code pool and set on a device.
       class AccessCodeBackupAccessCodePulled < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -1131,7 +1131,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [unmanaged access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) was converted successfully to a managed access code.
+      # An [unmanaged access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) was converted successfully to a managed access code.
       class AccessCodeUnmanagedConvertedToManaged < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -1169,7 +1169,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [unmanaged access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) failed to be converted to a managed access code.
+      # An [unmanaged access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) failed to be converted to a managed access code.
       class AccessCodeUnmanagedFailedToConvertToManaged < SeamEvent
         class AccessCodeErrors < BaseResource
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -1297,7 +1297,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [unmanaged access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) was created on a device.
+      # An [unmanaged access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) was created on a device.
       class AccessCodeUnmanagedCreated < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -1335,7 +1335,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [unmanaged access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) was removed from a device.
+      # An [unmanaged access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/migrating-existing-access-codes) was removed from a device.
       class AccessCodeUnmanagedRemoved < SeamEvent
         # ID of the affected access code.
         # @return [String]
@@ -1456,7 +1456,7 @@ module Seam
         # ID of the affected Access Grant.
         # @return [String]
         attr_accessor :access_grant_id
-        # ID of the affected [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+        # ID of the affected [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
         # @return [String]
         attr_accessor :acs_entrance_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
@@ -1485,7 +1485,7 @@ module Seam
         # ID of the affected Access Grant.
         # @return [String]
         attr_accessor :access_grant_id
-        # ID of the affected [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+        # ID of the affected [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
         # @return [String]
         attr_accessor :acs_entrance_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
@@ -1844,7 +1844,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system](https://docs.seam.co/low-level-apis/access-systems) was connected.
+      # An [access system](https://www.seam.co/docs/low-level-apis/access-systems) was connected.
       class AcsSystemConnected < SeamEvent
         # ID of the access system.
         # @return [String]
@@ -1873,7 +1873,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system](https://docs.seam.co/low-level-apis/access-systems) was added.
+      # An [access system](https://www.seam.co/docs/low-level-apis/access-systems) was added.
       class AcsSystemAdded < SeamEvent
         # ID of the access system.
         # @return [String]
@@ -1902,7 +1902,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system](https://docs.seam.co/low-level-apis/access-systems) was disconnected.
+      # An [access system](https://www.seam.co/docs/low-level-apis/access-systems) was disconnected.
       class AcsSystemDisconnected < SeamEvent
         class AcsSystemErrors < BaseResource
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -1991,7 +1991,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was deleted.
+      # An [access system credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was deleted.
       class AcsCredentialDeleted < SeamEvent
         # ID of the affected credential.
         # @return [String]
@@ -2023,7 +2023,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was issued.
+      # An [access system credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was issued.
       class AcsCredentialIssued < SeamEvent
         # ID of the affected credential.
         # @return [String]
@@ -2055,7 +2055,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was reissued.
+      # An [access system credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was reissued.
       class AcsCredentialReissued < SeamEvent
         # ID of the affected credential.
         # @return [String]
@@ -2087,7 +2087,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system credential](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) was invalidated. That is, the credential cannot be used anymore.
+      # An [access system credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) was invalidated. That is, the credential cannot be used anymore.
       class AcsCredentialInvalidated < SeamEvent
         # ID of the affected credential.
         # @return [String]
@@ -2119,7 +2119,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was created.
+      # An [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was created.
       class AcsUserCreated < SeamEvent
         # ID of the access system.
         # @return [String]
@@ -2151,7 +2151,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) was deleted.
+      # An [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) was deleted.
       class AcsUserDeleted < SeamEvent
         # ID of the access system.
         # @return [String]
@@ -2183,7 +2183,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners) was added.
+      # An [access system encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners) was added.
       class AcsEncoderAdded < SeamEvent
         # ID of the affected encoder.
         # @return [String]
@@ -2215,7 +2215,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system encoder](https://docs.seam.co/low-level-apis/access-systems/working-with-card-encoders-and-scanners) was removed.
+      # An [access system encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners) was removed.
       class AcsEncoderRemoved < SeamEvent
         # ID of the affected encoder.
         # @return [String]
@@ -2279,7 +2279,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) was added.
+      # An [access system entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) was added.
       class AcsEntranceAdded < SeamEvent
         # ID of the affected entrance.
         # @return [String]
@@ -2311,7 +2311,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [access system entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) was removed.
+      # An [access system entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) was removed.
       class AcsEntranceRemoved < SeamEvent
         # ID of the affected entrance.
         # @return [String]
@@ -3117,7 +3117,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A managed device was successfully converted to an [unmanaged device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices).
+      # A managed device was successfully converted to an [unmanaged device](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices).
       class DeviceConvertedToUnmanaged < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -3155,7 +3155,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # An [unmanaged device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices) was successfully converted to a managed device.
+      # An [unmanaged device](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices) was successfully converted to a managed device.
       class DeviceUnmanagedConvertedToManaged < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -3193,7 +3193,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # The status of an [unmanaged device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices) changed from offline to online. That is, the `device.properties.online` property changed from `false` to `true`.
+      # The status of an [unmanaged device](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices) changed from offline to online. That is, the `device.properties.online` property changed from `false` to `true`.
       class DeviceUnmanagedConnected < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -3336,7 +3336,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # The status of an [unmanaged device](https://docs.seam.co/core-concepts/devices/managed-and-unmanaged-devices) changed from online to offline. That is, the `device.properties.online` property changed from `true` to `false`.
+      # The status of an [unmanaged device](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices) changed from online to offline. That is, the `device.properties.online` property changed from `true` to `false`.
       class DeviceUnmanagedDisconnected < SeamEvent
         class ConnectedAccountErrors < BaseResource
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -3731,7 +3731,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [Salto device](https://docs.seam.co/device-and-system-integration-guides/salto-locks) activated privacy mode.
+      # A [Salto device](https://www.seam.co/docs/device-and-system-integration-guides/salto-locks) activated privacy mode.
       class DeviceSaltoPrivacyModeActivated < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -3769,7 +3769,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [Salto device](https://docs.seam.co/device-and-system-integration-guides/salto-locks) deactivated privacy mode.
+      # A [Salto device](https://www.seam.co/docs/device-and-system-integration-guides/salto-locks) deactivated privacy mode.
       class DeviceSaltoPrivacyModeDeactivated < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -4215,7 +4215,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # Extended periods of noise or noise exceeding a [threshold](https://docs.seam.co/capability-guides/noise-sensors#what-is-a-threshold) were detected.
+      # Extended periods of noise or noise exceeding a [threshold](https://www.seam.co/docs/capability-guides/noise-sensors#what-is-a-threshold) were detected.
       class NoiseSensorNoiseThresholdTriggered < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -4271,7 +4271,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [lock](https://docs.seam.co/low-level-apis/smart-locks) was locked.
+      # A [lock](https://www.seam.co/docs/low-level-apis/smart-locks) was locked.
       class LockLocked < SeamEvent
         # ID of the access code that was used to lock the device.
         # @return [String, nil]
@@ -4338,7 +4338,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [lock](https://docs.seam.co/low-level-apis/smart-locks) was unlocked.
+      # A [lock](https://www.seam.co/docs/low-level-apis/smart-locks) was unlocked.
       class LockUnlocked < SeamEvent
         # ID of the access code that was used to unlock the affected device.
         # @return [String, nil]
@@ -4383,7 +4383,7 @@ module Seam
         # Whether the unlock action was performed by an NFC credential tap (such as an Apple Home Key or an NFC key fob) presented to the lock, rather than a direct physical interaction or a Seam-initiated remote action.
         # @return [Boolean, nil]
         attr_accessor :is_via_nfc
-        # Method by which the lock was unlocked. `keycode`: an [access code](https://docs.seam.co/low-level-apis/smart-locks/access-codes) was used (see `access_code_id`). `manual`: a physical action such as a thumbturn or handle press. `remote`: a remote action via an app, Bluetooth, or the Seam API (see `action_attempt_id` if Seam-initiated; see `is_via_bluetooth` or `is_via_nfc` for the transport). `automatic`: triggered automatically, for example by a time-based schedule. `unknown`: could not be determined.
+        # Method by which the lock was unlocked. `keycode`: an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was used (see `access_code_id`). `manual`: a physical action such as a thumbturn or handle press. `remote`: a remote action via an app, Bluetooth, or the Seam API (see `action_attempt_id` if Seam-initiated; see `is_via_bluetooth` or `is_via_nfc` for the transport). `automatic`: triggered automatically, for example by a time-based schedule. `unknown`: could not be determined.
         # @return [String]
         # Known values:
         # - `keycode`
@@ -4405,7 +4405,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # The [lock](https://docs.seam.co/low-level-apis/smart-locks) denied access to a user after one or more consecutive invalid attempts to unlock the device.
+      # The [lock](https://www.seam.co/docs/low-level-apis/smart-locks) denied access to a user after one or more consecutive invalid attempts to unlock the device.
       class LockAccessDenied < SeamEvent
         class Reason < BaseResource
           # Human-readable explanation of why access was denied.
@@ -4465,7 +4465,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A thermostat [climate preset](https://docs.seam.co/capability-guides/thermostats/creating-and-managing-climate-presets) was activated.
+      # A thermostat [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) was activated.
       class ThermostatClimatePresetActivated < SeamEvent
         # Key of the climate preset that was activated.
         # @return [String]
@@ -4512,7 +4512,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [thermostat](https://docs.seam.co/capability-guides/thermostats) was adjusted manually.
+      # A [thermostat](https://www.seam.co/docs/capability-guides/thermostats) was adjusted manually.
       class ThermostatManuallyAdjusted < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -4520,10 +4520,10 @@ module Seam
         # ID of the connected account associated with the event.
         # @return [String]
         attr_accessor :connected_account_id
-        # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+        # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
         # @return [Float, nil]
         attr_accessor :cooling_set_point_celsius
-        # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+        # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
         # @return [Float, nil]
         attr_accessor :cooling_set_point_fahrenheit
         # The customer key associated with the device, if any.
@@ -4545,20 +4545,20 @@ module Seam
         # Known values:
         # - `thermostat.manually_adjusted`
         attr_accessor :event_type
-        # Desired [fan mode setting](https://docs.seam.co/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
+        # Desired [fan mode setting](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
         # @return [String, nil]
         # Known values:
         # - `auto`
         # - `on`
         # - `circulate`
         attr_accessor :fan_mode_setting
-        # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+        # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
         # @return [Float, nil]
         attr_accessor :heating_set_point_celsius
-        # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+        # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
         # @return [Float, nil]
         attr_accessor :heating_set_point_fahrenheit
-        # Desired [HVAC mode](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
+        # Desired [HVAC mode](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
         # @return [String, nil]
         # Known values:
         # - `off`
@@ -4584,7 +4584,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [thermostat's](https://docs.seam.co/capability-guides/thermostats) temperature reading exceeded the set [threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds).
+      # A [thermostat's](https://www.seam.co/docs/capability-guides/thermostats) temperature reading exceeded the set [threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds).
       class ThermostatTemperatureThresholdExceeded < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -4640,7 +4640,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [thermostat's](https://docs.seam.co/capability-guides/thermostats) temperature reading no longer exceeds the set [threshold](https://docs.seam.co/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds).
+      # A [thermostat's](https://www.seam.co/docs/capability-guides/thermostats) temperature reading no longer exceeds the set [threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds).
       class ThermostatTemperatureThresholdNoLongerExceeded < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -4696,7 +4696,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [thermostat's](https://docs.seam.co/capability-guides/thermostats) temperature reading is within 1 °C of the configured cooling or heating [set point](https://docs.seam.co/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
+      # A [thermostat's](https://www.seam.co/docs/capability-guides/thermostats) temperature reading is within 1 °C of the configured cooling or heating [set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
       class ThermostatTemperatureReachedSetPoint < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -4746,7 +4746,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A [thermostat's](https://docs.seam.co/capability-guides/thermostats) reported temperature changed by at least 1 °C.
+      # A [thermostat's](https://www.seam.co/docs/capability-guides/thermostats) reported temperature changed by at least 1 °C.
       class ThermostatTemperatureChanged < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
@@ -5092,7 +5092,7 @@ module Seam
       # - `access_code.delay_in_issuing`
       # - `access_code.failed_to_issue`
       # - `access_code.failed_to_update`
-      # - `access_code.failed_to_expire`
+      # - `access_code.failed_to_remove`
       # - `access_code.deleted`
       # - `access_code.delay_in_removing_from_device`
       # - `access_code.failed_to_remove_from_device`

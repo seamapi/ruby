@@ -10,7 +10,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Returns a specified [access system entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Returns a specified [access system entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @param acs_entrance_id [String] ID of the entrance that you want to get.
       # @return [Seam::Resources::AcsEntrance] OK
       def get(acs_entrance_id:)
@@ -19,7 +19,7 @@ module Seam
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrance"])
       end
 
-      # Grants a specified [access system user](https://docs.seam.co/low-level-apis/access-systems/user-management) access to a specified [access system entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Grants a specified [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) access to a specified [access system entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @param acs_entrance_id [String] ID of the entrance to which you want to grant an access system user access.
       # @param acs_user_id [String, nil] ID of the access system user to whom you want to grant access to an entrance. You can only provide one of acs_user_id or user_identity_id.
       # @param user_identity_id [String, nil] ID of the user identity to whom you want to grant access to an entrance. You can only provide one of acs_user_id or user_identity_id. If the ACS system contains an ACS user with the same `email_address` or `phone_number` as the user identity that you specify, they are linked, and the access group membership belongs to the ACS user. If the ACS system does not have a corresponding ACS user, one is created.
@@ -30,7 +30,7 @@ module Seam
         nil
       end
 
-      # Returns a list of all [access system entrances](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Returns a list of all [access system entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @param access_method_id [String, nil] ID of the access method for which you want to retrieve all entrances to which it grants access.
       # @param acs_credential_id [String, nil] ID of the credential for which you want to retrieve all entrances.
       # @param acs_entrance_ids [Array<String>, nil] IDs of the entrances for which you want to retrieve all entrances.
@@ -50,7 +50,7 @@ module Seam
         Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
       end
 
-      # Returns a list of all [credentials](https://docs.seam.co/low-level-apis/access-systems/managing-credentials) with access to a specified [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details).
+      # Returns a list of all [credentials](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) with access to a specified [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
       # @param acs_entrance_id [String] ID of the entrance for which you want to list all credentials that grant access.
       # @param include_if [Array<String>, nil] Conditions that credentials must meet to be included in the returned list.
       # @return [Seam::Resources::AcsCredential] OK
@@ -60,7 +60,7 @@ module Seam
         Seam::Resources::AcsCredential.load_from_response(res.body["acs_credentials"])
       end
 
-      # Remotely unlocks a specified [entrance](https://docs.seam.co/low-level-apis/access-systems/retrieving-entrance-details) using a cloud_key credential. Returns an action attempt that tracks the progress of the unlock operation.
+      # Remotely unlocks a specified [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) using a cloud_key credential. Returns an action attempt that tracks the progress of the unlock operation.
       # @param acs_credential_id [String] ID of the cloud_key credential to use for the unlock operation.
       # @param acs_entrance_id [String] ID of the entrance to unlock.
       # @return [Seam::Resources::ActionAttempt] OK
