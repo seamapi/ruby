@@ -1060,6 +1060,7 @@ module Seam
       # - `android_phone`
       # - `ring_camera`
       # - `tapo_camera`
+      # - `arlo_camera`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]

@@ -481,6 +481,24 @@ module Seam
           attr_accessor :time_zone
         end
 
+        class ArloMetadata < BaseResource
+          # Device ID reported by Arlo.
+          # @return [String, nil]
+          attr_accessor :device_id
+          # Device name reported by Arlo.
+          # @return [String, nil]
+          attr_accessor :device_name
+          # Firmware version reported by Arlo.
+          # @return [String, nil]
+          attr_accessor :firmware_version
+          # Hardware version reported by Arlo.
+          # @return [String, nil]
+          attr_accessor :hardware_version
+          # Model ID reported by Arlo.
+          # @return [String, nil]
+          attr_accessor :model_id
+        end
+
         class AssaAbloyVostioMetadata < BaseResource
           # Encoder name for an ASSA ABLOY Vostio system.
           # @return [String, nil]
@@ -1799,6 +1817,9 @@ module Seam
         # Metadata for an Aqara device.
         # @return [AqaraMetadata, nil]
         resource_accessor :aqara_metadata, AqaraMetadata
+        # Metadata for an Arlo camera.
+        # @return [ArloMetadata, nil]
+        resource_accessor :arlo_metadata, ArloMetadata
         # Metadata for an ASSA ABLOY Vostio system.
         # @return [AssaAbloyVostioMetadata, nil]
         resource_accessor :assa_abloy_vostio_metadata, AssaAbloyVostioMetadata
@@ -2764,6 +2785,7 @@ module Seam
       # - `android_phone`
       # - `ring_camera`
       # - `tapo_camera`
+      # - `arlo_camera`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]
