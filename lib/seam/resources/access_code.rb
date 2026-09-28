@@ -248,12 +248,12 @@ module Seam
           date_accessor :created_at
         end
 
-        # This access code is still active on the device even though its `ends_at` has passed, so the recipient may still be able to unlock the device after their access window ended. Seam is attempting to remove it, and this error clears automatically once the access code is no longer active.
-        class FailedToRemove < Errors
+        # This access code is still active on the device even though its `ends_at` has passed, so the recipient may still be able to unlock the device after their access window ended. Seam is attempting to delete it, and this error clears automatically once the access code is no longer active.
+        class FailedToDelete < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
           # Known values:
-          # - `failed_to_remove`
+          # - `failed_to_delete`
           attr_accessor :error_code
           # Indicates that this is an access code error.
           # @return [TrueClass]
@@ -546,7 +546,7 @@ module Seam
         # - `code_constraints_violated`
         # - `failed_to_issue`
         # - `failed_to_update`
-        # - `failed_to_remove`
+        # - `failed_to_delete`
         # - `account_disconnected`
         # - `salto_ks_subscription_limit_exceeded`
         # - `insufficient_permissions`
@@ -580,7 +580,7 @@ module Seam
           "code_constraints_violated" => CodeConstraintsViolated,
           "failed_to_issue" => FailedToIssue,
           "failed_to_update" => FailedToUpdate,
-          "failed_to_remove" => FailedToRemove,
+          "failed_to_delete" => FailedToDelete,
           "account_disconnected" => AccountDisconnected,
           "salto_ks_subscription_limit_exceeded" => SaltoKsSubscriptionLimitExceeded,
           "insufficient_permissions" => InsufficientPermissions,

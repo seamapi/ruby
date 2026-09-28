@@ -5092,7 +5092,7 @@ module Seam
       # - `access_code.delay_in_issuing`
       # - `access_code.failed_to_issue`
       # - `access_code.failed_to_update`
-      # - `access_code.failed_to_remove`
+      # - `access_code.failed_to_delete`
       # - `access_code.deleted`
       # - `access_code.delay_in_removing_from_device`
       # - `access_code.failed_to_remove_from_device`
