@@ -34,6 +34,17 @@ module Seam
         Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
       end
 
+      # Returns a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats) to its [weekly program](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-programs), the schedule that is configured on the device itself, releasing any hold that Seam has set. Seam stops managing the thermostat's climate until you [activate a climate preset](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings), make a direct climate setting change, or one of the thermostat's [scheduled](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) presets reaches its activation time.
+      # @param device_id [String] ID of the thermostat device that you want to return to its weekly program.
+      # @return [Seam::Resources::ActionAttempt] OK
+      def activate_weekly_program(device_id:, wait_for_action_attempt: nil)
+        res = @client.post("/thermostats/activate_weekly_program", {device_id: device_id}.compact)
+
+        wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
+
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+      end
+
       # Sets a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats) to [cool mode](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings).
       # @param device_id [String] ID of the thermostat device that you want to set to cool mode.
       # @param cooling_set_point_celsius [Float, nil] [Cooling set point](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points) in °C that you want to set for the thermostat. You must set one of the `cooling_set_point` parameters.

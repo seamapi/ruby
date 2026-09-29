@@ -1264,6 +1264,46 @@ module Seam
         attr_accessor :status
       end
 
+      # Activating the weekly program is pending.
+      class ActivateWeeklyProgram < ActionAttempt
+        class Error < BaseResource
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Type of the error.
+          # @return [String]
+          attr_accessor :type
+        end
+
+        class Result < BaseResource
+        end
+
+        # Error associated with the action.
+        # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
+        resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
+        # Result of the action.
+        # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
+        resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
+        # ID of the action attempt.
+        # @return [String]
+        attr_accessor :action_attempt_id
+        # Action attempt to track the status of returning a thermostat to its weekly program.
+        # @return [String]
+        # Known values:
+        # - `ACTIVATE_WEEKLY_PROGRAM`
+        attr_accessor :action_type
+        # @return [String]
+        # Known values:
+        # - `success`
+        # - `pending`
+        # - `error`
+        attr_accessor :status
+      end
+
       # Simulating a keypad code entry is pending.
       class SimulateKeypadCodeEntry < ActionAttempt
         class Error < BaseResource
@@ -1732,6 +1772,7 @@ module Seam
       # - `SET_FAN_MODE`
       # - `SET_HVAC_MODE`
       # - `ACTIVATE_CLIMATE_PRESET`
+      # - `ACTIVATE_WEEKLY_PROGRAM`
       # - `SIMULATE_KEYPAD_CODE_ENTRY`
       # - `SIMULATE_MANUAL_LOCK_VIA_KEYPAD`
       # - `PUSH_THERMOSTAT_PROGRAMS`
@@ -1762,6 +1803,7 @@ module Seam
         "SET_FAN_MODE" => SetFanMode,
         "SET_HVAC_MODE" => SetHvacMode,
         "ACTIVATE_CLIMATE_PRESET" => ActivateClimatePreset,
+        "ACTIVATE_WEEKLY_PROGRAM" => ActivateWeeklyProgram,
         "SIMULATE_KEYPAD_CODE_ENTRY" => SimulateKeypadCodeEntry,
         "SIMULATE_MANUAL_LOCK_VIA_KEYPAD" => SimulateManualLockViaKeypad,
         "PUSH_THERMOSTAT_PROGRAMS" => PushThermostatPrograms,
