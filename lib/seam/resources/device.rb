@@ -2659,6 +2659,9 @@ module Seam
       # Array of warnings associated with the device. Each warning object within the array contains two fields: `warning_code` and `message`. `warning_code` is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. `message` provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
+      # Indicates whether the thermostat can be returned to its weekly program, the schedule that is configured on the device itself, releasing any hold that Seam has set.
+      # @return [Boolean, nil]
+      attr_accessor :can_activate_weekly_program
       # Indicates whether the lock supports configuring automatic locking.
       # @return [Boolean, nil]
       attr_accessor :can_configure_auto_lock
