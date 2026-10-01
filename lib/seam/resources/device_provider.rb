@@ -60,6 +60,9 @@ module Seam
       # Indicates whether the device supports simulating removal in a sandbox.
       # @return [Boolean, nil]
       attr_accessor :can_simulate_removal
+      # Indicates whether the camera supports streaming live video through a camera live view session.
+      # @return [Boolean, nil]
+      attr_accessor :can_stream_live_video
       # Indicates whether the thermostat can be turned off.
       # @return [Boolean, nil]
       attr_accessor :can_turn_off_hvac
@@ -128,6 +131,7 @@ module Seam
       # - `ring`
       # - `tapo`
       # - `arlo`
+      # - `reolink`
       # - `ical`
       # - `lodgify`
       # - `hostaway`

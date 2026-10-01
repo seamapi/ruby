@@ -22,6 +22,10 @@ module Seam
       @action_attempts ||= Seam::Clients::ActionAttempts.new(client: @client, defaults: @defaults)
     end
 
+    def cameras
+      @cameras ||= Seam::Clients::Cameras.new(client: @client, defaults: @defaults)
+    end
+
     def client_sessions
       @client_sessions ||= Seam::Clients::ClientSessions.new(client: @client, defaults: @defaults)
     end
@@ -52,6 +56,10 @@ module Seam
 
     def locks
       @locks ||= Seam::Clients::Locks.new(client: @client, defaults: @defaults)
+    end
+
+    def media
+      @media ||= Seam::Clients::Media.new(client: @client, defaults: @defaults)
     end
 
     def noise_sensors

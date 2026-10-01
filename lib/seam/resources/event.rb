@@ -4866,6 +4866,9 @@ module Seam
         # URL to a thumbnail image captured at the time of activation.
         # @return [String, nil]
         attr_accessor :image_url
+        # IDs of the media, such as a video clip and a thumbnail image, captured for this activation. Use `/media/get` to retrieve each one.
+        # @return [Array<String>]
+        attr_accessor :media_ids
         # Sub-type of motion detected, if available.
         # @return [String, nil]
         # Known values:
@@ -4918,6 +4921,9 @@ module Seam
         # URL to a thumbnail image captured at the time the doorbell was pressed.
         # @return [String, nil]
         attr_accessor :image_url
+        # IDs of the media, such as a video clip and a thumbnail image, captured when the doorbell was pressed. Use `/media/get` to retrieve each one.
+        # @return [Array<String>]
+        attr_accessor :media_ids
         # URL to a short video clip captured at the time the doorbell was pressed.
         # @return [String, nil]
         attr_accessor :video_url
