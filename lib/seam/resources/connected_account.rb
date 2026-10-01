@@ -139,7 +139,7 @@ module Seam
           "account_disconnected" => AccountDisconnected,
           "bridge_disconnected" => BridgeDisconnected,
           "salto_ks_subscription_limit_exceeded" => SaltoKsSubscriptionLimitExceeded,
-          "dormakaba_sites_disconnected" => DormakabaSitesDisconnected,
+          "dormakaba_sites_disconnected" => DormakabaSitesDisconnected
         }.freeze
       end
 
@@ -334,7 +334,7 @@ module Seam
           "being_deleted" => BeingDeleted,
           "provider_service_unavailable" => ProviderServiceUnavailable,
           "setup_required" => SetupRequired,
-          "dormakaba_sites_unapproved" => DormakabaSitesUnapproved,
+          "dormakaba_sites_unapproved" => DormakabaSitesUnapproved
         }.freeze
       end
 

@@ -594,7 +594,7 @@ module Seam
           "missing_device_credentials" => MissingDeviceCredentials,
           "auxiliary_heat_running" => AuxiliaryHeatRunning,
           "subscription_required" => SubscriptionRequired,
-          "bridge_disconnected" => BridgeDisconnected,
+          "bridge_disconnected" => BridgeDisconnected
         }.freeze
       end
 
@@ -886,7 +886,7 @@ module Seam
           "management_transferred" => ManagementTransferred,
           "using_backup_access_code" => UsingBackupAccessCode,
           "being_deleted" => BeingDeleted,
-          "unknown_issue_with_access_code" => UnknownIssueWithAccessCode,
+          "unknown_issue_with_access_code" => UnknownIssueWithAccessCode
         }.freeze
       end
 

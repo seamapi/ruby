@@ -317,7 +317,7 @@ module Seam
           "entrance_shares_zone" => EntranceSharesZone,
           "entrance_setup_required" => EntranceSetupRequired,
           "salto_ks_privacy_mode" => SaltoKsPrivacyMode,
-          "privacy_mode" => PrivacyMode,
+          "privacy_mode" => PrivacyMode
         }.freeze
       end
 

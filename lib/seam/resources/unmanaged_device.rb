@@ -312,7 +312,7 @@ module Seam
           "missing_device_credentials" => MissingDeviceCredentials,
           "auxiliary_heat_running" => AuxiliaryHeatRunning,
           "subscription_required" => SubscriptionRequired,
-          "bridge_disconnected" => BridgeDisconnected,
+          "bridge_disconnected" => BridgeDisconnected
         }.freeze
       end
 
@@ -918,7 +918,7 @@ module Seam
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,
           "accessory_keypad_low_battery" => AccessoryKeypadLowBattery,
           "unreliable_online_status" => UnreliableOnlineStatus,
-          "max_access_codes_reached" => MaxAccessCodesReached,
+          "max_access_codes_reached" => MaxAccessCodesReached
         }.freeze
       end
 

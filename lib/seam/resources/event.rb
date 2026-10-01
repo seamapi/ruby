@@ -5318,7 +5318,7 @@ module Seam
         "phone.deactivated" => PhoneDeactivated,
         "space.device_membership_changed" => SpaceDeviceMembershipChanged,
         "space.created" => SpaceCreated,
-        "space.deleted" => SpaceDeleted,
+        "space.deleted" => SpaceDeleted
       }.freeze
     end
   end

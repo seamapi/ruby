@@ -182,7 +182,7 @@ module Seam
           "acs_system_disconnected" => AcsSystemDisconnected,
           "account_disconnected" => AccountDisconnected,
           "salto_ks_certification_expired" => SaltoKsCertificationExpired,
-          "provider_service_unavailable" => ProviderServiceUnavailable,
+          "provider_service_unavailable" => ProviderServiceUnavailable
         }.freeze
       end
 
@@ -288,7 +288,7 @@ module Seam
           "salto_ks_subscription_limit_almost_reached" => SaltoKsSubscriptionLimitAlmostReached,
           "time_zone_does_not_match_location" => TimeZoneDoesNotMatchLocation,
           "setup_required" => SetupRequired,
-          "unknown_issue_with_acs_system" => UnknownIssueWithAcsSystem,
+          "unknown_issue_with_acs_system" => UnknownIssueWithAcsSystem
         }.freeze
       end
 
