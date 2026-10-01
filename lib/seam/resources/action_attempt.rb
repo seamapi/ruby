@@ -1814,7 +1814,7 @@ module Seam
         "UPDATE_ACCESS_CODE" => UpdateAccessCode,
         "CREATE_NOISE_THRESHOLD" => CreateNoiseThreshold,
         "DELETE_NOISE_THRESHOLD" => DeleteNoiseThreshold,
-        "UPDATE_NOISE_THRESHOLD" => UpdateNoiseThreshold
+        "UPDATE_NOISE_THRESHOLD" => UpdateNoiseThreshold,
       }.freeze
     end
   end

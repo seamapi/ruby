@@ -47,7 +47,7 @@ module Seam
         date_accessor :created_at
 
         discriminated_by :error_code, {
-          "failed_to_create_on_acs_system" => FailedToCreateOnAcsSystem
+          "failed_to_create_on_acs_system" => FailedToCreateOnAcsSystem,
         }.freeze
       end
 

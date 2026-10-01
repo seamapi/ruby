@@ -34,7 +34,7 @@ module Seam
         date_accessor :created_at
 
         discriminated_by :error_code, {
-          "failed_to_issue" => FailedToIssue
+          "failed_to_issue" => FailedToIssue,
         }.freeze
       end
 
@@ -195,7 +195,7 @@ module Seam
           "pulled_backup_access_code" => PulledBackupAccessCode,
           "delay_in_issuing" => DelayInIssuing,
           "user_identity_missing_email_address" => UserIdentityMissingEmailAddress,
-          "user_identity_missing_phone_number" => UserIdentityMissingPhoneNumber
+          "user_identity_missing_phone_number" => UserIdentityMissingPhoneNumber,
         }.freeze
       end
 

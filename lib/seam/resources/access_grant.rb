@@ -37,7 +37,7 @@ module Seam
         date_accessor :created_at
 
         discriminated_by :error_code, {
-          "cannot_create_requested_access_methods" => CannotCreateRequestedAccessMethods
+          "cannot_create_requested_access_methods" => CannotCreateRequestedAccessMethods,
         }.freeze
       end
 
@@ -286,7 +286,7 @@ module Seam
           "updating_access_times" => UpdatingAccessTimes,
           "requested_code_unavailable" => RequestedCodeUnavailable,
           "device_does_not_support_access_codes" => DeviceDoesNotSupportAccessCodes,
-          "device_time_constraints_violated" => DeviceTimeConstraintsViolated
+          "device_time_constraints_violated" => DeviceTimeConstraintsViolated,
         }.freeze
       end
 

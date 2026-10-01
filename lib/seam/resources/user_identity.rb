@@ -46,7 +46,7 @@ module Seam
         date_accessor :created_at
 
         discriminated_by :error_code, {
-          "issue_with_acs_user" => IssueWithAcsUser
+          "issue_with_acs_user" => IssueWithAcsUser,
         }.freeze
       end
 
@@ -97,7 +97,7 @@ module Seam
 
         discriminated_by :warning_code, {
           "being_deleted" => BeingDeleted,
-          "acs_user_profile_does_not_match_user_identity" => AcsUserProfileDoesNotMatchUserIdentity
+          "acs_user_profile_does_not_match_user_identity" => AcsUserProfileDoesNotMatchUserIdentity,
         }.freeze
       end
 

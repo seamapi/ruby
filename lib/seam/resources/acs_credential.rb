@@ -215,7 +215,7 @@ module Seam
           "being_deleted" => BeingDeleted,
           "unknown_issue_with_acs_credential" => UnknownIssueWithAcsCredential,
           "needs_to_be_reissued" => NeedsToBeReissued,
-          "requested_code_unavailable" => RequestedCodeUnavailable
+          "requested_code_unavailable" => RequestedCodeUnavailable,
         }.freeze
       end
 

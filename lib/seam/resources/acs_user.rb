@@ -125,7 +125,7 @@ module Seam
           "failed_to_create_on_acs_system" => FailedToCreateOnAcsSystem,
           "failed_to_update_on_acs_system" => FailedToUpdateOnAcsSystem,
           "failed_to_delete_on_acs_system" => FailedToDeleteOnAcsSystem,
-          "latch_conflict_with_resident_user" => LatchConflictWithResidentUser
+          "latch_conflict_with_resident_user" => LatchConflictWithResidentUser,
         }.freeze
       end
 
@@ -317,7 +317,7 @@ module Seam
           "salto_ks_user_not_subscribed" => SaltoKsUserNotSubscribed,
           "acs_user_inactive" => AcsUserInactive,
           "unknown_issue_with_acs_user" => UnknownIssueWithAcsUser,
-          "latch_resident_user" => LatchResidentUser
+          "latch_resident_user" => LatchResidentUser,
         }.freeze
       end
 

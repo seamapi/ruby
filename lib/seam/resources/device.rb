@@ -75,7 +75,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that Seam's integration user does not have sufficient permissions on the provider's system to which this device belongs, so Seam cannot manage access codes or unlock the device. See the error message for specifics, then either reauthorize the connected account in Seam or grant the integration user the required permissions in the provider's system.
+        # Indicates that the provider's system to which this device belongs is not letting Seam act on it, so Seam cannot manage access codes or unlock the device. The error message says which of three causes applies. Seam's integration user may not have sufficient permissions on the provider's system, or may have been suspended there: grant the integration user the required permissions in the provider's system, or reauthorize the connected account in Seam. The provider account or site may not have a valid subscription with the provider: set up or renew that subscription with the provider. Or the provider may have rejected the credential Seam uses to operate the device's hub: contact Seam support to re-activate it.
         class InsufficientPermissions < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -339,7 +339,7 @@ module Seam
           "missing_device_credentials" => MissingDeviceCredentials,
           "auxiliary_heat_running" => AuxiliaryHeatRunning,
           "subscription_required" => SubscriptionRequired,
-          "bridge_disconnected" => BridgeDisconnected
+          "bridge_disconnected" => BridgeDisconnected,
         }.freeze
       end
 
@@ -1021,6 +1021,18 @@ module Seam
           # Static UTC offset of the Omnitec lock in milliseconds. Does not account for DST.
           # @return [Float, nil]
           attr_accessor :timezone_raw_offset_ms
+        end
+
+        class ReolinkMetadata < BaseResource
+          # Firmware version reported by the camera.
+          # @return [String, nil]
+          attr_accessor :firmware_version
+          # Hardware version reported by the camera.
+          # @return [String, nil]
+          attr_accessor :hardware_version
+          # Model reported by the Reolink camera.
+          # @return [String, nil]
+          attr_accessor :model
         end
 
         class RingMetadata < BaseResource
@@ -1889,6 +1901,9 @@ module Seam
         # Metadata for an Omnitec device.
         # @return [OmnitecMetadata, nil]
         resource_accessor :omnitec_metadata, OmnitecMetadata
+        # Metadata for a Reolink camera.
+        # @return [ReolinkMetadata, nil]
+        resource_accessor :reolink_metadata, ReolinkMetadata
         # Metadata for a Ring device.
         # @return [RingMetadata, nil]
         resource_accessor :ring_metadata, RingMetadata
@@ -2637,7 +2652,7 @@ module Seam
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,
           "accessory_keypad_low_battery" => AccessoryKeypadLowBattery,
           "unreliable_online_status" => UnreliableOnlineStatus,
-          "max_access_codes_reached" => MaxAccessCodesReached
+          "max_access_codes_reached" => MaxAccessCodesReached,
         }.freeze
       end
 
@@ -2716,6 +2731,9 @@ module Seam
       # Indicates whether the device supports simulating removal in a sandbox.
       # @return [Boolean, nil]
       attr_accessor :can_simulate_removal
+      # Indicates whether the camera supports streaming live video through a camera live view session.
+      # @return [Boolean, nil]
+      attr_accessor :can_stream_live_video
       # Indicates whether the thermostat can be turned off.
       # @return [Boolean, nil]
       attr_accessor :can_turn_off_hvac
@@ -2789,6 +2807,7 @@ module Seam
       # - `ring_camera`
       # - `tapo_camera`
       # - `arlo_camera`
+      # - `reolink_camera`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]
