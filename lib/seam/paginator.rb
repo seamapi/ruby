@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "faraday"
-require_relative "http"
 
 module Seam
   THREAD_CONTEXT_KEY = :seam_pagination_context
@@ -33,32 +32,33 @@ module Seam
     end
 
     def flatten_to_list
-      all_items = []
-      current_items, pagination = first_page
-
-      all_items.concat(current_items) if current_items
-
-      while pagination&.has_next_page? && (cursor = pagination.next_page_cursor)
-        current_items, pagination = next_page(cursor)
-        all_items.concat(current_items) if current_items
-      end
-
-      all_items
+      walk.flat_map { |items, _pagination| items }
     end
 
     def flatten
       Enumerator.new do |yielder|
-        current_items, pagination = first_page
-        current_items&.each { |item| yielder << item }
-
-        while pagination&.has_next_page? && (cursor = pagination.next_page_cursor)
-          current_items, pagination = next_page(cursor)
-          current_items&.each { |item| yielder << item }
-        end
+        walk.each { |items, _pagination| items.each { |item| yielder << item } }
       end
     end
 
     private
+
+    def walk
+      Enumerator.new do |yielder|
+        items, pagination = first_page
+        yielder << [items || [], pagination]
+
+        seen_cursors = Set.new
+
+        while pagination&.has_next_page?
+          cursor = pagination.next_page_cursor
+          break if cursor.nil? || cursor.empty? || !seen_cursors.add?(cursor)
+
+          items, pagination = next_page(cursor)
+          yielder << [items || [], pagination]
+        end
+      end
+    end
 
     def fetch_page(params)
       context = PaginationContext.new(nil)
