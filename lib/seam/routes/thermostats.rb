@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "seam/response"
 require "seam/action_attempt_resolver"
 
 module Seam
@@ -31,7 +32,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/activate_climate_preset")), @client, wait_for_action_attempt)
       end
 
       # Returns a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats) to its [weekly program](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-programs), the schedule that is configured on the device itself, releasing any hold that Seam has set. Seam stops managing the thermostat's climate until you [activate a climate preset](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings), make a direct climate setting change, or one of the thermostat's [scheduled](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) presets reaches its activation time.
@@ -55,7 +56,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/cool")), @client, wait_for_action_attempt)
       end
 
       # Creates a [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) for a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats).
@@ -99,7 +100,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/heat")), @client, wait_for_action_attempt)
       end
 
       # Sets a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats) to [heat-cool ("auto") mode](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings).
@@ -114,7 +115,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/heat_cool")), @client, wait_for_action_attempt)
       end
 
       # Returns a list of all [thermostats](https://www.seam.co/docs/capability-guides/thermostats).
@@ -128,7 +129,7 @@ module Seam
       def list(connect_webview_id: nil, connected_account_id: nil, customer_key: nil, device_type: nil, device_types: nil, manufacturer: nil)
         res = @client.get("/thermostats/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, customer_key: customer_key, device_type: device_type, device_types: device_types, manufacturer: manufacturer}.compact)
 
-        Seam::Resources::Device.load_from_response(res.body["devices"])
+        Seam::Resources::Device.load_from_response(Seam::Http::Response.read_list(res, "devices", "/thermostats/list"))
       end
 
       # Sets a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats) to ["off" mode](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings).
@@ -139,7 +140,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/off")), @client, wait_for_action_attempt)
       end
 
       # Sets a specified [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) as the ["fallback"](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets/setting-the-fallback-climate-preset) preset for a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats).
@@ -163,7 +164,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/set_fan_mode")), @client, wait_for_action_attempt)
       end
 
       # Sets the [HVAC mode](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings) for a specified [thermostat](https://www.seam.co/docs/capability-guides/thermostats).
@@ -179,7 +180,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/set_hvac_mode")), @client, wait_for_action_attempt)
       end
 
       # Sets a [temperature threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) for a specified thermostat. Seam emits a `thermostat.temperature_threshold_exceeded` event and adds a warning on a thermostat if it reports a temperature outside the threshold range.
@@ -231,7 +232,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(Seam::Http::Response.read(res, "action_attempt", "/thermostats/update_weekly_program")), @client, wait_for_action_attempt)
       end
     end
   end

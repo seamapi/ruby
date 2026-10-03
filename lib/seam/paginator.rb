@@ -2,10 +2,11 @@
 
 require "faraday"
 require_relative "http"
+require_relative "response"
 
 module Seam
   THREAD_CONTEXT_KEY = :seam_pagination_context
-  PaginationContext = Struct.new(:pagination)
+  PaginationContext = Struct.new(:body, :path)
 
   class Paginator
     def initialize(request, params = {})
@@ -61,12 +62,12 @@ module Seam
     private
 
     def fetch_page(params)
-      context = PaginationContext.new(nil)
+      context = PaginationContext.new(nil, nil)
       Thread.current[THREAD_CONTEXT_KEY] = context
 
       begin
         res_data = @request.call(**params)
-        pagination_result = Pagination.from_hash(context.pagination)
+        pagination_result = Pagination.from_hash(Http::Response.read_pagination(context.body, context.path))
         [res_data, pagination_result]
       ensure
         Thread.current[THREAD_CONTEXT_KEY] = nil
@@ -95,15 +96,8 @@ module Seam
       context = Thread.current[THREAD_CONTEXT_KEY]
       return unless context.is_a?(PaginationContext)
 
-      pagination_hash = extract_pagination(env)
-      context.pagination = pagination_hash if pagination_hash
-    end
-
-    private
-
-    def extract_pagination(env)
-      body = env[:body]
-      body["pagination"] if body.is_a?(Hash) && body.key?("pagination")
+      context.body = env[:body]
+      context.path = env.url.path
     end
   end
 end

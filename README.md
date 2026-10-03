@@ -373,6 +373,10 @@ all_devices = paginator.flatten_to_list
 
 Requests rejected by the Seam API raise a `Seam::Http::ApiError` subclass
 carrying the HTTP `status_code`, API error `code`, and `request_id`.
+A successful response that does not carry the resource the endpoint returns,
+for example when a proxy rewrites the body,
+raises a `Seam::Http::InvalidResponseError` exposing the request `path`
+and the `response_key` the SDK expected.
 
 #### Validation errors
 
