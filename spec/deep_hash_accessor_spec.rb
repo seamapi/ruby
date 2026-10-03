@@ -63,5 +63,32 @@ RSpec.describe Seam::DeepHashAccessor do
     it "raises NoMethodError for non-existent keys" do
       expect { accessor.non_existent_key }.to raise_error(NoMethodError)
     end
+
+    it "responds only to its keys" do
+      expect(accessor).to respond_to(:name)
+      expect(accessor).not_to respond_to(:non_existent_key)
+    end
+
+    it "raises NoMethodError when a key is called with arguments" do
+      expect { accessor.name("argument") }.to raise_error(NoMethodError)
+    end
+  end
+
+  describe "keys that collide with methods" do
+    subject(:accessor) { described_class.new("to_h" => "shadow", "class" => "shadow", "name" => "John Doe") }
+
+    it "keeps to_h returning the data" do
+      expect(accessor.to_h).to eq("to_h" => "shadow", "class" => "shadow", "name" => "John Doe")
+      expect(accessor["to_h"]).to eq("shadow")
+    end
+
+    it "keeps class returning the class" do
+      expect(accessor.class).to be(described_class)
+      expect(accessor["class"]).to eq("shadow")
+    end
+
+    it "does not expose methods through subscript access" do
+      expect(accessor["inspect"]).to be_nil
+    end
   end
 end
