@@ -8,14 +8,17 @@ module Seam
       Http::SingleWorkspace.new(**args)
     end
 
-    def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, timeout: nil)
+    def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, timeout: nil, faraday_options: {},
+      faraday_retry_options: {})
       Http::SingleWorkspace.from_api_key(api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt,
-        timeout: timeout)
+        timeout: timeout, faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
     end
 
-    def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: true, timeout: nil)
+    def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil,
+      wait_for_action_attempt: true, timeout: nil, faraday_options: {}, faraday_retry_options: {})
       Http::SingleWorkspace.from_personal_access_token(personal_access_token, workspace_id, endpoint: endpoint,
-        wait_for_action_attempt: wait_for_action_attempt, timeout: timeout)
+        wait_for_action_attempt: wait_for_action_attempt, timeout: timeout, faraday_options: faraday_options,
+        faraday_retry_options: faraday_retry_options)
     end
 
     class ApiError < StandardError
