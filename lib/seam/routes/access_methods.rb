@@ -84,7 +84,7 @@ module Seam
       # @param space_id [String, nil] ID of the space by which to filter the returned access methods. Must be combined with `access_grant_id`, `access_grant_key`, or `acs_entrance_id`.
       # @return [Seam::Resources::AccessMethod] OK
       def list(access_code_id: nil, access_grant_id: nil, access_grant_key: nil, acs_entrance_id: nil, device_id: nil, limit: nil, page_cursor: nil, space_id: nil)
-        if access_code_id.nil? && access_grant_id.nil? && access_grant_key.nil? && acs_entrance_id.nil? && device_id.nil? && limit.nil? && page_cursor.nil? && space_id.nil?
+        if access_code_id.nil? && access_grant_id.nil? && access_grant_key.nil? && acs_entrance_id.nil? && device_id.nil? && space_id.nil?
           raise TypeError, "At least one parameter is required for /access_methods/list"
         end
 
