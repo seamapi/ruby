@@ -61,6 +61,7 @@ module Seam
       # @param bookings [Array<Hash>, nil] List of bookings.
       # @param buildings [Array<Hash>, nil] List of buildings.
       # @param common_areas [Array<Hash>, nil] List of shared common areas.
+      # @param customization_profile_id [String, Seam::Null, nil] ID of the customization profile to use for this customer. Access grants that automations create for this customer use this profile. Pass `null` to remove the customer's customization profile.
       # @param facilities [Array<Hash>, nil] List of gym or fitness facilities.
       # @param guests [Array<Hash>, nil] List of guests.
       # @param listings [Array<Hash>, nil] List of property listings.
@@ -77,8 +78,8 @@ module Seam
       # @param user_identities [Array<Hash>, nil] List of user identities.
       # @param users [Array<Hash>, nil] List of users.
       # @return [nil] OK
-      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, facilities: nil, guests: nil, listings: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, sites: nil, spaces: nil, staff_members: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
-        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, facilities: facilities, guests: guests, listings: listings, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, sites: sites, spaces: spaces, staff_members: staff_members, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
+      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, customization_profile_id: nil, facilities: nil, guests: nil, listings: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, sites: nil, spaces: nil, staff_members: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
+        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, customization_profile_id: customization_profile_id, facilities: facilities, guests: guests, listings: listings, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, sites: sites, spaces: spaces, staff_members: staff_members, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
 
         nil
       end
