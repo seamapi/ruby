@@ -28,12 +28,49 @@ module Seam
         attr_accessor :longitude
       end
 
+      # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
+      class Warnings < BaseResource
+        # Indicates that the space is being deleted. Seam removes it, revokes its access grants, and detaches its devices and entrances shortly.
+        class BeingDeleted < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `being_deleted`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        # @return [String]
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        # @return [String]
+        # Known values:
+        # - `being_deleted`
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        # @return [Time]
+        date_accessor :created_at
+
+        discriminated_by :warning_code, {
+          "being_deleted" => BeingDeleted
+        }.freeze
+      end
+
       # Reservation/stay-related defaults for the space. Also carries the provider/PMS-supplied name under a `<connector_type>_name` key (e.g. `guesty_name`), which Seam preserves when you rename the space (read-only — managed by Seam).
       # @return [CustomerData, nil]
       resource_accessor :customer_data, CustomerData
       # Geographic coordinates (latitude and longitude) of the space.
       # @return [Geolocation, nil]
       resource_accessor :geolocation, Geolocation
+      # Warnings associated with the space.
+      # @return [Array<Warnings>]
+      resource_list_accessor :warnings, Warnings
       # Number of entrances in the space.
       # @return [Float]
       attr_accessor :acs_entrance_count
