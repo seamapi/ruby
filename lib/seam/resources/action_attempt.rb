@@ -944,6 +944,7 @@ module Seam
             # @return [String]
             # Known values:
             # - `failed_to_issue`
+            # - `access_not_provisioned`
             attr_accessor :error_code
             # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
             # @return [String]
@@ -1464,6 +1465,46 @@ module Seam
         attr_accessor :status
       end
 
+      # Converting an unmanaged access code to managed is pending.
+      class ConvertAccessCodeToManaged < ActionAttempt
+        class Error < BaseResource
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Type of the error.
+          # @return [String]
+          attr_accessor :type
+        end
+
+        class Result < BaseResource
+        end
+
+        # Error associated with the action.
+        # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
+        resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
+        # Result of the action.
+        # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
+        resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
+        # ID of the action attempt.
+        # @return [String]
+        attr_accessor :action_attempt_id
+        # Action attempt to track the status of converting an unmanaged access code to a managed access code.
+        # @return [String]
+        # Known values:
+        # - `CONVERT_ACCESS_CODE_TO_MANAGED`
+        attr_accessor :action_type
+        # @return [String]
+        # Known values:
+        # - `success`
+        # - `pending`
+        # - `error`
+        attr_accessor :status
+      end
+
       class SyncAccessCodes < ActionAttempt
         class Error < BaseResource
           # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
@@ -1777,6 +1818,7 @@ module Seam
       # - `SIMULATE_MANUAL_LOCK_VIA_KEYPAD`
       # - `PUSH_THERMOSTAT_PROGRAMS`
       # - `CONFIGURE_AUTO_LOCK`
+      # - `CONVERT_ACCESS_CODE_TO_MANAGED`
       # - `SYNC_ACCESS_CODES`
       # - `CREATE_ACCESS_CODE`
       # - `DELETE_ACCESS_CODE`
@@ -1808,6 +1850,7 @@ module Seam
         "SIMULATE_MANUAL_LOCK_VIA_KEYPAD" => SimulateManualLockViaKeypad,
         "PUSH_THERMOSTAT_PROGRAMS" => PushThermostatPrograms,
         "CONFIGURE_AUTO_LOCK" => ConfigureAutoLock,
+        "CONVERT_ACCESS_CODE_TO_MANAGED" => ConvertAccessCodeToManaged,
         "SYNC_ACCESS_CODES" => SyncAccessCodes,
         "CREATE_ACCESS_CODE" => CreateAccessCode,
         "DELETE_ACCESS_CODE" => DeleteAccessCode,

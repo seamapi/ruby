@@ -21,10 +21,26 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the access system rejected the access that Seam tried to set up for this access method, so its credential cannot open the affected entrances, even after it is issued. For example, a hotel room may already be reserved or checked in for another guest. The message contains the reason that the access system gave. Seam keeps retrying, and this error clears automatically once the access system accepts the access.
+        class AccessNotProvisioned < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `access_not_provisioned`
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
         # @return [String]
         # Known values:
         # - `failed_to_issue`
+        # - `access_not_provisioned`
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
@@ -34,7 +50,8 @@ module Seam
         date_accessor :created_at
 
         discriminated_by :error_code, {
-          "failed_to_issue" => FailedToIssue
+          "failed_to_issue" => FailedToIssue,
+          "access_not_provisioned" => AccessNotProvisioned
         }.freeze
       end
 
