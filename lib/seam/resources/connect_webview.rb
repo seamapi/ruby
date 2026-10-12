@@ -22,6 +22,7 @@ module Seam
       # - `noise_sensor`
       # - `access_control`
       # - `camera`
+      # - `speaker`
       attr_accessor :accepted_capabilities
       # List of accepted [provider keys](https://www.seam.co/docs/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-brands-to-display-in-your-connect-webviews).
       # @return [Array<String>]

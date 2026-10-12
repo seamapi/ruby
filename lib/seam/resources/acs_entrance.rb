@@ -101,9 +101,27 @@ module Seam
         attr_accessor :access_point_profile
       end
 
+      # Known `error_code` values load as subclasses; unknown values remain Errors instances for forward compatibility.
       class Errors < BaseResource
+        # Indicates that the [entrance](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details) was removed from the connected account, so Seam can no longer sync it.
+        class EntranceRemoved < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `entrance_removed`
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
         # @return [String]
+        # Known values:
+        # - `entrance_removed`
         attr_accessor :error_code
         # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
@@ -111,6 +129,10 @@ module Seam
         # Date and time at which Seam created the error.
         # @return [Time]
         date_accessor :created_at
+
+        discriminated_by :error_code, {
+          "entrance_removed" => EntranceRemoved
+        }.freeze
       end
 
       class HotekMetadata < BaseResource

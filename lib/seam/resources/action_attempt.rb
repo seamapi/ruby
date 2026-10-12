@@ -974,20 +974,21 @@ module Seam
             end
 
             # Previous access time configuration.
-            # @return [From]
+            # @return [From, nil]
             resource_accessor :from, From
             # New access time configuration.
-            # @return [To]
+            # @return [To, nil]
             resource_accessor :to, To
             # Detailed description of the mutation.
             # @return [String]
             attr_accessor :message
-            # Mutation code to indicate that Seam is in the process of updating the access times for this access method.
+            # Mutation code to indicate that the access system has not yet received all the access this card needs, so the card is not ready to be encoded.
             # @return [String]
             # Known values:
             # - `provisioning_access`
             # - `revoking_access`
             # - `updating_access_times`
+            # - `waiting_for_access_on_acs_system`
             attr_accessor :mutation_code
             # Date and time at which the mutation was created.
             # @return [Time]
@@ -1058,7 +1059,7 @@ module Seam
           # Indicates whether the access method is ready for card assignment. This is true when the access method is in card mode, has not yet been issued, and the system supports credential assignment.
           # @return [Boolean, nil]
           attr_accessor :is_ready_for_assignment
-          # Indicates whether the access method is ready to be encoded. This is true when the credential has been created and the card has not yet been issued.
+          # Indicates whether the access method is ready to be encoded. This is true when the card has not yet been issued and the access system has received all the access the card needs. While it is false, `pending_mutations` contains `waiting_for_access_on_acs_system`.
           # @return [Boolean, nil]
           attr_accessor :is_ready_for_encoding
           # Access method mode. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
@@ -1505,6 +1506,212 @@ module Seam
         attr_accessor :status
       end
 
+      # Setting the speaker volume is pending.
+      class SetSpeakerVolume < ActionAttempt
+        class Error < BaseResource
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Type of the error.
+          # @return [String]
+          attr_accessor :type
+        end
+
+        class Result < BaseResource
+        end
+
+        # Error associated with the action.
+        # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
+        resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
+        # Result of the action.
+        # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
+        resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
+        # ID of the action attempt.
+        # @return [String]
+        attr_accessor :action_attempt_id
+        # Action attempt to track the status of setting the volume on a speaker.
+        # @return [String]
+        # Known values:
+        # - `SET_SPEAKER_VOLUME`
+        attr_accessor :action_type
+        # @return [String]
+        # Known values:
+        # - `success`
+        # - `pending`
+        # - `error`
+        attr_accessor :status
+      end
+
+      # Muting or unmuting the speaker is pending.
+      class SetSpeakerMute < ActionAttempt
+        class Error < BaseResource
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Type of the error.
+          # @return [String]
+          attr_accessor :type
+        end
+
+        class Result < BaseResource
+        end
+
+        # Error associated with the action.
+        # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
+        resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
+        # Result of the action.
+        # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
+        resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
+        # ID of the action attempt.
+        # @return [String]
+        attr_accessor :action_attempt_id
+        # Action attempt to track the status of muting or unmuting a speaker.
+        # @return [String]
+        # Known values:
+        # - `SET_SPEAKER_MUTE`
+        attr_accessor :action_type
+        # @return [String]
+        # Known values:
+        # - `success`
+        # - `pending`
+        # - `error`
+        attr_accessor :status
+      end
+
+      # Pausing playback on the speaker is pending.
+      class PauseSpeakerPlayback < ActionAttempt
+        class Error < BaseResource
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Type of the error.
+          # @return [String]
+          attr_accessor :type
+        end
+
+        class Result < BaseResource
+          # IDs of the speakers whose playback was paused, including speakers grouped with the requested speaker.
+          # @return [Array<String>]
+          attr_accessor :affected_device_ids
+        end
+
+        # Error associated with the action.
+        # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
+        resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
+        # Result of the action.
+        # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
+        resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
+        # ID of the action attempt.
+        # @return [String]
+        attr_accessor :action_attempt_id
+        # Action attempt to track the status of pausing playback on a speaker.
+        # @return [String]
+        # Known values:
+        # - `PAUSE_SPEAKER_PLAYBACK`
+        attr_accessor :action_type
+        # @return [String]
+        # Known values:
+        # - `success`
+        # - `pending`
+        # - `error`
+        attr_accessor :status
+      end
+
+      # Resuming playback on the speaker is pending.
+      class ResumeSpeakerPlayback < ActionAttempt
+        class Error < BaseResource
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Type of the error.
+          # @return [String]
+          attr_accessor :type
+        end
+
+        class Result < BaseResource
+          # IDs of the speakers whose playback was resumed, including speakers grouped with the requested speaker.
+          # @return [Array<String>]
+          attr_accessor :affected_device_ids
+        end
+
+        # Error associated with the action.
+        # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
+        resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
+        # Result of the action.
+        # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
+        resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
+        # ID of the action attempt.
+        # @return [String]
+        attr_accessor :action_attempt_id
+        # Action attempt to track the status of resuming playback on a speaker.
+        # @return [String]
+        # Known values:
+        # - `RESUME_SPEAKER_PLAYBACK`
+        attr_accessor :action_type
+        # @return [String]
+        # Known values:
+        # - `success`
+        # - `pending`
+        # - `error`
+        attr_accessor :status
+      end
+
+      # Playing a chime on the speaker is pending.
+      class PlaySpeakerChime < ActionAttempt
+        class Error < BaseResource
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Type of the error.
+          # @return [String]
+          attr_accessor :type
+        end
+
+        class Result < BaseResource
+        end
+
+        # Error associated with the action.
+        # @return [Error, nil]
+        # Only present when `status` is `error`; `nil` otherwise.
+        resource_accessor :error, Error
+        available_only_for_statuses :error, ["error"]
+        # Result of the action.
+        # @return [Result, nil]
+        # Only present when `status` is `success`; `nil` otherwise.
+        resource_accessor :result, Result
+        available_only_for_statuses :result, ["success"]
+        # ID of the action attempt.
+        # @return [String]
+        attr_accessor :action_attempt_id
+        # Action attempt to track the status of playing a chime on a speaker.
+        # @return [String]
+        # Known values:
+        # - `PLAY_SPEAKER_CHIME`
+        attr_accessor :action_type
+        # @return [String]
+        # Known values:
+        # - `success`
+        # - `pending`
+        # - `error`
+        attr_accessor :status
+      end
+
       class SyncAccessCodes < ActionAttempt
         class Error < BaseResource
           # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
@@ -1819,6 +2026,11 @@ module Seam
       # - `PUSH_THERMOSTAT_PROGRAMS`
       # - `CONFIGURE_AUTO_LOCK`
       # - `CONVERT_ACCESS_CODE_TO_MANAGED`
+      # - `SET_SPEAKER_VOLUME`
+      # - `SET_SPEAKER_MUTE`
+      # - `PAUSE_SPEAKER_PLAYBACK`
+      # - `RESUME_SPEAKER_PLAYBACK`
+      # - `PLAY_SPEAKER_CHIME`
       # - `SYNC_ACCESS_CODES`
       # - `CREATE_ACCESS_CODE`
       # - `DELETE_ACCESS_CODE`
@@ -1851,6 +2063,11 @@ module Seam
         "PUSH_THERMOSTAT_PROGRAMS" => PushThermostatPrograms,
         "CONFIGURE_AUTO_LOCK" => ConfigureAutoLock,
         "CONVERT_ACCESS_CODE_TO_MANAGED" => ConvertAccessCodeToManaged,
+        "SET_SPEAKER_VOLUME" => SetSpeakerVolume,
+        "SET_SPEAKER_MUTE" => SetSpeakerMute,
+        "PAUSE_SPEAKER_PLAYBACK" => PauseSpeakerPlayback,
+        "RESUME_SPEAKER_PLAYBACK" => ResumeSpeakerPlayback,
+        "PLAY_SPEAKER_CHIME" => PlaySpeakerChime,
         "SYNC_ACCESS_CODES" => SyncAccessCodes,
         "CREATE_ACCESS_CODE" => CreateAccessCode,
         "DELETE_ACCESS_CODE" => DeleteAccessCode,

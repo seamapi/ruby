@@ -355,6 +355,7 @@ module Seam
       # - `noise_sensor`
       # - `access_control`
       # - `camera`
+      # - `speaker`
       attr_accessor :accepted_capabilities
       # Type of connected account.
       # @return [String, nil]
