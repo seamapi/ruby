@@ -29,6 +29,7 @@ module Seam
 
       # Deletes customer data including resources like spaces, properties, rooms, users, etc.
       # This will delete the partner resources and any related Seam resources (user identities, access grants, spaces).
+      # Space keys also match spaces created directly with a `space_key` (for example, through `/spaces/create`).
       # @param access_grant_keys [Array<String>, nil] List of access grant keys to delete.
       # @param booking_keys [Array<String>, nil] List of booking keys to delete.
       # @param building_keys [Array<String>, nil] List of building keys to delete.
@@ -65,6 +66,7 @@ module Seam
       # @param facilities [Array<Hash>, nil] List of gym or fitness facilities.
       # @param guests [Array<Hash>, nil] List of guests.
       # @param listings [Array<Hash>, nil] List of property listings.
+      # @param low_battery_alert_threshold [Float, Seam::Null, nil] Battery level, from 0 to 1, at or below which `device.low_battery` events fire for this customer's devices. Overrides the workspace and device defaults. Pass `null` to remove the customer's override.
       # @param properties [Array<Hash>, nil] List of short-term rental properties.
       # @param property_listings [Array<Hash>, nil] List of property listings.
       # @param reservations [Array<Hash>, nil] List of reservations.
@@ -78,8 +80,8 @@ module Seam
       # @param user_identities [Array<Hash>, nil] List of user identities.
       # @param users [Array<Hash>, nil] List of users.
       # @return [nil] OK
-      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, customization_profile_id: nil, facilities: nil, guests: nil, listings: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, sites: nil, spaces: nil, staff_members: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
-        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, customization_profile_id: customization_profile_id, facilities: facilities, guests: guests, listings: listings, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, sites: sites, spaces: spaces, staff_members: staff_members, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
+      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, customization_profile_id: nil, facilities: nil, guests: nil, listings: nil, low_battery_alert_threshold: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, sites: nil, spaces: nil, staff_members: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
+        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, customization_profile_id: customization_profile_id, facilities: facilities, guests: guests, listings: listings, low_battery_alert_threshold: low_battery_alert_threshold, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, sites: sites, spaces: spaces, staff_members: staff_members, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
 
         nil
       end

@@ -169,8 +169,10 @@ module Seam
             # Device whose access code could not be revoked.
             # @return [String]
             attr_accessor :device_id
-            # Reason the access code could not be revoked (e.g. `offline_access_code_not_revocable`).
+            # Reason the access code could not be revoked.
             # @return [String]
+            # Known values:
+            # - `offline_access_code_not_revocable`
             attr_accessor :error_code
             # Human-readable description of why revocation failed.
             # @return [String]

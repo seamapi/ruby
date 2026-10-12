@@ -949,6 +949,15 @@ module Seam
       # Indicates whether the thermostat supports simultaneous heating and cooling.
       # @return [Boolean, nil]
       attr_accessor :can_hvac_heat_cool
+      # Indicates whether the speaker supports muting and unmuting.
+      # @return [Boolean, nil]
+      attr_accessor :can_mute_speaker
+      # Indicates whether the speaker supports pausing and resuming playback.
+      # @return [Boolean, nil]
+      attr_accessor :can_pause_speaker_playback
+      # Indicates whether the speaker supports playing a chime.
+      # @return [Boolean, nil]
+      attr_accessor :can_play_speaker_chime
       # Indicates whether the device supports programming offline access codes.
       # @return [Boolean, nil]
       attr_accessor :can_program_offline_access_codes
@@ -973,6 +982,9 @@ module Seam
       # Indicates whether the thermostat supports running climate programs.
       # @return [Boolean, nil]
       attr_accessor :can_run_thermostat_programs
+      # Indicates whether the speaker supports setting its volume.
+      # @return [Boolean, nil]
+      attr_accessor :can_set_speaker_volume
       # Indicates whether the device supports simulating connection in a sandbox.
       # @return [Boolean, nil]
       attr_accessor :can_simulate_connection
@@ -1068,6 +1080,7 @@ module Seam
       # - `tapo_camera`
       # - `arlo_camera`
       # - `reolink_camera`
+      # - `sonos_speaker`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]

@@ -78,6 +78,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the access control system has reached the maximum number of users its license allows, so Seam cannot create new users on it and access for new guests is not provisioned. Remove unused users from the access control system or increase its license. The error clears once Seam can create users again.
+        class UserLicenseLimitReached < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `user_license_limit_reached`
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates that the provider's system backing this [access control system](https://www.seam.co/docs/low-level-apis/access-systems) is not letting Seam act on it, so access cannot be managed until this is resolved. The error message says which of two causes applies. Either Seam's integration user does not have sufficient permissions on the provider's system, or has been suspended there: grant the integration user the required permissions in the provider's system, or reauthorize the connected account in Seam. Or the provider account or site does not have a valid subscription with the provider: set up or renew that subscription with the provider.
         class InsufficientPermissions < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -160,6 +175,7 @@ module Seam
         # - `bridge_disconnected`
         # - `visionline_instance_unreachable`
         # - `salto_ks_subscription_limit_exceeded`
+        # - `user_license_limit_reached`
         # - `insufficient_permissions`
         # - `acs_system_disconnected`
         # - `account_disconnected`
@@ -178,6 +194,7 @@ module Seam
           "bridge_disconnected" => BridgeDisconnected,
           "visionline_instance_unreachable" => VisionlineInstanceUnreachable,
           "salto_ks_subscription_limit_exceeded" => SaltoKsSubscriptionLimitExceeded,
+          "user_license_limit_reached" => UserLicenseLimitReached,
           "insufficient_permissions" => InsufficientPermissions,
           "acs_system_disconnected" => AcsSystemDisconnected,
           "account_disconnected" => AccountDisconnected,

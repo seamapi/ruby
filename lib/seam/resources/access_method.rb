@@ -258,7 +258,7 @@ module Seam
       # Indicates whether the access method is ready for card assignment. This is true when the access method is in card mode, has not yet been issued, and the system supports credential assignment.
       # @return [Boolean, nil]
       attr_accessor :is_ready_for_assignment
-      # Indicates whether the access method is ready to be encoded. This is true when the credential has been created and the card has not yet been issued.
+      # Indicates whether the access method is ready to be encoded. This is true when the card has not yet been issued and the access system has received all the access the card needs. While it is false, `pending_mutations` contains `waiting_for_access_on_acs_system`.
       # @return [Boolean, nil]
       attr_accessor :is_ready_for_encoding
       # Access method mode. Supported values: `code`, `card`, `mobile_key`, `cloud_key`.
