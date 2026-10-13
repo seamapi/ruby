@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require_relative "errors"
 require_relative "options"
 require_relative "token"
 
 module Seam
   module Http
     module Auth
-      class SeamInvalidTokenError < StandardError
+      class SeamInvalidTokenError < Seam::Error
         def initialize(message)
           super("Seam received an invalid token: #{message}")
         end
