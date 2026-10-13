@@ -2,8 +2,7 @@
 
 require_relative "request"
 require_relative "parse_options"
-require_relative "version"
-require_relative "auth"
+require_relative "deep_hash_accessor"
 require_relative "resources/index"
 require_relative "routes/index"
 require_relative "routes/routes"
@@ -36,8 +35,7 @@ module Seam
         end
 
         wait_for_action_attempt = true if wait_for_action_attempt.equal?(OPTION_NOT_PROVIDED)
-        @wait_for_action_attempt = wait_for_action_attempt
-        @defaults = {"wait_for_action_attempt" => wait_for_action_attempt}
+        @defaults = Seam::DeepHashAccessor.new({"wait_for_action_attempt" => wait_for_action_attempt})
 
         @client = client || begin
           personal_access_token = nil if personal_access_token.equal?(OPTION_NOT_PROVIDED)

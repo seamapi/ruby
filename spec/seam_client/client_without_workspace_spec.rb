@@ -32,6 +32,15 @@ RSpec.describe Seam::Http::WithoutWorkspace, :fake do
 
       expect(seam.client).to equal(client)
       expect(seam.defaults["wait_for_action_attempt"]).to be(false)
+      expect(seam.defaults.wait_for_action_attempt).to be(false)
+    end
+
+    it "exposes the defaults the generated routes read" do
+      seam = described_class.new(personal_access_token: "seam_at1_token")
+
+      expect(seam.defaults).to be_a(Seam::DeepHashAccessor)
+      expect(seam.defaults.wait_for_action_attempt).to be(true)
+      expect(seam.workspaces.instance_variable_get(:@workspaces).instance_variable_get(:@defaults).wait_for_action_attempt).to be(true)
     end
 
     construction_options = {
