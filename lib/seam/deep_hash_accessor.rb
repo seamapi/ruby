@@ -1,35 +1,31 @@
 # frozen_string_literal: true
 
-require "date"
-
 module Seam
   class DeepHashAccessor
     def initialize(data)
       @data = data
-      create_accessor_methods
+      @values = data.to_h { |key, value| [key.to_s, process_value(value)] }
     end
 
     def [](key)
-      # Subscript access is Hash-like and returns nil for unknown keys, while
-      # method access continues to raise NoMethodError.
-      name = key.to_s
-      return nil unless respond_to?(name)
-
-      public_send(name)
+      @values[key.to_s]
     end
 
     def to_h
       @data
     end
 
-    private
-
-    def create_accessor_methods
-      @data.each do |key, value|
-        processed = process_value(value)
-        define_singleton_method(key) { processed }
-      end
+    def respond_to_missing?(name, include_private = false)
+      @values.key?(name.to_s) || super
     end
+
+    def method_missing(name, *args, &block)
+      return @values[name.to_s] if args.empty? && block.nil? && @values.key?(name.to_s)
+
+      super
+    end
+
+    private
 
     def process_value(value)
       case value
