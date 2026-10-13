@@ -6,6 +6,8 @@ require_relative "deep_hash_accessor"
 module Seam
   module Resources
     class BaseResource
+      RESERVED_ATTRIBUTES = %w[data client].freeze
+
       attr_accessor :data, :client
 
       def initialize(data, client = nil)
@@ -117,6 +119,7 @@ module Seam
       def process_data_attributes(data)
         data.each do |key, value|
           next unless key.to_s.match?(/\A[a-zA-Z_][a-zA-Z0-9_]*\z/)
+          next if RESERVED_ATTRIBUTES.include?(key.to_s)
 
           resource_class = self.class.resource_accessors[key.to_s]
           resource_list_class = self.class.resource_list_accessors[key.to_s]
