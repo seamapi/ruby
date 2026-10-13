@@ -220,7 +220,7 @@ For example:
 ```ruby
 require "seam"
 
-seam = Seam.new("your-api-key")
+seam = Seam.new(api_key: "your-api-key")
 
 locks = seam.locks.list
 
@@ -523,7 +523,8 @@ seam = Seam.new(
 )
 ```
 
-A request that exceeds the timeout raises `Faraday::TimeoutError`.
+A request whose response does not arrive within the timeout raises `Faraday::TimeoutError`,
+and a connection that cannot be opened within the timeout raises `Faraday::ConnectionFailed`.
 
 #### Retry behavior
 
