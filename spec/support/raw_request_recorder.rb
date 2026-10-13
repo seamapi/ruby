@@ -23,12 +23,14 @@ class RawRequestRecorder
     @endpoint = "http://127.0.0.1:#{@server.addr[1]}"
     @requests = []
     @response_body = "{}"
+    @response_delay = 0
     @thread = Thread.new { serve }
     @thread.abort_on_exception = true
   end
 
-  def respond_with(body)
+  def respond_with(body, delay: 0)
     @response_body = body
+    @response_delay = delay
   end
 
   def stop
@@ -65,6 +67,8 @@ class RawRequestRecorder
 
     body = content_length.positive? ? socket.read(content_length) : nil
     @requests << RecordedRequest.new(method, target, body)
+
+    sleep(@response_delay) if @response_delay.positive?
 
     socket.write(
       "HTTP/1.1 200 OK\r\n" \
