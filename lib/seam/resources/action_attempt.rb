@@ -1008,10 +1008,17 @@ module Seam
             # - `delay_in_issuing`
             # - `user_identity_missing_email_address`
             # - `user_identity_missing_phone_number`
+            # - `requested_code_unavailable`
             attr_accessor :warning_code
             # ID of the original access method from which this backup access method was split, if applicable.
             # @return [String, nil]
             attr_accessor :original_access_method_id
+            # The PIN code that was assigned instead.
+            # @return [String, nil]
+            attr_accessor :new_code
+            # The originally requested PIN code that could not be used.
+            # @return [String, nil]
+            attr_accessor :original_code
             # Date and time at which Seam created the warning.
             # @return [Time]
             date_accessor :created_at
