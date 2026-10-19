@@ -213,10 +213,13 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that the requested PIN code was already in use on a device, so a different code was assigned.
+        # Indicates that the requested PIN code could not be used, so a different code was assigned. For example, the code was already in use on a device, or the access system rejected it because it did not meet its PIN rules.
         class RequestedCodeUnavailable < Warnings
-          # ID of the device where the requested code was unavailable.
-          # @return [String]
+          # ID of the access method whose requested code was unavailable. Present when an access system, such as Salto KS, assigned a different code.
+          # @return [String, nil]
+          attr_accessor :access_method_id
+          # ID of the device where the requested code was unavailable. Present when the code was set directly on a device.
+          # @return [String, nil]
           attr_accessor :device_id
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]

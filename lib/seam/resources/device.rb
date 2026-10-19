@@ -1135,7 +1135,7 @@ module Seam
           # Device name for a Sensi device.
           # @return [String, nil]
           attr_accessor :device_name
-          # Set to true when the device does not support the /dual-setpoints API endpoint.
+          # Deprecated. Seam no longer sets this field.
           # @return [Boolean, nil]
           attr_accessor :dual_setpoints_not_supported
           # Product type for a Sensi device.

@@ -189,6 +189,27 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the access system could not use the PIN code requested for this [access method](https://www.seam.co/docs/use-cases/granting-access/creating-an-access-grant), for example because it did not meet the access system's PIN rules, so the access system assigned a different code. Give the recipient the assigned code.
+        class RequestedCodeUnavailable < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # The PIN code that was assigned instead.
+          # @return [String]
+          attr_accessor :new_code
+          # The originally requested PIN code that could not be used.
+          # @return [String]
+          attr_accessor :original_code
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `requested_code_unavailable`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -201,6 +222,7 @@ module Seam
         # - `delay_in_issuing`
         # - `user_identity_missing_email_address`
         # - `user_identity_missing_phone_number`
+        # - `requested_code_unavailable`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -212,7 +234,8 @@ module Seam
           "pulled_backup_access_code" => PulledBackupAccessCode,
           "delay_in_issuing" => DelayInIssuing,
           "user_identity_missing_email_address" => UserIdentityMissingEmailAddress,
-          "user_identity_missing_phone_number" => UserIdentityMissingPhoneNumber
+          "user_identity_missing_phone_number" => UserIdentityMissingPhoneNumber,
+          "requested_code_unavailable" => RequestedCodeUnavailable
         }.freeze
       end
 
