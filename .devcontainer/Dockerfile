@@ -2,7 +2,7 @@ ARG VARIANT="4"
 
 FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
 
-ARG NODE_VERSION="24"
+ARG NODE_VERSION="24.22.1"
 
 # https://github.com/microsoft/vscode-dev-containers/blob/main/containers/go/.devcontainer/base.Dockerfile
 ENV USERNAME=vscode
@@ -13,6 +13,7 @@ ENV NVM_SYMLINK_CURRENT=true \
 RUN mkdir /tmp/library-scripts \
  && curl -fsSL -o /tmp/library-scripts/node-debian.sh "${LIBRARY_SCRIPTS_SRC}"
 RUN bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}" \
+ && test "$(node --version)" = "v24.22.1" \
  && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
  && rm -rf /tmp/library-scripts
 
