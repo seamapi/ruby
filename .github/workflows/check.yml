@@ -18,13 +18,13 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
+          - ubuntu-24.04
         ruby:
           - '3.3'
           - '3.4'
           - '4.0'
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             os_name: Linux
     steps:
       - name: Checkout
@@ -39,7 +39,7 @@ jobs:
         run: bundle exec rake test
   lint:
     name: Lint (Ruby ${{ matrix.ruby }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -69,13 +69,13 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
+          - ubuntu-24.04
         ruby:
           - '3.3'
           - '3.4'
           - '4.0'
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             os_name: Linux
     steps:
       - name: Setup Ruby
