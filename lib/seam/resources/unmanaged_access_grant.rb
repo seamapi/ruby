@@ -283,6 +283,24 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that one of this access grant's access methods no longer grants access because of a change outside Seam, for example its card was encoded again for another credential. Seam does not replace the access method; issue a new one if the user still needs it.
+        class AccessRevoked < Warnings
+          # ID of the access method whose access was revoked.
+          # @return [String]
+          attr_accessor :access_method_id
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `access_revoked`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -296,6 +314,7 @@ module Seam
         # - `requested_code_unavailable`
         # - `device_does_not_support_access_codes`
         # - `device_time_constraints_violated`
+        # - `access_revoked`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -308,7 +327,8 @@ module Seam
           "updating_access_times" => UpdatingAccessTimes,
           "requested_code_unavailable" => RequestedCodeUnavailable,
           "device_does_not_support_access_codes" => DeviceDoesNotSupportAccessCodes,
-          "device_time_constraints_violated" => DeviceTimeConstraintsViolated
+          "device_time_constraints_violated" => DeviceTimeConstraintsViolated,
+          "access_revoked" => AccessRevoked
         }.freeze
       end
 
