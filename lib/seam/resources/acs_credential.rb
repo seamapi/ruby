@@ -190,6 +190,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the access system can only end card access on fixed time marks, so access was extended past `ends_at` to the next mark. The message states when access actually ends.
+        class ScheduleRoundedUp < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `schedule_rounded_up`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -203,6 +218,7 @@ module Seam
         # - `unknown_issue_with_acs_credential`
         # - `needs_to_be_reissued`
         # - `requested_code_unavailable`
+        # - `schedule_rounded_up`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -215,7 +231,8 @@ module Seam
           "being_deleted" => BeingDeleted,
           "unknown_issue_with_acs_credential" => UnknownIssueWithAcsCredential,
           "needs_to_be_reissued" => NeedsToBeReissued,
-          "requested_code_unavailable" => RequestedCodeUnavailable
+          "requested_code_unavailable" => RequestedCodeUnavailable,
+          "schedule_rounded_up" => ScheduleRoundedUp
         }.freeze
       end
 

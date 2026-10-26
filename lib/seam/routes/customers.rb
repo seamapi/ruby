@@ -14,7 +14,7 @@ module Seam
       # @param customization_profile_id [String, nil] The ID of the customization profile to use for the portal.
       # @param deep_link [Hash, nil] Deep link target resource for initial redirect. When set, the portal will navigate directly to the specified resource.
       # @param exclude_locale_picker [Boolean, nil] Whether to exclude the option to select a locale within the portal UI.
-      # @param features [Hash, nil]
+      # @param features [Hash, nil] Features to include in the portal. Settings you omit use the portal's customization profile, then the Seam default. Settings you pass take precedence over the customization profile's, so changing the profile doesn't change them.
       # @param is_embedded [Boolean, nil] Whether the portal is embedded in another application.
       # @param landing_page [Hash, nil] Configuration for the landing page when the portal loads.
       # @param locale [String, nil] The locale to use for the portal.

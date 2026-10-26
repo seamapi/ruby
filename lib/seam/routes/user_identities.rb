@@ -29,13 +29,14 @@ module Seam
 
       # Creates a new [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
       # @param acs_system_ids [Array<String>, nil] List of access system IDs to associate with the new user identity through access system users. If there's no user with the same email address or phone number in the specified access systems, a new access system user is created. If there is an existing user with the same email or phone number in the specified access systems, the user is linked to the user identity.
+      # @param customer_key [String, nil] Customer key of the customer that owns the new user identity. Set it when the user identity will be used in access grants created through that customer's client session or Customer Portal.
       # @param email_address [String, Seam::Null, nil] Unique email address for the new user identity.
       # @param full_name [String, Seam::Null, nil] Full name of the user associated with the new user identity.
       # @param phone_number [String, Seam::Null, nil] Unique phone number for the new user identity in E.164 format (for example, +15555550100).
       # @param user_identity_key [String, Seam::Null, nil] Unique key for the new user identity.
       # @return [Seam::Resources::UserIdentity] OK
-      def create(acs_system_ids: nil, email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
-        res = @client.post("/user_identities/create", {acs_system_ids: acs_system_ids, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
+      def create(acs_system_ids: nil, customer_key: nil, email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
+        res = @client.post("/user_identities/create", {acs_system_ids: acs_system_ids, customer_key: customer_key, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
 
         Seam::Resources::UserIdentity.load_from_response(res.body["user_identity"])
       end

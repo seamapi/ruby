@@ -672,6 +672,15 @@ module Seam
           attr_accessor :ecobee_device_id
         end
 
+        class EufyMetadata < BaseResource
+          # @return [String, nil]
+          attr_accessor :device_id
+          # @return [String, nil]
+          attr_accessor :device_name
+          # @return [String, nil]
+          attr_accessor :model
+        end
+
         class FourSuitesMetadata < BaseResource
           # Device ID for a 4SUITES device.
           # @return [Float, nil]
@@ -1158,30 +1167,6 @@ module Seam
           attr_accessor :model
         end
 
-        class SonosMetadata < BaseResource
-          # Models of the speakers bonded to this speaker, such as surrounds or a subwoofer.
-          # @return [Array<String>]
-          attr_accessor :bonded_member_models
-          # Color of the speaker, as reported by Sonos.
-          # @return [String, nil]
-          attr_accessor :color
-          # ID of the Sonos household that the speaker belongs to.
-          # @return [String, nil]
-          attr_accessor :household_id
-          # Model name of the speaker, as reported by Sonos.
-          # @return [String, nil]
-          attr_accessor :model_display_name
-          # ID of the Sonos player for the speaker.
-          # @return [String, nil]
-          attr_accessor :player_id
-          # Name of the speaker, as set in the Sonos app.
-          # @return [String, nil]
-          attr_accessor :player_name
-          # Software version running on the speaker.
-          # @return [String, nil]
-          attr_accessor :software_version
-        end
-
         class TadoMetadata < BaseResource
           # Device type for a tado° device.
           # @return [String, nil]
@@ -1464,60 +1449,6 @@ module Seam
           # IANA time zone for interpreting `time_pairs` and the date recurrence rules. Present only when the option fixes times or dates.
           # @return [String, nil]
           attr_accessor :time_zone
-        end
-
-        class Speaker < BaseResource
-          class NowPlaying < BaseResource
-            # Album of the content that is currently playing.
-            # @return [String, nil]
-            attr_accessor :album
-            # Artist of the content that is currently playing.
-            # @return [String, nil]
-            attr_accessor :artist
-            # Title of the content that is currently playing.
-            # @return [String, nil]
-            attr_accessor :title
-          end
-
-          # Content that is currently playing on the speaker.
-          # @return [NowPlaying, nil]
-          resource_accessor :now_playing, NowPlaying
-          # IDs of the other speakers that are currently grouped with this speaker. Pausing or resuming playback on a speaker also affects the speakers in its group.
-          # @return [Array<String>]
-          attr_accessor :grouped_with_device_ids
-          # Indicates whether the speaker's volume is fixed, for example, because the speaker's line-out level is controlled by an external amplifier. A speaker with a fixed volume cannot have its volume set through Seam.
-          # @return [Boolean]
-          attr_accessor :has_fixed_volume
-          # Indicates whether the speaker is muted.
-          # @return [Boolean]
-          attr_accessor :is_muted
-          # Maximum volume that you can set on the speaker. This is the ceiling of the speaker's native volume scale, not a limit configured for guests.
-          # @return [Float]
-          attr_accessor :max_volume
-          # Minimum volume that you can set on the speaker.
-          # @return [Float]
-          attr_accessor :min_volume
-          # Playback state of the speaker.
-          # @return [String]
-          # Known values:
-          # - `playing`
-          # - `paused`
-          # - `idle`
-          # - `buffering`
-          # - `unknown`
-          attr_accessor :playback_state
-          # Indicates whether the speaker can play a chime.
-          # @return [Boolean]
-          attr_accessor :supports_chime
-          # Current volume of the speaker, on the speaker's native volume scale from `min_volume` to `max_volume`. This is the native volume setting, not a decibel level.
-          # @return [Float]
-          attr_accessor :volume
-          # Increment between the volume values that you can set on the speaker.
-          # @return [Float]
-          attr_accessor :volume_step
-          # Date and time at which the speaker first reported its current volume.
-          # @return [Time, nil]
-          date_accessor :volume_reported_at
         end
 
         class ActiveThermostatSchedule < BaseResource
@@ -1934,6 +1865,9 @@ module Seam
         # Metadata for an ecobee device.
         # @return [EcobeeMetadata, nil]
         resource_accessor :ecobee_metadata, EcobeeMetadata
+        # Metadata for a Eufy device.
+        # @return [EufyMetadata, nil]
+        resource_accessor :eufy_metadata, EufyMetadata
         # Metadata for a 4SUITES device.
         # @return [FourSuitesMetadata, nil]
         resource_accessor :four_suites_metadata, FourSuitesMetadata
@@ -2003,9 +1937,6 @@ module Seam
         # Metadata for a SmartThings device.
         # @return [SmartthingsMetadata, nil]
         resource_accessor :smartthings_metadata, SmartthingsMetadata
-        # Metadata for a Sonos speaker.
-        # @return [SonosMetadata, nil]
-        resource_accessor :sonos_metadata, SonosMetadata
         # Metadata for a tado° device.
         # @return [TadoMetadata, nil]
         resource_accessor :tado_metadata, TadoMetadata
@@ -2036,9 +1967,6 @@ module Seam
         # Keypad battery status.
         # @return [KeypadBattery, nil]
         resource_accessor :keypad_battery, KeypadBattery
-        # Audio state and capabilities of the speaker.
-        # @return [Speaker, nil]
-        resource_accessor :speaker, Speaker
         # Active [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
         # @return [ActiveThermostatSchedule, nil]
         resource_accessor :active_thermostat_schedule, ActiveThermostatSchedule
@@ -2773,15 +2701,6 @@ module Seam
       # Indicates whether the thermostat supports simultaneous heating and cooling.
       # @return [Boolean, nil]
       attr_accessor :can_hvac_heat_cool
-      # Indicates whether the speaker supports muting and unmuting.
-      # @return [Boolean, nil]
-      attr_accessor :can_mute_speaker
-      # Indicates whether the speaker supports pausing and resuming playback.
-      # @return [Boolean, nil]
-      attr_accessor :can_pause_speaker_playback
-      # Indicates whether the speaker supports playing a chime.
-      # @return [Boolean, nil]
-      attr_accessor :can_play_speaker_chime
       # Indicates whether the device supports programming offline access codes.
       # @return [Boolean, nil]
       attr_accessor :can_program_offline_access_codes
@@ -2806,9 +2725,6 @@ module Seam
       # Indicates whether the thermostat supports running climate programs.
       # @return [Boolean, nil]
       attr_accessor :can_run_thermostat_programs
-      # Indicates whether the speaker supports setting its volume.
-      # @return [Boolean, nil]
-      attr_accessor :can_set_speaker_volume
       # Indicates whether the device supports simulating connection in a sandbox.
       # @return [Boolean, nil]
       attr_accessor :can_simulate_connection
@@ -2889,6 +2805,7 @@ module Seam
       # - `omnitec_lock`
       # - `kisi_lock`
       # - `aqara_lock`
+      # - `eufy_lock`
       # - `keynest_key`
       # - `noiseaware_activity_zone`
       # - `minut_sensor`
