@@ -1168,12 +1168,33 @@ module Seam
         end
 
         class TadoMetadata < BaseResource
-          # Device type for a tado° device.
+          # Serial numbers of all tado° devices in the zone.
+          # @return [Array<String>]
+          attr_accessor :device_serial_numbers
+          # Device type of the main tado° device in the zone, such as `RU02`, `VA02` or `WR02`.
           # @return [String, nil]
           attr_accessor :device_type
-          # Serial number for a tado° device.
+          # Generation of the tado° home, such as `PRE_LINE_X`.
+          # @return [String, nil]
+          attr_accessor :home_generation
+          # ID of the tado° home.
+          # @return [String, nil]
+          attr_accessor :home_id
+          # Name of the tado° home.
+          # @return [String, nil]
+          attr_accessor :home_name
+          # Serial number of the main tado° device in the zone, such as its wall thermostat or Smart AC Control.
           # @return [String, nil]
           attr_accessor :serial_no
+          # ID of the tado° zone within its home.
+          # @return [String, nil]
+          attr_accessor :zone_id
+          # Name of the tado° zone.
+          # @return [String, nil]
+          attr_accessor :zone_name
+          # Type of the tado° zone: `HEATING` or `AIR_CONDITIONING`.
+          # @return [String, nil]
+          attr_accessor :zone_type
         end
 
         class TapoMetadata < BaseResource
