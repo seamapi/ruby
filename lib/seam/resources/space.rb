@@ -45,6 +45,24 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that Seam could not apply the noise sensor automation to one or more noise sensors in the space, for example because their settings keep changing back after Seam re-applies it, Seam does not know the sensor's time zone yet, or the sensor is shared with spaces that configure it differently.
+        class NoiseSensorConfigurationMismatch < Warnings
+          # IDs of the noise sensors in the space that Seam could not bring in line with the noise sensor automation.
+          # @return [Array<String>]
+          attr_accessor :device_ids
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `noise_sensor_configuration_mismatch`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -52,13 +70,15 @@ module Seam
         # @return [String]
         # Known values:
         # - `being_deleted`
+        # - `noise_sensor_configuration_mismatch`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
         date_accessor :created_at
 
         discriminated_by :warning_code, {
-          "being_deleted" => BeingDeleted
+          "being_deleted" => BeingDeleted,
+          "noise_sensor_configuration_mismatch" => NoiseSensorConfigurationMismatch
         }.freeze
       end
 
