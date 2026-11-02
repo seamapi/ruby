@@ -8,7 +8,7 @@ module Seam
         @defaults = defaults
       end
 
-      # Returns a specified event. This endpoint returns the same event that would be sent to a [webhook](https://www.seam.co/docs/developer-tools/webhooks), but it enables you to retrieve an event that already took place.
+      # Returns a specified event. This endpoint returns the same event that would be sent to a [webhook](https://www.seam.co/docs/developer-tools/webhooks), but it enables you to retrieve an event that already took place. Events older than 90 days are not returned.
       # @param event_id [String, nil] Unique identifier for the event that you want to get.
       # @param device_id [String, nil] Unique identifier for the device that triggered the event that you want to get.
       # @param event_type [String, nil] Type of the event that you want to get.
@@ -23,7 +23,7 @@ module Seam
         Seam::Resources::SeamEvent.load_from_response(res.body["event"])
       end
 
-      # Returns a list of all events. This endpoint returns the same events that would be sent to a [webhook](https://www.seam.co/docs/developer-tools/webhooks), but it enables you to filter or see events that already took place.
+      # Returns a list of all events. This endpoint returns the same events that would be sent to a [webhook](https://www.seam.co/docs/developer-tools/webhooks), but it enables you to filter or see events that already took place. Only events from the last 90 days are returned.
       # @param access_code_id [String, nil] ID of the access code for which you want to list events.
       # @param access_code_ids [Array<String>, nil] IDs of the access codes for which you want to list events.
       # @param access_grant_id [String, nil] ID of the access grant for which you want to list events.
@@ -37,7 +37,7 @@ module Seam
       # @param acs_system_id [String, nil] ID of the access system for which you want to list events.
       # @param acs_system_ids [Array<String>, nil] IDs of the access systems for which you want to list events.
       # @param acs_user_id [String, nil] ID of the ACS user for which you want to list events.
-      # @param between [Array<String>, nil] Lower and upper timestamps to define an exclusive interval containing the events that you want to list. You must include `since` or `between`.
+      # @param between [Array<String>, nil] Lower and upper timestamps to define an exclusive interval containing the events that you want to list. You must include `since` or `between`. Only events from the last 90 days are returned, so a lower timestamp older than 90 days is treated as 90 days ago.
       # @param connect_webview_id [String, nil] ID of the Connect Webview for which you want to list events.
       # @param connected_account_id [String, nil] ID of the connected account for which you want to list events.
       # @param customer_key [String, nil] Customer key for which you want to list events.
@@ -47,7 +47,7 @@ module Seam
       # @param event_type [String, nil] Type of the events that you want to list.
       # @param event_types [Array<String>, nil] Types of the events that you want to list.
       # @param limit [Float, nil] Numerical limit on the number of events to return.
-      # @param since [String, nil] Timestamp to indicate the beginning generation time for the events that you want to list. You must include `since` or `between`.
+      # @param since [String, nil] Timestamp to indicate the beginning generation time for the events that you want to list. You must include `since` or `between`. Only events from the last 90 days are returned, so a `since` older than 90 days is treated as 90 days ago.
       # @param space_id [String, nil] ID of the space for which you want to list events.
       # @param space_ids [Array<String>, nil] IDs of the spaces for which you want to list events.
       # @param unstable_offset [Float, nil] Offset for the events that you want to list.

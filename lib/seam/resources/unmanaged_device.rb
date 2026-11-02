@@ -635,7 +635,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that a change in the reported device model has been detected for this Salto KS lock, which may occur after an IQ hub reset. Access code support may be affected. See https://help.getseam.com/articles/5098842588-salto-ks-lock-loses-access-code-support for troubleshooting steps.
+        # Indicates that a change in the reported device model has been detected for this Salto KS lock, which may occur after an IQ hub reset. Access code support may be affected. See https://www.seam.co/help/salto-ks-lock-loses-access-code-support for troubleshooting steps.
         class SaltoKsLockAccessCodeSupportRemoved < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
@@ -851,6 +851,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the camera's account plan does not include cloud recording, so event media such as motion clips is unavailable.
+        class CloudRecordingNotEnabled < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `cloud_recording_not_enabled`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -885,6 +900,7 @@ module Seam
         # - `accessory_keypad_low_battery`
         # - `unreliable_online_status`
         # - `max_access_codes_reached`
+        # - `cloud_recording_not_enabled`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -918,7 +934,8 @@ module Seam
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,
           "accessory_keypad_low_battery" => AccessoryKeypadLowBattery,
           "unreliable_online_status" => UnreliableOnlineStatus,
-          "max_access_codes_reached" => MaxAccessCodesReached
+          "max_access_codes_reached" => MaxAccessCodesReached,
+          "cloud_recording_not_enabled" => CloudRecordingNotEnabled
         }.freeze
       end
 

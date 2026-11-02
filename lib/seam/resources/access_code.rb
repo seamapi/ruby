@@ -836,6 +836,24 @@ module Seam
           date_accessor :created_at
         end
 
+        # Seam had been unable to reach the device for an extended period when this access code was created, so the code is unlikely to be set until the device reconnects. Check the device's connection. This warning clears automatically when the device comes back online or the code is set on the device.
+        class DeviceUnreachableForExtendedPeriod < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `device_unreachable_for_extended_period`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time, nil]
+          date_accessor :created_at
+          # Date and time since which Seam has been unable to reach the device.
+          # @return [Time]
+          date_accessor :device_unreachable_since
+        end
+
         # An unknown issue occurred with the access code.
         class UnknownIssueWithAccessCode < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -868,6 +886,7 @@ module Seam
         # - `management_transferred`
         # - `using_backup_access_code`
         # - `being_deleted`
+        # - `device_unreachable_for_extended_period`
         # - `unknown_issue_with_access_code`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
@@ -886,6 +905,7 @@ module Seam
           "management_transferred" => ManagementTransferred,
           "using_backup_access_code" => UsingBackupAccessCode,
           "being_deleted" => BeingDeleted,
+          "device_unreachable_for_extended_period" => DeviceUnreachableForExtendedPeriod,
           "unknown_issue_with_access_code" => UnknownIssueWithAccessCode
         }.freeze
       end

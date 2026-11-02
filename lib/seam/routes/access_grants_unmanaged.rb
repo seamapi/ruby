@@ -20,13 +20,14 @@ module Seam
       # Gets unmanaged Access Grants (where is_managed = false).
       # @param acs_entrance_id [String, nil] ID of the entrance by which you want to filter the list of unmanaged Access Grants.
       # @param acs_system_id [String, nil] ID of the access system by which you want to filter the list of unmanaged Access Grants.
+      # @param customer_key [String, nil] Customer key for which you want to list unmanaged Access Grants.
       # @param limit [Float, nil] Numerical limit on the number of unmanaged access grants to return.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param reservation_key [String, nil] Filter unmanaged Access Grants by reservation_key.
       # @param user_identity_id [String, nil] ID of user identity by which you want to filter the list of unmanaged Access Grants.
       # @return [Seam::Resources::UnmanagedAccessGrant] OK
-      def list(acs_entrance_id: nil, acs_system_id: nil, limit: nil, page_cursor: nil, reservation_key: nil, user_identity_id: nil)
-        res = @client.get("/access_grants/unmanaged/list", {acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, limit: limit, page_cursor: page_cursor, reservation_key: reservation_key, user_identity_id: user_identity_id}.compact)
+      def list(acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, limit: nil, page_cursor: nil, reservation_key: nil, user_identity_id: nil)
+        res = @client.get("/access_grants/unmanaged/list", {acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, limit: limit, page_cursor: page_cursor, reservation_key: reservation_key, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::UnmanagedAccessGrant.load_from_response(res.body["access_grants"])
       end

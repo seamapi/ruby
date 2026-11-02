@@ -121,23 +121,19 @@ module Seam
 
       # Returns a list of all [access codes](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes).
       #
-      # Specify `device_id`, `access_code_ids`, `access_method_id`, `access_grant_id`, or `access_grant_key`.
-      # @param access_code_ids [Array<String>, nil] IDs of the access codes that you want to retrieve. Specify `device_id`, `access_code_ids`, `access_method_id`, `access_grant_id`, or `access_grant_key`.
-      # @param access_grant_id [String, nil] ID of the access grant for which you want to list access codes. Specify `device_id`, `access_code_ids`, `access_method_id`, `access_grant_id`, or `access_grant_key`.
-      # @param access_grant_key [String, nil] Key of the access grant for which you want to list access codes. Specify `device_id`, `access_code_ids`, `access_method_id`, `access_grant_id`, or `access_grant_key`.
-      # @param access_method_id [String, nil] ID of the access method for which you want to list access codes. Specify `device_id`, `access_code_ids`, `access_method_id`, `access_grant_id`, or `access_grant_key`.
+      # Without `device_id`, `access_code_ids`, `access_method_id`, `access_grant_id`, or `access_grant_key`, returns access codes across the workspace, or across the customer when `customer_key` is set. Use `limit` and `page_cursor` to page through them.
+      # @param access_code_ids [Array<String>, nil] IDs of the access codes that you want to retrieve.
+      # @param access_grant_id [String, nil] ID of the access grant for which you want to list access codes.
+      # @param access_grant_key [String, nil] Key of the access grant for which you want to list access codes.
+      # @param access_method_id [String, nil] ID of the access method for which you want to list access codes.
       # @param customer_key [String, nil] Customer key for which you want to list access codes.
-      # @param device_id [String, nil] ID of the device for which you want to list access codes. Specify `device_id`, `access_code_ids`, `access_method_id`, `access_grant_id`, or `access_grant_key`.
+      # @param device_id [String, nil] ID of the device for which you want to list access codes.
       # @param limit [Float, nil] Numerical limit on the number of access codes to return.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned access codes to include all records that satisfy a partial match using `name`, `code` or `access_code_id`.
       # @param user_identifier_key [String, nil] Your user ID for the user by which to filter access codes.
       # @return [Seam::Resources::AccessCode] OK
       def list(access_code_ids: nil, access_grant_id: nil, access_grant_key: nil, access_method_id: nil, customer_key: nil, device_id: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
-        if access_code_ids.nil? && access_grant_id.nil? && access_grant_key.nil? && access_method_id.nil? && customer_key.nil? && device_id.nil? && limit.nil? && page_cursor.nil? && search.nil? && user_identifier_key.nil?
-          raise TypeError, "At least one parameter is required for /access_codes/list"
-        end
-
         res = @client.get("/access_codes/list", {access_code_ids: access_code_ids, access_grant_id: access_grant_id, access_grant_key: access_grant_key, access_method_id: access_method_id, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::AccessCode.load_from_response(res.body["access_codes"])
