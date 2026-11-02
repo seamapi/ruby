@@ -88,13 +88,14 @@ module Seam
       # Returns a list of all [user identities](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
       # @param created_before [Time, nil] Timestamp by which to limit returned user identities. Returns user identities created before this timestamp.
       # @param credential_manager_acs_system_id [String, nil] `acs_system_id` of the credential manager by which you want to filter the list of user identities.
+      # @param customer_key [String, nil] Customer key for which you want to list user identities.
       # @param limit [Integer, nil] Maximum number of records to return per page.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned user identities to include all records that satisfy a partial match using `full_name`, `phone_number`, `email_address` or `user_identity_id`.
       # @param user_identity_ids [Array<String>, nil] Array of user identity IDs by which to filter the list of user identities.
       # @return [Seam::Resources::UserIdentity] OK
-      def list(created_before: nil, credential_manager_acs_system_id: nil, limit: nil, page_cursor: nil, search: nil, user_identity_ids: nil)
-        res = @client.get("/user_identities/list", {created_before: created_before, credential_manager_acs_system_id: credential_manager_acs_system_id, limit: limit, page_cursor: page_cursor, search: search, user_identity_ids: user_identity_ids}.compact)
+      def list(created_before: nil, credential_manager_acs_system_id: nil, customer_key: nil, limit: nil, page_cursor: nil, search: nil, user_identity_ids: nil)
+        res = @client.get("/user_identities/list", {created_before: created_before, credential_manager_acs_system_id: credential_manager_acs_system_id, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, user_identity_ids: user_identity_ids}.compact)
 
         Seam::Resources::UserIdentity.load_from_response(res.body["user_identities"])
       end
