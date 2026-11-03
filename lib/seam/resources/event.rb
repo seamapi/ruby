@@ -4832,7 +4832,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A camera was activated, for example, by motion detection.
+      # A camera was activated, for example, by motion detection. For Ring cameras, this event is available only in the Seam Console, not through the API or webhooks.
       class CameraActivated < SeamEvent
         # The reason the camera was activated.
         # @return [String]
@@ -4892,7 +4892,7 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A doorbell button was pressed on a device.
+      # A doorbell button was pressed on a device. For Ring cameras, this event is available only in the Seam Console, not through the API or webhooks.
       class DeviceDoorbellRang < SeamEvent
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
