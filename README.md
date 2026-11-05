@@ -548,6 +548,17 @@ Retries use exponential backoff with jitter: approximately 200–240 ms before
 the first retry and 400–480 ms before the second. A longer `Retry-After` header
 is honored. The request timeout is reset for each attempt.
 
+Retries are configured per client. If your application has its own retry
+behavior for some calls, create a second client with retries disabled and send
+those calls through it, while other calls keep the default retries:
+
+```ruby
+seam = Seam.from_api_key("some-api-key")
+
+seam_without_retries = Seam.from_api_key("some-api-key",
+  faraday_retry_options: {max: 0})
+```
+
 #### Configuring the Faraday Client
 
 The Faraday client and retry behavior may be configured with custom initiation options
