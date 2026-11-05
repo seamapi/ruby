@@ -122,6 +122,54 @@ RSpec.describe Seam::Http::Request do
     end
   end
 
+  describe "generated routes by HTTP method" do
+    def success(body)
+      {status: 200, body: body.to_json, headers: {"Content-Type" => "application/json"}}
+    end
+
+    it "retries a PUT route" do
+      url = "#{Seam::DEFAULT_ENDPOINT}/access_codes/create_multiple"
+      stub_request(:put, url).to_return(service_unavailable).to_return(success({access_codes: []}))
+
+      seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
+
+      expect(seam.access_codes.create_multiple(device_ids: ["device-1"])).to eq([])
+      expect(a_request(:put, url)).to have_been_made.times(2)
+    end
+
+    it "retries a DELETE route" do
+      url = "#{Seam::DEFAULT_ENDPOINT}/access_codes/delete"
+      stub_request(:delete, url).with(query: hash_including({}))
+        .to_return(service_unavailable).to_return(success({}))
+
+      seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
+
+      expect(seam.access_codes.delete(access_code_id: "access-code-1")).to be_nil
+      expect(a_request(:delete, url).with(query: hash_including({}))).to have_been_made.times(2)
+    end
+
+    it "does not retry a PATCH route" do
+      url = "#{Seam::DEFAULT_ENDPOINT}/access_codes/update"
+      stub_request(:patch, url).to_return(service_unavailable)
+
+      seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
+
+      expect { seam.access_codes.update(access_code_id: "access-code-1", name: "Front") }
+        .to raise_error(Seam::Http::ApiError)
+      expect(a_request(:patch, url)).to have_been_made.once
+    end
+
+    it "does not retry a POST route" do
+      url = "#{Seam::DEFAULT_ENDPOINT}/locks/unlock_door"
+      stub_request(:post, url).to_return(service_unavailable)
+
+      seam = Seam.new(api_key: "seam_some_api_key", faraday_retry_options: {interval: 0})
+
+      expect { seam.locks.unlock_door(device_id: "device-1") }.to raise_error(Seam::Http::ApiError)
+      expect(a_request(:post, url)).to have_been_made.once
+    end
+  end
+
   describe "a workspace outage", :fake do
     it "surfaces the error to the caller" do
       seam.client.post(
