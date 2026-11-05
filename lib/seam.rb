@@ -10,16 +10,20 @@ require_relative "seam/webhook"
 require_relative "seam/wait_for_action_attempt"
 
 module Seam
-  def self.new(**args)
-    Seam::Http.new(**args)
+  def self.new(api_key = nil, **options)
+    Seam::Http.new(api_key, **options)
   end
 
-  def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, timeout: nil)
+  def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, timeout: nil, faraday_options: {},
+    faraday_retry_options: {})
     Seam::Http.from_api_key(api_key, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt,
-      timeout: timeout)
+      timeout: timeout, faraday_options: faraday_options, faraday_retry_options: faraday_retry_options)
   end
 
-  def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: true, timeout: nil)
-    Seam::Http.from_personal_access_token(personal_access_token, workspace_id, endpoint: endpoint, wait_for_action_attempt: wait_for_action_attempt, timeout: timeout)
+  def self.from_personal_access_token(personal_access_token, workspace_id, endpoint: nil, wait_for_action_attempt: true,
+    timeout: nil, faraday_options: {}, faraday_retry_options: {})
+    Seam::Http.from_personal_access_token(personal_access_token, workspace_id, endpoint: endpoint,
+      wait_for_action_attempt: wait_for_action_attempt, timeout: timeout, faraday_options: faraday_options,
+      faraday_retry_options: faraday_retry_options)
   end
 end

@@ -114,6 +114,9 @@ Obtain one from the Seam Console.
 # Set the `SEAM_API_KEY` environment variable
 seam = Seam.new
 
+# Pass as the first argument to the constructor
+seam = Seam.new("your-api-key")
+
 # Pass as a keyword argument to the constructor
 seam = Seam.new(api_key: "your-api-key")
 
@@ -425,6 +428,9 @@ Obtain one from the Seam Console.
 # Set the `SEAM_PERSONAL_ACCESS_TOKEN` environment variable
 seam = Seam::Http::WithoutWorkspace.new
 
+# Pass as the first argument to the constructor
+seam = Seam::Http::WithoutWorkspace.new("your-personal-access-token")
+
 # Pass as a keyword argument to the constructor
 seam = Seam::Http::WithoutWorkspace.new(
   personal_access_token: "your-personal-access-token"
@@ -548,7 +554,8 @@ seam = Seam.new(
 )
 ```
 
-A request that exceeds the timeout raises `Faraday::TimeoutError`.
+A request whose response does not arrive within the timeout raises `Faraday::TimeoutError`,
+and a connection that cannot be opened within the timeout raises `Faraday::ConnectionFailed`.
 
 #### Retry behavior
 

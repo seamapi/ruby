@@ -16,9 +16,19 @@ module Seam
       OPTION_NOT_PROVIDED = Object.new.freeze
       private_constant :OPTION_NOT_PROVIDED
 
-      def initialize(client: nil, personal_access_token: OPTION_NOT_PROVIDED, endpoint: OPTION_NOT_PROVIDED,
-        wait_for_action_attempt: OPTION_NOT_PROVIDED, timeout: OPTION_NOT_PROVIDED,
+      def initialize(token = nil, client: nil, personal_access_token: OPTION_NOT_PROVIDED,
+        endpoint: OPTION_NOT_PROVIDED, wait_for_action_attempt: OPTION_NOT_PROVIDED, timeout: OPTION_NOT_PROVIDED,
         faraday_options: OPTION_NOT_PROVIDED, faraday_retry_options: OPTION_NOT_PROVIDED)
+        unless token.nil?
+          unless personal_access_token.equal?(OPTION_NOT_PROVIDED)
+            raise Http::Options::SeamInvalidOptionsError.new(
+              "The personal_access_token was given both as a positional argument and as the personal_access_token option"
+            )
+          end
+
+          personal_access_token = token
+        end
+
         supplied_options = {
           personal_access_token: personal_access_token,
           endpoint: endpoint,
