@@ -163,6 +163,12 @@ When the `wait_for_action_attempt` option is enabled, the SDK:
 - Raises a `Seam::ActionAttemptTimeoutError` if the action attempt is still pending when the `timeout` is reached.
 - Both errors expose an `action_attempt` property.
 
+Polling stops as soon as the `timeout` passes,
+and every wait polls at least once,
+even when the `timeout` is shorter than the `polling_interval`.
+The `timeout` must not be negative,
+and the `polling_interval` must be greater than zero.
+
 The `error` and `result` values are only present for their matching status:
 `error` is `nil` unless the `status` is `"error"`,
 and `result` is `nil` unless the `status` is `"success"`.
