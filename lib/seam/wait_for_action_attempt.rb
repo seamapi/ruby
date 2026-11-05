@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require_relative "errors"
+
 module Seam
-  class ActionAttemptError < StandardError
+  class ActionAttemptError < Seam::Error
     attr_reader :action_attempt
 
     def initialize(message, action_attempt)

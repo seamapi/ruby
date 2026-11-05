@@ -2,11 +2,12 @@
 
 require "date"
 
+require_relative "errors"
 require_relative "null"
 require_relative "url_search_params"
 
 module Seam
-  class UnserializableParamError < StandardError
+  class UnserializableParamError < Seam::Error
     attr_reader :param_name
 
     def initialize(param_name, reason)
