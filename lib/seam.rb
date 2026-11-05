@@ -10,8 +10,8 @@ require_relative "seam/webhook"
 require_relative "seam/wait_for_action_attempt"
 
 module Seam
-  def self.new(**args)
-    Seam::Http.new(**args)
+  def self.new(api_key = nil, **options)
+    Seam::Http.new(api_key, **options)
   end
 
   def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, timeout: nil, faraday_options: {},

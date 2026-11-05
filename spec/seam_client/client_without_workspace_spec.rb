@@ -25,6 +25,20 @@ RSpec.describe Seam::Http::WithoutWorkspace, :fake do
       expect(seam.workspaces.list.length).to be > 0
     end
 
+    it "accepts the personal access token as the first argument" do
+      seam = described_class.new(seed["seam_at1_token"], endpoint: endpoint)
+
+      expect(seam.workspaces.list.length).to be > 0
+    end
+
+    it "rejects a personal access token given both as the first argument and as an option" do
+      expect { described_class.new("seam_at1_token", personal_access_token: "seam_at2_token") }.to raise_error(
+        Seam::Http::Options::SeamInvalidOptionsError,
+        "Seam received invalid options: The personal_access_token was given both as a positional argument " \
+        "and as the personal_access_token option"
+      )
+    end
+
     it "accepts an injected client with request defaults" do
       client = Faraday.new
 

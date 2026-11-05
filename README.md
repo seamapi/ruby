@@ -114,6 +114,9 @@ Obtain one from the Seam Console.
 # Set the `SEAM_API_KEY` environment variable
 seam = Seam.new
 
+# Pass as the first argument to the constructor
+seam = Seam.new("your-api-key")
+
 # Pass as a keyword argument to the constructor
 seam = Seam.new(api_key: "your-api-key")
 
@@ -226,7 +229,7 @@ For example:
 ```ruby
 require "seam"
 
-seam = Seam.new(api_key: "your-api-key")
+seam = Seam.new("your-api-key")
 
 locks = seam.locks.list
 
@@ -422,6 +425,9 @@ Obtain one from the Seam Console.
 ```ruby
 # Set the `SEAM_PERSONAL_ACCESS_TOKEN` environment variable
 seam = Seam::Http::WithoutWorkspace.new
+
+# Pass as the first argument to the constructor
+seam = Seam::Http::WithoutWorkspace.new("your-personal-access-token")
 
 # Pass as a keyword argument to the constructor
 seam = Seam::Http::WithoutWorkspace.new(

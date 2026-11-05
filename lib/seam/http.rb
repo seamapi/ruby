@@ -5,8 +5,8 @@ require_relative "http_single_workspace"
 
 module Seam
   module Http
-    def self.new(**args)
-      Http::SingleWorkspace.new(**args)
+    def self.new(api_key = nil, **options)
+      Http::SingleWorkspace.new(api_key, **options)
     end
 
     def self.from_api_key(api_key, endpoint: nil, wait_for_action_attempt: true, timeout: nil, faraday_options: {},
