@@ -14,7 +14,8 @@ RSpec.describe Seam::Error do
     Seam::ActionAttemptError,
     Seam::ActionAttemptFailedError,
     Seam::ActionAttemptTimeoutError,
-    Seam::UnserializableParamError
+    Seam::UnserializableParamError,
+    Seam::InvalidWebhookPayloadError
   ].each do |error_class|
     it "is an ancestor of #{error_class}" do
       expect(error_class).to be < described_class
