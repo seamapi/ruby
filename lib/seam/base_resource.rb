@@ -103,9 +103,7 @@ module Seam
       def self.date_accessor(*attrs)
         attrs.each do |attr|
           define_method(attr) do
-            value = instance_variable_get(:"@#{attr}")
-
-            value.nil? ? nil : parse_datetime(value)
+            parse_datetime(instance_variable_get(:"@#{attr}"))
           end
         end
       end
@@ -113,7 +111,11 @@ module Seam
       protected
 
       def parse_datetime(value)
+        return nil unless value.is_a?(String)
+
         Time.parse(value)
+      rescue ArgumentError
+        nil
       end
 
       def process_data_attributes(data)
