@@ -44,7 +44,7 @@ module Seam
       def create(device_id:, allow_external_modification: nil, attempt_for_offline_device: nil, code: nil, common_code_key: nil, ends_at: nil, is_external_modification_allowed: nil, is_offline_access_code: nil, is_one_time_use: nil, max_time_rounding: nil, name: nil, prefer_native_scheduling: nil, preferred_code_length: nil, starts_at: nil, use_backup_access_code_pool: nil, use_offline_access_code: nil)
         res = @client.post("/access_codes/create", {device_id: device_id, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, code: code, common_code_key: common_code_key, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, is_offline_access_code: is_offline_access_code, is_one_time_use: is_one_time_use, max_time_rounding: max_time_rounding, name: name, prefer_native_scheduling: prefer_native_scheduling, preferred_code_length: preferred_code_length, starts_at: starts_at, use_backup_access_code_pool: use_backup_access_code_pool, use_offline_access_code: use_offline_access_code}.compact)
 
-        Seam::Resources::AccessCode.load_from_response(res.body["access_code"])
+        Seam::Resources::AccessCode.from_http_response(res, "access_code", "/access_codes/create")
       end
 
       # Creates new [access codes](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) that share a common code across multiple devices.
@@ -80,7 +80,7 @@ module Seam
       def create_multiple(device_ids:, allow_external_modification: nil, attempt_for_offline_device: nil, behavior_when_code_cannot_be_shared: nil, code: nil, ends_at: nil, is_external_modification_allowed: nil, name: nil, prefer_native_scheduling: nil, preferred_code_length: nil, starts_at: nil, use_backup_access_code_pool: nil)
         res = @client.put("/access_codes/create_multiple", {device_ids: device_ids, allow_external_modification: allow_external_modification, attempt_for_offline_device: attempt_for_offline_device, behavior_when_code_cannot_be_shared: behavior_when_code_cannot_be_shared, code: code, ends_at: ends_at, is_external_modification_allowed: is_external_modification_allowed, name: name, prefer_native_scheduling: prefer_native_scheduling, preferred_code_length: preferred_code_length, starts_at: starts_at, use_backup_access_code_pool: use_backup_access_code_pool}.compact)
 
-        Seam::Resources::AccessCode.load_from_response(res.body["access_codes"])
+        Seam::Resources::AccessCode.list_from_http_response(res, "access_codes", "/access_codes/create_multiple")
       end
 
       # Deletes an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes).
@@ -99,7 +99,7 @@ module Seam
       def generate_code(device_id:)
         res = @client.get("/access_codes/generate_code", {device_id: device_id}.compact)
 
-        Seam::Resources::AccessCode.load_from_response(res.body["generated_code"])
+        Seam::Resources::AccessCode.from_http_response(res, "generated_code", "/access_codes/generate_code")
       end
 
       # Returns a specified [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes).
@@ -116,7 +116,7 @@ module Seam
 
         res = @client.get("/access_codes/get", {access_code_id: access_code_id, code: code, device_id: device_id}.compact)
 
-        Seam::Resources::AccessCode.load_from_response(res.body["access_code"])
+        Seam::Resources::AccessCode.from_http_response(res, "access_code", "/access_codes/get")
       end
 
       # Returns a list of all [access codes](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes).
@@ -136,7 +136,7 @@ module Seam
       def list(access_code_ids: nil, access_grant_id: nil, access_grant_key: nil, access_method_id: nil, customer_key: nil, device_id: nil, limit: nil, page_cursor: nil, search: nil, user_identifier_key: nil)
         res = @client.get("/access_codes/list", {access_code_ids: access_code_ids, access_grant_id: access_grant_id, access_grant_key: access_grant_key, access_method_id: access_method_id, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, search: search, user_identifier_key: user_identifier_key}.compact)
 
-        Seam::Resources::AccessCode.load_from_response(res.body["access_codes"])
+        Seam::Resources::AccessCode.list_from_http_response(res, "access_codes", "/access_codes/list")
       end
 
       # Retrieves a backup access code for an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes). See also [Managing Backup Access Codes](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes/backup-access-codes).
@@ -153,7 +153,7 @@ module Seam
       def pull_backup_access_code(access_code_id:)
         res = @client.post("/access_codes/pull_backup_access_code", {access_code_id: access_code_id}.compact)
 
-        Seam::Resources::AccessCode.load_from_response(res.body["access_code"])
+        Seam::Resources::AccessCode.from_http_response(res, "access_code", "/access_codes/pull_backup_access_code")
       end
 
       # Enables you to report access code-related constraints for a device. Currently, supports reporting supported code length constraints for SmartThings devices.

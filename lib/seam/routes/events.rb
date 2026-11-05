@@ -20,7 +20,7 @@ module Seam
 
         res = @client.get("/events/get", {event_id: event_id, device_id: device_id, event_type: event_type}.compact)
 
-        Seam::Resources::SeamEvent.load_from_response(res.body["event"])
+        Seam::Resources::SeamEvent.from_http_response(res, "event", "/events/get")
       end
 
       # Returns a list of all events. This endpoint returns the same events that would be sent to a [webhook](https://www.seam.co/docs/developer-tools/webhooks), but it enables you to filter or see events that already took place. Only events from the last 90 days are returned.
@@ -60,7 +60,7 @@ module Seam
 
         res = @client.get("/events/list", {access_code_id: access_code_id, access_code_ids: access_code_ids, access_grant_id: access_grant_id, access_grant_ids: access_grant_ids, access_method_id: access_method_id, access_method_ids: access_method_ids, acs_access_group_id: acs_access_group_id, acs_credential_id: acs_credential_id, acs_encoder_id: acs_encoder_id, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, acs_system_ids: acs_system_ids, acs_user_id: acs_user_id, between: between, connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, customer_key: customer_key, device_id: device_id, device_ids: device_ids, event_ids: event_ids, event_type: event_type, event_types: event_types, limit: limit, since: since, space_id: space_id, space_ids: space_ids, unstable_offset: unstable_offset, user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::SeamEvent.load_from_response(res.body["events"])
+        Seam::Resources::SeamEvent.list_from_http_response(res, "events", "/events/list")
       end
     end
   end

@@ -15,7 +15,7 @@ module Seam
       def get(media_id:, format: nil)
         res = @client.get("/media/get", {media_id: media_id, format: format}.compact)
 
-        Seam::Resources::Media.load_from_response(res.body["media"])
+        Seam::Resources::Media.from_http_response(res, "media", "/media/get")
       end
     end
   end

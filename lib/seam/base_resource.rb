@@ -2,6 +2,7 @@
 
 require "time"
 require_relative "deep_hash_accessor"
+require_relative "invalid_response_error"
 
 module Seam
   module Resources
@@ -20,6 +21,47 @@ module Seam
         @data = data
         process_data_attributes(@data)
       end
+
+      def self.from_http_response(response, response_key, path, client = nil)
+        value = read_http_response_key(response, response_key, path)
+
+        unless value.is_a?(Hash)
+          raise Http::InvalidResponseError.new(path, response_key, "got #{value.class} instead of an object")
+        end
+
+        load_from_response(value, client)
+      end
+
+      def self.list_from_http_response(response, response_key, path, client = nil)
+        value = read_http_response_key(response, response_key, path)
+
+        unless value.is_a?(Array)
+          raise Http::InvalidResponseError.new(path, response_key, "got #{value.class} instead of a list")
+        end
+
+        load_from_response(value, client)
+      end
+
+      def self.read_http_response_key(response, response_key, path)
+        unless response.success?
+          raise Http::InvalidResponseError.new(
+            path, response_key, "got a #{response.status} response instead of a success response"
+          )
+        end
+
+        body = response.body
+
+        unless body.is_a?(Hash)
+          raise Http::InvalidResponseError.new(path, response_key, "got #{body.class} instead of a response object")
+        end
+
+        unless body.key?(response_key)
+          raise Http::InvalidResponseError.new(path, response_key, "which the response does not contain")
+        end
+
+        body[response_key]
+      end
+      private_class_method :read_http_response_key
 
       def self.load_from_response(data, client = nil)
         return nil if data.nil?

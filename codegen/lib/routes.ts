@@ -295,7 +295,9 @@ const getAtLeastOneParameterNames = (endpoint: Endpoint): string[] =>
     : []
 
 const createClientMethod = (endpoint: Endpoint): ClientMethod => {
-  const { returnPath, returnResource } = getEndpointReturn(endpoint.response)
+  const { returnPath, returnResource, returnsList } = getEndpointReturn(
+    endpoint.response,
+  )
   const atLeastOneParameterNames = getAtLeastOneParameterNames(endpoint)
 
   return {
@@ -322,15 +324,18 @@ const createClientMethod = (endpoint: Endpoint): ClientMethod => {
     })),
     returnPath,
     returnResource,
+    returnsList,
   }
 }
 
 const getEndpointReturn = (
   response: Response,
-): Pick<ClientMethod, 'returnPath' | 'returnResource'> => {
+): Pick<ClientMethod, 'returnPath' | 'returnResource' | 'returnsList'> => {
   if (response.responseType === 'void') {
-    return { returnPath: '', returnResource: null }
+    return { returnPath: '', returnResource: null, returnsList: false }
   }
+
+  const returnsList = response.responseType === 'resource_list'
 
   const { responseKey, resourceType } = response
 
@@ -338,13 +343,14 @@ const getEndpointReturn = (
     // Batch responses hold multiple resource types keyed by batch key, which
     // the Batch resource models directly.
     if (responseKey === 'batch') {
-      return { returnPath: 'batch', returnResource: 'Batch' }
+      return { returnPath: 'batch', returnResource: 'Batch', returnsList }
     }
-    return { returnPath: '', returnResource: null }
+    return { returnPath: '', returnResource: null, returnsList: false }
   }
 
   return {
     returnPath: responseKey,
     returnResource: pascalCase(convertCustomResourceName(resourceType)),
+    returnsList,
   }
 }

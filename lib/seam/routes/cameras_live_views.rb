@@ -18,7 +18,7 @@ module Seam
       def create(device_id:, duration_seconds: nil, include_audio: nil)
         res = @client.post("/cameras/live_views/create", {device_id: device_id, duration_seconds: duration_seconds, include_audio: include_audio}.compact)
 
-        Seam::Resources::CameraLiveViewSession.load_from_response(res.body["camera_live_view_session"])
+        Seam::Resources::CameraLiveViewSession.from_http_response(res, "camera_live_view_session", "/cameras/live_views/create")
       end
 
       # Exchanges a WebRTC SDP offer for an SDP answer that starts streaming video from the camera, for a live view session that you created using `/cameras/live_views/create`.
@@ -31,7 +31,7 @@ module Seam
       def offer(camera_live_view_session_id:, sdp_offer:, token:)
         res = @client.post("/cameras/live_views/offer", {camera_live_view_session_id: camera_live_view_session_id, sdp_offer: sdp_offer, token: token}.compact)
 
-        Seam::Resources::CameraLiveViewAnswer.load_from_response(res.body["camera_live_view_answer"])
+        Seam::Resources::CameraLiveViewAnswer.from_http_response(res, "camera_live_view_answer", "/cameras/live_views/offer")
       end
 
       # Stops a camera live view session that the current client session owns.

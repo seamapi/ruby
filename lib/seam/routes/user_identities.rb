@@ -38,7 +38,7 @@ module Seam
       def create(acs_system_ids: nil, customer_key: nil, email_address: nil, full_name: nil, phone_number: nil, user_identity_key: nil)
         res = @client.post("/user_identities/create", {acs_system_ids: acs_system_ids, customer_key: customer_key, email_address: email_address, full_name: full_name, phone_number: phone_number, user_identity_key: user_identity_key}.compact)
 
-        Seam::Resources::UserIdentity.load_from_response(res.body["user_identity"])
+        Seam::Resources::UserIdentity.from_http_response(res, "user_identity", "/user_identities/create")
       end
 
       # Deletes a specified [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity). This deletes the user identity and all associated resources, including any [credentials](https://www.seam.co/docs/api/acs/credentials/object), [acs users](https://www.seam.co/docs/api/acs/users/object) and [client sessions](https://www.seam.co/docs/api/client_sessions/object).
@@ -58,7 +58,7 @@ module Seam
       def generate_instant_key(user_identity_id:, customization_profile_id: nil, max_use_count: nil)
         res = @client.post("/user_identities/generate_instant_key", {user_identity_id: user_identity_id, customization_profile_id: customization_profile_id, max_use_count: max_use_count}.compact)
 
-        Seam::Resources::InstantKey.load_from_response(res.body["instant_key"])
+        Seam::Resources::InstantKey.from_http_response(res, "instant_key", "/user_identities/generate_instant_key")
       end
 
       # Returns a specified [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
@@ -72,7 +72,7 @@ module Seam
 
         res = @client.get("/user_identities/get", {user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
-        Seam::Resources::UserIdentity.load_from_response(res.body["user_identity"])
+        Seam::Resources::UserIdentity.from_http_response(res, "user_identity", "/user_identities/get")
       end
 
       # Grants a specified [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) access to a specified [device](https://www.seam.co/docs/core-concepts/devices).
@@ -97,7 +97,7 @@ module Seam
       def list(created_before: nil, credential_manager_acs_system_id: nil, customer_key: nil, limit: nil, page_cursor: nil, search: nil, user_identity_ids: nil)
         res = @client.get("/user_identities/list", {created_before: created_before, credential_manager_acs_system_id: credential_manager_acs_system_id, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, user_identity_ids: user_identity_ids}.compact)
 
-        Seam::Resources::UserIdentity.load_from_response(res.body["user_identities"])
+        Seam::Resources::UserIdentity.list_from_http_response(res, "user_identities", "/user_identities/list")
       end
 
       # Returns a list of all [devices](https://www.seam.co/docs/core-concepts/devices) associated with a specified [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity). This includes devices derived from the access grants assigned to the user identity and devices directly linked to the user identity.
@@ -106,7 +106,7 @@ module Seam
       def list_accessible_devices(user_identity_id:)
         res = @client.get("/user_identities/list_accessible_devices", {user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::Device.load_from_response(res.body["devices"])
+        Seam::Resources::Device.list_from_http_response(res, "devices", "/user_identities/list_accessible_devices")
       end
 
       # Returns a list of all [ACS entrances](https://www.seam.co/docs/api/acs/entrances/object) accessible to a specified [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity). This includes entrances derived from the access grants assigned to the user identity and entrances accessible through ACS users linked to the user identity.
@@ -115,7 +115,7 @@ module Seam
       def list_accessible_entrances(user_identity_id:)
         res = @client.get("/user_identities/list_accessible_entrances", {user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsEntrance.load_from_response(res.body["acs_entrances"])
+        Seam::Resources::AcsEntrance.list_from_http_response(res, "acs_entrances", "/user_identities/list_accessible_entrances")
       end
 
       # Returns a list of all [access systems](https://www.seam.co/docs/low-level-apis/access-systems) associated with a specified [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
@@ -124,7 +124,7 @@ module Seam
       def list_acs_systems(user_identity_id:)
         res = @client.get("/user_identities/list_acs_systems", {user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsSystem.load_from_response(res.body["acs_systems"])
+        Seam::Resources::AcsSystem.list_from_http_response(res, "acs_systems", "/user_identities/list_acs_systems")
       end
 
       # Returns a list of all [access system users](https://www.seam.co/docs/low-level-apis/access-systems/user-management) assigned to a specified [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity).
@@ -133,7 +133,7 @@ module Seam
       def list_acs_users(user_identity_id:)
         res = @client.get("/user_identities/list_acs_users", {user_identity_id: user_identity_id}.compact)
 
-        Seam::Resources::AcsUser.load_from_response(res.body["acs_users"])
+        Seam::Resources::AcsUser.list_from_http_response(res, "acs_users", "/user_identities/list_acs_users")
       end
 
       # Merges one or more [user identities](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) into a primary user identity, for when the same person ended up with more than one user identity.

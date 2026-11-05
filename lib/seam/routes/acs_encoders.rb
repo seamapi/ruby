@@ -24,7 +24,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.from_http_response(res, "action_attempt", "/acs/encoders/encode_credential"), @client, wait_for_action_attempt)
       end
 
       # Returns a specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
@@ -33,7 +33,7 @@ module Seam
       def get(acs_encoder_id:)
         res = @client.get("/acs/encoders/get", {acs_encoder_id: acs_encoder_id}.compact)
 
-        Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoder"])
+        Seam::Resources::AcsEncoder.from_http_response(res, "acs_encoder", "/acs/encoders/get")
       end
 
       # Returns a list of all [encoders](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
@@ -46,7 +46,7 @@ module Seam
       def list(acs_encoder_ids: nil, acs_system_id: nil, acs_system_ids: nil, limit: nil, page_cursor: nil)
         res = @client.get("/acs/encoders/list", {acs_encoder_ids: acs_encoder_ids, acs_system_id: acs_system_id, acs_system_ids: acs_system_ids, limit: limit, page_cursor: page_cursor}.compact)
 
-        Seam::Resources::AcsEncoder.load_from_response(res.body["acs_encoders"])
+        Seam::Resources::AcsEncoder.list_from_http_response(res, "acs_encoders", "/acs/encoders/list")
       end
 
       # Scans an encoded [acs_credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) from a plastic card placed on the specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners).
@@ -58,7 +58,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.from_http_response(res, "action_attempt", "/acs/encoders/scan_credential"), @client, wait_for_action_attempt)
       end
 
       # Scans a physical card placed on the specified [encoder](https://www.seam.co/docs/low-level-apis/access-systems/working-with-card-encoders-and-scanners) and assigns the scanned credential to an ACS user. Provide either an `acs_user_id` or a `user_identity_id`.
@@ -72,7 +72,7 @@ module Seam
 
         wait_for_action_attempt = wait_for_action_attempt.nil? ? @defaults.wait_for_action_attempt : wait_for_action_attempt
 
-        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.load_from_response(res.body["action_attempt"]), @client, wait_for_action_attempt)
+        Seam::ActionAttemptResolver.resolve(Seam::Resources::ActionAttempt.from_http_response(res, "action_attempt", "/acs/encoders/scan_to_assign_credential"), @client, wait_for_action_attempt)
       end
     end
   end

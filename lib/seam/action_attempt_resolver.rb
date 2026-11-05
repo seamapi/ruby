@@ -109,7 +109,9 @@ module Seam
     def self.update_action_attempt(action_attempt, client)
       response = client.get("/action_attempts/get", {action_attempt_id: action_attempt.action_attempt_id})
 
-      action_attempt.update_from_response(response.body["action_attempt"])
+      action_attempt.update_from_response(
+        Seam::Resources::ActionAttempt.from_http_response(response, "action_attempt", "/action_attempts/get").data
+      )
       action_attempt
     end
 

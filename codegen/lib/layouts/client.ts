@@ -29,6 +29,7 @@ export interface ClientMethodLayoutContext {
   httpMethod: string
   returnResource: string
   returnPath: string
+  readMethod: string
 }
 
 export interface ClientLayoutContext {
@@ -47,6 +48,7 @@ const getMethodLayoutContext = (
     parameters,
     returnResource,
     returnPath,
+    returnsList,
     httpMethod,
   } = method
 
@@ -92,6 +94,7 @@ const getMethodLayoutContext = (
     isNil,
     returnResource: returnResource ?? '',
     returnPath,
+    readMethod: returnsList ? 'list_from_http_response' : 'from_http_response',
   }
 }
 
