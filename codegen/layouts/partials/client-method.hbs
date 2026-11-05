@@ -10,9 +10,11 @@
 {{/if}}
       def {{name}}{{#if hasSignature}}({{signatureParams}}){{/if}}
 {{#if requiresAtLeastOneParameter}}
-        if {{#each atLeastOneParameterNames}}{{this}}.nil?{{#unless @last}} && {{/unless}}{{/each}}
-          raise TypeError, "At least one parameter is required for {{path}}"
-        end
+        Seam::RequestParameters.require_at_least_one(
+          "{{path}}",
+          {{bodyParams}},
+          [{{#each atLeastOneParameterNames}}:{{this}}{{#unless @last}}, {{/unless}}{{/each}}]
+        )
 
 {{/if}}        {{#if usesRes}}res = {{/if}}@client.{{httpMethod}}("{{path}}"{{#if hasParams}}, {{bodyParams}}.compact{{/if}})
 {{#if isResource}}
