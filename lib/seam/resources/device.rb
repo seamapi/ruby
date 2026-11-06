@@ -1314,6 +1314,27 @@ module Seam
           attr_accessor :time_zone
         end
 
+        class UnifiProtectMetadata < BaseResource
+          # Camera ID reported by UniFi Protect.
+          # @return [String, nil]
+          attr_accessor :camera_id
+          # Camera name reported by UniFi Protect.
+          # @return [String, nil]
+          attr_accessor :camera_name
+          # Whether the camera has a microphone.
+          # @return [Boolean, nil]
+          attr_accessor :has_mic
+          # MAC address reported by the UniFi Protect camera.
+          # @return [String, nil]
+          attr_accessor :mac
+          # Model reported by the UniFi Protect camera.
+          # @return [String, nil]
+          attr_accessor :model
+          # Name of the UniFi Protect console that manages the camera.
+          # @return [String, nil]
+          attr_accessor :nvr_name
+        end
+
         class VisionlineMetadata < BaseResource
           # Encoder ID for an ASSA ABLOY Visionline system.
           # @return [String, nil]
@@ -1976,6 +1997,9 @@ module Seam
         # Metadata for an Ultraloq device.
         # @return [UltraloqMetadata, nil]
         resource_accessor :ultraloq_metadata, UltraloqMetadata
+        # Metadata for a UniFi Protect camera.
+        # @return [UnifiProtectMetadata, nil]
+        resource_accessor :unifi_protect_metadata, UnifiProtectMetadata
         # Metadata for an ASSA ABLOY Visionline system.
         # @return [VisionlineMetadata, nil]
         resource_accessor :visionline_metadata, VisionlineMetadata
@@ -2781,7 +2805,7 @@ module Seam
       # Indicates whether the device supports simulating removal in a sandbox.
       # @return [Boolean, nil]
       attr_accessor :can_simulate_removal
-      # Indicates whether the camera supports streaming live video through a camera live view session.
+      # Indicates whether the camera can stream live video through a camera live view session. `false` while the camera is offline.
       # @return [Boolean, nil]
       attr_accessor :can_stream_live_video
       # Indicates whether the thermostat can be turned off.
@@ -2859,6 +2883,7 @@ module Seam
       # - `tapo_camera`
       # - `arlo_camera`
       # - `reolink_camera`
+      # - `unifi_protect_camera`
       # - `sonos_speaker`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.

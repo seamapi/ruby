@@ -1008,7 +1008,7 @@ module Seam
       # Indicates whether the device supports simulating removal in a sandbox.
       # @return [Boolean, nil]
       attr_accessor :can_simulate_removal
-      # Indicates whether the camera supports streaming live video through a camera live view session.
+      # Indicates whether the camera can stream live video through a camera live view session. `false` while the camera is offline.
       # @return [Boolean, nil]
       attr_accessor :can_stream_live_video
       # Indicates whether the thermostat can be turned off.
@@ -1086,6 +1086,7 @@ module Seam
       # - `tapo_camera`
       # - `arlo_camera`
       # - `reolink_camera`
+      # - `unifi_protect_camera`
       # - `sonos_speaker`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
