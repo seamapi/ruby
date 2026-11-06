@@ -1,25 +1,27 @@
 # frozen_string_literal: true
 
 RSpec.describe Seam::RequestParameters do
-  class ValidatedListRequest
-    attr_reader :request_count
+  let(:validated_list_request_class) do
+    Class.new do
+      attr_reader :request_count
 
-    def initialize
-      @request_count = 0
-    end
+      def initialize
+        @request_count = 0
+      end
 
-    def list(device_id: nil, limit: nil, page_cursor: nil)
-      Seam::RequestParameters.require_at_least_one(
-        "/test/list",
-        {device_id: device_id, limit: limit, page_cursor: page_cursor},
-        [:device_id]
-      )
+      def list(device_id: nil, limit: nil, page_cursor: nil)
+        Seam::RequestParameters.require_at_least_one(
+          "/test/list",
+          {device_id: device_id, limit: limit, page_cursor: page_cursor},
+          [:device_id]
+        )
 
-      @request_count += 1
-      context = Thread.current[Seam::THREAD_CONTEXT_KEY]
-      context.body = {"pagination" => {"has_next_page" => false}} if context
-      context.path = "/test/list" if context
-      []
+        @request_count += 1
+        context = Thread.current[Seam::THREAD_CONTEXT_KEY]
+        context.body = {"pagination" => {"has_next_page" => false}} if context
+        context.path = "/test/list" if context
+        []
+      end
     end
   end
 
@@ -51,7 +53,7 @@ RSpec.describe Seam::RequestParameters do
   end
 
   it "rejects a paginator over an unfiltered list through every entrypoint" do
-    request = ValidatedListRequest.new
+    request = validated_list_request_class.new
     paginator = Seam::Paginator.new(request.method(:list), {limit: 10})
 
     [
@@ -67,7 +69,7 @@ RSpec.describe Seam::RequestParameters do
   end
 
   it "accepts a paginator over a filtered list" do
-    request = ValidatedListRequest.new
+    request = validated_list_request_class.new
     paginator = Seam::Paginator.new(request.method(:list), {device_id: "device-1"})
 
     paginator.first_page
