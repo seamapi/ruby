@@ -2,6 +2,7 @@
 
 require_relative "seam/errors"
 require_relative "seam/null"
+require_relative "seam/request_parameters"
 require_relative "seam/url_search_params"
 require_relative "seam/strict_url_search_params_serializer"
 require_relative "seam/http"

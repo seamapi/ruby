@@ -66,9 +66,11 @@ module Seam
       # @param user_identity_key [String, nil]
       # @return [Seam::Resources::UserIdentity] OK
       def get(user_identity_id: nil, user_identity_key: nil)
-        if user_identity_id.nil? && user_identity_key.nil?
-          raise TypeError, "At least one parameter is required for /user_identities/get"
-        end
+        Seam::RequestParameters.require_at_least_one(
+          "/user_identities/get",
+          {user_identity_id: user_identity_id, user_identity_key: user_identity_key},
+          [:user_identity_id, :user_identity_key]
+        )
 
         res = @client.get("/user_identities/get", {user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 
@@ -149,9 +151,11 @@ module Seam
       # @param user_identity_key [String, nil] Key of the primary user identity to keep.
       # @return [nil] OK
       def merge(merged_user_identity_ids: nil, merged_user_identity_keys: nil, user_identity_id: nil, user_identity_key: nil)
-        if merged_user_identity_ids.nil? && merged_user_identity_keys.nil? && user_identity_id.nil? && user_identity_key.nil?
-          raise TypeError, "At least one parameter is required for /user_identities/merge"
-        end
+        Seam::RequestParameters.require_at_least_one(
+          "/user_identities/merge",
+          {merged_user_identity_ids: merged_user_identity_ids, merged_user_identity_keys: merged_user_identity_keys, user_identity_id: user_identity_id, user_identity_key: user_identity_key},
+          [:merged_user_identity_ids, :merged_user_identity_keys, :user_identity_id, :user_identity_key]
+        )
 
         @client.post("/user_identities/merge", {merged_user_identity_ids: merged_user_identity_ids, merged_user_identity_keys: merged_user_identity_keys, user_identity_id: user_identity_id, user_identity_key: user_identity_key}.compact)
 

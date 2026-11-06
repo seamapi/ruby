@@ -110,9 +110,11 @@ module Seam
       # @param device_id [String, nil] ID of the device containing the access code that you want to get. You must specify either `access_code_id` or both `device_id` and `code`.
       # @return [Seam::Resources::AccessCode] OK
       def get(access_code_id: nil, code: nil, device_id: nil)
-        if access_code_id.nil? && code.nil? && device_id.nil?
-          raise TypeError, "At least one parameter is required for /access_codes/get"
-        end
+        Seam::RequestParameters.require_at_least_one(
+          "/access_codes/get",
+          {access_code_id: access_code_id, code: code, device_id: device_id},
+          [:access_code_id, :code, :device_id]
+        )
 
         res = @client.get("/access_codes/get", {access_code_id: access_code_id, code: code, device_id: device_id}.compact)
 

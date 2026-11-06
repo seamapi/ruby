@@ -51,9 +51,11 @@ module Seam
       # @param access_grant_key [String, nil] Unique key of Access Grant to get.
       # @return [Seam::Resources::AccessGrant] OK
       def get(access_grant_id: nil, access_grant_key: nil)
-        if access_grant_id.nil? && access_grant_key.nil?
-          raise TypeError, "At least one parameter is required for /access_grants/get"
-        end
+        Seam::RequestParameters.require_at_least_one(
+          "/access_grants/get",
+          {access_grant_id: access_grant_id, access_grant_key: access_grant_key},
+          [:access_grant_id, :access_grant_key]
+        )
 
         res = @client.get("/access_grants/get", {access_grant_id: access_grant_id, access_grant_key: access_grant_key}.compact)
 
@@ -67,9 +69,11 @@ module Seam
       # @param include [Array<String>, nil]
       # @return [Seam::Resources::Batch] OK
       def get_related(access_grant_ids: nil, access_grant_keys: nil, exclude: nil, include: nil)
-        if access_grant_ids.nil? && access_grant_keys.nil? && exclude.nil? && include.nil?
-          raise TypeError, "At least one parameter is required for /access_grants/get_related"
-        end
+        Seam::RequestParameters.require_at_least_one(
+          "/access_grants/get_related",
+          {access_grant_ids: access_grant_ids, access_grant_keys: access_grant_keys, exclude: exclude, include: include},
+          [:access_grant_ids, :access_grant_keys, :exclude, :include]
+        )
 
         res = @client.get("/access_grants/get_related", {access_grant_ids: access_grant_ids, access_grant_keys: access_grant_keys, exclude: exclude, include: include}.compact)
 
@@ -117,9 +121,11 @@ module Seam
       # @param starts_at [Time, nil] Date and time at which the validity of the grant starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
       # @return [nil] OK
       def update(access_grant_id: nil, access_grant_key: nil, ends_at: nil, name: nil, starts_at: nil)
-        if access_grant_id.nil? && access_grant_key.nil? && ends_at.nil? && name.nil? && starts_at.nil?
-          raise TypeError, "At least one parameter is required for /access_grants/update"
-        end
+        Seam::RequestParameters.require_at_least_one(
+          "/access_grants/update",
+          {access_grant_id: access_grant_id, access_grant_key: access_grant_key, ends_at: ends_at, name: name, starts_at: starts_at},
+          [:access_grant_id, :access_grant_key, :ends_at, :name, :starts_at]
+        )
 
         @client.patch("/access_grants/update", {access_grant_id: access_grant_id, access_grant_key: access_grant_key, ends_at: ends_at, name: name, starts_at: starts_at}.compact)
 
