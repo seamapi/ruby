@@ -83,12 +83,15 @@ module Seam
       # Returns a list of all [client sessions](https://www.seam.co/docs/core-concepts/authentication/client-session-tokens).
       # @param client_session_id [String, nil] ID of the client session that you want to retrieve.
       # @param connect_webview_id [String, Seam::Null, nil] ID of the [Connect Webview](https://www.seam.co/docs/core-concepts/connect-webviews) for which you want to retrieve client sessions. Specify `null` to retrieve client sessions that are not associated with a Connect Webview.
+      # @param customer_key [String, nil] Customer key for which you want to list client sessions.
+      # @param limit [Integer, nil] Maximum number of records to return per page.
+      # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param user_identifier_key [String, nil] Your user ID for the user by which you want to filter client sessions.
       # @param user_identity_id [String, Seam::Null, nil] ID of the [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) for which you want to retrieve client sessions. Specify `null` to retrieve client sessions that are not associated with a user identity.
       # @param without_user_identifier_key [Boolean, nil] Indicates whether to retrieve only client sessions without associated user identifier keys.
       # @return [Seam::Resources::ClientSession] OK
-      def list(client_session_id: nil, connect_webview_id: nil, user_identifier_key: nil, user_identity_id: nil, without_user_identifier_key: nil)
-        res = @client.get("/client_sessions/list", {client_session_id: client_session_id, connect_webview_id: connect_webview_id, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, without_user_identifier_key: without_user_identifier_key}.compact)
+      def list(client_session_id: nil, connect_webview_id: nil, customer_key: nil, limit: nil, page_cursor: nil, user_identifier_key: nil, user_identity_id: nil, without_user_identifier_key: nil)
+        res = @client.get("/client_sessions/list", {client_session_id: client_session_id, connect_webview_id: connect_webview_id, customer_key: customer_key, limit: limit, page_cursor: page_cursor, user_identifier_key: user_identifier_key, user_identity_id: user_identity_id, without_user_identifier_key: without_user_identifier_key}.compact)
 
         Seam::Resources::ClientSession.list_from_http_response(res, "client_sessions", "/client_sessions/list")
       end

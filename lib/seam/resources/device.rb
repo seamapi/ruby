@@ -1383,6 +1383,27 @@ module Seam
           attr_accessor :serial_number
         end
 
+        class YaleConnectMetadata < BaseResource
+          # Device ID for a Yale Connect lock.
+          # @return [String, nil]
+          attr_accessor :device_id
+          # Device name for a Yale Connect lock.
+          # @return [String, nil]
+          attr_accessor :device_name
+          # Firmware version reported by the Yale Connect lock.
+          # @return [String, nil]
+          attr_accessor :firmware_version
+          # Name of the Yale Connect home that contains the lock.
+          # @return [String, nil]
+          attr_accessor :home_name
+          # Model reported by the Yale Connect lock.
+          # @return [String, nil]
+          attr_accessor :model
+          # Time zone of the Yale Connect home, as Yale reports it.
+          # @return [String, nil]
+          attr_accessor :time_zone_description
+        end
+
         class CodeConstraints < BaseResource
           # @return [String]
           # Known values:
@@ -2009,6 +2030,9 @@ module Seam
         # Metadata for a Yacan device.
         # @return [YacanMetadata, nil]
         resource_accessor :yacan_metadata, YacanMetadata
+        # Metadata for a Yale Connect lock.
+        # @return [YaleConnectMetadata, nil]
+        resource_accessor :yale_connect_metadata, YaleConnectMetadata
         # Keypad battery status.
         # @return [KeypadBattery, nil]
         resource_accessor :keypad_battery, KeypadBattery
@@ -2833,7 +2857,7 @@ module Seam
       # ID of the device.
       # @return [String]
       attr_accessor :device_id
-      # Type of the device.
+      # Type of the device. The `august_lock` and `yale_lock` values are deprecated. Use `yale_access_lock` in place of `august_lock`, and `yale_access_lock` or `yale_home_lock` in place of `yale_lock`.
       # @return [String]
       # Known values:
       # - `akuvox_lock`
@@ -2853,6 +2877,9 @@ module Seam
       # - `smartthings_lock`
       # - `wyze_lock`
       # - `yale_lock`
+      # - `yale_access_lock`
+      # - `yale_home_lock`
+      # - `yale_connect_lock`
       # - `two_n_intercom`
       # - `controlbyweb_device`
       # - `ttlock_lock`

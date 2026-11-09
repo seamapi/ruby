@@ -83,6 +83,8 @@ module Seam
       # - `schlage`
       # - `smartthings`
       # - `yale`
+      # - `yale_access`
+      # - `yale_home`
       # - `genie`
       # - `doorking`
       # - `salto`
@@ -133,6 +135,7 @@ module Seam
       # - `arlo`
       # - `reolink`
       # - `unifi_protect`
+      # - `yale_connect`
       # - `ical`
       # - `lodgify`
       # - `hostaway`
