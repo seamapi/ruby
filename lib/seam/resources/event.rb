@@ -4466,6 +4466,120 @@ module Seam
         date_accessor :occurred_at
       end
 
+      # The [lock](https://www.seam.co/docs/low-level-apis/smart-locks) reported that its bolt is jammed.
+      class LockJammed < SeamEvent
+        # Custom metadata of the connected account, present when connected_account_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :connected_account_custom_metadata
+        # ID of the connected account associated with the event.
+        # @return [String]
+        attr_accessor :connected_account_id
+        # The customer key associated with the device, if any.
+        # @return [String, nil]
+        attr_accessor :customer_key
+        # Custom metadata of the device, present when device_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :device_custom_metadata
+        # ID of the affected device.
+        # @return [String]
+        attr_accessor :device_id
+        # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
+        # @return [String, nil]
+        attr_accessor :event_description
+        # ID of the event.
+        # @return [String]
+        attr_accessor :event_id
+        # @return [String]
+        # Known values:
+        # - `lock.jammed`
+        attr_accessor :event_type
+        # ID of the workspace associated with the event.
+        # @return [String]
+        attr_accessor :workspace_id
+        # Date and time at which the event was created.
+        # @return [Time]
+        date_accessor :created_at
+        # Date and time at which the event occurred.
+        # @return [Time]
+        date_accessor :occurred_at
+      end
+
+      # The door sensor of the [lock](https://www.seam.co/docs/low-level-apis/smart-locks) reported that the door was opened.
+      class LockDoorOpened < SeamEvent
+        # Custom metadata of the connected account, present when connected_account_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :connected_account_custom_metadata
+        # ID of the connected account associated with the event.
+        # @return [String]
+        attr_accessor :connected_account_id
+        # The customer key associated with the device, if any.
+        # @return [String, nil]
+        attr_accessor :customer_key
+        # Custom metadata of the device, present when device_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :device_custom_metadata
+        # ID of the affected device.
+        # @return [String]
+        attr_accessor :device_id
+        # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
+        # @return [String, nil]
+        attr_accessor :event_description
+        # ID of the event.
+        # @return [String]
+        attr_accessor :event_id
+        # @return [String]
+        # Known values:
+        # - `lock.door_opened`
+        attr_accessor :event_type
+        # ID of the workspace associated with the event.
+        # @return [String]
+        attr_accessor :workspace_id
+        # Date and time at which the event was created.
+        # @return [Time]
+        date_accessor :created_at
+        # Date and time at which the event occurred.
+        # @return [Time]
+        date_accessor :occurred_at
+      end
+
+      # The door sensor of the [lock](https://www.seam.co/docs/low-level-apis/smart-locks) reported that the door was closed.
+      class LockDoorClosed < SeamEvent
+        # Custom metadata of the connected account, present when connected_account_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :connected_account_custom_metadata
+        # ID of the connected account associated with the event.
+        # @return [String]
+        attr_accessor :connected_account_id
+        # The customer key associated with the device, if any.
+        # @return [String, nil]
+        attr_accessor :customer_key
+        # Custom metadata of the device, present when device_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :device_custom_metadata
+        # ID of the affected device.
+        # @return [String]
+        attr_accessor :device_id
+        # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
+        # @return [String, nil]
+        attr_accessor :event_description
+        # ID of the event.
+        # @return [String]
+        attr_accessor :event_id
+        # @return [String]
+        # Known values:
+        # - `lock.door_closed`
+        attr_accessor :event_type
+        # ID of the workspace associated with the event.
+        # @return [String]
+        attr_accessor :workspace_id
+        # Date and time at which the event was created.
+        # @return [Time]
+        date_accessor :created_at
+        # Date and time at which the event occurred.
+        # @return [Time]
+        date_accessor :occurred_at
+      end
+
       # A thermostat [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) was activated.
       class ThermostatClimatePresetActivated < SeamEvent
         # Key of the climate preset that was activated.
@@ -5184,6 +5298,9 @@ module Seam
       # - `lock.locked`
       # - `lock.unlocked`
       # - `lock.access_denied`
+      # - `lock.jammed`
+      # - `lock.door_opened`
+      # - `lock.door_closed`
       # - `thermostat.climate_preset_activated`
       # - `thermostat.manually_adjusted`
       # - `thermostat.temperature_threshold_exceeded`
@@ -5307,6 +5424,9 @@ module Seam
         "lock.locked" => LockLocked,
         "lock.unlocked" => LockUnlocked,
         "lock.access_denied" => LockAccessDenied,
+        "lock.jammed" => LockJammed,
+        "lock.door_opened" => LockDoorOpened,
+        "lock.door_closed" => LockDoorClosed,
         "thermostat.climate_preset_activated" => ThermostatClimatePresetActivated,
         "thermostat.manually_adjusted" => ThermostatManuallyAdjusted,
         "thermostat.temperature_threshold_exceeded" => ThermostatTemperatureThresholdExceeded,
