@@ -1091,6 +1091,7 @@ module Seam
       # - `reolink_camera`
       # - `unifi_protect_camera`
       # - `sonos_speaker`
+      # - `alertify_sensor`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]

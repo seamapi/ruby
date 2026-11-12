@@ -359,6 +359,51 @@ module Seam
         attr_accessor :timezone
       end
 
+      class NamedSensors < BaseResource
+        # Air quality index, if the device measures it.
+        # @return [Float, nil]
+        attr_accessor :air_quality_index
+        # Carbon dioxide concentration in parts per million, if the device measures it.
+        # @return [Float, nil]
+        attr_accessor :co2_ppm
+        # Carbon monoxide concentration in parts per million, if the device measures it.
+        # @return [Float, nil]
+        attr_accessor :co_ppm
+        # Display name of the sensor. Defaults to `sensor_name`.
+        # @return [String]
+        attr_accessor :display_name
+        # Indicates whether the device detects that the space is occupied, if the device measures occupancy.
+        # @return [Boolean, nil]
+        attr_accessor :is_occupied
+        # Indicates whether the device detects smoking, if the device measures it.
+        # @return [Boolean, nil]
+        attr_accessor :is_smoking_detected
+        # Mold risk level as reported by the device, if the device measures it.
+        # @return [String, nil]
+        attr_accessor :mold_risk_level
+        # Noise level in decibels, if the device measures noise.
+        # @return [Float, nil]
+        attr_accessor :noise_level_decibels
+        # Noise level as a Noise Risk Score (NRS), if the device reports one.
+        # @return [Float, nil]
+        attr_accessor :noise_level_nrs
+        # Number of occupants the device detects, if the device counts occupants.
+        # @return [Float, nil]
+        attr_accessor :occupant_count
+        # Relative humidity, as a value between 0 and 1, inclusive, if the device measures humidity.
+        # @return [Float, nil]
+        attr_accessor :relative_humidity
+        # Stable, hardware-defined name of the sensor, such as a port number.
+        # @return [String]
+        attr_accessor :sensor_name
+        # Temperature in °C, if the device measures temperature.
+        # @return [Float, nil]
+        attr_accessor :temperature_celsius
+        # Temperature in °F, if the device measures temperature.
+        # @return [Float, nil]
+        attr_accessor :temperature_fahrenheit
+      end
+
       class Properties < BaseResource
         class AccessoryKeypad < BaseResource
           class Battery < BaseResource
@@ -2769,9 +2814,15 @@ module Seam
       # Array of errors associated with the device. Each error object within the array contains two fields: `error_code` and `message`. `error_code` is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. `message` provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
+      # Additional sensors of the same kind on the device, each with a stable `sensor_name`. Present only when the device has more than one sensor of a kind or no single main sensor.
+      # @return [Array<NamedSensors>]
+      resource_list_accessor :named_sensors, NamedSensors
       # Array of warnings associated with the device. Each warning object within the array contains two fields: `warning_code` and `message`. `warning_code` is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. `message` provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
+      # Air quality index, if the device measures it.
+      # @return [Float, nil]
+      attr_accessor :air_quality_index
       # Indicates whether the thermostat can be returned to its weekly program, the schedule that is configured on the device itself, releasing any hold that Seam has set.
       # @return [Boolean, nil]
       attr_accessor :can_activate_weekly_program
@@ -2848,6 +2899,12 @@ module Seam
       # - `battery`
       # - `phone`
       attr_accessor :capabilities_supported
+      # Carbon dioxide concentration in parts per million, if the device measures it.
+      # @return [Float, nil]
+      attr_accessor :co2_ppm
+      # Carbon monoxide concentration in parts per million, if the device measures it.
+      # @return [Float, nil]
+      attr_accessor :co_ppm
       # Unique identifier for the account associated with the device.
       # @return [String]
       attr_accessor :connected_account_id
@@ -2912,6 +2969,7 @@ module Seam
       # - `reolink_camera`
       # - `unifi_protect_camera`
       # - `sonos_speaker`
+      # - `alertify_sensor`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]
@@ -2919,12 +2977,39 @@ module Seam
       # Indicates whether Seam manages the device. See also [Managed and Unmanaged Devices](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices).
       # @return [TrueClass]
       attr_accessor :is_managed
+      # Indicates whether the device detects that the space is occupied, if the device measures occupancy.
+      # @return [Boolean, nil]
+      attr_accessor :is_occupied
+      # Indicates whether the device detects smoking, if the device measures it.
+      # @return [Boolean, nil]
+      attr_accessor :is_smoking_detected
+      # Mold risk level as reported by the device, if the device measures it.
+      # @return [String, nil]
+      attr_accessor :mold_risk_level
       # Optional nickname to describe the device, settable through Seam.
       # @return [String, nil]
       attr_accessor :nickname
+      # Noise level in decibels, if the device measures noise.
+      # @return [Float, nil]
+      attr_accessor :noise_level_decibels
+      # Noise level as a Noise Risk Score (NRS), if the device reports one.
+      # @return [Float, nil]
+      attr_accessor :noise_level_nrs
+      # Number of occupants the device detects, if the device counts occupants.
+      # @return [Float, nil]
+      attr_accessor :occupant_count
+      # Relative humidity, as a value between 0 and 1, inclusive, if the device measures humidity.
+      # @return [Float, nil]
+      attr_accessor :relative_humidity
       # IDs of the spaces the device is in.
       # @return [Array<String>]
       attr_accessor :space_ids
+      # Temperature in °C, if the device measures temperature.
+      # @return [Float, nil]
+      attr_accessor :temperature_celsius
+      # Temperature in °F, if the device measures temperature.
+      # @return [Float, nil]
+      attr_accessor :temperature_fahrenheit
       # Unique identifier for the Seam workspace associated with the device.
       # @return [String]
       attr_accessor :workspace_id
