@@ -136,6 +136,7 @@ module Seam
       # - `reolink`
       # - `unifi_protect`
       # - `yale_connect`
+      # - `alertify`
       # - `ical`
       # - `lodgify`
       # - `hostaway`
