@@ -2809,7 +2809,7 @@ module Seam
       # @return [Location, nil]
       resource_accessor :location, Location
       # Properties of the device.
-      # @return [Properties]
+      # @return [Properties, nil]
       resource_accessor :properties, Properties
       # Array of errors associated with the device. Each error object within the array contains two fields: `error_code` and `message`. `error_code` is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. `message` provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.
       # @return [Array<Errors>]
