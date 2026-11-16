@@ -12,7 +12,6 @@ module Seam
       # @param customer_data [Hash, nil]
       # @param customer_resources_filters [Array<Hash>, nil] Filter configuration for resources based on their custom_metadata. Each filter specifies a field, operation, and value to match against resource custom_metadata.
       # @param customization_profile_id [String, nil] The ID of the customization profile to use for the portal.
-      # @param deep_link [Hash, nil] Deep link target resource for initial redirect. When set, the portal will navigate directly to the specified resource.
       # @param exclude_locale_picker [Boolean, nil] Whether to exclude the option to select a locale within the portal UI.
       # @param features [Hash, nil] Features to include in the portal. Settings you omit use the portal's customization profile, then the Seam default. Settings you pass take precedence over the customization profile's, so changing the profile doesn't change them.
       # @param is_embedded [Boolean, nil] Whether the portal is embedded in another application.
@@ -21,8 +20,8 @@ module Seam
       # @param navigation_mode [String, nil] Navigation mode for the portal. 'restricted' tells frontend to hide navigation UI, typically used for embedded deep links.
       # @param read_only [Boolean, nil] Whether the portal is read-only. When true, the customer can browse the portal but cannot perform any mutating action; write requests made with the portal's client session are rejected.
       # @return [Seam::Resources::CustomerPortal] OK
-      def create_portal(customer_data: nil, customer_resources_filters: nil, customization_profile_id: nil, deep_link: nil, exclude_locale_picker: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, navigation_mode: nil, read_only: nil)
-        res = @client.post("/customers/create_portal", {customer_data: customer_data, customer_resources_filters: customer_resources_filters, customization_profile_id: customization_profile_id, deep_link: deep_link, exclude_locale_picker: exclude_locale_picker, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, navigation_mode: navigation_mode, read_only: read_only}.compact)
+      def create_portal(customer_data: nil, customer_resources_filters: nil, customization_profile_id: nil, exclude_locale_picker: nil, features: nil, is_embedded: nil, landing_page: nil, locale: nil, navigation_mode: nil, read_only: nil)
+        res = @client.post("/customers/create_portal", {customer_data: customer_data, customer_resources_filters: customer_resources_filters, customization_profile_id: customization_profile_id, exclude_locale_picker: exclude_locale_picker, features: features, is_embedded: is_embedded, landing_page: landing_page, locale: locale, navigation_mode: navigation_mode, read_only: read_only}.compact)
 
         Seam::Resources::CustomerPortal.from_http_response(res, "customer_portal", "/customers/create_portal")
       end

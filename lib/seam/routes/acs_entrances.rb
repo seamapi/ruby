@@ -38,14 +38,12 @@ module Seam
       # @param connected_account_id [String, nil] ID of the connected account for which you want to retrieve all entrances.
       # @param customer_key [String, nil] Customer key for which you want to list entrances.
       # @param limit [Integer, nil] Maximum number of records to return per page.
-      # @param location_id [String, Seam::Null, nil]
-      # @deprecated location_id: Use `space_id`.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param search [String, nil] String for which to search. Filters returned entrances to include all records that satisfy a partial match using `display_name`.
       # @param space_id [String, nil] ID of the space for which you want to list entrances.
       # @return [Seam::Resources::AcsEntrance] OK
-      def list(access_method_id: nil, acs_credential_id: nil, acs_entrance_ids: nil, acs_system_id: nil, connected_account_id: nil, customer_key: nil, limit: nil, location_id: nil, page_cursor: nil, search: nil, space_id: nil)
-        res = @client.get("/acs/entrances/list", {access_method_id: access_method_id, acs_credential_id: acs_credential_id, acs_entrance_ids: acs_entrance_ids, acs_system_id: acs_system_id, connected_account_id: connected_account_id, customer_key: customer_key, limit: limit, location_id: location_id, page_cursor: page_cursor, search: search, space_id: space_id}.compact)
+      def list(access_method_id: nil, acs_credential_id: nil, acs_entrance_ids: nil, acs_system_id: nil, connected_account_id: nil, customer_key: nil, limit: nil, page_cursor: nil, search: nil, space_id: nil)
+        res = @client.get("/acs/entrances/list", {access_method_id: access_method_id, acs_credential_id: acs_credential_id, acs_entrance_ids: acs_entrance_ids, acs_system_id: acs_system_id, connected_account_id: connected_account_id, customer_key: customer_key, limit: limit, page_cursor: page_cursor, search: search, space_id: space_id}.compact)
 
         Seam::Resources::AcsEntrance.list_from_http_response(res, "acs_entrances", "/acs/entrances/list")
       end

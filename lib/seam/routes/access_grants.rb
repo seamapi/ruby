@@ -19,10 +19,6 @@ module Seam
       # @param customization_profile_id [String, nil] ID of the customization profile to apply to the Access Grant and its access methods.
       # @param device_ids [Array<String>, nil] Set of IDs of the [devices](https://www.seam.co/docs/api/devices/list) to which access is being granted.
       # @param ends_at [String, Seam::Null, nil] Date and time at which the validity of the new grant ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Must be a time in the future and after `starts_at`.
-      # @param location [Hash, nil]
-      # @deprecated location: Create a space first, then reference it using `space_ids`.
-      # @param location_ids [Array<String>, nil]
-      # @deprecated location_ids: Use `space_ids`.
       # @param name [String, Seam::Null, nil] Name for the access grant.
       # @param reservation_key [String, nil] Reservation key for the access grant.
       # @param space_ids [Array<String>, nil] Set of IDs of existing spaces to which access is being granted.
@@ -31,8 +27,8 @@ module Seam
       # @param user_identity [Hash, nil] When used, creates a new user identity with the given details, and grants them access.
       # @param user_identity_id [String, nil] ID of user identity for whom access is being granted.
       # @return [Seam::Resources::AccessGrant] OK
-      def create(requested_access_methods:, access_grant_key: nil, acs_entrance_ids: nil, customization_profile_id: nil, device_ids: nil, ends_at: nil, location: nil, location_ids: nil, name: nil, reservation_key: nil, space_ids: nil, space_keys: nil, starts_at: nil, user_identity: nil, user_identity_id: nil)
-        res = @client.post("/access_grants/create", {requested_access_methods: requested_access_methods, access_grant_key: access_grant_key, acs_entrance_ids: acs_entrance_ids, customization_profile_id: customization_profile_id, device_ids: device_ids, ends_at: ends_at, location: location, location_ids: location_ids, name: name, reservation_key: reservation_key, space_ids: space_ids, space_keys: space_keys, starts_at: starts_at, user_identity: user_identity, user_identity_id: user_identity_id}.compact)
+      def create(requested_access_methods:, access_grant_key: nil, acs_entrance_ids: nil, customization_profile_id: nil, device_ids: nil, ends_at: nil, name: nil, reservation_key: nil, space_ids: nil, space_keys: nil, starts_at: nil, user_identity: nil, user_identity_id: nil)
+        res = @client.post("/access_grants/create", {requested_access_methods: requested_access_methods, access_grant_key: access_grant_key, acs_entrance_ids: acs_entrance_ids, customization_profile_id: customization_profile_id, device_ids: device_ids, ends_at: ends_at, name: name, reservation_key: reservation_key, space_ids: space_ids, space_keys: space_keys, starts_at: starts_at, user_identity: user_identity, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AccessGrant.from_http_response(res, "access_grant", "/access_grants/create")
       end
@@ -89,16 +85,14 @@ module Seam
       # @param customer_key [String, nil] Customer key for which you want to list access grants.
       # @param device_id [String, nil] ID of the device by which you want to filter the list of Access Grants.
       # @param limit [Float, nil] Numerical limit on the number of access grants to return.
-      # @param location_id [String, nil]
-      # @deprecated location_id: Use `space_id`.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
       # @param reservation_key [String, nil] Filter Access Grants by reservation_key.
       # @param search [String, nil] String for which to search. Filters returned Access Grants to include all records that satisfy a partial match using `name`, `access_grant_key`, `reservation_key`, `access_grant_id`, `user_identity_id`, `user_identity_full_name`, `user_identity_email_address` or `user_identity_phone_number`.
       # @param space_id [String, nil] ID of the space by which you want to filter the list of Access Grants.
       # @param user_identity_id [String, nil] ID of user identity by which you want to filter the list of Access Grants.
       # @return [Seam::Resources::AccessGrant] OK
-      def list(access_code_id: nil, access_grant_ids: nil, access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, device_id: nil, limit: nil, location_id: nil, page_cursor: nil, reservation_key: nil, search: nil, space_id: nil, user_identity_id: nil)
-        res = @client.get("/access_grants/list", {access_code_id: access_code_id, access_grant_ids: access_grant_ids, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, device_id: device_id, limit: limit, location_id: location_id, page_cursor: page_cursor, reservation_key: reservation_key, search: search, space_id: space_id, user_identity_id: user_identity_id}.compact)
+      def list(access_code_id: nil, access_grant_ids: nil, access_grant_key: nil, acs_entrance_id: nil, acs_system_id: nil, customer_key: nil, device_id: nil, limit: nil, page_cursor: nil, reservation_key: nil, search: nil, space_id: nil, user_identity_id: nil)
+        res = @client.get("/access_grants/list", {access_code_id: access_code_id, access_grant_ids: access_grant_ids, access_grant_key: access_grant_key, acs_entrance_id: acs_entrance_id, acs_system_id: acs_system_id, customer_key: customer_key, device_id: device_id, limit: limit, page_cursor: page_cursor, reservation_key: reservation_key, search: search, space_id: space_id, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AccessGrant.list_from_http_response(res, "access_grants", "/access_grants/list")
       end

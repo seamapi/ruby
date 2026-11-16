@@ -351,9 +351,6 @@ module Seam
       # Display name for the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String]
       attr_accessor :display_name
-      # @return [String, nil]
-      # @deprecated use email_address.
-      attr_accessor :email
       # Email address of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @return [String, nil]
       attr_accessor :email_address

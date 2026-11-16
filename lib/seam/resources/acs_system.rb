@@ -238,14 +238,26 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the Salto KS site does not accept custom PIN codes, either because its Salto subscription does not include the Custom PIN feature or because Custom PIN is turned off in the site's settings. Salto KS generates every PIN on the site, so a PIN code requested on an access grant or reservation is replaced with a Salto-generated one. The message says which of the two applies.
+        class SaltoKsCustomPinsNotSupported < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `salto_ks_custom_pins_not_supported`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates the [access control system](https://www.seam.co/docs/low-level-apis/access-systems) time zone could not be determined because the reported physical location does not match the time zone configured on the physical [ACS entrances](https://www.seam.co/docs/low-level-apis/access-systems/retrieving-entrance-details).
         class TimeZoneDoesNotMatchLocation < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
           attr_accessor :message
-          # @return [Array<String>]
-          # @deprecated this field is deprecated.
-          attr_accessor :misconfigured_acs_entrance_ids
           # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
           # @return [String]
           # Known values:
@@ -293,6 +305,7 @@ module Seam
         # @return [String]
         # Known values:
         # - `salto_ks_subscription_limit_almost_reached`
+        # - `salto_ks_custom_pins_not_supported`
         # - `time_zone_does_not_match_location`
         # - `setup_required`
         # - `unknown_issue_with_acs_system`
@@ -303,6 +316,7 @@ module Seam
 
         discriminated_by :warning_code, {
           "salto_ks_subscription_limit_almost_reached" => SaltoKsSubscriptionLimitAlmostReached,
+          "salto_ks_custom_pins_not_supported" => SaltoKsCustomPinsNotSupported,
           "time_zone_does_not_match_location" => TimeZoneDoesNotMatchLocation,
           "setup_required" => SetupRequired,
           "unknown_issue_with_acs_system" => UnknownIssueWithAcsSystem
@@ -333,10 +347,6 @@ module Seam
       # ID of the connected account associated with the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :connected_account_id
-      # IDs of the [connected accounts](https://www.seam.co/docs/core-concepts/connected-accounts) associated with the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
-      # @return [Array<String>]
-      # @deprecated Use `connected_account_id`.
-      attr_accessor :connected_account_ids
       # ID of the default credential manager `acs_system` for this [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String, nil]
       attr_accessor :default_credential_manager_acs_system_id
@@ -376,30 +386,6 @@ module Seam
       # Name of the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :name
-      # @return [String, nil]
-      # Known values:
-      # - `pti_site`
-      # - `avigilon_alta_org`
-      # - `salto_ks_site`
-      # - `salto_space_system`
-      # - `brivo_account`
-      # - `hid_credential_manager_organization`
-      # - `visionline_system`
-      # - `assa_abloy_credential_service`
-      # - `latch_building`
-      # - `dormakaba_community_site`
-      # - `dormakaba_ambiance_site`
-      # - `legic_connect_credential_service`
-      # - `assa_abloy_vostio`
-      # - `assa_abloy_vostio_credential_service`
-      # - `hotek_site`
-      # - `kisi_organization`
-      # - `akiles_organization`
-      # @deprecated Use `external_type`.
-      attr_accessor :system_type
-      # @return [String, nil]
-      # @deprecated Use `external_type_display_name`.
-      attr_accessor :system_type_display_name
       # ID of the workspace that contains the [access control system](https://www.seam.co/docs/low-level-apis/access-systems).
       # @return [String]
       attr_accessor :workspace_id

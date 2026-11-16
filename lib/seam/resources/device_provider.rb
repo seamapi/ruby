@@ -121,6 +121,7 @@ module Seam
       # - `tado`
       # - `salto_space`
       # - `sensi`
+      # - `sensibo`
       # - `keynest`
       # - `korelock`
       # - `keyincode`
@@ -147,6 +148,8 @@ module Seam
       # - `aqara`
       # - `eufy`
       # - `sonos`
+      # - `hayward_omnilogic`
+      # - `tuya`
       attr_accessor :device_provider_name
       # Display name for the device provider.
       # @return [String]

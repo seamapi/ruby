@@ -353,9 +353,6 @@ module Seam
       # Display name of the Access Grant.
       # @return [String]
       attr_accessor :display_name
-      # @return [Array<String>]
-      # @deprecated Use `space_ids`.
-      attr_accessor :location_ids
       # Name of the Access Grant. If not provided, the display name will be computed.
       # @return [String, nil]
       attr_accessor :name

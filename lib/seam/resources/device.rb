@@ -353,10 +353,6 @@ module Seam
         # Time zone of the device location.
         # @return [String, nil]
         attr_accessor :time_zone
-        # Time zone of the device location.
-        # @return [String, nil]
-        # @deprecated Use `time_zone` instead.
-        attr_accessor :timezone
       end
 
       class NamedSensors < BaseResource
@@ -372,9 +368,12 @@ module Seam
         # Display name of the sensor. Defaults to `sensor_name`.
         # @return [String]
         attr_accessor :display_name
-        # Indicates whether the device detects that the space is occupied, if the device measures occupancy.
+        # Estimated number of occupants detected by the device.
+        # @return [Float, nil]
+        attr_accessor :estimated_occupant_count
+        # Indicates whether the device detects occupancy.
         # @return [Boolean, nil]
-        attr_accessor :is_occupied
+        attr_accessor :is_occupancy_detected
         # Indicates whether the device detects smoking, if the device measures it.
         # @return [Boolean, nil]
         attr_accessor :is_smoking_detected
@@ -387,9 +386,6 @@ module Seam
         # Noise level as a Noise Risk Score (NRS), if the device reports one.
         # @return [Float, nil]
         attr_accessor :noise_level_nrs
-        # Number of occupants the device detects, if the device counts occupants.
-        # @return [Float, nil]
-        attr_accessor :occupant_count
         # Relative humidity, as a value between 0 and 1, inclusive, if the device measures humidity.
         # @return [Float, nil]
         attr_accessor :relative_humidity
@@ -440,9 +436,6 @@ module Seam
         end
 
         class Model < BaseResource
-          # @return [Boolean, nil]
-          # @deprecated use device.properties.model.can_connect_accessory_keypad
-          attr_accessor :accessory_keypad_supported
           # Indicates whether the device can connect a accessory keypad.
           # @return [Boolean, nil]
           attr_accessor :can_connect_accessory_keypad
@@ -455,12 +448,6 @@ module Seam
           # Display name that corresponds to the manufacturer-specific terminology for the device.
           # @return [String]
           attr_accessor :manufacturer_display_name
-          # @return [Boolean, nil]
-          # @deprecated use device.can_program_offline_access_codes.
-          attr_accessor :offline_access_codes_supported
-          # @return [Boolean, nil]
-          # @deprecated use device.can_program_online_access_codes.
-          attr_accessor :online_access_codes_supported
         end
 
         class AssaAbloyCredentialServiceMetadata < BaseResource
@@ -699,10 +686,6 @@ module Seam
           # IANA time zone for a dormakaba Oracode device.
           # @return [String, nil]
           attr_accessor :iana_timezone
-          # Site ID for a dormakaba Oracode device.
-          # @return [Float, nil]
-          # @deprecated Previously marked as "@DEPRECATED."
-          attr_accessor :site_id
           # Site name for a dormakaba Oracode device.
           # @return [String, nil]
           attr_accessor :site_name
@@ -1128,33 +1111,6 @@ module Seam
           attr_accessor :site_name
         end
 
-        class SaltoMetadata < BaseResource
-          # Battery level for a Salto device.
-          # @return [String, nil]
-          attr_accessor :battery_level
-          # Customer reference for a Salto device.
-          # @return [String, nil]
-          attr_accessor :customer_reference
-          # Lock ID for a Salto device.
-          # @return [String, nil]
-          attr_accessor :lock_id
-          # Lock type for a Salto device.
-          # @return [String, nil]
-          attr_accessor :lock_type
-          # Locked state for a Salto device.
-          # @return [String, nil]
-          attr_accessor :locked_state
-          # Model for a Salto device.
-          # @return [String, nil]
-          attr_accessor :model
-          # Site ID for the Salto KS site to which the device belongs.
-          # @return [String, nil]
-          attr_accessor :site_id
-          # Site name for the Salto KS site to which the device belongs.
-          # @return [String, nil]
-          attr_accessor :site_name
-        end
-
         class SchlageMetadata < BaseResource
           # Device ID for a Schlage device.
           # @return [String, nil]
@@ -1189,12 +1145,33 @@ module Seam
           # Device name for a Sensi device.
           # @return [String, nil]
           attr_accessor :device_name
-          # Deprecated. Seam no longer sets this field.
-          # @return [Boolean, nil]
-          attr_accessor :dual_setpoints_not_supported
           # Product type for a Sensi device.
           # @return [String, nil]
           attr_accessor :product_type
+        end
+
+        class SensiboMetadata < BaseResource
+          # Firmware version of the Sensibo device.
+          # @return [String, nil]
+          attr_accessor :firmware_version
+          # MAC address of the Sensibo device.
+          # @return [String, nil]
+          attr_accessor :mac_address
+          # ID of the Sensibo device, which Sensibo calls a pod.
+          # @return [String, nil]
+          attr_accessor :pod_id
+          # Product model of the Sensibo device, such as `skyv2` or `air`.
+          # @return [String, nil]
+          attr_accessor :product_model
+          # Name of the room that the Sensibo device is in.
+          # @return [String, nil]
+          attr_accessor :room_name
+          # Serial number of the Sensibo device.
+          # @return [String, nil]
+          attr_accessor :serial_number
+          # Temperature unit that the Sensibo device displays: `C` or `F`.
+          # @return [String, nil]
+          attr_accessor :temperature_unit
         end
 
         class SmartthingsMetadata < BaseResource
@@ -1333,6 +1310,30 @@ module Seam
           # Lock-side timezone offset in milliseconds east of UTC, as configured in the TTLock app. Source of truth for the lock's wall-clock interpretation of access code start/end times — a misconfigured value here is the typical cause of customer "codes offset by N hours" reports. Diagnostic only; Seam does not convert times based on this value.
           # @return [Float, nil]
           attr_accessor :timezone_raw_offset_ms
+        end
+
+        class TuyaMetadata < BaseResource
+          # Tuya product category code for the device (e.g. ms).
+          # @return [String, nil]
+          attr_accessor :category
+          # Device ID for a Tuya device.
+          # @return [String, nil]
+          attr_accessor :device_id
+          # Device name for a Tuya device.
+          # @return [String, nil]
+          attr_accessor :device_name
+          # Model reported for a Tuya device.
+          # @return [String, nil]
+          attr_accessor :model
+          # Tuya product ID for the device.
+          # @return [String, nil]
+          attr_accessor :product_id
+          # Tuya product name for the device.
+          # @return [String, nil]
+          attr_accessor :product_name
+          # Time zone reported for a Tuya device (e.g. +08:00).
+          # @return [String, nil]
+          attr_accessor :time_zone
         end
 
         class TwoNMetadata < BaseResource
@@ -1559,54 +1560,6 @@ module Seam
           attr_accessor :time_zone
         end
 
-        class ActiveThermostatSchedule < BaseResource
-          class Errors < BaseResource
-            # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
-            # @return [String]
-            attr_accessor :error_code
-            # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
-            # @return [String]
-            attr_accessor :message
-            # Date and time at which Seam created the error.
-            # @return [Time]
-            date_accessor :created_at
-          end
-
-          # Errors associated with the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
-          # @return [Array<Errors>]
-          resource_list_accessor :errors, Errors
-          # Key of the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) to use for the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
-          # @return [String]
-          attr_accessor :climate_preset_key
-          # ID of the desired [thermostat](https://www.seam.co/docs/capability-guides/thermostats) device.
-          # @return [String]
-          attr_accessor :device_id
-          # Indicates whether a person at the thermostat can change the thermostat's settings after the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts.
-          # @return [Boolean, nil]
-          attr_accessor :is_override_allowed
-          # Number of minutes for which a person at the thermostat can change the thermostat's settings after the activation of the scheduled [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets). See also [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
-          # @return [Integer, nil]
-          attr_accessor :max_override_period_minutes
-          # User-friendly name to identify the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
-          # @return [String, nil]
-          attr_accessor :name
-          # ID of the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
-          # @return [String]
-          attr_accessor :thermostat_schedule_id
-          # ID of the workspace that contains the thermostat schedule.
-          # @return [String]
-          attr_accessor :workspace_id
-          # Date and time at which the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) was created.
-          # @return [Time]
-          date_accessor :created_at
-          # Date and time at which the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) ends, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
-          # @return [Time]
-          date_accessor :ends_at
-          # Date and time at which the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
-          # @return [Time]
-          date_accessor :starts_at
-        end
-
         class AvailableClimatePresets < BaseResource
           class EcobeeMetadata < BaseResource
             # Reference to the Ecobee climate, if applicable.
@@ -1679,10 +1632,6 @@ module Seam
           # - `heat_cool`
           # - `eco`
           attr_accessor :hvac_mode_setting
-          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
-          # @return [Boolean]
-          # @deprecated Use 'thermostat_schedule.is_override_allowed'
-          attr_accessor :manual_override_allowed
           # User-friendly name to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :name
@@ -1760,91 +1709,6 @@ module Seam
           # - `heat_cool`
           # - `eco`
           attr_accessor :hvac_mode_setting
-          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
-          # @return [Boolean, nil]
-          # @deprecated Use 'thermostat_schedule.is_override_allowed'
-          attr_accessor :manual_override_allowed
-          # User-friendly name to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
-          # @return [String, nil]
-          attr_accessor :name
-        end
-
-        class DefaultClimateSetting < BaseResource
-          class EcobeeMetadata < BaseResource
-            # Reference to the Ecobee climate, if applicable.
-            # @return [String, nil]
-            attr_accessor :climate_ref
-            # Indicates if the climate preset is optimized by Ecobee.
-            # @return [Boolean, nil]
-            attr_accessor :is_optimized
-            # Indicates whether the climate preset is owned by the user or the system.
-            # @return [String, nil]
-            # Known values:
-            # - `user`
-            # - `system`
-            attr_accessor :owner
-          end
-
-          # Metadata specific to the Ecobee climate, if applicable.
-          # @return [EcobeeMetadata, nil]
-          resource_accessor :ecobee_metadata, EcobeeMetadata
-          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be deleted.
-          # @return [Boolean, nil]
-          attr_accessor :can_delete
-          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be edited.
-          # @return [Boolean, nil]
-          attr_accessor :can_edit
-          # Indicates whether the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) key can be programmed in a thermostat daily program.
-          # @return [Boolean, nil]
-          attr_accessor :can_use_with_thermostat_daily_programs
-          # Unique key to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
-          # @return [String, nil]
-          attr_accessor :climate_preset_key
-          # The climate preset mode for the thermostat, based on the available climate preset modes reported by the device.
-          # @return [String, nil]
-          # Known values:
-          # - `home`
-          # - `away`
-          # - `wake`
-          # - `sleep`
-          # - `occupied`
-          # - `unoccupied`
-          attr_accessor :climate_preset_mode
-          # Temperature to which the thermostat should cool (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
-          # @return [Float, nil]
-          attr_accessor :cooling_set_point_celsius
-          # Temperature to which the thermostat should cool (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
-          # @return [Float, nil]
-          attr_accessor :cooling_set_point_fahrenheit
-          # Display name for the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
-          # @return [String, nil]
-          attr_accessor :display_name
-          # Desired [fan mode setting](https://www.seam.co/docs/capability-guides/thermostats/configure-current-climate-settings#fan-mode-settings), such as `on`, `auto`, or `circulate`.
-          # @return [String, nil]
-          # Known values:
-          # - `auto`
-          # - `on`
-          # - `circulate`
-          attr_accessor :fan_mode_setting
-          # Temperature to which the thermostat should heat (in °C). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
-          # @return [Float, nil]
-          attr_accessor :heating_set_point_celsius
-          # Temperature to which the thermostat should heat (in °F). See also [Set Points](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/set-points).
-          # @return [Float, nil]
-          attr_accessor :heating_set_point_fahrenheit
-          # Desired [HVAC mode](https://www.seam.co/docs/capability-guides/thermostats/understanding-thermostat-concepts/hvac-mode) setting, such as `heat`, `cool`, `heat_cool`, or `off`.
-          # @return [String, nil]
-          # Known values:
-          # - `off`
-          # - `heat`
-          # - `cool`
-          # - `heat_cool`
-          # - `eco`
-          attr_accessor :hvac_mode_setting
-          # Indicates whether a person at the thermostat can change the thermostat's settings. See [Specifying Manual Override Permissions](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules#specifying-manual-override-permissions).
-          # @return [Boolean, nil]
-          # @deprecated Use 'thermostat_schedule.is_override_allowed'
-          attr_accessor :manual_override_allowed
           # User-friendly name to identify the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets).
           # @return [String, nil]
           attr_accessor :name
@@ -2030,9 +1894,6 @@ module Seam
         # Metadata for a Salto KS device.
         # @return [SaltoKsMetadata, nil]
         resource_accessor :salto_ks_metadata, SaltoKsMetadata
-        # Metada for a Salto device.
-        # @return [SaltoMetadata, nil]
-        resource_accessor :salto_metadata, SaltoMetadata
         # Metadata for a Schlage device.
         # @return [SchlageMetadata, nil]
         resource_accessor :schlage_metadata, SchlageMetadata
@@ -2042,6 +1903,9 @@ module Seam
         # Metadata for a Sensi device.
         # @return [SensiMetadata, nil]
         resource_accessor :sensi_metadata, SensiMetadata
+        # Metadata for a Sensibo device.
+        # @return [SensiboMetadata, nil]
+        resource_accessor :sensibo_metadata, SensiboMetadata
         # Metadata for a SmartThings device.
         # @return [SmartthingsMetadata, nil]
         resource_accessor :smartthings_metadata, SmartthingsMetadata
@@ -2057,6 +1921,9 @@ module Seam
         # Metadata for a TTLock device.
         # @return [TtlockMetadata, nil]
         resource_accessor :ttlock_metadata, TtlockMetadata
+        # Metadata for a Tuya device.
+        # @return [TuyaMetadata, nil]
+        resource_accessor :tuya_metadata, TuyaMetadata
         # Metadata for a 2N device.
         # @return [TwoNMetadata, nil]
         resource_accessor :two_n_metadata, TwoNMetadata
@@ -2081,14 +1948,9 @@ module Seam
         # Keypad battery status.
         # @return [KeypadBattery, nil]
         resource_accessor :keypad_battery, KeypadBattery
-        # Active [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
-        # @return [ActiveThermostatSchedule, nil]
-        resource_accessor :active_thermostat_schedule, ActiveThermostatSchedule
         # Current climate setting.
         # @return [CurrentClimateSetting, nil]
         resource_accessor :current_climate_setting, CurrentClimateSetting
-        # @return [DefaultClimateSetting, nil]
-        resource_accessor :default_climate_setting, DefaultClimateSetting
         # Current [temperature threshold](https://www.seam.co/docs/capability-guides/thermostats/setting-and-monitoring-temperature-thresholds) set for the thermostat.
         # @return [TemperatureThreshold, nil]
         resource_accessor :temperature_threshold, TemperatureThreshold
@@ -2135,26 +1997,12 @@ module Seam
         # Indicates current noise level in decibels, if the device supports noise detection.
         # @return [Float, nil]
         attr_accessor :noise_level_decibels
-        # Indicates whether it is currently possible to use offline access codes for the device.
-        # @return [Boolean, nil]
-        # @deprecated use device.can_program_offline_access_codes
-        attr_accessor :offline_access_codes_enabled
         # Indicates whether the device is online.
         # @return [Boolean]
         attr_accessor :online
-        # Indicates whether it is currently possible to use online access codes for the device.
-        # @return [Boolean, nil]
-        # @deprecated use device.can_program_online_access_codes
-        attr_accessor :online_access_codes_enabled
         # Serial number of the device.
         # @return [String, nil]
         attr_accessor :serial_number
-        # @return [Boolean, nil]
-        # @deprecated use device.properties.model.can_connect_accessory_keypad
-        attr_accessor :supports_accessory_keypad
-        # @return [Boolean, nil]
-        # @deprecated use offline_access_codes_enabled
-        attr_accessor :supports_offline_access_codes
         # The delay in seconds before the lock automatically locks after being unlocked.
         # @return [Float, nil]
         attr_accessor :auto_lock_delay_seconds
@@ -2214,13 +2062,6 @@ module Seam
         # Key of the [fallback climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets/setting-the-fallback-climate-preset) for the thermostat.
         # @return [String, nil]
         attr_accessor :fallback_climate_preset_key
-        # @return [String, nil]
-        # Known values:
-        # - `auto`
-        # - `on`
-        # - `circulate`
-        # @deprecated Use `current_climate_setting.fan_mode_setting` instead.
-        attr_accessor :fan_mode_setting
         # Indicates whether the connected HVAC system is currently cooling, as reported by the thermostat.
         # @return [Boolean, nil]
         attr_accessor :is_cooling
@@ -2615,6 +2456,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that a technician has put the pool controller in service mode. Schedules and remote changes will not run until it is switched back.
+        class ServiceMode < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `service_mode`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates a provider-specific issue that may affect device functionality.
         class ProviderIssue < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -2711,6 +2567,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that a third-party subscription is required to enable additional device capabilities.
+        class SubscriptionRequiredForAdditionalCapabilities < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `subscription_required_for_additional_capabilities`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates that the camera's account plan does not include cloud recording, so event media such as motion clips is unavailable.
         class CloudRecordingNotEnabled < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -2754,12 +2625,14 @@ module Seam
         # - `time_zone_mismatch`
         # - `two_n_device_missing_timezone`
         # - `hub_required_for_additional_capabilities`
+        # - `service_mode`
         # - `provider_issue`
         # - `keynest_unsupported_locker`
         # - `accessory_keypad_setup_required`
         # - `accessory_keypad_low_battery`
         # - `unreliable_online_status`
         # - `max_access_codes_reached`
+        # - `subscription_required_for_additional_capabilities`
         # - `cloud_recording_not_enabled`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
@@ -2789,12 +2662,14 @@ module Seam
           "time_zone_mismatch" => TimeZoneMismatch,
           "two_n_device_missing_timezone" => TwoNDeviceMissingTimezone,
           "hub_required_for_additional_capabilities" => HubRequiredForAdditionalCapabilities,
+          "service_mode" => ServiceMode,
           "provider_issue" => ProviderIssue,
           "keynest_unsupported_locker" => KeynestUnsupportedLocker,
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,
           "accessory_keypad_low_battery" => AccessoryKeypadLowBattery,
           "unreliable_online_status" => UnreliableOnlineStatus,
           "max_access_codes_reached" => MaxAccessCodesReached,
+          "subscription_required_for_additional_capabilities" => SubscriptionRequiredForAdditionalCapabilities,
           "cloud_recording_not_enabled" => CloudRecordingNotEnabled
         }.freeze
       end
@@ -2898,6 +2773,7 @@ module Seam
       # - `thermostat`
       # - `battery`
       # - `phone`
+      # - `pool`
       attr_accessor :capabilities_supported
       # Carbon dioxide concentration in parts per million, if the device measures it.
       # @return [Float, nil]
@@ -2951,6 +2827,7 @@ module Seam
       # - `omnitec_lock`
       # - `kisi_lock`
       # - `aqara_lock`
+      # - `tuya_lock`
       # - `eufy_lock`
       # - `keynest_key`
       # - `noiseaware_activity_zone`
@@ -2960,6 +2837,7 @@ module Seam
       # - `honeywell_resideo_thermostat`
       # - `tado_thermostat`
       # - `sensi_thermostat`
+      # - `sensibo_thermostat`
       # - `smartthings_thermostat`
       # - `ios_phone`
       # - `android_phone`
@@ -2970,16 +2848,21 @@ module Seam
       # - `unifi_protect_camera`
       # - `sonos_speaker`
       # - `alertify_sensor`
+      # - `hayward_pool_system`
+      # - `hayward_pool`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]
       attr_accessor :display_name
+      # Estimated number of occupants detected by the device.
+      # @return [Float, nil]
+      attr_accessor :estimated_occupant_count
       # Indicates whether Seam manages the device. See also [Managed and Unmanaged Devices](https://www.seam.co/docs/core-concepts/devices/managed-and-unmanaged-devices).
       # @return [TrueClass]
       attr_accessor :is_managed
-      # Indicates whether the device detects that the space is occupied, if the device measures occupancy.
+      # Indicates whether the device detects occupancy.
       # @return [Boolean, nil]
-      attr_accessor :is_occupied
+      attr_accessor :is_occupancy_detected
       # Indicates whether the device detects smoking, if the device measures it.
       # @return [Boolean, nil]
       attr_accessor :is_smoking_detected
@@ -2995,9 +2878,6 @@ module Seam
       # Noise level as a Noise Risk Score (NRS), if the device reports one.
       # @return [Float, nil]
       attr_accessor :noise_level_nrs
-      # Number of occupants the device detects, if the device counts occupants.
-      # @return [Float, nil]
-      attr_accessor :occupant_count
       # Relative humidity, as a value between 0 and 1, inclusive, if the device measures humidity.
       # @return [Float, nil]
       attr_accessor :relative_humidity

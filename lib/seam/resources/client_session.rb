@@ -36,10 +36,6 @@ module Seam
       # ID of the [user identity](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) associated with the client session.
       # @return [String, nil]
       attr_accessor :user_identity_id
-      # IDs of the [user identities](https://www.seam.co/docs/capability-guides/mobile-access/managing-mobile-app-user-accounts-with-user-identities#what-is-a-user-identity) associated with the client session.
-      # @return [Array<String>]
-      # @deprecated Use `user_identity_id` instead.
-      attr_accessor :user_identity_ids
       # ID of the workspace associated with the client session.
       # @return [String]
       attr_accessor :workspace_id
