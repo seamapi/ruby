@@ -143,12 +143,13 @@ module Seam
       # @param acs_entrance_ids [Array<String>, nil] IDs of the entrances that you want to set for the space. If specified, this will replace all existing entrances.
       # @param customer_data [Hash, nil] Reservation/stay-related defaults for the space. Only the keys you provide are updated; omit a key to leave it unchanged. Pass null on a key to clear it.
       # @param device_ids [Array<String>, nil] IDs of the devices that you want to set for the space. If specified, this will replace all existing devices.
+      # @param geolocation [Hash, Seam::Null, nil] Geographic coordinates of the space. Pass null to clear them. Seam keeps this value until the connected PMS reports different coordinates for the space.
       # @param name [String, nil] Name of the space.
       # @param space_id [String, nil] ID of the space that you want to update.
       # @param space_key [String, nil] Unique key of the space that you want to update.
       # @return [Seam::Resources::Space] OK
-      def update(acs_entrance_ids: nil, customer_data: nil, device_ids: nil, name: nil, space_id: nil, space_key: nil)
-        res = @client.patch("/spaces/update", {acs_entrance_ids: acs_entrance_ids, customer_data: customer_data, device_ids: device_ids, name: name, space_id: space_id, space_key: space_key}.compact)
+      def update(acs_entrance_ids: nil, customer_data: nil, device_ids: nil, geolocation: nil, name: nil, space_id: nil, space_key: nil)
+        res = @client.patch("/spaces/update", {acs_entrance_ids: acs_entrance_ids, customer_data: customer_data, device_ids: device_ids, geolocation: geolocation, name: name, space_id: space_id, space_key: space_key}.compact)
 
         Seam::Resources::Space.from_http_response(res, "space", "/spaces/update")
       end

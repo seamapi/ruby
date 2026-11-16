@@ -143,24 +143,6 @@ module Seam
         }.freeze
       end
 
-      class UserIdentifier < BaseResource
-        # API URL for the user identifier associated with the connected account.
-        # @return [String, nil]
-        attr_accessor :api_url
-        # Email address of the user identifier associated with the connected account.
-        # @return [String, nil]
-        attr_accessor :email
-        # Indicates whether the user identifier associated with the connected account is exclusive.
-        # @return [Boolean, nil]
-        attr_accessor :exclusive
-        # Phone number of the user identifier associated with the connected account.
-        # @return [String, nil]
-        attr_accessor :phone
-        # Username of the user identifier associated with the connected account.
-        # @return [String, nil]
-        attr_accessor :username
-      end
-
       # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
       class Warnings < BaseResource
         # Indicates that scheduled downtime is planned for the connected account.
@@ -338,9 +320,6 @@ module Seam
         }.freeze
       end
 
-      # User identifier associated with the connected account.
-      # @return [UserIdentifier, nil]
-      resource_accessor :user_identifier, UserIdentifier
       # Errors associated with the connected account.
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
@@ -356,6 +335,7 @@ module Seam
       # - `access_control`
       # - `camera`
       # - `speaker`
+      # - `pool`
       attr_accessor :accepted_capabilities
       # Type of connected account.
       # @return [String, nil]

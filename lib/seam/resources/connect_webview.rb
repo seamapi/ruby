@@ -23,6 +23,7 @@ module Seam
       # - `access_control`
       # - `camera`
       # - `speaker`
+      # - `pool`
       attr_accessor :accepted_capabilities
       # List of accepted [provider keys](https://www.seam.co/docs/core-concepts/connect-webviews/customizing-connect-webviews#customize-the-brands-to-display-in-your-connect-webviews).
       # @return [Array<String>]

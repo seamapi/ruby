@@ -140,23 +140,6 @@ module Seam
       # Warnings associated with the `acs_access_group`.
       # @return [Array<Warnings>]
       resource_list_accessor :warnings, Warnings
-      # @return [String]
-      # Known values:
-      # - `pti_unit`
-      # - `pti_access_level`
-      # - `salto_ks_access_group`
-      # - `brivo_group`
-      # - `salto_space_group`
-      # - `dormakaba_community_access_group`
-      # - `dormakaba_ambiance_access_group`
-      # - `avigilon_alta_group`
-      # - `kisi_access_group`
-      # - `akiles_member_group`
-      # @deprecated Use `external_type`.
-      attr_accessor :access_group_type
-      # @return [String]
-      # @deprecated Use `external_type_display_name`.
-      attr_accessor :access_group_type_display_name
       # ID of the access group.
       # @return [String]
       attr_accessor :acs_access_group_id

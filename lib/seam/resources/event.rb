@@ -2436,38 +2436,6 @@ module Seam
         date_accessor :occurred_at
       end
 
-      # A connected account had a successful login using a Connect Webview.
-      class ConnectedAccountSuccessfulLogin < SeamEvent
-        # ID of the Connect Webview associated with the event.
-        # @return [String]
-        attr_accessor :connect_webview_id
-        # Custom metadata of the connected account, present when connected_account_id is provided.
-        # @return [Hash{String => String, Boolean}, nil]
-        attr_accessor :connected_account_custom_metadata
-        # ID of the affected connected account.
-        # @return [String]
-        attr_accessor :connected_account_id
-        # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
-        attr_accessor :event_description
-        # ID of the event.
-        # @return [String]
-        attr_accessor :event_id
-        # @return [String]
-        # Known values:
-        # - `connected_account.successful_login`
-        attr_accessor :event_type
-        # ID of the workspace associated with the event.
-        # @return [String]
-        attr_accessor :workspace_id
-        # Date and time at which the event was created.
-        # @return [Time]
-        date_accessor :created_at
-        # Date and time at which the event occurred.
-        # @return [Time]
-        date_accessor :occurred_at
-      end
-
       # A connected account was disconnected.
       class ConnectedAccountDisconnected < SeamEvent
         class ConnectedAccountErrors < BaseResource
@@ -3484,10 +3452,6 @@ module Seam
         # Number in the range 0 to 1.0 indicating the battery level of the affected device's paired accessory keypad, when the device has one and its level is known.
         # @return [Float, nil]
         attr_accessor :accessory_keypad_battery_level
-        # Number in the range 0 to 1.0 indicating the level of the battery whose drop triggered this event.
-        # @return [Float]
-        # @deprecated Use device_battery_level and accessory_keypad_battery_level, which distinguish the device's own battery from a paired accessory keypad's battery.
-        attr_accessor :battery_level
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
         attr_accessor :connected_account_custom_metadata
@@ -4948,11 +4912,6 @@ module Seam
 
       # A camera was activated, for example, by motion detection. For Ring cameras, this event is available only in the Seam Console, not through the API or webhooks.
       class CameraActivated < SeamEvent
-        # The reason the camera was activated.
-        # @return [String]
-        # Known values:
-        # - `motion_detected`
-        attr_accessor :activation_reason
         # Custom metadata of the connected account, present when connected_account_id is provided.
         # @return [Hash{String => String, Boolean}, nil]
         attr_accessor :connected_account_custom_metadata
@@ -4981,6 +4940,9 @@ module Seam
         # URL to a thumbnail image captured at the time of activation.
         # @return [String, nil]
         attr_accessor :image_url
+        # Whether motion detection activated the camera, if known.
+        # @return [Boolean, nil]
+        attr_accessor :is_motion_detected
         # IDs of the media, such as a video clip and a thumbnail image, captured for this activation. Use `/media/get` to retrieve each one.
         # @return [Array<String>]
         attr_accessor :media_ids
@@ -5382,7 +5344,6 @@ module Seam
         "client_session.deleted" => ClientSessionDeleted,
         "connected_account.connected" => ConnectedAccountConnected,
         "connected_account.created" => ConnectedAccountCreated,
-        "connected_account.successful_login" => ConnectedAccountSuccessfulLogin,
         "connected_account.disconnected" => ConnectedAccountDisconnected,
         "connected_account.completed_first_sync" => ConnectedAccountCompletedFirstSync,
         "connected_account.deleted" => ConnectedAccountDeleted,

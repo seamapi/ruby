@@ -134,18 +134,17 @@ RSpec.describe "resource errors and warnings" do
 
   describe "errors nested inside another shape" do
     it "types errors that are not at the top level of a resource" do
-      device = Seam::Resources::Device.load_from_response(
-        "device_id" => "device_id_1234",
-        "properties" => {
-          "active_thermostat_schedule" => {
-            "errors" => [{"error_code" => "unknown", "message" => "Boom"}]
-          }
+      attempt = Seam::Resources::ActionAttempt::AssignCredential.load_from_response(
+        "action_attempt_id" => "action_attempt_id_1234",
+        "status" => "success",
+        "result" => {
+          "errors" => [{"error_code" => "failed_to_issue", "message" => "Boom"}]
         }
       )
 
-      error = device.properties.active_thermostat_schedule.errors.first
+      error = attempt.result.errors.first
       expect(error).to be_a(
-        Seam::Resources::Device::Properties::ActiveThermostatSchedule::Errors
+        Seam::Resources::ActionAttempt::AssignCredential::Result::Errors
       )
       expect(error.message).to eq("Boom")
     end

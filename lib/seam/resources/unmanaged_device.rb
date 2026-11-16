@@ -326,10 +326,6 @@ module Seam
         # Time zone of the device location.
         # @return [String, nil]
         attr_accessor :time_zone
-        # Time zone of the device location.
-        # @return [String, nil]
-        # @deprecated Use `time_zone` instead.
-        attr_accessor :timezone
       end
 
       class Properties < BaseResource
@@ -362,9 +358,6 @@ module Seam
         end
 
         class Model < BaseResource
-          # @return [Boolean, nil]
-          # @deprecated use device.properties.model.can_connect_accessory_keypad
-          attr_accessor :accessory_keypad_supported
           # Indicates whether the device can connect a accessory keypad.
           # @return [Boolean, nil]
           attr_accessor :can_connect_accessory_keypad
@@ -377,12 +370,6 @@ module Seam
           # Display name that corresponds to the manufacturer-specific terminology for the device.
           # @return [String]
           attr_accessor :manufacturer_display_name
-          # @return [Boolean, nil]
-          # @deprecated use device.can_program_offline_access_codes.
-          attr_accessor :offline_access_codes_supported
-          # @return [Boolean, nil]
-          # @deprecated use device.can_program_online_access_codes.
-          attr_accessor :online_access_codes_supported
         end
 
         # Accessory keypad properties and state.
@@ -410,17 +397,9 @@ module Seam
         # @return [String]
         # @deprecated use device.display_name instead
         attr_accessor :name
-        # Indicates whether it is currently possible to use offline access codes for the device.
-        # @return [Boolean, nil]
-        # @deprecated use device.can_program_offline_access_codes
-        attr_accessor :offline_access_codes_enabled
         # Indicates whether the device is online.
         # @return [Boolean]
         attr_accessor :online
-        # Indicates whether it is currently possible to use online access codes for the device.
-        # @return [Boolean, nil]
-        # @deprecated use device.can_program_online_access_codes
-        attr_accessor :online_access_codes_enabled
       end
 
       # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
@@ -755,6 +734,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that a technician has put the pool controller in service mode. Schedules and remote changes will not run until it is switched back.
+        class ServiceMode < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `service_mode`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates a provider-specific issue that may affect device functionality.
         class ProviderIssue < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -851,6 +845,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that a third-party subscription is required to enable additional device capabilities.
+        class SubscriptionRequiredForAdditionalCapabilities < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `subscription_required_for_additional_capabilities`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates that the camera's account plan does not include cloud recording, so event media such as motion clips is unavailable.
         class CloudRecordingNotEnabled < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -894,12 +903,14 @@ module Seam
         # - `time_zone_mismatch`
         # - `two_n_device_missing_timezone`
         # - `hub_required_for_additional_capabilities`
+        # - `service_mode`
         # - `provider_issue`
         # - `keynest_unsupported_locker`
         # - `accessory_keypad_setup_required`
         # - `accessory_keypad_low_battery`
         # - `unreliable_online_status`
         # - `max_access_codes_reached`
+        # - `subscription_required_for_additional_capabilities`
         # - `cloud_recording_not_enabled`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
@@ -929,12 +940,14 @@ module Seam
           "time_zone_mismatch" => TimeZoneMismatch,
           "two_n_device_missing_timezone" => TwoNDeviceMissingTimezone,
           "hub_required_for_additional_capabilities" => HubRequiredForAdditionalCapabilities,
+          "service_mode" => ServiceMode,
           "provider_issue" => ProviderIssue,
           "keynest_unsupported_locker" => KeynestUnsupportedLocker,
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,
           "accessory_keypad_low_battery" => AccessoryKeypadLowBattery,
           "unreliable_online_status" => UnreliableOnlineStatus,
           "max_access_codes_reached" => MaxAccessCodesReached,
+          "subscription_required_for_additional_capabilities" => SubscriptionRequiredForAdditionalCapabilities,
           "cloud_recording_not_enabled" => CloudRecordingNotEnabled
         }.freeze
       end
@@ -1026,6 +1039,7 @@ module Seam
       # - `thermostat`
       # - `battery`
       # - `phone`
+      # - `pool`
       attr_accessor :capabilities_supported
       # Unique identifier for the account associated with the device.
       # @return [String]
@@ -1073,6 +1087,7 @@ module Seam
       # - `omnitec_lock`
       # - `kisi_lock`
       # - `aqara_lock`
+      # - `tuya_lock`
       # - `eufy_lock`
       # - `keynest_key`
       # - `noiseaware_activity_zone`
@@ -1082,6 +1097,7 @@ module Seam
       # - `honeywell_resideo_thermostat`
       # - `tado_thermostat`
       # - `sensi_thermostat`
+      # - `sensibo_thermostat`
       # - `smartthings_thermostat`
       # - `ios_phone`
       # - `android_phone`
@@ -1092,6 +1108,8 @@ module Seam
       # - `unifi_protect_camera`
       # - `sonos_speaker`
       # - `alertify_sensor`
+      # - `hayward_pool_system`
+      # - `hayward_pool`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]

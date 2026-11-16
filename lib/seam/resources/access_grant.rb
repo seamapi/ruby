@@ -368,9 +368,6 @@ module Seam
       # Instant Key URL. Only returned if the Access Grant has a single mobile_key access_method.
       # @return [String, nil]
       attr_accessor :instant_key_url
-      # @return [Array<String>]
-      # @deprecated Use `space_ids`.
-      attr_accessor :location_ids
       # Name of the Access Grant. If not provided, the display name will be computed.
       # @return [String, nil]
       attr_accessor :name

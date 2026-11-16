@@ -27,10 +27,6 @@ module Seam
 
       # @return [ConnectWebviewCustomization]
       resource_accessor :connect_webview_customization, ConnectWebviewCustomization
-      # Company name associated with the [workspace](https://www.seam.co/docs/core-concepts/workspaces).
-      # @return [String]
-      # @deprecated Use `connect_partner_name` instead.
-      attr_accessor :company_name
       # Seam Connect partner name associated with the [workspace](https://www.seam.co/docs/core-concepts/workspaces).
       # @return [String, nil]
       attr_accessor :connect_partner_name

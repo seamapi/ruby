@@ -23,14 +23,12 @@ module Seam
       # @param full_name [String] Full name of the new access system user.
       # @param access_schedule [Hash, nil] `starts_at` and `ends_at` timestamps for the new access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
       # @param acs_access_group_ids [Array<String>, nil] Array of access group IDs to indicate the access groups to which you want to add the new access system user.
-      # @param email [String, nil]
-      # @deprecated email: use email_address.
       # @param email_address [String, nil] Email address of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param phone_number [String, nil] Phone number of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
       # @param user_identity_id [String, nil] ID of the user identity with which you want to associate the new access system user.
       # @return [Seam::Resources::AcsUser] OK
-      def create(acs_system_id:, full_name:, access_schedule: nil, acs_access_group_ids: nil, email: nil, email_address: nil, phone_number: nil, user_identity_id: nil)
-        res = @client.post("/acs/users/create", {acs_system_id: acs_system_id, full_name: full_name, access_schedule: access_schedule, acs_access_group_ids: acs_access_group_ids, email: email, email_address: email_address, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
+      def create(acs_system_id:, full_name:, access_schedule: nil, acs_access_group_ids: nil, email_address: nil, phone_number: nil, user_identity_id: nil)
+        res = @client.post("/acs/users/create", {acs_system_id: acs_system_id, full_name: full_name, access_schedule: access_schedule, acs_access_group_ids: acs_access_group_ids, email_address: email_address, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
 
         Seam::Resources::AcsUser.from_http_response(res, "acs_user", "/acs/users/create")
       end
@@ -168,22 +166,20 @@ module Seam
       # @param access_schedule [Hash, Seam::Null, nil] `starts_at` and `ends_at` timestamps for the access system user's access. If you specify an `access_schedule`, you may include both `starts_at` and `ends_at`. If you omit `starts_at`, it defaults to the current time. `ends_at` is optional and must be a time in the future and after `starts_at`.
       # @param acs_system_id [String, nil] ID of the access system that you want to update. You can only provide acs_system_id with user_identity_id.
       # @param acs_user_id [String, nil] ID of the access system user that you want to update. You can only provide acs_user_id or user_identity_id.
-      # @param email [String, nil]
-      # @deprecated email: use email_address.
       # @param email_address [String, nil] Email address of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param full_name [String, nil] Full name of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management).
       # @param hid_acs_system_id [String, nil] ID of the HID access control system associated with the user.
       # @param phone_number [String, nil] Phone number of the [access system user](https://www.seam.co/docs/low-level-apis/access-systems/user-management) in E.164 format (for example, `+15555550100`).
       # @param user_identity_id [String, nil] ID of the user identity that you want to update. You can only provide acs_user_id or user_identity_id. If you provide user_identity_id, you must also provide acs_system_id.
       # @return [nil] OK
-      def update(access_schedule: nil, acs_system_id: nil, acs_user_id: nil, email: nil, email_address: nil, full_name: nil, hid_acs_system_id: nil, phone_number: nil, user_identity_id: nil)
+      def update(access_schedule: nil, acs_system_id: nil, acs_user_id: nil, email_address: nil, full_name: nil, hid_acs_system_id: nil, phone_number: nil, user_identity_id: nil)
         Seam::RequestParameters.require_at_least_one(
           "/acs/users/update",
-          {access_schedule: access_schedule, acs_system_id: acs_system_id, acs_user_id: acs_user_id, email: email, email_address: email_address, full_name: full_name, hid_acs_system_id: hid_acs_system_id, phone_number: phone_number, user_identity_id: user_identity_id},
-          [:access_schedule, :acs_system_id, :acs_user_id, :email, :email_address, :full_name, :hid_acs_system_id, :phone_number, :user_identity_id]
+          {access_schedule: access_schedule, acs_system_id: acs_system_id, acs_user_id: acs_user_id, email_address: email_address, full_name: full_name, hid_acs_system_id: hid_acs_system_id, phone_number: phone_number, user_identity_id: user_identity_id},
+          [:access_schedule, :acs_system_id, :acs_user_id, :email_address, :full_name, :hid_acs_system_id, :phone_number, :user_identity_id]
         )
 
-        @client.patch("/acs/users/update", {access_schedule: access_schedule, acs_system_id: acs_system_id, acs_user_id: acs_user_id, email: email, email_address: email_address, full_name: full_name, hid_acs_system_id: hid_acs_system_id, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
+        @client.patch("/acs/users/update", {access_schedule: access_schedule, acs_system_id: acs_system_id, acs_user_id: acs_user_id, email_address: email_address, full_name: full_name, hid_acs_system_id: hid_acs_system_id, phone_number: phone_number, user_identity_id: user_identity_id}.compact)
 
         nil
       end
