@@ -13,7 +13,14 @@ module Seam
   end
 
   class Webhook
-    def initialize(secret)
+    def initialize(secret = ENV["SEAM_WEBHOOK_SECRET"])
+      unless secret.is_a?(String)
+        raise TypeError, "Webhook secret must be a string; pass it explicitly or set SEAM_WEBHOOK_SECRET"
+      end
+      if secret.empty?
+        raise Svix::EmptyWebhookSecretError, "Pass a webhook secret or set SEAM_WEBHOOK_SECRET to a non-empty value"
+      end
+
       @webhook = Svix::Webhook.new(secret)
     end
 

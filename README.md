@@ -453,6 +453,11 @@ workspaces = seam.workspaces.list
 
 The Seam API implements webhooks using [Svix](https://www.svix.com). This SDK exports a thin wrapper `Seam::Webhook` around the svix package.
 Use it to parse and validate Seam webhook events.
+Omitting the secret reads `SEAM_WEBHOOK_SECRET` when the helper is constructed.
+An explicit secret, e.g. `Seam::Webhook.new("whsec_...")`, takes precedence over the environment.
+A missing or non-string secret raises `TypeError`; an empty or decoded-empty secret raises
+`Svix::EmptyWebhookSecretError` at construction. Explicit `nil` and empty strings are rejected,
+not replaced by the environment value.
 Known event types load as `Seam::Resources::SeamEvent` subclasses with only that event's accessors; unknown types remain generic `SeamEvent` instances for forward compatibility.
 
 > [!TIP]
@@ -462,7 +467,8 @@ Known event types load as `Seam::Resources::SeamEvent` subclasses with only that
 require "sinatra"
 require "seam"
 
-webhook = Seam::Webhook.new(ENV["SEAM_WEBHOOK_SECRET"])
+# Set SEAM_WEBHOOK_SECRET before constructing the helper.
+webhook = Seam::Webhook.new
 
 post "/webhook" do
   begin
