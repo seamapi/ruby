@@ -23,6 +23,84 @@ RSpec.describe Seam::Webhook do
     {"svix-id" => message_id, "svix-timestamp" => timestamp.to_s, "svix-signature" => signature}
   end
 
+  describe "secret configuration" do
+    around do |example|
+      previous_secret = ENV.delete("SEAM_WEBHOOK_SECRET")
+      example.run
+    ensure
+      ENV["SEAM_WEBHOOK_SECRET"] = previous_secret
+    end
+
+    it "verifies a signed event using only the environment secret" do
+      ENV["SEAM_WEBHOOK_SECRET"] = secret
+
+      expect(described_class.new.verify(payload, headers_for(payload)).event_id).to eq("event-1")
+    end
+
+    [nil, false, 123, {}].each do |invalid_secret|
+      it "rejects an explicit #{invalid_secret.inspect} despite a valid environment secret" do
+        ENV["SEAM_WEBHOOK_SECRET"] = secret
+
+        expect { described_class.new(invalid_secret) }.to raise_error(TypeError, /Webhook secret must be a string/)
+      end
+    end
+
+    it "prefers an explicit secret over the environment secret" do
+      environment_secret = "whsec_#{Base64.strict_encode64("environment-secret")}"
+      ENV["SEAM_WEBHOOK_SECRET"] = environment_secret
+
+      expect(webhook.verify(payload, headers_for(payload)).event_id).to eq("event-1")
+      expect { webhook.verify(payload, headers_for(payload, secret: environment_secret)) }
+        .to raise_error(Seam::WebhookVerificationError)
+    end
+
+    it "rejects an omitted secret when the environment secret is missing" do
+      expect { described_class.new }.to raise_error(TypeError, /SEAM_WEBHOOK_SECRET/)
+    end
+
+    it "rejects nil when the environment secret is missing" do
+      expect { described_class.new(nil) }.to raise_error(TypeError, /SEAM_WEBHOOK_SECRET/)
+    end
+
+    it "rejects an empty environment secret" do
+      ENV["SEAM_WEBHOOK_SECRET"] = ""
+
+      expect { described_class.new }.to raise_error(Svix::EmptyWebhookSecretError, /SEAM_WEBHOOK_SECRET/)
+    end
+
+    it "rejects an explicit empty secret despite a valid environment secret" do
+      ENV["SEAM_WEBHOOK_SECRET"] = secret
+
+      expect { described_class.new("") }.to raise_error(Svix::EmptyWebhookSecretError, /SEAM_WEBHOOK_SECRET/)
+    end
+
+    ["whsec_", " "].each do |empty_key|
+      it "rejects an environment secret that decodes to an empty key: #{empty_key.inspect}" do
+        ENV["SEAM_WEBHOOK_SECRET"] = empty_key
+
+        expect { described_class.new }.to raise_error(Svix::EmptyWebhookSecretError)
+      end
+
+      it "rejects an explicit decoded-empty key #{empty_key.inspect} despite a valid environment secret" do
+        ENV["SEAM_WEBHOOK_SECRET"] = secret
+
+        expect { described_class.new(empty_key) }.to raise_error(Svix::EmptyWebhookSecretError)
+      end
+    end
+
+    it "reads the environment at each construction without changing existing verifiers" do
+      ENV["SEAM_WEBHOOK_SECRET"] = secret
+      first = described_class.new
+      next_secret = "whsec_#{Base64.strict_encode64("next-secret")}"
+      ENV["SEAM_WEBHOOK_SECRET"] = next_secret
+      second = described_class.new
+
+      expect(first.verify(payload, headers_for(payload)).event_id).to eq("event-1")
+      expect(second.verify(payload, headers_for(payload, secret: next_secret)).event_id).to eq("event-1")
+      expect { second.verify(payload, headers_for(payload)) }.to raise_error(Seam::WebhookVerificationError)
+    end
+  end
+
   def invalid_payload_error(message)
     raise_error(Seam::InvalidWebhookPayloadError, message)
   end
