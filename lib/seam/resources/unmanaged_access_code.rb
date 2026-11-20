@@ -886,7 +886,7 @@ module Seam
       # Unique identifier for the device associated with the access code.
       # @return [String]
       attr_accessor :device_id
-      # Human-readable label for the code's state: `Active` or `Not active`, based on whether the code is set on the device. For display only. The wording is not stable and is not an enumeration — never compare against or branch on it.
+      # Human-readable label for the code's state: `Active` or `Not active`, based on whether the code is set on the device, or `Deleting` while the code is being removed from the device. For display only. The wording is not stable and is not an enumeration — never compare against or branch on it.
       # @return [String]
       attr_accessor :display_status
       # Indicates that Seam does not manage the access code.

@@ -1160,9 +1160,12 @@ module Seam
           # ID of the Sensibo device, which Sensibo calls a pod.
           # @return [String, nil]
           attr_accessor :pod_id
-          # Product model of the Sensibo device, such as `skyv2` or `air`.
+          # Product model of the Sensibo device, such as `skyv2` or `skyplus`.
           # @return [String, nil]
           attr_accessor :product_model
+          # Product name of the Sensibo device, such as `Sensibo Sky` or `Sensibo Air`.
+          # @return [String, nil]
+          attr_accessor :product_name
           # Name of the room that the Sensibo device is in.
           # @return [String, nil]
           attr_accessor :room_name
