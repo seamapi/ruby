@@ -22,7 +22,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -78,7 +78,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -137,7 +137,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -196,7 +196,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -261,7 +261,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -321,7 +321,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -362,7 +362,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -403,7 +403,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -441,7 +441,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -569,7 +569,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -697,7 +697,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -738,7 +738,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -866,7 +866,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -994,7 +994,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1032,7 +1032,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1070,7 +1070,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1111,7 +1111,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1149,7 +1149,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1277,7 +1277,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1315,7 +1315,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1353,7 +1353,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1379,7 +1379,7 @@ module Seam
         # @return [String]
         attr_accessor :access_grant_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1405,7 +1405,7 @@ module Seam
         # @return [String]
         attr_accessor :access_grant_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1431,7 +1431,7 @@ module Seam
         # @return [String]
         attr_accessor :access_grant_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1460,7 +1460,7 @@ module Seam
         # @return [String]
         attr_accessor :acs_entrance_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1489,7 +1489,7 @@ module Seam
         # @return [String]
         attr_accessor :acs_entrance_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1521,7 +1521,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :ends_at
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1553,7 +1553,7 @@ module Seam
         # @return [String]
         attr_accessor :error_message
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1591,7 +1591,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :code
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1626,7 +1626,7 @@ module Seam
         # @return [String]
         attr_accessor :access_method_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1658,7 +1658,7 @@ module Seam
         # @return [String]
         attr_accessor :access_method_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1690,7 +1690,7 @@ module Seam
         # @return [String]
         attr_accessor :access_method_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1725,7 +1725,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :code
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1760,7 +1760,7 @@ module Seam
         # @return [String]
         attr_accessor :access_method_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1792,7 +1792,7 @@ module Seam
         # @return [String]
         attr_accessor :access_method_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1824,7 +1824,7 @@ module Seam
         # @return [String]
         attr_accessor :access_method_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1853,7 +1853,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1882,7 +1882,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -1971,7 +1971,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2003,7 +2003,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2035,7 +2035,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2067,7 +2067,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2099,7 +2099,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2131,7 +2131,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2163,7 +2163,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2195,7 +2195,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2227,7 +2227,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2259,7 +2259,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2291,7 +2291,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2323,7 +2323,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2349,7 +2349,7 @@ module Seam
         # @return [String]
         attr_accessor :client_session_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2384,7 +2384,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :customer_key
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2416,7 +2416,7 @@ module Seam
         # @return [String]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2475,7 +2475,7 @@ module Seam
         # @return [String]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2504,7 +2504,7 @@ module Seam
         # @return [String]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2536,7 +2536,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :customer_key
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2565,7 +2565,7 @@ module Seam
         # @return [String]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2624,7 +2624,7 @@ module Seam
         # @return [String]
         attr_accessor :connected_account_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2659,7 +2659,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2697,7 +2697,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2735,7 +2735,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2773,7 +2773,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2811,7 +2811,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2849,7 +2849,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2887,7 +2887,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2925,7 +2925,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2963,7 +2963,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :customer_key
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -2989,7 +2989,7 @@ module Seam
         # @return [String]
         attr_accessor :connect_webview_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3027,7 +3027,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3065,7 +3065,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3103,7 +3103,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3141,7 +3141,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3179,7 +3179,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3282,9 +3282,10 @@ module Seam
         # - `account_disconnected`
         # - `hub_disconnected`
         # - `device_disconnected`
+        # - `bridge_disconnected`
         attr_accessor :error_code
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3387,9 +3388,10 @@ module Seam
         # - `account_disconnected`
         # - `hub_disconnected`
         # - `device_disconnected`
+        # - `bridge_disconnected`
         attr_accessor :error_code
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3427,7 +3429,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3436,6 +3438,12 @@ module Seam
         # Known values:
         # - `device.tampered`
         attr_accessor :event_type
+        # Whether the device casing was tampered with at the time of the event. Omitted when the provider did not report this state.
+        # @return [Boolean, nil]
+        attr_accessor :is_casing_tampered_with
+        # Whether the device was detached from its mounting plate at the time of the event. Omitted when the provider did not report this state.
+        # @return [Boolean, nil]
+        attr_accessor :is_detached_from_mounting_plate
         # ID of the workspace associated with the event.
         # @return [String]
         attr_accessor :workspace_id
@@ -3471,7 +3479,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3520,7 +3528,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3558,7 +3566,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3599,7 +3607,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_name
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3637,7 +3645,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3675,7 +3683,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3713,7 +3721,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3751,7 +3759,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3849,7 +3857,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3887,7 +3895,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -3985,7 +3993,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4023,7 +4031,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4061,7 +4069,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4159,7 +4167,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4197,7 +4205,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4265,7 +4273,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4332,7 +4340,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4410,7 +4418,7 @@ module Seam
         # @return [String, nil]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4448,7 +4456,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4486,7 +4494,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4524,7 +4532,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4565,7 +4573,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4615,7 +4623,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4681,7 +4689,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4737,7 +4745,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4799,7 +4807,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4843,7 +4851,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4890,7 +4898,7 @@ module Seam
         # @return [String]
         attr_accessor :device_name
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4928,7 +4936,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -4986,7 +4994,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -5024,7 +5032,7 @@ module Seam
         # @return [String]
         attr_accessor :device_id
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -5053,7 +5061,7 @@ module Seam
         # @return [Array<String>]
         attr_accessor :device_ids
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -5089,7 +5097,7 @@ module Seam
         # @return [Array<String>]
         attr_accessor :device_ids
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -5125,7 +5133,7 @@ module Seam
         # @return [Array<String>]
         attr_accessor :device_ids
         # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
-        # @return [String, nil]
+        # @return [String]
         attr_accessor :event_description
         # ID of the event.
         # @return [String]
@@ -5269,6 +5277,9 @@ module Seam
       # - `thermostat.temperature_threshold_no_longer_exceeded`
       # - `thermostat.temperature_reached_set_point`
       # - `thermostat.temperature_changed`
+      # - `pool.temperature_changed`
+      # - `pool.temperature_reached_set_point`
+      # - `pool.manually_adjusted`
       # - `device.name_changed`
       # - `camera.activated`
       # - `device.doorbell_rang`
