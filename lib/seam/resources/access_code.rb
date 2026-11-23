@@ -633,6 +633,9 @@ module Seam
         resource_accessor :from, From
         # @return [To]
         resource_accessor :to, To
+        # Indicates whether the access code may still unlock the device while Seam removes it, based on the last state Seam observed. `false` means the device has already stopped accepting the code, for example, because a natively scheduled code passed its `ends_at`, and only cleanup remains.
+        # @return [Boolean]
+        attr_accessor :is_code_usable
         # Detailed description of the mutation.
         # @return [String]
         attr_accessor :message

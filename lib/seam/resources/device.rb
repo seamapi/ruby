@@ -594,6 +594,24 @@ module Seam
           attr_accessor :device_name
         end
 
+        class CieloMetadata < BaseResource
+          # ID of the air conditioner or heat pump model that the Cielo device is set up to control.
+          # @return [String, nil]
+          attr_accessor :appliance_id
+          # Device type that Cielo reports, such as `Thermostat` for a Cielo thermostat.
+          # @return [String, nil]
+          attr_accessor :cielo_device_type
+          # Name of the device in the Cielo Home app.
+          # @return [String, nil]
+          attr_accessor :device_name
+          # MAC address of the Cielo device.
+          # @return [String, nil]
+          attr_accessor :mac_address
+          # Temperature unit that the Cielo device displays: `C` or `F`.
+          # @return [String, nil]
+          attr_accessor :temperature_unit
+        end
+
         class ControlbywebMetadata < BaseResource
           # Device ID for a ControlByWeb device.
           # @return [String, nil]
@@ -1828,6 +1846,9 @@ module Seam
         # Metadata for a Brivo device.
         # @return [BrivoMetadata, nil]
         resource_accessor :brivo_metadata, BrivoMetadata
+        # Metadata for a Cielo device.
+        # @return [CieloMetadata, nil]
+        resource_accessor :cielo_metadata, CieloMetadata
         # Metadata for a ControlByWeb device.
         # @return [ControlbywebMetadata, nil]
         resource_accessor :controlbyweb_metadata, ControlbywebMetadata
@@ -2841,6 +2862,7 @@ module Seam
       # - `tado_thermostat`
       # - `sensi_thermostat`
       # - `sensibo_thermostat`
+      # - `cielo_thermostat`
       # - `smartthings_thermostat`
       # - `ios_phone`
       # - `android_phone`
