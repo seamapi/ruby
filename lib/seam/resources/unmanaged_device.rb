@@ -198,6 +198,24 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the lock has about one week, two days, or a critically low amount of battery life remaining. Replace the lock's batteries promptly to avoid losing access.
+        class LowBattery < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `low_battery`
+          attr_accessor :error_code
+          # Indicates that the error is a device error.
+          # @return [TrueClass]
+          attr_accessor :is_device_error
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates that device credentials are missing.
         class MissingDeviceCredentials < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -286,6 +304,7 @@ module Seam
         # - `device_disconnected`
         # - `empty_backup_access_code_pool`
         # - `august_lock_not_authorized`
+        # - `low_battery`
         # - `missing_device_credentials`
         # - `auxiliary_heat_running`
         # - `subscription_required`
@@ -309,6 +328,7 @@ module Seam
           "device_disconnected" => DeviceDisconnected,
           "empty_backup_access_code_pool" => EmptyBackupAccessCodePool,
           "august_lock_not_authorized" => AugustLockNotAuthorized,
+          "low_battery" => LowBattery,
           "missing_device_credentials" => MissingDeviceCredentials,
           "auxiliary_heat_running" => AuxiliaryHeatRunning,
           "subscription_required" => SubscriptionRequired,
@@ -809,6 +829,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the lock has about two weeks of battery life remaining or the provider otherwise recommends replacing the lock's batteries soon.
+        class BatteryReplacementRecommended < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `battery_replacement_recommended`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates that the device may optimistically be reported as online because the provider does not reliably report its online status.
         class UnreliableOnlineStatus < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -908,6 +943,7 @@ module Seam
         # - `keynest_unsupported_locker`
         # - `accessory_keypad_setup_required`
         # - `accessory_keypad_low_battery`
+        # - `battery_replacement_recommended`
         # - `unreliable_online_status`
         # - `max_access_codes_reached`
         # - `subscription_required_for_additional_capabilities`
@@ -945,6 +981,7 @@ module Seam
           "keynest_unsupported_locker" => KeynestUnsupportedLocker,
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,
           "accessory_keypad_low_battery" => AccessoryKeypadLowBattery,
+          "battery_replacement_recommended" => BatteryReplacementRecommended,
           "unreliable_online_status" => UnreliableOnlineStatus,
           "max_access_codes_reached" => MaxAccessCodesReached,
           "subscription_required_for_additional_capabilities" => SubscriptionRequiredForAdditionalCapabilities,
@@ -1118,6 +1155,9 @@ module Seam
       # Indicates that Seam does not manage the device.
       # @return [FalseClass]
       attr_accessor :is_managed
+      # Indicates whether the device is online.
+      # @return [Boolean]
+      attr_accessor :is_online
       # Unique identifier for the Seam workspace associated with the device.
       # @return [String]
       attr_accessor :workspace_id

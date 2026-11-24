@@ -717,6 +717,134 @@ module Seam
         date_accessor :occurred_at
       end
 
+      # Seam was unable to remove an [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) from the device in time after it was deleted or its `ends_at` passed, so the recipient may still be able to unlock the device. Seam keeps trying to delete it, and the accompanying `failed_to_delete` error clears automatically once the access code is no longer usable on the device.
+      class AccessCodeFailedToDelete < SeamEvent
+        class AccessCodeErrors < BaseResource
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        class AccessCodeWarnings < BaseResource
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        class ConnectedAccountErrors < BaseResource
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        class ConnectedAccountWarnings < BaseResource
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        class DeviceErrors < BaseResource
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          attr_accessor :error_code
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        class DeviceWarnings < BaseResource
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Errors associated with the access code.
+        # @return [Array<AccessCodeErrors>]
+        resource_list_accessor :access_code_errors, AccessCodeErrors
+        # Warnings associated with the access code.
+        # @return [Array<AccessCodeWarnings>]
+        resource_list_accessor :access_code_warnings, AccessCodeWarnings
+        # Errors associated with the connected account.
+        # @return [Array<ConnectedAccountErrors>]
+        resource_list_accessor :connected_account_errors, ConnectedAccountErrors
+        # Warnings associated with the connected account.
+        # @return [Array<ConnectedAccountWarnings>]
+        resource_list_accessor :connected_account_warnings, ConnectedAccountWarnings
+        # Errors associated with the device.
+        # @return [Array<DeviceErrors>]
+        resource_list_accessor :device_errors, DeviceErrors
+        # Warnings associated with the device.
+        # @return [Array<DeviceWarnings>]
+        resource_list_accessor :device_warnings, DeviceWarnings
+        # ID of the affected access code.
+        # @return [String]
+        attr_accessor :access_code_id
+        # Custom metadata of the connected account, present when connected_account_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :connected_account_custom_metadata
+        # ID of the connected account associated with the affected access code.
+        # @return [String]
+        attr_accessor :connected_account_id
+        # Custom metadata of the device, present when device_id is provided.
+        # @return [Hash{String => String, Boolean}, nil]
+        attr_accessor :device_custom_metadata
+        # ID of the device associated with the affected access code.
+        # @return [String]
+        attr_accessor :device_id
+        # Human-readable description of the event. Persisted when the event is created (so the creating code, including a provider, can supply a tailored description) and otherwise derived from the event.
+        # @return [String]
+        attr_accessor :event_description
+        # ID of the event.
+        # @return [String]
+        attr_accessor :event_id
+        # @return [String]
+        # Known values:
+        # - `access_code.failed_to_delete`
+        attr_accessor :event_type
+        # ID of the workspace associated with the event.
+        # @return [String]
+        attr_accessor :workspace_id
+        # Date and time at which the event was created.
+        # @return [Time]
+        date_accessor :created_at
+        # Date and time at which the event occurred.
+        # @return [Time]
+        date_accessor :occurred_at
+      end
+
       # An [access code](https://www.seam.co/docs/low-level-apis/smart-locks/access-codes) was deleted.
       class AccessCodeDeleted < SeamEvent
         # ID of the affected access code.
@@ -5313,6 +5441,7 @@ module Seam
         "access_code.removed_from_device" => AccessCodeRemovedFromDevice,
         "access_code.delay_in_setting_on_device" => AccessCodeDelayInSettingOnDevice,
         "access_code.failed_to_set_on_device" => AccessCodeFailedToSetOnDevice,
+        "access_code.failed_to_delete" => AccessCodeFailedToDelete,
         "access_code.deleted" => AccessCodeDeleted,
         "access_code.delay_in_removing_from_device" => AccessCodeDelayInRemovingFromDevice,
         "access_code.failed_to_remove_from_device" => AccessCodeFailedToRemoveFromDevice,

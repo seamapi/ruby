@@ -250,7 +250,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # This access code is still active on the device even though its `ends_at` has passed, so the recipient may still be able to unlock the device after their access window ended. Seam is attempting to delete it, and this error clears automatically once the access code is no longer active.
+        # Seam was unable to remove this access code from the device in time after it was deleted or its `ends_at` passed, so the recipient may still be able to unlock the device. Seam keeps trying to delete it, and this error clears automatically once the access code is no longer usable on the device.
         class FailedToDelete < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -460,6 +460,24 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that the lock has about one week, two days, or a critically low amount of battery life remaining. Replace the lock's batteries promptly to avoid losing access.
+        class LowBattery < Errors
+          # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `low_battery`
+          attr_accessor :error_code
+          # Indicates that the error is a device error.
+          # @return [TrueClass]
+          attr_accessor :is_device_error
+          # Detailed description of the error. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Date and time at which Seam created the error.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Indicates that device credentials are missing.
         class MissingDeviceCredentials < Errors
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
@@ -559,6 +577,7 @@ module Seam
         # - `device_disconnected`
         # - `empty_backup_access_code_pool`
         # - `august_lock_not_authorized`
+        # - `low_battery`
         # - `missing_device_credentials`
         # - `auxiliary_heat_running`
         # - `subscription_required`
@@ -593,6 +612,7 @@ module Seam
           "device_disconnected" => DeviceDisconnected,
           "empty_backup_access_code_pool" => EmptyBackupAccessCodePool,
           "august_lock_not_authorized" => AugustLockNotAuthorized,
+          "low_battery" => LowBattery,
           "missing_device_credentials" => MissingDeviceCredentials,
           "auxiliary_heat_running" => AuxiliaryHeatRunning,
           "subscription_required" => SubscriptionRequired,
@@ -773,7 +793,7 @@ module Seam
           date_accessor :created_at
         end
 
-        # Access code is being deleted.
+        # Access code is being deleted, because it was deleted or passed its `ends_at`. It can no longer be updated.
         class BeingDeleted < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]
