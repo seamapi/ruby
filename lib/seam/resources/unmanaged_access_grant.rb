@@ -301,6 +301,21 @@ module Seam
           date_accessor :created_at
         end
 
+        # Indicates that Seam did not issue the mobile key requested for this access grant, because the user's email address or phone number belongs to other user identities and Seam cannot tell which person's app should receive it. The other requested access methods were issued.
+        class MobileKeyWithheld < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `mobile_key_withheld`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -315,6 +330,7 @@ module Seam
         # - `device_does_not_support_access_codes`
         # - `device_time_constraints_violated`
         # - `access_revoked`
+        # - `mobile_key_withheld`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -328,7 +344,8 @@ module Seam
           "requested_code_unavailable" => RequestedCodeUnavailable,
           "device_does_not_support_access_codes" => DeviceDoesNotSupportAccessCodes,
           "device_time_constraints_violated" => DeviceTimeConstraintsViolated,
-          "access_revoked" => AccessRevoked
+          "access_revoked" => AccessRevoked,
+          "mobile_key_withheld" => MobileKeyWithheld
         }.freeze
       end
 

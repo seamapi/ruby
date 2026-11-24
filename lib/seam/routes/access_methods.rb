@@ -31,6 +31,7 @@ module Seam
       # @param access_method_id [String, nil] ID of access method to delete.
       # @param reservation_key [String, nil] Reservation key of the access grant whose access methods should be deleted.
       # @return [nil] OK
+      # @deprecated Access methods are managed by their access grant. Some workflows still need this endpoint today; access grant routes will replace it for them soon.
       def delete(access_grant_id: nil, access_method_id: nil, reservation_key: nil)
         Seam::RequestParameters.require_at_least_one(
           "/access_methods/delete",
