@@ -54,6 +54,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Unlocking a door is pending.
@@ -97,6 +100,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Reading credential data from the physical encoder is pending.
@@ -430,6 +436,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Encoding credential data from the physical encoder onto a card is pending.
@@ -680,6 +689,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Scanning a physical card and assigning the credential is pending.
@@ -924,6 +936,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Assigning a credential to an access method is pending.
@@ -1115,6 +1130,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Resetting a sandbox workspace is pending.
@@ -1155,6 +1173,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Setting the fan mode is pending.
@@ -1195,6 +1216,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Setting the HVAC mode is pending.
@@ -1235,6 +1259,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Activating a climate preset is pending.
@@ -1275,6 +1302,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Activating the weekly program is pending.
@@ -1315,6 +1345,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Simulating a keypad code entry is pending.
@@ -1355,6 +1388,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Simulating a manual lock action using a keypad is pending.
@@ -1395,6 +1431,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Pushing thermostat weekly programs is pending.
@@ -1435,6 +1474,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Configuring the auto-lock is pending.
@@ -1475,6 +1517,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # Converting an unmanaged access code to managed is pending.
@@ -1515,6 +1560,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       class SyncAccessCodes < ActionAttempt
@@ -1554,6 +1602,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       class CreateAccessCode < ActionAttempt
@@ -1596,6 +1647,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       class DeleteAccessCode < ActionAttempt
@@ -1635,6 +1689,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       class UpdateAccessCode < ActionAttempt
@@ -1677,6 +1734,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       class CreateNoiseThreshold < ActionAttempt
@@ -1719,6 +1779,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       class DeleteNoiseThreshold < ActionAttempt
@@ -1758,6 +1821,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       class UpdateNoiseThreshold < ActionAttempt
@@ -1800,6 +1866,9 @@ module Seam
         # - `pending`
         # - `error`
         attr_accessor :status
+        # Date and time at which the action attempt was created.
+        # @return [Time]
+        date_accessor :created_at
       end
 
       # @return [Error, nil]
@@ -1845,6 +1914,10 @@ module Seam
       # - `pending`
       # - `error`
       attr_accessor :status
+
+      # Date and time at which the action attempt was created.
+      # @return [Time]
+      date_accessor :created_at
 
       discriminated_by :action_type, {
         "LOCK_DOOR" => LockDoor,

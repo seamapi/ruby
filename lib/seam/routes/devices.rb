@@ -44,6 +44,8 @@ module Seam
       # @param device_ids [Array<String>, nil] Array of device IDs for which you want to list devices.
       # @param device_type [String, nil] Device type for which you want to list devices.
       # @param device_types [Array<String>, nil] Array of device types for which you want to list devices.
+      # @param has_error_or_warning_codes [Array<String>, nil] Array of error and warning codes. Returns devices that have at least one error or warning with any of these codes.
+      # @param has_errors_or_warnings [Boolean, nil] Filters devices by whether they have any errors or warnings. Specify `true` to list only devices with at least one error or warning, or `false` to list only devices with none.
       # @param limit [Float, nil] Numerical limit on the number of devices to return.
       # @param manufacturer [String, nil] Manufacturer for which you want to list devices.
       # @param page_cursor [String, Seam::Null, nil] Identifies the specific page of results to return, obtained from the previous page's `next_page_cursor`.
@@ -51,8 +53,8 @@ module Seam
       # @param space_id [String, nil] ID of the space for which you want to list devices.
       # @param user_identifier_key [String, nil] Your own internal user ID for the user for which you want to list devices.
       # @return [Seam::Resources::Device] OK
-      def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil, space_id: nil, user_identifier_key: nil)
-        res = @client.get("/devices/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, customer_key: customer_key, device_ids: device_ids, device_type: device_type, device_types: device_types, limit: limit, manufacturer: manufacturer, page_cursor: page_cursor, search: search, space_id: space_id, user_identifier_key: user_identifier_key}.compact)
+      def list(connect_webview_id: nil, connected_account_id: nil, connected_account_ids: nil, created_before: nil, custom_metadata_has: nil, customer_key: nil, device_ids: nil, device_type: nil, device_types: nil, has_error_or_warning_codes: nil, has_errors_or_warnings: nil, limit: nil, manufacturer: nil, page_cursor: nil, search: nil, space_id: nil, user_identifier_key: nil)
+        res = @client.get("/devices/list", {connect_webview_id: connect_webview_id, connected_account_id: connected_account_id, connected_account_ids: connected_account_ids, created_before: created_before, custom_metadata_has: custom_metadata_has, customer_key: customer_key, device_ids: device_ids, device_type: device_type, device_types: device_types, has_error_or_warning_codes: has_error_or_warning_codes, has_errors_or_warnings: has_errors_or_warnings, limit: limit, manufacturer: manufacturer, page_cursor: page_cursor, search: search, space_id: space_id, user_identifier_key: user_identifier_key}.compact)
 
         Seam::Resources::Device.list_from_http_response(res, "devices", "/devices/list")
       end
