@@ -154,11 +154,12 @@ module Seam
           # List of fields that were changed externally, with their previous and new values.
           # @return [Array<ModifiedFields>]
           resource_list_accessor :modified_fields, ModifiedFields
-          # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device.
+          # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device. `deactivated` means the code is still on the device but was disabled or suspended.
           # @return [String, nil]
           # Known values:
           # - `modified`
           # - `removed`
+          # - `deactivated`
           attr_accessor :change_type
           # Unique identifier of the type of error. Enables quick recognition and categorization of the issue.
           # @return [String]
@@ -720,11 +721,12 @@ module Seam
           # List of fields that were changed externally, with their previous and new values.
           # @return [Array<ModifiedFields>]
           resource_list_accessor :modified_fields, ModifiedFields
-          # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device.
+          # Indicates the type of external modification. `modified` means the code's PIN or schedule was changed. `removed` means the code was deleted from the device. `deactivated` means the code is still on the device but was disabled or suspended.
           # @return [String, nil]
           # Known values:
           # - `modified`
           # - `removed`
+          # - `deactivated`
           attr_accessor :change_type
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
           # @return [String]

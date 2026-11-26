@@ -16,9 +16,46 @@ module Seam
         date_accessor :created_at
       end
 
+      # Known `warning_code` values load as subclasses; unknown values remain Warnings instances for forward compatibility.
+      class Warnings < BaseResource
+        # Indicates that the [thermostat](https://www.seam.co/docs/capability-guides/thermostats) may fail to activate a climate preset when the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules) starts or ends. The warning message explains the cause. Currently present while the thermostat is offline and the next start or end of the thermostat schedule is less than an hour away; it clears automatically once the thermostat is back online or that time passes.
+        class ClimatePresetActivationMayFail < Warnings
+          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+          # @return [String]
+          attr_accessor :message
+          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+          # @return [String]
+          # Known values:
+          # - `climate_preset_activation_may_fail`
+          attr_accessor :warning_code
+          # Date and time at which Seam created the warning.
+          # @return [Time]
+          date_accessor :created_at
+        end
+
+        # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
+        # @return [String]
+        attr_accessor :message
+        # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
+        # @return [String]
+        # Known values:
+        # - `climate_preset_activation_may_fail`
+        attr_accessor :warning_code
+        # Date and time at which Seam created the warning.
+        # @return [Time]
+        date_accessor :created_at
+
+        discriminated_by :warning_code, {
+          "climate_preset_activation_may_fail" => ClimatePresetActivationMayFail
+        }.freeze
+      end
+
       # Errors associated with the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
       # @return [Array<Errors>]
       resource_list_accessor :errors, Errors
+      # Warnings associated with the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
+      # @return [Array<Warnings>]
+      resource_list_accessor :warnings, Warnings
       # Key of the [climate preset](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-climate-presets) to use for the [thermostat schedule](https://www.seam.co/docs/capability-guides/thermostats/creating-and-managing-thermostat-schedules).
       # @return [String]
       attr_accessor :climate_preset_key

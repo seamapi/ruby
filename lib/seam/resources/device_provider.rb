@@ -150,6 +150,7 @@ module Seam
       # - `eufy`
       # - `sonos`
       # - `hayward_omnilogic`
+      # - `jandy_iaqualink`
       # - `tuya`
       attr_accessor :device_provider_name
       # Display name for the device provider.

@@ -397,9 +397,12 @@ module Seam
         # Indicates whether the device detects smoking, if the device measures it.
         # @return [Boolean, nil]
         attr_accessor :is_smoking_detected
-        # Mold risk level as reported by the device, if the device measures it.
+        # Display wording for the current mold risk, as reported by the provider or derived by Seam. The values are not stable and are only for display; use mold_risk_index for logic.
         # @return [String, nil]
-        attr_accessor :mold_risk_level
+        attr_accessor :mold_display_risk
+        # Mold risk index from 0 (no risk) to 1 (high risk), if the device measures it. Seam defines this scale and maps each provider onto it: 0 = low, 0.5 = medium, 1 = high for providers that report levels.
+        # @return [Float, nil]
+        attr_accessor :mold_risk_index
         # Noise level in decibels, if the device measures noise.
         # @return [Float, nil]
         attr_accessor :noise_level_decibels
@@ -2911,7 +2914,9 @@ module Seam
       # - `sonos_speaker`
       # - `alertify_sensor`
       # - `hayward_pool_controller`
+      # - `jandy_pool_controller`
       # - `hayward_pool`
+      # - `jandy_pool`
       attr_accessor :device_type
       # Display name of the device, defaults to nickname (if it is set) or `properties.appearance.name`, otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
       # @return [String]
@@ -2937,9 +2942,12 @@ module Seam
       # Indicates whether the device detects smoking, if the device measures it.
       # @return [Boolean, nil]
       attr_accessor :is_smoking_detected
-      # Mold risk level as reported by the device, if the device measures it.
+      # Display wording for the current mold risk, as reported by the provider or derived by Seam. The values are not stable and are only for display; use mold_risk_index for logic.
       # @return [String, nil]
-      attr_accessor :mold_risk_level
+      attr_accessor :mold_display_risk
+      # Mold risk index from 0 (no risk) to 1 (high risk), if the device measures it. Seam defines this scale and maps each provider onto it: 0 = low, 0.5 = medium, 1 = high for providers that report levels.
+      # @return [Float, nil]
+      attr_accessor :mold_risk_index
       # Optional nickname to describe the device, settable through Seam.
       # @return [String, nil]
       attr_accessor :nickname
