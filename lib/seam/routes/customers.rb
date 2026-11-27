@@ -73,14 +73,13 @@ module Seam
       # @param rooms [Array<Hash>, nil] List of hotel or hospitality rooms.
       # @param sites [Array<Hash>, nil] List of general sites or areas.
       # @param spaces [Array<Hash>, nil] List of general spaces or areas.
-      # @param staff_members [Array<Hash>, nil] List of staff members.
       # @param tenants [Array<Hash>, nil] List of tenants.
       # @param units [Array<Hash>, nil] List of multi-family residential units.
       # @param user_identities [Array<Hash>, nil] List of user identities.
       # @param users [Array<Hash>, nil] List of users.
       # @return [nil] OK
-      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, customization_profile_id: nil, facilities: nil, guests: nil, listings: nil, low_battery_alert_threshold: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, sites: nil, spaces: nil, staff_members: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
-        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, customization_profile_id: customization_profile_id, facilities: facilities, guests: guests, listings: listings, low_battery_alert_threshold: low_battery_alert_threshold, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, sites: sites, spaces: spaces, staff_members: staff_members, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
+      def push_data(customer_key:, access_grants: nil, bookings: nil, buildings: nil, common_areas: nil, customization_profile_id: nil, facilities: nil, guests: nil, listings: nil, low_battery_alert_threshold: nil, properties: nil, property_listings: nil, reservations: nil, residents: nil, rooms: nil, sites: nil, spaces: nil, tenants: nil, units: nil, user_identities: nil, users: nil)
+        @client.post("/customers/push_data", {customer_key: customer_key, access_grants: access_grants, bookings: bookings, buildings: buildings, common_areas: common_areas, customization_profile_id: customization_profile_id, facilities: facilities, guests: guests, listings: listings, low_battery_alert_threshold: low_battery_alert_threshold, properties: properties, property_listings: property_listings, reservations: reservations, residents: residents, rooms: rooms, sites: sites, spaces: spaces, tenants: tenants, units: units, user_identities: user_identities, users: users}.compact)
 
         nil
       end

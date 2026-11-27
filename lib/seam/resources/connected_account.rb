@@ -274,21 +274,6 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that one or more dormakaba sites associated with the connected account are not approved. Contact support@getseam.com to finish setting up your account.
-        class DormakabaSitesUnapproved < Warnings
-          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
-          # @return [String]
-          attr_accessor :message
-          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
-          # @return [String]
-          # Known values:
-          # - `dormakaba_sites_unapproved`
-          attr_accessor :warning_code
-          # Date and time at which Seam created the warning.
-          # @return [Time]
-          date_accessor :created_at
-        end
-
         # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
         # @return [String]
         attr_accessor :message
@@ -302,7 +287,6 @@ module Seam
         # - `being_deleted`
         # - `provider_service_unavailable`
         # - `setup_required`
-        # - `dormakaba_sites_unapproved`
         attr_accessor :warning_code
         # Date and time at which Seam created the warning.
         # @return [Time]
@@ -315,8 +299,7 @@ module Seam
           "account_reauthorization_requested" => AccountReauthorizationRequested,
           "being_deleted" => BeingDeleted,
           "provider_service_unavailable" => ProviderServiceUnavailable,
-          "setup_required" => SetupRequired,
-          "dormakaba_sites_unapproved" => DormakabaSitesUnapproved
+          "setup_required" => SetupRequired
         }.freeze
       end
 

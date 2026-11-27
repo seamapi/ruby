@@ -701,21 +701,6 @@ module Seam
           date_accessor :created_at
         end
 
-        # Indicates that a technician has put the pool controller in service mode. Schedules and remote changes will not run until it is switched back.
-        class ServiceMode < Warnings
-          # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
-          # @return [String]
-          attr_accessor :message
-          # Unique identifier of the type of warning. Enables quick recognition and categorization of the issue.
-          # @return [String]
-          # Known values:
-          # - `service_mode`
-          attr_accessor :warning_code
-          # Date and time at which Seam created the warning.
-          # @return [Time]
-          date_accessor :created_at
-        end
-
         # Indicates a provider-specific issue that may affect device functionality.
         class ProviderIssue < Warnings
           # Detailed description of the warning. Provides insights into the issue and potentially how to rectify it.
@@ -885,7 +870,6 @@ module Seam
         # - `time_zone_mismatch`
         # - `two_n_device_missing_timezone`
         # - `hub_required_for_additional_capabilities`
-        # - `service_mode`
         # - `provider_issue`
         # - `keynest_unsupported_locker`
         # - `accessory_keypad_setup_required`
@@ -923,7 +907,6 @@ module Seam
           "time_zone_mismatch" => TimeZoneMismatch,
           "two_n_device_missing_timezone" => TwoNDeviceMissingTimezone,
           "hub_required_for_additional_capabilities" => HubRequiredForAdditionalCapabilities,
-          "service_mode" => ServiceMode,
           "provider_issue" => ProviderIssue,
           "keynest_unsupported_locker" => KeynestUnsupportedLocker,
           "accessory_keypad_setup_required" => AccessoryKeypadSetupRequired,

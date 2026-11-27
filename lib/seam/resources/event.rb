@@ -5458,10 +5458,6 @@ module Seam
       # - `access_code.removed_from_device`
       # - `access_code.delay_in_setting_on_device`
       # - `access_code.failed_to_set_on_device`
-      # - `access_code.issued`
-      # - `access_code.delay_in_issuing`
-      # - `access_code.failed_to_issue`
-      # - `access_code.failed_to_update`
       # - `access_code.failed_to_delete`
       # - `access_code.deleted`
       # - `access_code.delay_in_removing_from_device`
@@ -5505,7 +5501,6 @@ module Seam
       # - `client_session.deleted`
       # - `connected_account.connected`
       # - `connected_account.created`
-      # - `connected_account.successful_login`
       # - `connected_account.disconnected`
       # - `connected_account.completed_first_sync`
       # - `connected_account.deleted`
@@ -5558,13 +5553,9 @@ module Seam
       # - `thermostat.temperature_threshold_no_longer_exceeded`
       # - `thermostat.temperature_reached_set_point`
       # - `thermostat.temperature_changed`
-      # - `pool.temperature_changed`
-      # - `pool.temperature_reached_set_point`
-      # - `pool.manually_adjusted`
       # - `device.name_changed`
       # - `camera.activated`
       # - `device.doorbell_rang`
-      # - `enrollment_automation.deleted`
       # - `phone.deactivated`
       # - `space.device_membership_changed`
       # - `space.created`

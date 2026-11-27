@@ -359,7 +359,7 @@ module Seam
             # Indicates whether the latest state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
             # @return [Boolean, nil]
             attr_accessor :is_latest_desired_state_synced_with_provider
-            # @return [Boolean]
+            # @return [TrueClass]
             attr_accessor :is_managed
             # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://www.seam.co/docs/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
             # @return [Boolean, nil]
@@ -635,7 +635,7 @@ module Seam
           # Indicates whether the latest state of the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) has been synced from Seam to the provider.
           # @return [Boolean, nil]
           attr_accessor :is_latest_desired_state_synced_with_provider
-          # @return [Boolean]
+          # @return [TrueClass]
           attr_accessor :is_managed
           # Indicates whether the [credential](https://www.seam.co/docs/low-level-apis/access-systems/managing-credentials) is a [multi-phone sync credential](https://www.seam.co/docs/capability-guides/mobile-access/issuing-mobile-credentials-from-an-access-control-system#what-are-multi-phone-sync-credentials).
           # @return [Boolean, nil]
